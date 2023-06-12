@@ -48,14 +48,49 @@ public class ProtoShape2D:MonoBehaviour{
 	//HDR colors
 	public bool HDRColors=false;
 	//For sorting layers
-	public int sortingLayer=0;
+	//MODIFIED: better handling to reduce waste in update
+	public int sortingLayer {
+        get { return _sortingLayer; }
+        set {
+			if(_sortingLayer != value) {
+				_sortingLayer = value;
+				if(mr)
+					mr.sortingLayerID = _sortingLayer;
+			}
+        }
+    }
 	[SerializeField]
 	private int _sortingLayer;
-	public int orderInLayer=0;
+	//MODIFIED: better handling to reduce waste in update
+	public int orderInLayer {
+        get { return _orderInLayer; }
+		set {
+			if(_orderInLayer != value) {
+				_orderInLayer = value;
+				if(mr)
+					mr.sortingOrder = _orderInLayer;
+
+			}
+        }
+    }
 	[SerializeField]
 	private int _orderInLayer;
 	//For mask options
-	public int selectedMaskOption=0;
+	//MODIFIED: better handling to reduce waste in update
+	public int selectedMaskOption {
+		get { return _selectedMaskOption; }
+		set {
+			if(_selectedMaskOption != value) {
+				_selectedMaskOption = value;
+
+				DestroyDefaultMaterialIfExists();
+				mr.sharedMaterial = null;
+
+				UpdateMaterialSettings();
+			}
+        }
+    }
+
 	[SerializeField]
 	private int _selectedMaskOption;
 
@@ -174,22 +209,15 @@ public class ProtoShape2D:MonoBehaviour{
 			}
 		}
 
-		if(!Application.isPlaying) { //MODIFY: honestly, don't really need to do this at runtime
+		//MODIFY: honestly, don't really need to do this at runtime
+		if(!Application.isPlaying || !mf.sharedMesh) {
 			Mesh mesh = new Mesh { name = uniqueName };
 			mf.sharedMesh = mesh;
 			UpdateMaterialSettings();
 			UpdateMesh();
 		}
-		else {
-			if(!mf.sharedMesh) {
-				Mesh mesh = new Mesh { name = uniqueName };
-				mf.sharedMesh = mesh;
-				UpdateMaterialSettings();
-				UpdateMesh();
-			}
-			else
-				UpdateMaterialSettings();
-		}
+		else
+			UpdateMaterialSettings();
 
 		lastPos = transform.position;
 	}
@@ -203,17 +231,18 @@ public class ProtoShape2D:MonoBehaviour{
 				mr.sharedMaterial.SetVector("_MaxWPos",mr.bounds.max);
 			}
 		}
-		if(sortingLayer!=_sortingLayer || orderInLayer!=_orderInLayer){
+		//MODIFIED: changed to use properties
+		/*if(sortingLayer!=_sortingLayer || orderInLayer!=_orderInLayer){
 			mr.sortingLayerID=sortingLayer;
 			mr.sortingOrder=orderInLayer;
 			_sortingLayer=sortingLayer;
 			_orderInLayer=orderInLayer;
-		}
+		}*/
 		//If mask setting changed we have to unset the material and force updating it or recreating it if needed
-		if(selectedMaskOption!=_selectedMaskOption){
+		/*if(selectedMaskOption!=_selectedMaskOption){
 			UpdateMaterialSettings();
 			_selectedMaskOption=selectedMaskOption;
-		}
+		}*/
 	}
 
 	void OnDestroy(){
@@ -325,10 +354,10 @@ public class ProtoShape2D:MonoBehaviour{
 	public void UpdateMaterialSettings(){
 		if(mf!=null && mr!=null){
 			//If mask setting changed we have to unset the material and force updating it or recreating it if needed
-			if(selectedMaskOption!=_selectedMaskOption){
+			/*if(selectedMaskOption!=_selectedMaskOption){
 				DestroyDefaultMaterialIfExists();
 				mr.sharedMaterial=null;
-			}
+			}*/
 			//If no material is set, we set one based on selected fill type
 			if(mr.sharedMaterials[0]==null){
 				if(fillType==PS2DFillType.Color || fillType==PS2DFillType.None) SetSpriteMaterial(); 
