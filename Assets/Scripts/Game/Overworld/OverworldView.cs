@@ -81,8 +81,9 @@ public class OverworldView : MonoBehaviour {
 
             var t = mZoomInEaseFunc(curTime, zoomOutDelay, 0f, 0f);
 
-            var pos = Vector2.Lerp(sPos, ePos, t);
             var s = Mathf.Lerp(sScale, eScale, t);
+
+            var pos = Vector2.Lerp(sPos, ePos, t) * s;
 
             transform.localPosition = pos;
             transform.localScale = new Vector3(s, s, 1f);

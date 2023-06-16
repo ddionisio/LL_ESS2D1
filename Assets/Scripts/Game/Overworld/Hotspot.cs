@@ -7,12 +7,12 @@ public class Hotspot : MonoBehaviour {
     [Header("Data")]
     public HotspotData data;
 
-    public event System.Action<Hotspot> investigateCallback;
+    public event System.Action<Hotspot> clickCallback;
 
     /// <summary>
     /// Call when clicked to enter investigation mode
     /// </summary>
-    public void Investigate() {
-        investigateCallback?.Invoke(this);
+    public void Click() {
+        clickCallback?.Invoke(this);
     }
 }
