@@ -55,11 +55,54 @@ public class OverworldController : GameModeController<OverworldController> {
     public Transform hotspotRoot;
     public float hotspotZoom;
 
+    [Header("Investigate")]
+    public LandscapePreview landscapePreview;
+
+    [Header("Signal Listen")]
+    public SignalHotspot signalListenHotspotClick;
+
+    [Header("Debug")]
+    public bool debugOverrideHotspotGroup;
+    public string debugHotspotGroup;
+    public int debugHotspotIndex; //if group is empty
+
     public HotspotGroupInfo hotspotGroupCurrent { get; private set; }
+
+    public bool isBusy { get { return mRout != null; } }
 
     private HotspotGroupInfo[] mHotspotGroups;
 
+    private Coroutine mRout;
+
+    public int GetHotspotGroup(string groupName) {
+        for(int i = 0; i < mHotspotGroups.Length; i++) {
+            if(mHotspotGroups[i].name == groupName)
+                return i;
+        }
+
+        return -1;
+    }
+
+    public void SetHotspotGroupCurrent(int groupIndex) {
+        if(hotspotGroupCurrent != null) {
+            hotspotGroupCurrent.active = false;
+            hotspotGroupCurrent = null;
+        }
+
+        if(groupIndex >= 0 && groupIndex < mHotspotGroups.Length) {
+            hotspotGroupCurrent = mHotspotGroups[groupIndex];
+            hotspotGroupCurrent.active = true;
+        }
+    }
+
     protected override void OnInstanceDeinit() {
+        if(signalListenHotspotClick) signalListenHotspotClick.callback -= OnHotspotClick;
+
+        if(mRout != null) {
+            StopCoroutine(mRout);
+            mRout = null;
+        }
+
         base.OnInstanceDeinit();
     }
 
@@ -73,32 +116,78 @@ public class OverworldController : GameModeController<OverworldController> {
                 var grp = new HotspotGroupInfo(hotspotRoot.GetChild(i));
 
                 mHotspotGroups[i] = grp;
-
-                //setup callbacks
-                for(int j = 0; j < grp.hotspots.Length; j++) {
-                    var hotspot = grp.hotspots[j].hotspot;
-
-                    hotspot.clickCallback += OnHotspotClick;
-                }
             }
         }
         else
             mHotspotGroups = new HotspotGroupInfo[0];
+
+        if(landscapePreview)
+            landscapePreview.active = false;
+
+        //setup signals
+
+        if(signalListenHotspotClick) signalListenHotspotClick.callback -= OnHotspotClick;
     }
 
     protected override IEnumerator Start() {
         yield return base.Start();
-
-        //setup based on progress
 
         //show overworld
 
         //some intros
 
         //show hotspots
+        int hotspotIndex = -1;
+
+        if(!debugOverrideHotspotGroup) {
+
+        }
+        else {
+            if(!string.IsNullOrEmpty(debugHotspotGroup))
+                hotspotIndex = GetHotspotGroup(debugHotspotGroup);
+            else
+                hotspotIndex = debugHotspotIndex;
+        }
+
+        SetHotspotGroupCurrent(hotspotIndex);
+    }
+
+    IEnumerator DoInvestigateEnter(Hotspot hotspot) {
+        //pop overworld modal
+                
+        //hide hotspot
+        hotspot.Hide();
+
+        hotspotGroupCurrent.active = false;
+
+        //wait for hotspot to hide completely
+
+        //zoom-in
+        overworldView.ZoomIn(hotspot.position, hotspotZoom);
+
+        //wait for zoom-in
+        while(overworldView.isBusy)
+            yield return null;
+                
+        //push investigate modal
+
+        mRout = null;
+    }
+
+    IEnumerator DoInvestigateExit(Hotspot hotspot) {
+        yield return null;
+
+        overworldView.ZoomOut();
+
+        hotspotGroupCurrent.active = true;
+
+        mRout = null;
     }
 
     void OnHotspotClick(Hotspot hotspot) {
+        if(isBusy)
+            return;
 
+        mRout = StartCoroutine(DoInvestigateEnter(hotspot));
     }
 }

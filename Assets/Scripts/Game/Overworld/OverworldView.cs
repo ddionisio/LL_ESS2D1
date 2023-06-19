@@ -68,7 +68,7 @@ public class OverworldView : MonoBehaviour {
         var mtx = transform.worldToLocalMatrix;
 
         Vector2 sPos = transform.localPosition;
-        Vector2 ePos = -mtx.MultiplyPoint3x4(worldPos);
+        Vector2 ePos = -mtx.MultiplyPoint3x4(worldPos) * zoomAmount;
 
         var sScale = transform.localScale.x;
         var eScale = zoomAmount;
@@ -83,7 +83,7 @@ public class OverworldView : MonoBehaviour {
 
             var s = Mathf.Lerp(sScale, eScale, t);
 
-            var pos = Vector2.Lerp(sPos, ePos, t) * s;
+            var pos = Vector2.Lerp(sPos, ePos, t);
 
             transform.localPosition = pos;
             transform.localScale = new Vector3(s, s, 1f);

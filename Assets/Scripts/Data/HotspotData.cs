@@ -4,12 +4,6 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "hotspot", menuName = "Game/Hotspot")]
 public class HotspotData : ScriptableObject {
-    [System.Serializable]
-    public class SeasonInfo {
-        public SeasonData season;
-        public AtmosphereStat[] atmosphereModifiers;
-    }
-
     [Header("Info")]
     [M8.Localize]
     public string nameRef;
@@ -20,8 +14,6 @@ public class HotspotData : ScriptableObject {
 
     [Header("Inspection")]
     public GameObject landscapePrefab;
-
-    public SeasonInfo[] seasons;
-
+        
     public M8.SceneAssetPath colonyScene; //if viable, this is the scene to load when launching
 }
