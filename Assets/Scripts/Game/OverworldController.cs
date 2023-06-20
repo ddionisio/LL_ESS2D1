@@ -4,48 +4,6 @@ using UnityEngine;
 using LoLExt;
 
 public class OverworldController : GameModeController<OverworldController> {
-    public struct HotspotItemInfo {
-        public Transform root { get; private set; }
-
-        public Hotspot hotspot { get; private set; }
-
-        public HotspotItemInfo(Transform t) {
-            root = t;
-            hotspot = t.GetComponent<Hotspot>();
-        }
-    }
-
-    public class HotspotGroupInfo {
-        public string name { get { return rootGO ? rootGO.name : ""; } }
-
-        public bool active {
-            get { return rootGO ? rootGO.activeSelf : false; }
-            set {
-                if(rootGO)
-                    rootGO.SetActive(value);
-            }
-        }
-
-        public GameObject rootGO { get; private set; }
-
-        public HotspotItemInfo[] hotspots { get; private set; }
-
-        public HotspotGroupInfo(Transform t) {
-            rootGO = t.gameObject;
-
-            //assume each child contains Hotspot
-            hotspots = new HotspotItemInfo[t.childCount];
-
-            for(int i = 0; i < t.childCount; i++) {
-                var hotspotTrans = t.GetChild(i);
-
-                hotspots[i] = new HotspotItemInfo(hotspotTrans);
-            }
-
-            //initially disabled
-            rootGO.SetActive(false);
-        }
-    }
 
     [Header("Overworld")]
     public OverworldView overworldView;
@@ -66,11 +24,11 @@ public class OverworldController : GameModeController<OverworldController> {
     public string debugHotspotGroup;
     public int debugHotspotIndex; //if group is empty
 
-    public HotspotGroupInfo hotspotGroupCurrent { get; private set; }
+    public HotspotGroup hotspotGroupCurrent { get; private set; }
 
     public bool isBusy { get { return mRout != null; } }
 
-    private HotspotGroupInfo[] mHotspotGroups;
+    private HotspotGroup[] mHotspotGroups;
 
     private Coroutine mRout;
 
@@ -110,16 +68,19 @@ public class OverworldController : GameModeController<OverworldController> {
         base.OnInstanceInit();
 
         if(hotspotRoot) {
-            mHotspotGroups = new HotspotGroupInfo[hotspotRoot.childCount];
+            mHotspotGroups = new HotspotGroup[hotspotRoot.childCount];
 
             for(int i = 0; i < hotspotRoot.childCount; i++) {
-                var grp = new HotspotGroupInfo(hotspotRoot.GetChild(i));
+                var t = hotspotRoot.GetChild(i);
+                var grp = t.GetComponent<HotspotGroup>();
+                if(grp)
+                    grp.active = false; //hide initially
 
                 mHotspotGroups[i] = grp;
             }
         }
         else
-            mHotspotGroups = new HotspotGroupInfo[0];
+            mHotspotGroups = new HotspotGroup[0];
 
         if(landscapePreview)
             landscapePreview.active = false;

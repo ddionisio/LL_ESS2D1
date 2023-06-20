@@ -1,11 +1,11 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+
+using TMPro;
 
 namespace LoLExt {
     public class LoLScoreWidget : MonoBehaviour {
-        public Text target;
+        public TMP_Text target;
 
         public bool useCountAnimation;
         public float countDelay = 1f;
@@ -19,7 +19,7 @@ namespace LoLExt {
 
         void Awake() {
             if(!target)
-                target = GetComponent<Text>();
+                target = GetComponent<TMP_Text>();
         }
 
         IEnumerator DoCount() {

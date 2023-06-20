@@ -9,7 +9,7 @@ using UnityEngine;
 public class LandscapePreviewTelemetry : MonoBehaviour {
     [System.Serializable]
     public class RegionInfo {
-        public Bounds bounds;
+        public Bounds bounds; //local space
         public AtmosphereStat[] atmosphereModifiers;
     }
 

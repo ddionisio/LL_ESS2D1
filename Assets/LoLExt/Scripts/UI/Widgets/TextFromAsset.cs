@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
+
+using TMPro;
 
 namespace LoLExt {
     public class TextFromAsset : MonoBehaviour {
-        public Text textWidget;
+        public TMP_Text textWidget;
         public TextAsset textAsset;
 
         private void Awake() {

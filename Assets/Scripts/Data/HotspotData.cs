@@ -13,7 +13,7 @@ public class HotspotData : ScriptableObject {
     public AtmosphereStat[] atmosphereStats;
 
     [Header("Inspection")]
-    public GameObject landscapePrefab;
+    public LandscapePreviewTelemetry landscapePrefab;
         
     public M8.SceneAssetPath colonyScene; //if viable, this is the scene to load when launching
 }
