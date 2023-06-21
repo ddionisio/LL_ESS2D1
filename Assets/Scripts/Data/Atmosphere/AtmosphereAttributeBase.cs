@@ -20,6 +20,6 @@ public abstract class AtmosphereAttributeBase : ScriptableObject {
     }
 
     public string GetValueRangeString(int minVal, int maxVal) {
-        return string.Format("{0} - {1} {2}", minVal, maxVal, symbolString);
+        return string.Format("{0} - {1}{2}", minVal, maxVal, symbolString);
     }
 }

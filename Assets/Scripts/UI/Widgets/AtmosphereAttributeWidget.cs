@@ -16,6 +16,8 @@ public class AtmosphereAttributeWidget : MonoBehaviour {
 
     public TMP_Text nameLabel;
 
+    public GameObject selectGO;
+
     public AtmosphereAttributeBase data {
         get { return _data; }
         set {
@@ -23,6 +25,14 @@ public class AtmosphereAttributeWidget : MonoBehaviour {
                 _data = value;
                 RefreshDisplay();
             }
+        }
+    }
+
+    public bool selectActive { 
+        get { return selectGO ? selectGO.activeSelf : false; } 
+        set {
+            if(selectGO)
+                selectGO.SetActive(value);
         }
     }
 

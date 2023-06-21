@@ -11,10 +11,26 @@ public class AtmosphereAttributeSelectWidget : MonoBehaviour {
         public AtmosphereAttributeWidget atmosphereWidget;
         public Button button;
 
+        public AtmosphereAttributeBase data { get { return atmosphereWidget ? atmosphereWidget.data : null; } }
+
+        public bool selectActive { 
+            get { return atmosphereWidget ? atmosphereWidget.selectActive : false; } 
+            set {
+                if(atmosphereWidget)
+                    atmosphereWidget.selectActive = value;
+            }
+        }
+
         public ItemInfo(Transform t) {
             root = t;
             atmosphereWidget = t.GetComponent<AtmosphereAttributeWidget>();
             button = t.GetComponent<Button>();
+        }
+
+        public ItemInfo(AtmosphereAttributeWidget atmosphereAttrWidget) {
+            root = atmosphereAttrWidget.transform;
+            atmosphereWidget = atmosphereAttrWidget;
+            button = atmosphereAttrWidget.GetComponent<Button>();
         }
 
         public void ApplyActive(AtmosphereAttributeBase[] activeAtmosphereAttributes) {
@@ -36,7 +52,6 @@ public class AtmosphereAttributeSelectWidget : MonoBehaviour {
     }
 
     public Transform itemsRoot; //put items here where it has the component: AtmosphereAttributeWidget, Button
-    public Transform selectHighlightRoot;
 
     [Header("Signal Invoke")]
     public SignalAtmosphereAttribute signalInvokeAtmosphereClick;
@@ -46,12 +61,24 @@ public class AtmosphereAttributeSelectWidget : MonoBehaviour {
 
     private bool mIsInit;
 
-    public void Setup(int selectIndex, AtmosphereAttributeBase[] activeAtmosphereAttributes) {
+    public void Setup(AtmosphereAttributeBase selectAtmosphere, AtmosphereAttributeBase[] activeAtmosphereAttributes) {
         if(!mIsInit) Init();
 
+        int selectIndex = -1;
+
         //activate items that match, hide otherwise
-        for(int i = 0; i < mItems.Length; i++)
-            mItems[i].ApplyActive(activeAtmosphereAttributes);
+        for(int i = 0; i < mItems.Length; i++) {
+            var itm = mItems[i];
+
+            itm.ApplyActive(activeAtmosphereAttributes);
+
+            itm.selectActive = false;
+
+            if(itm.data == selectAtmosphere)
+                selectIndex = i;
+        }
+
+        mCurItemInd = -1;
 
         SetSelectItem(selectIndex);
     }
@@ -68,44 +95,40 @@ public class AtmosphereAttributeSelectWidget : MonoBehaviour {
 
         var itm = mItems[index];
 
-        signalInvokeAtmosphereClick?.Invoke(itm.atmosphereWidget ? itm.atmosphereWidget.data : null);
+        signalInvokeAtmosphereClick?.Invoke(itm.data);
     }
 
     private void SetSelectItem(int index) {
+        if(mCurItemInd >= 0 && mCurItemInd < mItems.Length)
+            mItems[mCurItemInd].selectActive = false;
+
         mCurItemInd = index;
 
-        if(mCurItemInd >= 0 && mCurItemInd < mItems.Length) {
-            var itm = mItems[index];
-
-            if(selectHighlightRoot) {
-                selectHighlightRoot.gameObject.SetActive(true);
-
-                selectHighlightRoot.position = itm.root.position;
-            }
-        }
-        else {
-            if(selectHighlightRoot)
-                selectHighlightRoot.gameObject.SetActive(false);
-        }
+        if(mCurItemInd >= 0 && mCurItemInd < mItems.Length)
+            mItems[mCurItemInd].selectActive = true;
     }
 
     private void Init() {
-        mItems = new ItemInfo[itemsRoot.childCount];
-
+        var atmosphereAttrWidgetList = new List<AtmosphereAttributeWidget>();
+                        
         for(int i = 0; i < itemsRoot.childCount; i++) {
             var t = itemsRoot.GetChild(i);
 
-            var newItm = new ItemInfo(t);
+            var atmosAttrWidget = t.GetComponent<AtmosphereAttributeWidget>();
+            if(atmosAttrWidget)
+                atmosphereAttrWidgetList.Add(atmosAttrWidget);
+        }
+
+        mItems = new ItemInfo[atmosphereAttrWidgetList.Count];
+
+        for(int i = 0; i < atmosphereAttrWidgetList.Count; i++) {
+            var newItm = new ItemInfo(atmosphereAttrWidgetList[i]);
 
             int clickIndex = i;
             newItm.button.onClick.AddListener(delegate () { OnItemClick(clickIndex); });
 
             mItems[i] = newItm;
         }
-
-        mCurItemInd = -1;
-
-        if(selectHighlightRoot) selectHighlightRoot.gameObject.SetActive(false);
 
         mIsInit = true;
     }

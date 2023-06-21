@@ -16,6 +16,8 @@ public class SeasonWidget : MonoBehaviour {
 
     public TMP_Text nameLabel;
 
+    public GameObject selectGO;
+
     public SeasonData data {
         get { return _data; }
         set {
@@ -23,6 +25,14 @@ public class SeasonWidget : MonoBehaviour {
                 _data = value;
                 RefreshDisplay();
             }
+        }
+    }
+
+    public bool selectActive {
+        get { return selectGO ? selectGO.activeSelf : false; }
+        set {
+            if(selectGO)
+                selectGO.SetActive(value);
         }
     }
 

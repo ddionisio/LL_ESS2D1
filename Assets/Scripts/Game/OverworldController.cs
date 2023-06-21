@@ -4,6 +4,10 @@ using UnityEngine;
 using LoLExt;
 
 public class OverworldController : GameModeController<OverworldController> {
+    [Header("Setup")]
+    public AtmosphereAttributeBase atmosphereDefault;
+    public SeasonData seasonDefault;
+    public AtmosphereAttributeBase[] atmosphereActiveOverlays;
 
     [Header("Overworld")]
     public OverworldView overworldView;
@@ -17,7 +21,11 @@ public class OverworldController : GameModeController<OverworldController> {
     public LandscapePreview landscapePreview;
 
     [Header("Signal Listen")]
+    public SignalSeasonData signalListenSeasonToggle;
     public SignalHotspot signalListenHotspotClick;
+
+    [Header("Signal Invoke")]
+    public SignalSeasonData signalInvokeSeasonDefault;
 
     [Header("Debug")]
     public bool debugOverrideHotspotGroup;
@@ -29,6 +37,8 @@ public class OverworldController : GameModeController<OverworldController> {
     public bool isBusy { get { return mRout != null; } }
 
     private HotspotGroup[] mHotspotGroups;
+
+    private SeasonData mCurSeasonData;
 
     private Coroutine mRout;
 
@@ -81,6 +91,8 @@ public class OverworldController : GameModeController<OverworldController> {
         }
         else
             mHotspotGroups = new HotspotGroup[0];
+
+        mCurSeasonData = seasonDefault;
 
         if(landscapePreview)
             landscapePreview.active = false;

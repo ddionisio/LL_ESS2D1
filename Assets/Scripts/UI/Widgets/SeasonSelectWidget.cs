@@ -11,6 +11,11 @@ public class SeasonSelectWidget : MonoBehaviour {
 
         public SeasonData data { get { return seasonWidget ? seasonWidget.data : null; } }
 
+        public bool selectActive { 
+            get { return seasonWidget ? seasonWidget.selectActive : false; } 
+            set { if(seasonWidget) seasonWidget.selectActive = value; }
+        }
+
         public ItemInfo(Transform t) {
             root = t;
             seasonWidget = t.GetComponent<SeasonWidget>();
@@ -19,7 +24,6 @@ public class SeasonSelectWidget : MonoBehaviour {
     }
 
     public Transform itemsRoot; //put items here where it has the component: SeasonWidget, Button
-    public Transform selectHighlightRoot;
 
     [Header("Signal Invoke")]
     public SignalSeasonData signalInvokeSeasonClick;
@@ -31,6 +35,8 @@ public class SeasonSelectWidget : MonoBehaviour {
 
     public void Setup(SeasonData curSeason) {
         if(!mIsInit) Init();
+
+        mCurItemInd = -1;
 
         for(int i = 0; i < mItems.Length; i++) {
             var itm = mItems[i];
@@ -57,21 +63,13 @@ public class SeasonSelectWidget : MonoBehaviour {
     }
 
     private void SetSelectItem(int index) {
+        if(mCurItemInd >= 0 && mCurItemInd < mItems.Length)
+            mItems[mCurItemInd].selectActive = false;
+
         mCurItemInd = index;
 
-        if(mCurItemInd >= 0 && mCurItemInd < mItems.Length) {
-            var itm = mItems[index];
-
-            if(selectHighlightRoot) {
-                selectHighlightRoot.gameObject.SetActive(true);
-
-                selectHighlightRoot.position = itm.root.position;
-            }
-        }
-        else {
-            if(selectHighlightRoot)
-                selectHighlightRoot.gameObject.SetActive(false);
-        }
+        if(mCurItemInd >= 0 && mCurItemInd < mItems.Length)
+            mItems[mCurItemInd].selectActive = true;
     }
 
     private void Init() {
@@ -87,10 +85,6 @@ public class SeasonSelectWidget : MonoBehaviour {
 
             mItems[i] = newItm;
         }
-
-        mCurItemInd = -1;
-
-        if(selectHighlightRoot) selectHighlightRoot.gameObject.SetActive(false);
 
         mIsInit = true;
     }

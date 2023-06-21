@@ -12,6 +12,10 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
         public M8.SceneAssetPath colonyScene;
     }
 
+    [Header("Modals")]
+    public string modalOverworld = "overworld";
+    public string modalHotspotInvestigate = "hotspotInvestigate";
+
     [Header("Scenes")]
     //intro sets progress to 1
     public LevelData[] levels;
