@@ -12,6 +12,8 @@ public class Hotspot : MonoBehaviour {
 
     public Vector2 position { get { return transform.position; } }
 
+    public bool isBusy { get { return false; } } //wait for animation
+
     /// <summary>
     /// Play hide animation
     /// </summary>

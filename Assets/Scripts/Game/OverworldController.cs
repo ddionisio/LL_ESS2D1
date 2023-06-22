@@ -42,6 +42,8 @@ public class OverworldController : GameModeController<OverworldController> {
 
     private Coroutine mRout;
 
+    private M8.GenericParams mModalOverworldParms = new M8.GenericParams();
+
     public int GetHotspotGroup(string groupName) {
         for(int i = 0; i < mHotspotGroups.Length; i++) {
             if(mHotspotGroups[i].name == groupName)
@@ -99,7 +101,7 @@ public class OverworldController : GameModeController<OverworldController> {
 
         //setup signals
 
-        if(signalListenHotspotClick) signalListenHotspotClick.callback -= OnHotspotClick;
+        if(signalListenHotspotClick) signalListenHotspotClick.callback += OnHotspotClick;
     }
 
     protected override IEnumerator Start() {
@@ -123,17 +125,31 @@ public class OverworldController : GameModeController<OverworldController> {
         }
 
         SetHotspotGroupCurrent(hotspotIndex);
+
+        yield return null;
+
+        //set season
+        if(signalInvokeSeasonDefault) signalInvokeSeasonDefault.Invoke(mCurSeasonData);
+
+        //show overworld modal
+        ModalShowOverworld();
     }
 
     IEnumerator DoInvestigateEnter(Hotspot hotspot) {
-        //pop overworld modal
-                
         //hide hotspot
         hotspot.Hide();
 
-        hotspotGroupCurrent.active = false;
+        //pop overworld modal
+        M8.ModalManager.main.CloseUpTo(GameData.instance.modalOverworld, true);
+
+        while(M8.ModalManager.main.isBusy || M8.ModalManager.main.IsInStack(GameData.instance.modalOverworld))
+            yield return null;
 
         //wait for hotspot to hide completely
+        while(hotspot.isBusy)
+            yield return null;
+
+        hotspotGroupCurrent.active = false;
 
         //zoom-in
         overworldView.ZoomIn(hotspot.position, hotspotZoom);
@@ -147,12 +163,17 @@ public class OverworldController : GameModeController<OverworldController> {
         mRout = null;
     }
 
-    IEnumerator DoInvestigateExit(Hotspot hotspot) {
-        yield return null;
-
+    IEnumerator DoInvestigateExit() {
+        //zoom-out
         overworldView.ZoomOut();
 
+        //wait for zoom-out
+        while(overworldView.isBusy)
+            yield return null;
+
         hotspotGroupCurrent.active = true;
+
+        ModalShowOverworld();
 
         mRout = null;
     }
@@ -162,5 +183,14 @@ public class OverworldController : GameModeController<OverworldController> {
             return;
 
         mRout = StartCoroutine(DoInvestigateEnter(hotspot));
+    }
+
+    private void ModalShowOverworld() {
+        mModalOverworldParms[ModalOverworld.parmAtmosphereActives] = atmosphereActiveOverlays;
+        mModalOverworldParms[ModalOverworld.parmAtmosphere] = atmosphereDefault;
+        mModalOverworldParms[ModalOverworld.parmSeason] = mCurSeasonData;
+        mModalOverworldParms[ModalOverworld.parmCriteria] = hotspotGroupCurrent ? hotspotGroupCurrent.criteria : null;
+
+        M8.ModalManager.main.Open(GameData.instance.modalOverworld, mModalOverworldParms);
     }
 }

@@ -21,6 +21,12 @@ public class SeasonSelectWidget : MonoBehaviour {
             seasonWidget = t.GetComponent<SeasonWidget>();
             button = t.GetComponent<Button>();
         }
+
+        public ItemInfo(SeasonWidget aSeasonWidget) {
+            root = aSeasonWidget.transform;
+            seasonWidget = aSeasonWidget;
+            button = aSeasonWidget.GetComponent<Button>();
+        }
     }
 
     public Transform itemsRoot; //put items here where it has the component: SeasonWidget, Button
@@ -40,10 +46,14 @@ public class SeasonSelectWidget : MonoBehaviour {
 
         for(int i = 0; i < mItems.Length; i++) {
             var itm = mItems[i];
+
             if(itm.data == curSeason) {
-                SetSelectItem(i);
-                break;
+                itm.selectActive = true;
+
+                mCurItemInd = i;
             }
+            else
+                itm.selectActive = false;
         }
     }
 
@@ -73,12 +83,20 @@ public class SeasonSelectWidget : MonoBehaviour {
     }
 
     private void Init() {
-        mItems = new ItemInfo[itemsRoot.childCount];
-
+        var seasonWidgetList = new List<SeasonWidget>();
+                        
         for(int i = 0; i < itemsRoot.childCount; i++) {
             var t = itemsRoot.GetChild(i);
 
-            var newItm = new ItemInfo(t);
+            var seasonWidget = t.GetComponent<SeasonWidget>();
+            if(seasonWidget)
+                seasonWidgetList.Add(seasonWidget);
+        }
+
+        mItems = new ItemInfo[seasonWidgetList.Count];
+
+        for(int i = 0; i < seasonWidgetList.Count; i++) {
+            var newItm = new ItemInfo(seasonWidgetList[i]);
 
             int clickIndex = i;
             newItm.button.onClick.AddListener(delegate () { OnItemClick(clickIndex); });
