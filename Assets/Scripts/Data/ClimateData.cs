@@ -7,7 +7,7 @@ public class ClimateData : ScriptableObject {
     [System.Serializable]
     public class SeasonInfo {
         public SeasonData season;
-        public AtmosphereStat[] atmosphereModifiers;
+        public AtmosphereModifier[] atmosphereMods;
     }
 
     [Header("Info")]
@@ -20,4 +20,14 @@ public class ClimateData : ScriptableObject {
 
     [Header("Seasons")]
     public SeasonInfo[] seasons;
+
+    public AtmosphereModifier[] GetModifiers(SeasonData curSeason) {
+        for(int i = 0; i < seasons.Length; i++) {
+            var season = seasons[i];
+            if(season.season == curSeason)
+                return season.atmosphereMods;
+        }
+
+        return null;
+    }
 }

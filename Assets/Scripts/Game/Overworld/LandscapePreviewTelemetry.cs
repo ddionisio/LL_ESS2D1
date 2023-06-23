@@ -10,7 +10,8 @@ public class LandscapePreviewTelemetry : MonoBehaviour {
     [System.Serializable]
     public class RegionInfo {
         public Bounds bounds; //local space
-        public AtmosphereStat[] atmosphereModifiers;
+        public float altitudeOffset; //determine position of altitude relative to its bounds
+        public AtmosphereModifier[] atmosphereMods;
     }
 
     public Bounds bounds;

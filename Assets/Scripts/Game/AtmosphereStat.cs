@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class AtmosphereStat {
+public struct AtmosphereStat {
     public AtmosphereAttributeBase atmosphere;
 
     public M8.RangeFloat range;
