@@ -5,7 +5,10 @@ using UnityEngine;
 public class LandscapePreview : MonoBehaviour {
     [Header("View")]
     public Transform root;
-    //move info
+
+    [Header("Region Move Info")]
+    public DG.Tweening.Ease regionMoveEase = DG.Tweening.Ease.InOutSine;
+    public float regionMoveDelay = 0.5f;
     
     public bool active { 
         get { return gameObject.activeSelf; }
@@ -20,14 +23,40 @@ public class LandscapePreview : MonoBehaviour {
             if(mCurRegionInd != value) {
                 mCurRegionInd = value;
 
-                //move towards region view
+                //move towards region view                
+                mMoveEnd = -(landscapePreviewTelemetry.bounds.min + landscapePreviewTelemetry.regions[mCurRegionInd].bounds.center);
+
+                if(mMoveRout == null) {
+                    mMoveStart = landscapePreviewTelemetry.transform.localPosition;
+
+                    mMoveRout = StartCoroutine(DoRegionMove());
+                }
+
+                //update altitude
+                altitude = landscapePreviewTelemetry.GetAltitude(mCurRegionInd);
             }
         }
     }
 
+    public float altitude { get; private set; }
+        
     private Dictionary<HotspotData, LandscapePreviewTelemetry> mHotspotPreviews = new Dictionary<HotspotData, LandscapePreviewTelemetry>();
 
     private int mCurRegionInd;
+
+    private Coroutine mMoveRout;
+    private DG.Tweening.EaseFunction mMoveEaseFunc;
+    private Vector2 mMoveStart;
+    private Vector2 mMoveEnd;
+
+    public void DestroyHotspotPreviews() {
+        foreach(var pair in mHotspotPreviews) {
+            if(pair.Value)
+                Destroy(pair.Value);
+        }
+
+        mHotspotPreviews.Clear();
+    }
 
     public void AddHotspotPreview(HotspotData hotspotData) {
         if(mHotspotPreviews.ContainsKey(hotspotData)) //already added
@@ -69,6 +98,38 @@ public class LandscapePreview : MonoBehaviour {
 
             //reset view to first region
             mCurRegionInd = 0;
+
+            landscapeTrans.localPosition = -(landscapePreviewTelemetry.bounds.min + landscapePreviewTelemetry.regions[mCurRegionInd].bounds.center);
+
+            altitude = landscapePreviewTelemetry.GetAltitude(mCurRegionInd);
         }
+    }
+
+    void OnDisable() {
+        if(mMoveRout != null) {
+            StopCoroutine(mMoveRout);
+            mMoveRout = null;
+        }
+    }
+
+    IEnumerator DoRegionMove() {
+
+        if(mMoveEaseFunc == null)
+            mMoveEaseFunc = DG.Tweening.Core.Easing.EaseManager.ToEaseFunction(regionMoveEase);
+
+        var landscapeTrans = landscapePreviewTelemetry.transform;
+
+        var curTime = 0f;
+        while(curTime < regionMoveDelay) {
+            yield return null;
+
+            curTime += Time.deltaTime;
+
+            var t = mMoveEaseFunc(curTime, regionMoveDelay, 0f, 0f);
+
+            landscapeTrans.localPosition = Vector2.Lerp(mMoveStart, mMoveEnd, t);
+        }
+
+        mMoveRout = null;
     }
 }

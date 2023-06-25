@@ -90,6 +90,18 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
         }
 
         if(signalListenSeasonChange) signalListenSeasonChange.callback += OnSeasonToggle;
+                
+        //setup landscape slider
+        landscapeRegionSlider.value = 0f;
+        landscapeRegionSlider.minValue = 0f;
+        landscapeRegionSlider.maxValue = mHotspot.landscapePrefab.regions.Length - 1;
+        landscapeRegionSlider.wholeNumbers = true;
+        landscapeRegionSlider.onValueChanged.AddListener(OnLandscapeRegionChange);
+
+        //set landscape preview display to first region, and apply current season
+        mRegionIndex = 0;
+
+        seasonSelect.Setup(mCurSeason);
 
         UpdateAtmosphereStats();
     }
@@ -99,6 +111,24 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
 
         //update attributes
         UpdateAtmosphereStats();
+
+        //update landscape preview
+    }
+
+    void OnLandscapeRegionChange(float val) {
+        var newRegionIndex = Mathf.RoundToInt(val);
+
+        if(mRegionIndex != newRegionIndex) {
+            mRegionIndex = newRegionIndex;
+
+            //update attributes
+            UpdateAtmosphereStats();
+
+            //move landscape view
+            mLandscapePreview.curRegionIndex = mRegionIndex;
+
+            //update altitude
+        }
     }
 
     private void UpdateAtmosphereStats() {

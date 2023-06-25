@@ -57,11 +57,20 @@ public class OverworldController : GameModeController<OverworldController> {
         if(hotspotGroupCurrent != null) {
             hotspotGroupCurrent.active = false;
             hotspotGroupCurrent = null;
+
+            landscapePreview.DestroyHotspotPreviews();
         }
 
         if(groupIndex >= 0 && groupIndex < mHotspotGroups.Length) {
             hotspotGroupCurrent = mHotspotGroups[groupIndex];
             hotspotGroupCurrent.active = true;
+
+            //prep landscape prefabs for preview
+            for(int i = 0; i < hotspotGroupCurrent.hotspots.Length; i++) {
+                var hotspot = hotspotGroupCurrent.hotspots[i];
+
+                landscapePreview.AddHotspotPreview(hotspot.hotspot.data);
+            }
         }
     }
 
@@ -157,18 +166,30 @@ public class OverworldController : GameModeController<OverworldController> {
         //wait for zoom-in
         while(overworldView.isBusy)
             yield return null;
-                
+
+        //show preview
+        landscapePreview.SetCurrentPreview(hotspot.data);
+        landscapePreview.active = true;
+        //anim
+
         //push investigate modal
+
 
         mRout = null;
     }
 
     IEnumerator DoInvestigateExit() {
+        //pop investigate modal
+
+        //hide investigate
+        //anim
+        landscapePreview.active = false;
+
         //zoom-out
         overworldView.ZoomOut();
 
         //wait for zoom-out
-        while(overworldView.isBusy)
+        while(overworldView.isBusy || M8.ModalManager.main.isBusy || M8.ModalManager.main.IsInStack(GameData.instance.modalHotspotInvestigate))
             yield return null;
 
         hotspotGroupCurrent.active = true;
