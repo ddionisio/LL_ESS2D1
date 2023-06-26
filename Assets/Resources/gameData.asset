@@ -12,6 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0693c41ad05cc94ea69fa69031d179e, type: 3}
   m_Name: gameData
   m_EditorClassIdentifier: 
+  modalOverworld: overworld
+  modalHotspotInvestigate: hotspotInvestigate
+  landscapePreviewSize: {x: 18, y: 8}
+  landscapePreviewBoundsColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  landscapePreviewBoundsEditSnap: 1
+  landscapePreviewRegionColor: {r: 0, g: 1, b: 0, a: 1}
+  landscapePreviewRegionHandleScale: 0.05
+  landscapePreviewRegionHandleSnap: 0.25
   levels: []
   endScene:
     name: 

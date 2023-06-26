@@ -9,12 +9,16 @@ public class LandscapePreview : MonoBehaviour {
     [Header("Region Move Info")]
     public DG.Tweening.Ease regionMoveEase = DG.Tweening.Ease.InOutSine;
     public float regionMoveDelay = 0.5f;
-    
+
+    [Header("Signal Listen")]
+    public SignalSeasonData signalListenSeasonChange;
+
     public bool active { 
         get { return gameObject.activeSelf; }
         set { gameObject.SetActive(value); }
     }
 
+    public HotspotData hotspotData { get; private set; }
     public LandscapePreviewTelemetry landscapePreviewTelemetry { get; private set; }
 
     public int curRegionIndex {
@@ -24,7 +28,7 @@ public class LandscapePreview : MonoBehaviour {
                 mCurRegionInd = value;
 
                 //move towards region view                
-                mMoveEnd = -(landscapePreviewTelemetry.bounds.min + landscapePreviewTelemetry.regions[mCurRegionInd].bounds.center);
+                mMoveEnd = -landscapePreviewTelemetry.regions[mCurRegionInd].center;
 
                 if(mMoveRout == null) {
                     mMoveStart = landscapePreviewTelemetry.transform.localPosition;
@@ -39,6 +43,14 @@ public class LandscapePreview : MonoBehaviour {
     }
 
     public float altitude { get; private set; }
+
+    public float altitudeScale {
+        get {
+            return landscapePreviewTelemetry.GetAltitudeScale(altitude);
+        }
+    }
+
+    public bool isMoving { get { return mMoveRout != null; } }
         
     private Dictionary<HotspotData, LandscapePreviewTelemetry> mHotspotPreviews = new Dictionary<HotspotData, LandscapePreviewTelemetry>();
 
@@ -58,34 +70,36 @@ public class LandscapePreview : MonoBehaviour {
         mHotspotPreviews.Clear();
     }
 
-    public void AddHotspotPreview(HotspotData hotspotData) {
-        if(mHotspotPreviews.ContainsKey(hotspotData)) //already added
+    public void AddHotspotPreview(HotspotData aHotspotData) {
+        if(mHotspotPreviews.ContainsKey(aHotspotData)) //already added
             return;
 
-        if(!hotspotData.landscapePrefab) {
-            Debug.LogWarning("No landscape prefab found for: " + hotspotData.name);
+        if(!aHotspotData.landscapePrefab) {
+            Debug.LogWarning("No landscape prefab found for: " + aHotspotData.name);
             return;
         }
 
-        var newLandscape = Instantiate(hotspotData.landscapePrefab);
+        var newLandscape = Instantiate(aHotspotData.landscapePrefab);
 
         var landscapeTrans = newLandscape.transform;
         landscapeTrans.SetParent(root, false);
 
         newLandscape.gameObject.SetActive(false);
 
-        mHotspotPreviews.Add(hotspotData, newLandscape);
+        mHotspotPreviews.Add(aHotspotData, newLandscape);
     }
 
-    public void SetCurrentPreview(HotspotData hotspotData) {
+    public void SetCurrentPreview(HotspotData aHotspotData) {
         if(landscapePreviewTelemetry) {
             landscapePreviewTelemetry.gameObject.SetActive(false);
         }
 
         LandscapePreviewTelemetry newLandscapePreviewTelemetry;
-        mHotspotPreviews.TryGetValue(hotspotData, out newLandscapePreviewTelemetry);
+        mHotspotPreviews.TryGetValue(aHotspotData, out newLandscapePreviewTelemetry);
 
         if(newLandscapePreviewTelemetry) {
+            hotspotData = aHotspotData;
+
             landscapePreviewTelemetry = newLandscapePreviewTelemetry;
 
             var landscapeTrans = landscapePreviewTelemetry.transform;
@@ -99,17 +113,27 @@ public class LandscapePreview : MonoBehaviour {
             //reset view to first region
             mCurRegionInd = 0;
 
-            landscapeTrans.localPosition = -(landscapePreviewTelemetry.bounds.min + landscapePreviewTelemetry.regions[mCurRegionInd].bounds.center);
+            landscapeTrans.localPosition = -landscapePreviewTelemetry.regions[mCurRegionInd].center;
 
             altitude = landscapePreviewTelemetry.GetAltitude(mCurRegionInd);
         }
     }
 
+    public void SetSeason(SeasonData seasonData) {
+
+    }
+
     void OnDisable() {
+        if(signalListenSeasonChange) signalListenSeasonChange.callback -= SetSeason;
+
         if(mMoveRout != null) {
             StopCoroutine(mMoveRout);
             mMoveRout = null;
         }
+    }
+
+    void OnEnable() {
+        if(signalListenSeasonChange) signalListenSeasonChange.callback += SetSeason;
     }
 
     IEnumerator DoRegionMove() {

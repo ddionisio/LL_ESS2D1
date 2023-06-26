@@ -169,6 +169,7 @@ public class OverworldController : GameModeController<OverworldController> {
 
         //show preview
         landscapePreview.SetCurrentPreview(hotspot.data);
+        landscapePreview.SetSeason(mCurSeasonData);
         landscapePreview.active = true;
         //anim
 

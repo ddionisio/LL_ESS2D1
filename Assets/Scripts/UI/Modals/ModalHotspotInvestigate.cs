@@ -6,8 +6,8 @@ using UnityEngine.UI;
 using TMPro;
 
 public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IModalPop {
-    public const string parmHotspot = "inspectHotspot"; //HotspotData
     public const string parmSeason = "inspectSeason"; //SeasonData
+    public const string parmCriteria = "inspectCriteria"; //CriteriaData
     public const string parmLandscape = "inspectLandscape"; //LandscapePreview
 
     [Header("Hotspot Info Display")]
@@ -21,6 +21,7 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
     public Transform atmosphereStatRoot;
 
     [Header("Altitude Display")]
+    public AtmosphereAttributeBase altitudeAttributeData; //for display
     public TMP_Text altitudeValueLabel;
     public Slider altitudeSlider;
 
@@ -40,8 +41,8 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
     public M8.Signal signalInvokeBack;
     public M8.Signal signalInvokeLaunch;
 
-    private HotspotData mHotspot;
     private SeasonData mCurSeason;
+    private CriteriaData mCriteria;
     private LandscapePreview mLandscapePreview;
 
     private int mRegionIndex; //updated by slider
@@ -53,6 +54,8 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
 
     private bool mIsInit;
 
+    private Coroutine mAltitudeChangeRout;
+
     public void Back() {
         signalInvokeBack?.Invoke();
     }
@@ -62,11 +65,15 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
     }
 
     void M8.IModalPop.Pop() {
+        if(mAltitudeChangeRout != null) {
+            StopCoroutine(mAltitudeChangeRout);
+            mAltitudeChangeRout = null;
+        }
+
         if(signalListenSeasonChange) signalListenSeasonChange.callback -= OnSeasonToggle;
 
         ClearAttributeWidgets();
 
-        mHotspot = null;
         mCurSeason = null;
         mLandscapePreview = null;
     }
@@ -79,27 +86,36 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
         }
 
         if(parms != null) {
-            if(parms.ContainsKey(parmHotspot))
-                mHotspot = parms.GetValue<HotspotData>(parmHotspot);
-
             if(parms.ContainsKey(parmSeason))
                 mCurSeason = parms.GetValue<SeasonData>(parmSeason);
+
+            if(parms.ContainsKey(parmCriteria))
+                mCriteria = parms.GetValue<CriteriaData>(parmCriteria);
 
             if(parms.ContainsKey(parmLandscape))
                 mLandscapePreview = parms.GetValue<LandscapePreview>(parmLandscape);
         }
 
         if(signalListenSeasonChange) signalListenSeasonChange.callback += OnSeasonToggle;
-                
-        //setup landscape slider
-        landscapeRegionSlider.value = 0f;
+
+        //set landscape preview display, and apply current season
+        mRegionIndex = mLandscapePreview.curRegionIndex;
+
+        var landscapePreviewTelemetry = mLandscapePreview.landscapePreviewTelemetry;
+
+        //setup landscape slider        
         landscapeRegionSlider.minValue = 0f;
-        landscapeRegionSlider.maxValue = mHotspot.landscapePrefab.regions.Length - 1;
+        landscapeRegionSlider.maxValue = landscapePreviewTelemetry.regions.Length - 1;
+        landscapeRegionSlider.value = mRegionIndex;
         landscapeRegionSlider.wholeNumbers = true;
         landscapeRegionSlider.onValueChanged.AddListener(OnLandscapeRegionChange);
 
-        //set landscape preview display to first region, and apply current season
-        mRegionIndex = 0;
+        //setup altitude display
+        altitudeSlider.minValue = landscapePreviewTelemetry.altitudeRange.min;
+        altitudeSlider.maxValue = landscapePreviewTelemetry.altitudeRange.max;
+        altitudeSlider.value = mLandscapePreview.altitude;
+
+        altitudeValueLabel.text = altitudeAttributeData.GetValueString(Mathf.RoundToInt(mLandscapePreview.altitude));
 
         seasonSelect.Setup(mCurSeason);
 
@@ -111,8 +127,6 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
 
         //update attributes
         UpdateAtmosphereStats();
-
-        //update landscape preview
     }
 
     void OnLandscapeRegionChange(float val) {
@@ -128,18 +142,36 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
             mLandscapePreview.curRegionIndex = mRegionIndex;
 
             //update altitude
+            if(mAltitudeChangeRout == null)
+                StartCoroutine(DoAltitudeChange());
         }
     }
 
+    IEnumerator DoAltitudeChange() {
+        do {
+            yield return null;
+
+            var altitude = mLandscapePreview.altitude;
+
+            altitudeSlider.value = altitude;
+            altitudeValueLabel.text = altitudeAttributeData.GetValueString(Mathf.RoundToInt(altitude));
+
+        } while(mLandscapePreview.isMoving);
+
+        mAltitudeChangeRout = null;
+    }
+
     private void UpdateAtmosphereStats() {
+        var hotspotData = mLandscapePreview.hotspotData;
+
         if(mCurStats == null) { //first time
-            mCurStats = mHotspot.GenerateModifiedStats(mCurSeason, mRegionIndex);
+            mCurStats = hotspotData.GenerateModifiedStats(mCurSeason, mRegionIndex);
 
             for(int i = 0; i < mCurStats.Length; i++) {
                 var stat = mCurStats[i];
 
                 if(mAtmosphereStatWidgetCache.Count == 0) {
-                    Debug.LogWarning("Ran out of atmosphere widget for: " + mHotspot.name);
+                    Debug.LogWarning("Ran out of atmosphere widget for: " + hotspotData.name);
                     break;
                 }
 
@@ -154,7 +186,7 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
             }
         }
         else { //update values
-            mHotspot.ApplyModifiedStats(mCurStats, mCurSeason, mRegionIndex);
+            hotspotData.ApplyModifiedStats(mCurStats, mCurSeason, mRegionIndex);
 
             //assume 1-1 correspondence between stats and stat widgets
             for(int i = 0; i < mCurStats.Length; i++) {

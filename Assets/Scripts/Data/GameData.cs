@@ -16,6 +16,16 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public string modalOverworld = "overworld";
     public string modalHotspotInvestigate = "hotspotInvestigate";
 
+    [Header("Landscape Preview")]
+    public Vector2 landscapePreviewSize;
+
+    public Color landscapePreviewBoundsColor = Color.yellow;    
+    public float landscapePreviewBoundsEditSnap = 1f;
+
+    public Color landscapePreviewRegionColor = Color.green;
+    public float landscapePreviewRegionHandleScale = 0.05f;
+    public float landscapePreviewRegionHandleSnap = 0.25f;
+
     [Header("Scenes")]
     //intro sets progress to 1
     public LevelData[] levels;

@@ -11,6 +11,6 @@ public struct AtmosphereModifier {
     public M8.RangeFloat range;
 
     public M8.RangeFloat ApplyTo(M8.RangeFloat src) {
-        return isOverride ? range : new M8.RangeFloat { min=src.min+range.min, max=src.max+range.max };
+        return isOverride ? range : atmosphere.ClampRange(src.min + range.min, src.max + range.max);
     }
 }
