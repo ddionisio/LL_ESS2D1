@@ -7,7 +7,7 @@ using TMPro;
 
 public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IModalPop {
     public const string parmSeason = "inspectSeason"; //SeasonData
-    public const string parmCriteria = "inspectCriteria"; //CriteriaData
+    public const string parmCriteriaGroup = "inspectCriteriaGrp"; //CriteriaGroup
     public const string parmLandscape = "inspectLandscape"; //LandscapePreview
 
     [Header("Hotspot Info Display")]
@@ -42,7 +42,7 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
     public M8.Signal signalInvokeLaunch;
 
     private SeasonData mCurSeason;
-    private CriteriaData mCriteria;
+    private CriteriaGroup mCriteriaGroup;
     private LandscapePreview mLandscapePreview;
 
     private int mRegionIndex; //updated by slider
@@ -54,6 +54,8 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
 
     private bool mIsInit;
 
+    private bool mIsLaunchValid;
+
     private Coroutine mAltitudeChangeRout;
 
     public void Back() {
@@ -61,7 +63,13 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
     }
 
     public void Launch() {
-        //determine if all critics are satisfied, use hint system
+        //determine if all critics are satisfied, otherwise activate the hint system
+        if(mIsLaunchValid) {
+            Debug.Log("Can Launch!");
+        }
+        else {
+            Debug.Log("Cannot Launch!");
+        }
     }
 
     void M8.IModalPop.Pop() {
@@ -89,8 +97,8 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
             if(parms.ContainsKey(parmSeason))
                 mCurSeason = parms.GetValue<SeasonData>(parmSeason);
 
-            if(parms.ContainsKey(parmCriteria))
-                mCriteria = parms.GetValue<CriteriaData>(parmCriteria);
+            if(parms.ContainsKey(parmCriteriaGroup))
+                mCriteriaGroup = parms.GetValue<CriteriaGroup>(parmCriteriaGroup);
 
             if(parms.ContainsKey(parmLandscape))
                 mLandscapePreview = parms.GetValue<LandscapePreview>(parmLandscape);
@@ -195,6 +203,14 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
                 widget.SetRange(mCurStats[i].range);
             }
         }
+
+        //update criteria
+        mCriteriaGroup.Evaluate(mCurStats);
+
+        //check if we can launch, show glow if so
+        mIsLaunchValid = mCriteriaGroup.criticCountBad == 0 && mCriteriaGroup.criticCountGood >= GameData.instance.overworldLaunchCriticGoodCount;
+
+        //TODO: hint system
     }
 
     private void InitAttributeWidgets() {

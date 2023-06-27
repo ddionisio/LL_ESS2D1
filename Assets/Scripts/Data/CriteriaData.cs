@@ -29,4 +29,59 @@ public class CriteriaData : ScriptableObject {
     }
 
     public AttributeInfo[] attributes;
+
+    public int criticCount {
+        get {
+            int count = 0;
+
+            for(int i = 0; i < attributes.Length; i++) {
+                var attr = attributes[i];
+                if(attr.criticRange.Length > count)
+                    count = attr.criticRange.Length;
+            }
+
+            return count;
+        }
+    }
+
+    /// <summary>
+    /// 0 = neutral (intersects)
+    /// -1 = bad (out of bounds)
+    /// 1 = good (inside bounds)
+    /// </summary>
+    public void Evaluate(int[] criticResults, AtmosphereStat[] stats) {
+        for(int i = 0; i < attributes.Length; i++) {
+            var attr = attributes[i];
+
+            int statInd = -1;
+            for(int j = 0; j < stats.Length; j++) {
+                if(stats[j].atmosphere == attr.atmosphere) {
+                    statInd = j;
+                    break;
+                }
+            }
+
+            if(statInd != -1) {
+                var stat = stats[statInd];
+
+                for(int j = 0; j < criticResults.Length; j++) {
+                    int result;
+
+                    if(j < attr.criticRange.Length)
+                        result = stat.Compare(attr.criticRange[j]);
+                    else
+                        result = 1;
+
+                    if(i == 0) //first attribute result is applied
+                        criticResults[j] = result;
+                    else if(result == -1 || criticResults[j] == 1) //prioritize bad result, then neutral, good can only be possible if they all match
+                        criticResults[j] = result;
+                }
+            }
+            else if(i == 0) { //no match, just apply 'good' if it's the first attribute
+                for(int j = 0; j < criticResults.Length; j++)
+                    criticResults[j] = 1;
+            }
+        }
+    }
 }

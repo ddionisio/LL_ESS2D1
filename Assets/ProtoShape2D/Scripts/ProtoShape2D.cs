@@ -192,7 +192,7 @@ public class ProtoShape2D:MonoBehaviour{
 		}else if(!Application.isPlaying) { //MODIFY: honestly, don't really need to do this at runtime
 			ProtoShape2D[] arr=GameObject.FindObjectsOfType<ProtoShape2D>();
 			for(int i=0;i<arr.Length;i++){
-				if(arr[i].uniqueName==uniqueName){
+				if(arr[i] != this && arr[i].uniqueName==uniqueName){ //MODIFY: of course don't compare ourselves
 					uniqueName=Random.Range(1000,999999).ToString();
 					if(fillType==PS2DFillType.Color || fillType==PS2DFillType.None){
 						SetSpriteMaterial();
@@ -209,8 +209,8 @@ public class ProtoShape2D:MonoBehaviour{
 			}
 		}
 
-		//MODIFY: honestly, don't really need to do this at runtime
-		if(!Application.isPlaying || !mf.sharedMesh) {
+		//MODIFY: only really need to generate mesh if we are creating a new instance, cloning, etc. in edit mode
+		if((Application.isPlaying && !mf.sharedMesh) || !mf.sharedMesh || mf.sharedMesh.name != uniqueName) {
 			Mesh mesh = new Mesh { name = uniqueName };
 			mf.sharedMesh = mesh;
 			UpdateMaterialSettings();

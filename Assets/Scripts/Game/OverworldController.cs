@@ -19,10 +19,13 @@ public class OverworldController : GameModeController<OverworldController> {
 
     [Header("Investigate")]
     public LandscapePreview landscapePreview;
+    public CriteriaGroup criteriaGroup;
 
     [Header("Signal Listen")]
     public SignalSeasonData signalListenSeasonToggle;
     public SignalHotspot signalListenHotspotClick;
+    public M8.Signal signalListenHotspotInvestigateBack;
+    public M8.Signal signalListenHotspotInvestigateLaunch;
 
     [Header("Signal Invoke")]
     public SignalSeasonData signalInvokeSeasonDefault;
@@ -43,6 +46,7 @@ public class OverworldController : GameModeController<OverworldController> {
     private Coroutine mRout;
 
     private M8.GenericParams mModalOverworldParms = new M8.GenericParams();
+    private M8.GenericParams mModalHotspotInvestigateParms = new M8.GenericParams();
 
     public int GetHotspotGroup(string groupName) {
         for(int i = 0; i < mHotspotGroups.Length; i++) {
@@ -75,7 +79,10 @@ public class OverworldController : GameModeController<OverworldController> {
     }
 
     protected override void OnInstanceDeinit() {
+        if(signalListenSeasonToggle) signalListenSeasonToggle.callback -= OnSeasonToggle;
         if(signalListenHotspotClick) signalListenHotspotClick.callback -= OnHotspotClick;
+        if(signalListenHotspotInvestigateBack) signalListenHotspotInvestigateBack.callback -= OnHotspotInvestigateBack;
+        if(signalListenHotspotInvestigateLaunch) signalListenHotspotInvestigateLaunch.callback -= OnHotspotInvestigateLaunch;
 
         if(mRout != null) {
             StopCoroutine(mRout);
@@ -108,9 +115,14 @@ public class OverworldController : GameModeController<OverworldController> {
         if(landscapePreview)
             landscapePreview.active = false;
 
-        //setup signals
+        if(criteriaGroup)
+            criteriaGroup.active = false;
 
+        //setup signals
+        if(signalListenSeasonToggle) signalListenSeasonToggle.callback += OnSeasonToggle;
         if(signalListenHotspotClick) signalListenHotspotClick.callback += OnHotspotClick;
+        if(signalListenHotspotInvestigateBack) signalListenHotspotInvestigateBack.callback += OnHotspotInvestigateBack;
+        if(signalListenHotspotInvestigateLaunch) signalListenHotspotInvestigateLaunch.callback += OnHotspotInvestigateLaunch;
     }
 
     protected override IEnumerator Start() {
@@ -173,18 +185,32 @@ public class OverworldController : GameModeController<OverworldController> {
         landscapePreview.active = true;
         //anim
 
-        //push investigate modal
+        //show critic group
+        criteriaGroup.Setup(hotspotGroupCurrent.criteria);
+        criteriaGroup.active = true;
+        //anim
 
+        //push investigate modal
+        mModalHotspotInvestigateParms[ModalHotspotInvestigate.parmSeason] = mCurSeasonData;
+        mModalHotspotInvestigateParms[ModalHotspotInvestigate.parmCriteriaGroup] = criteriaGroup;
+        mModalHotspotInvestigateParms[ModalHotspotInvestigate.parmLandscape] = landscapePreview;
+
+        M8.ModalManager.main.Open(GameData.instance.modalHotspotInvestigate, mModalHotspotInvestigateParms);
 
         mRout = null;
     }
 
     IEnumerator DoInvestigateExit() {
         //pop investigate modal
+        M8.ModalManager.main.CloseUpTo(GameData.instance.modalHotspotInvestigate, true);
 
         //hide investigate
         //anim
         landscapePreview.active = false;
+
+        //hide critic group
+        //anim
+        criteriaGroup.active = false;
 
         //zoom-out
         overworldView.ZoomOut();
@@ -200,11 +226,26 @@ public class OverworldController : GameModeController<OverworldController> {
         mRout = null;
     }
 
+    void OnSeasonToggle(SeasonData season) {
+        mCurSeasonData = season;
+    }
+
     void OnHotspotClick(Hotspot hotspot) {
         if(isBusy)
             return;
 
         mRout = StartCoroutine(DoInvestigateEnter(hotspot));
+    }
+
+    void OnHotspotInvestigateBack() {
+        if(isBusy)
+            return;
+
+        mRout = StartCoroutine(DoInvestigateExit());
+    }
+
+    void OnHotspotInvestigateLaunch() {
+
     }
 
     private void ModalShowOverworld() {

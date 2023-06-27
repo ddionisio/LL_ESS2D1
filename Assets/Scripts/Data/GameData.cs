@@ -26,6 +26,9 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public float landscapePreviewRegionHandleScale = 0.05f;
     public float landscapePreviewRegionHandleSnap = 0.25f;
 
+    [Header("Overworld")]
+    public int overworldLaunchCriticGoodCount = 3;
+
     [Header("Scenes")]
     //intro sets progress to 1
     public LevelData[] levels;

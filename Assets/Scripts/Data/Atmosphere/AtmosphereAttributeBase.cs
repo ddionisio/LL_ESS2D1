@@ -38,6 +38,8 @@ public abstract class AtmosphereAttributeBase : ScriptableObject {
 
         if(min > max)
             min = max;
+        else if(max < min)
+            max = min;
 
         return new M8.RangeFloat() { min=min, max=max };
     }
