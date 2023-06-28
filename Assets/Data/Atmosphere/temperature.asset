@@ -12,5 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dedfc0d7f385504784c47f9df1fd554, type: 3}
   m_Name: temperature
   m_EditorClassIdentifier: 
-  nameRef: 
+  nameRef: atmosphere_temperature
   icon: {fileID: 0}
+  isMinLimit: 0
+  isMaxLimit: 0
+  rangeLimit:
+    min: 0
+    max: 0

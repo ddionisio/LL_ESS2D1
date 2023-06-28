@@ -12,6 +12,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72e676f515637d14f8138d24227092cf, type: 3}
   m_Name: temperate
   m_EditorClassIdentifier: 
-  nameRef: 
+  nameRef: climate_temperate
   descRef: 
   icon: {fileID: 0}
+  seasons:
+  - season: {fileID: 11400000, guid: ed63ca993a99fc846aae09147cbb7b26, type: 2}
+    atmosphereMods:
+    - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
+      isOverride: 0
+      range:
+        min: -10
+        max: -20
+  - season: {fileID: 11400000, guid: ac5f6108cc5374647a455ba1ad6db09d, type: 2}
+    atmosphereMods:
+    - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
+      isOverride: 0
+      range:
+        min: 0
+        max: 0
+  - season: {fileID: 11400000, guid: 78dd022e7c535a540a62a7bed510d39a, type: 2}
+    atmosphereMods:
+    - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
+      isOverride: 0
+      range:
+        min: 10
+        max: 5
+  - season: {fileID: 11400000, guid: b553b8f311ac39848a8fb444db305054, type: 2}
+    atmosphereMods:
+    - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
+      isOverride: 0
+      range:
+        min: -5
+        max: -10

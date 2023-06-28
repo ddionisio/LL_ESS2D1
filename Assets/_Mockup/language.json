@@ -13,7 +13,15 @@
     "close": "CLOSE",
     "on": "ON",
     "off": "OFF",
-    "ready": "READY",
-    "go": "GO"
+    "season_winter": "Winter",
+    "season_spring": "Spring",
+    "season_summer": "Summer",
+    "season_autumn": "Autumn",
+    "atmosphere_altitude": "Altitude",
+    "atmosphere_humidity": "Humidity",
+    "atmosphere_temperature": "Temperature",
+    "atmosphere_windStrength": "Wind Strength",
+    "climate_temperate": "Temperate",
+    "region_NA": "North American Great Plains"
   }
 }

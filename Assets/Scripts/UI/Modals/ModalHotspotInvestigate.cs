@@ -11,9 +11,17 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
     public const string parmLandscape = "inspectLandscape"; //LandscapePreview
 
     [Header("Hotspot Info Display")]
-    public Image hotspotClimateImage;
+    public Image hotspotIconImage;
+
     public TMP_Text hotspotRegionNameLabel;
+    [M8.Localize]
+    public string hotspotRegionTitleRef;
+    public string hotspotRegionNameFormat = "{0}: {1}";
+
     public TMP_Text hotspotClimateNameLabel;
+    [M8.Localize]
+    public string hotspotClimateTitleRef;
+    public string hotspotClimateNameFormat = "{0}: {1}";
 
     [Header("Atmosphere Attributes Display")]
     public AtmosphereAttributeRangeWidget atmosphereStatTemplate; //not a prefab
@@ -31,8 +39,7 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
     [Header("Season Select")]
     public SeasonSelectWidget seasonSelect;
 
-    [Header("Launch")]
-    public Button launchButton;
+    //[Header("Launch")]
 
     [Header("Signal Listen")]
     public SignalSeasonData signalListenSeasonChange;
@@ -109,9 +116,18 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
         //set landscape preview display, and apply current season
         mRegionIndex = mLandscapePreview.curRegionIndex;
 
+        //setup hotspot info display
+        var hotspotData = mLandscapePreview.hotspotData;
+
+        if(hotspotIconImage) hotspotIconImage.sprite = hotspotData.climate.icon;
+
+        if(hotspotRegionNameLabel) hotspotRegionNameLabel.text = string.Format(hotspotRegionNameFormat, M8.Localize.Get(hotspotRegionTitleRef), M8.Localize.Get(hotspotData.nameRef));
+
+        if(hotspotClimateNameLabel) hotspotClimateNameLabel.text = string.Format(hotspotClimateNameFormat, M8.Localize.Get(hotspotClimateTitleRef), M8.Localize.Get(hotspotData.climate.nameRef));
+
+        //setup landscape slider
         var landscapePreviewTelemetry = mLandscapePreview.landscapePreviewTelemetry;
 
-        //setup landscape slider        
         landscapeRegionSlider.minValue = 0f;
         landscapeRegionSlider.maxValue = landscapePreviewTelemetry.regions.Length - 1;
         landscapeRegionSlider.value = mRegionIndex;

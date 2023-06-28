@@ -12,5 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 934828ce9da92104b89dca7e1f5beb4e, type: 3}
   m_Name: windStrength
   m_EditorClassIdentifier: 
-  nameRef: 
+  nameRef: atmosphere_windStrength
   icon: {fileID: 0}
+  isMinLimit: 1
+  isMaxLimit: 0
+  rangeLimit:
+    min: 0
+    max: 0

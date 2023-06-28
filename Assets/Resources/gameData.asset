@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modalOverworld: overworld
   modalHotspotInvestigate: hotspotInvestigate
-  landscapePreviewSize: {x: 18, y: 8}
+  landscapePreviewSize: {x: 12, y: 6.75}
   landscapePreviewBoundsColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   landscapePreviewBoundsEditSnap: 0.5
   landscapePreviewRegionColor: {r: 0, g: 1, b: 0, a: 1}
   landscapePreviewRegionHandleScale: 0.05
   landscapePreviewRegionHandleSnap: 0.25
+  overworldLaunchCriticGoodCount: 3
   levels: []
   endScene:
     name: 

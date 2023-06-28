@@ -12,5 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81cbc7479403be04c8dc65f878216f36, type: 3}
   m_Name: humidity
   m_EditorClassIdentifier: 
-  nameRef: 
+  nameRef: atmosphere_humidity
   icon: {fileID: 0}
+  isMinLimit: 1
+  isMaxLimit: 1
+  rangeLimit:
+    min: 0
+    max: 100
