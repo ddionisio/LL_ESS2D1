@@ -74,7 +74,7 @@ public class CriteriaGroup : MonoBehaviour {
 
         data = criteriaData;
 
-        mItemActiveCount = Mathf.Clamp(data.criticCount, 0, mItems.Length - 1);
+        mItemActiveCount = Mathf.Clamp(data.criticCount, 0, mItems.Length);
 
         //show critics
         for(int i = 0; i < mItemActiveCount; i++) {

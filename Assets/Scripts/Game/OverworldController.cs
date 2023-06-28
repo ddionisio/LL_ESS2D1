@@ -28,6 +28,7 @@ public class OverworldController : GameModeController<OverworldController> {
     public M8.Signal signalListenHotspotInvestigateLaunch;
 
     [Header("Signal Invoke")]
+    public SignalAtmosphereAttribute signalInvokeAtmosphereOverlayDefault;
     public SignalSeasonData signalInvokeSeasonDefault;
 
     [Header("Debug")]
@@ -157,6 +158,9 @@ public class OverworldController : GameModeController<OverworldController> {
     }
 
     IEnumerator DoInvestigateEnter(Hotspot hotspot) {
+        //turn off overlays
+        if(signalInvokeAtmosphereOverlayDefault) signalInvokeAtmosphereOverlayDefault.Invoke(atmosphereDefault);
+
         //hide hotspot
         hotspot.Hide();
 

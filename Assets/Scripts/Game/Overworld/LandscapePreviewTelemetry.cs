@@ -24,9 +24,9 @@ public class LandscapePreviewTelemetry : MonoBehaviour {
 
         var region = regions[regionIndex];
 
-        var regionMinY = region.center.y - landscapePreviewSize.y * 0.5f;
+        var regionY = region.center.y - landscapePreviewSize.y * 0.5f + region.altitudeOffset;
 
-        return altitudeRange.min + (((regionMinY + region.altitudeOffset) - bounds.min.y) / bounds.size.y) * altitudeRange.length;
+        return altitudeRange.Lerp((regionY - bounds.min.y) / bounds.size.y);
     }
 
     public float GetAltitudeScale(float altitude) {

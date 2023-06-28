@@ -63,6 +63,7 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
 
     private bool mIsLaunchValid;
 
+    private float mAltitudeEnd;
     private Coroutine mAltitudeChangeRout;
 
     public void Back() {
@@ -91,6 +92,8 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
 
         mCurSeason = null;
         mLandscapePreview = null;
+
+        mCurStats = null;
     }
 
     void M8.IModalPush.Push(M8.GenericParams parms) {
@@ -166,21 +169,26 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
             mLandscapePreview.curRegionIndex = mRegionIndex;
 
             //update altitude
+            mAltitudeEnd = mLandscapePreview.altitude;
+
             if(mAltitudeChangeRout == null)
                 StartCoroutine(DoAltitudeChange());
         }
     }
 
     IEnumerator DoAltitudeChange() {
-        do {
+        float delay = mLandscapePreview.regionMoveDelay;
+        float vel = 0f;
+        float curAltitude = altitudeSlider.value;
+
+        while(curAltitude != mAltitudeEnd) {
+            curAltitude = Mathf.SmoothDamp(curAltitude, mAltitudeEnd, ref vel, delay);
+            altitudeSlider.value = curAltitude;
+
+            altitudeValueLabel.text = altitudeAttributeData.GetValueString(Mathf.RoundToInt(curAltitude));
+
             yield return null;
-
-            var altitude = mLandscapePreview.altitude;
-
-            altitudeSlider.value = altitude;
-            altitudeValueLabel.text = altitudeAttributeData.GetValueString(Mathf.RoundToInt(altitude));
-
-        } while(mLandscapePreview.isMoving);
+        }
 
         mAltitudeChangeRout = null;
     }

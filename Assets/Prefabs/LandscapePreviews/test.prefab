@@ -80,7 +80,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
+  m_MaskInteraction: 1
   m_SpriteSortPoint: 0
 --- !u!1 &1356387100648753398
 GameObject:
@@ -207,7 +207,7 @@ MonoBehaviour:
   HDRColors: 0
   _sortingLayer: 1473496245
   _orderInLayer: 1
-  _selectedMaskOption: 0
+  _selectedMaskOption: 1
   uniqueName: 702444
   points:
   - position: {x: -3.9816647, y: 2.8969855}
@@ -384,7 +384,7 @@ MonoBehaviour:
   trisAntialiasing: 
   triangleCount: 8
   col: {fileID: 0}
-  lastPos: {x: 0, y: 0}
+  lastPos: {x: -12.6, y: -5.72}
   minPoint: {x: -3.9816647, y: -1.3040133}
   maxPoint: {x: 52.05813, y: 4.93902}
   showFillSettings: 1

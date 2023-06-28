@@ -7,7 +7,6 @@ public class LandscapePreview : MonoBehaviour {
     public Transform root;
 
     [Header("Region Move Info")]
-    public DG.Tweening.Ease regionMoveEase = DG.Tweening.Ease.InOutSine;
     public float regionMoveDelay = 0.5f;
 
     [Header("Signal Listen")]
@@ -31,7 +30,7 @@ public class LandscapePreview : MonoBehaviour {
                 mMoveEnd = -landscapePreviewTelemetry.regions[mCurRegionInd].center;
 
                 if(mMoveRout == null) {
-                    mMoveStart = landscapePreviewTelemetry.transform.localPosition;
+                    //mMoveStart = landscapePreviewTelemetry.transform.localPosition;
 
                     mMoveRout = StartCoroutine(DoRegionMove());
                 }
@@ -57,8 +56,6 @@ public class LandscapePreview : MonoBehaviour {
     private int mCurRegionInd;
 
     private Coroutine mMoveRout;
-    private DG.Tweening.EaseFunction mMoveEaseFunc;
-    private Vector2 mMoveStart;
     private Vector2 mMoveEnd;
 
     public void DestroyHotspotPreviews() {
@@ -137,21 +134,16 @@ public class LandscapePreview : MonoBehaviour {
     }
 
     IEnumerator DoRegionMove() {
-
-        if(mMoveEaseFunc == null)
-            mMoveEaseFunc = DG.Tweening.Core.Easing.EaseManager.ToEaseFunction(regionMoveEase);
-
         var landscapeTrans = landscapePreviewTelemetry.transform;
 
-        var curTime = 0f;
-        while(curTime < regionMoveDelay) {
+        Vector2 vel = Vector2.zero;
+        Vector2 pos = landscapeTrans.localPosition;
+
+        while(pos != mMoveEnd) {
+            pos = Vector2.SmoothDamp(pos, mMoveEnd, ref vel, regionMoveDelay);
+            landscapeTrans.localPosition = pos;
+
             yield return null;
-
-            curTime += Time.deltaTime;
-
-            var t = mMoveEaseFunc(curTime, regionMoveDelay, 0f, 0f);
-
-            landscapeTrans.localPosition = Vector2.Lerp(mMoveStart, mMoveEnd, t);
         }
 
         mMoveRout = null;

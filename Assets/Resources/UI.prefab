@@ -1267,10 +1267,10 @@ MonoBehaviour:
   _exclusive: 0
   hotspotIconImage: {fileID: 590121546}
   hotspotRegionNameLabel: {fileID: 625387358}
-  hotspotRegionTitleRef: 
+  hotspotRegionTitleRef: region_title
   hotspotRegionNameFormat: '{0}: {1}'
   hotspotClimateNameLabel: {fileID: 753753797}
-  hotspotClimateTitleRef: 
+  hotspotClimateTitleRef: climate_title
   hotspotClimateNameFormat: '{0}: {1}'
   atmosphereStatTemplate: {fileID: 247694974}
   atmosphereStatCapacity: 10
