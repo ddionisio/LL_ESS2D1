@@ -166,7 +166,7 @@ MonoBehaviour:
   _mode: 0
   levelString: level
   stackEnable: 0
-  isTimeScaleOverride: 0
+  isTimeScaleOverride: 1
 --- !u!114 &2978995603293413683
 MonoBehaviour:
   m_ObjectHideFlags: 0

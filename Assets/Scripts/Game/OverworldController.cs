@@ -25,7 +25,7 @@ public class OverworldController : GameModeController<OverworldController> {
     public SignalSeasonData signalListenSeasonToggle;
     public SignalHotspot signalListenHotspotClick;
     public M8.Signal signalListenHotspotInvestigateBack;
-    public M8.Signal signalListenHotspotInvestigateLaunch;
+    public M8.SignalInteger signalListenHotspotInvestigateLaunch;
 
     [Header("Signal Invoke")]
     public SignalAtmosphereAttribute signalInvokeAtmosphereOverlayDefault;
@@ -37,6 +37,7 @@ public class OverworldController : GameModeController<OverworldController> {
     public int debugHotspotIndex; //if group is empty
 
     public HotspotGroup hotspotGroupCurrent { get; private set; }
+    public Hotspot hotspotCurrent { get; private set; }
 
     public bool isBusy { get { return mRout != null; } }
 
@@ -77,6 +78,8 @@ public class OverworldController : GameModeController<OverworldController> {
                 landscapePreview.AddHotspotPreview(hotspot.hotspot.data);
             }
         }
+
+        hotspotCurrent = null;
     }
 
     protected override void OnInstanceDeinit() {
@@ -230,6 +233,37 @@ public class OverworldController : GameModeController<OverworldController> {
         mRout = null;
     }
 
+    IEnumerator DoLaunch(int regionIndex) {
+        //pop investigate modal
+        M8.ModalManager.main.CloseUpTo(GameData.instance.modalHotspotInvestigate, true);
+
+        //hide investigate
+        //anim
+        landscapePreview.active = false;
+
+        //hide critic group
+        //anim
+        criteriaGroup.active = false;
+
+        //wait for modals
+        while(M8.ModalManager.main.isBusy || M8.ModalManager.main.IsInStack(GameData.instance.modalHotspotInvestigate))
+            yield return null;
+
+        mRout = null;
+
+        //go to colony scene
+        var hotspotData = hotspotCurrent.data;
+
+        int seasonIndex = hotspotData.climate.GetSeasonIndex(mCurSeasonData);
+
+        if(hotspotData.colonyScene.isValid) {
+            GameData.instance.ProgressNextToColony(hotspotData.colonyScene, regionIndex, seasonIndex);
+        }
+        else {
+            Debug.LogWarning("Invalid colony scene for: " + hotspotData.name);
+        }
+    }
+
     void OnSeasonToggle(SeasonData season) {
         mCurSeasonData = season;
     }
@@ -238,6 +272,8 @@ public class OverworldController : GameModeController<OverworldController> {
         if(isBusy)
             return;
 
+        hotspotCurrent = hotspot;
+
         mRout = StartCoroutine(DoInvestigateEnter(hotspot));
     }
 
@@ -245,11 +281,16 @@ public class OverworldController : GameModeController<OverworldController> {
         if(isBusy)
             return;
 
+        hotspotCurrent = null;
+
         mRout = StartCoroutine(DoInvestigateExit());
     }
 
-    void OnHotspotInvestigateLaunch() {
+    void OnHotspotInvestigateLaunch(int regionIndex) {
+        if(isBusy)
+            return;
 
+        mRout = StartCoroutine(DoLaunch(regionIndex));
     }
 
     private void ModalShowOverworld() {

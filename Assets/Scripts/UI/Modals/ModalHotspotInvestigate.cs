@@ -46,7 +46,7 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
 
     [Header("Signal Invoke")]
     public M8.Signal signalInvokeBack;
-    public M8.Signal signalInvokeLaunch;
+    public M8.SignalInteger signalInvokeLaunch; //param = regionIndex
 
     private SeasonData mCurSeason;
     private CriteriaGroup mCriteriaGroup;

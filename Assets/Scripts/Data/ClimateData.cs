@@ -30,4 +30,13 @@ public class ClimateData : ScriptableObject {
 
         return null;
     }
+
+    public int GetSeasonIndex(SeasonData season) {
+        for(int i = 0; i < seasons.Length; i++) {
+            if(seasons[i].season == season)
+                return i;
+        }
+
+        return -1;
+    }
 }
