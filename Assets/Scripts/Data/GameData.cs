@@ -27,6 +27,9 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     [Header("Overworld")]
     public int overworldLaunchCriticGoodCount = 3; //determines how many must be satisfied to launch colony
 
+    [Header("Colony")]
+    public float cycleDuration = 120f; //entire duration of the colony game
+
     [Header("Scenes")]
     //intro sets progress to 1
     public M8.SceneAssetPath overworldScene;

@@ -21,7 +21,10 @@ MonoBehaviour:
   landscapePreviewRegionHandleScale: 0.05
   landscapePreviewRegionHandleSnap: 0.25
   overworldLaunchCriticGoodCount: 3
-  levels: []
+  cycleDuration: 120
+  overworldScene:
+    name: overworld
+    path: Assets/Scenes/overworld.unity
   endScene:
     name: 
     path: 

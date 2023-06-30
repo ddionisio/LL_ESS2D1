@@ -21,5 +21,5 @@ MonoBehaviour:
       max: 85
   landscapePrefab: {fileID: 1356387101706006881, guid: 9e0010180e916814fa69750b5e0c1b02, type: 3}
   colonyScene:
-    name: 
-    path: 
+    name: testColony
+    path: Assets/Scenes/testColony.unity
