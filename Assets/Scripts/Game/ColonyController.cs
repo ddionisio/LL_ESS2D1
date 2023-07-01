@@ -7,6 +7,7 @@ using LoLExt;
 public class ColonyController : GameModeController<ColonyController> {
 
     [Header("Setup")]
+    public HotspotData hotspotData; //correlates to the hotspot we launched from the overworld
     public CriteriaData criteriaData; //used to determine house req. params
 
     protected override void OnInstanceDeinit() {

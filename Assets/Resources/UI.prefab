@@ -1272,8 +1272,11 @@ MonoBehaviour:
   hotspotClimateNameLabel: {fileID: 753753797}
   hotspotClimateTitleRef: climate_title
   hotspotClimateNameFormat: '{0}: {1}'
+  atmosphereStatDisplays:
+  - {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
+  - {fileID: 11400000, guid: a1acb9bb17afa9e47bd265ddc249f905, type: 2}
+  - {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
   atmosphereStatTemplate: {fileID: 247694974}
-  atmosphereStatCapacity: 10
   atmosphereStatRoot: {fileID: 1096698404}
   altitudeAttributeData: {fileID: 11400000, guid: 8e160a8e9ebd45540bd5d59b428674b1, type: 2}
   altitudeValueLabel: {fileID: 2046652880}
