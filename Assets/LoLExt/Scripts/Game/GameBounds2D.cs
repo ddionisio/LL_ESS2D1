@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace LoLExt {
     public class GameBounds2D : MonoBehaviour {
-        public Rect rect = new Rect(0f, 0f, 100f, 100f);
+        public Rect rect = new Rect(-1f, -1f, 2f, 2f);
 
         //editor info
         public Vector2 editRectSteps = Vector2.one;

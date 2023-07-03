@@ -29,6 +29,8 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
 
     [Header("Colony")]
     public float cycleDuration = 120f; //entire duration of the colony game
+    public float cycleDaylightScaleDefault = 0.5f;
+    public float fastForwardScale = 2.0f;
 
     [Header("Scenes")]
     //intro sets progress to 1

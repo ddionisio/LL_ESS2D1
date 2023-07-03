@@ -4,18 +4,42 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "hotspot", menuName = "Game/Hotspot")]
 public class HotspotData : ScriptableObject {
+    [System.Serializable]
+    public struct DaylightInfo {
+        public SeasonData season;
+        public float daylightScale;
+    }
+
     [Header("Info")]
     [M8.Localize]
     public string nameRef;
 
     public ClimateData climate;
 
+    [Header("Atmosphere")]
     public AtmosphereStat[] atmosphereStats;
+
+    [Header("Daylight")]
+    public DaylightInfo[] daylightInfos;
 
     [Header("Inspection")]
     public LandscapePreviewTelemetry landscapePrefab;
         
     public M8.SceneAssetPath colonyScene; //if viable, this is the scene to load when launching
+
+    public AtmosphereModifier[] GetRegionAtmosphereModifiers(int regionIndex) {
+        return landscapePrefab && regionIndex >= 0 && regionIndex < landscapePrefab.regions.Length ? landscapePrefab.regions[regionIndex].atmosphereMods : null;
+    }
+
+    public float GetDaylightScale(SeasonData season) {
+        for(int i = 0; i < daylightInfos.Length; i++) {
+            var info = daylightInfos[i];
+            if(info.season == season)
+                return info.daylightScale;
+        }
+
+        return GameData.instance.cycleDaylightScaleDefault;
+    }
 
     public AtmosphereStat[] GenerateModifiedStats(SeasonData season, int regionIndex) {
         var stats = new AtmosphereStat[atmosphereStats.Length];
@@ -26,42 +50,14 @@ public class HotspotData : ScriptableObject {
     }
 
     public void ApplyModifiedStats(AtmosphereStat[] stats, SeasonData season, int regionIndex) {
-        AtmosphereModifier[] seasonMods = climate ? climate.GetModifiers(season) : new AtmosphereModifier[0];
+        AtmosphereModifier[] seasonMods = climate ? climate.GetModifiers(season) : null;
 
-        AtmosphereModifier[] regionMods;
-
-        if(landscapePrefab && regionIndex >= 0 && regionIndex < landscapePrefab.regions.Length)
-            regionMods = landscapePrefab.regions[regionIndex].atmosphereMods;
-        else
-            regionMods = new AtmosphereModifier[0];
+        AtmosphereModifier[] regionMods = GetRegionAtmosphereModifiers(regionIndex);
 
         //override stats with base
         System.Array.Copy(atmosphereStats, stats, atmosphereStats.Length);
 
-        ApplyMods(stats, seasonMods);
-
-        ApplyMods(stats, regionMods);
-    }
-
-    private void ApplyMods(AtmosphereStat[] stats, AtmosphereModifier[] mods) {
-        for(int i = 0; i < mods.Length; i++) {
-            var mod = mods[i];
-
-            int statInd = -1;
-            for(int j = 0; j < stats.Length; j++) {
-                if(stats[j].atmosphere == mod.atmosphere) {
-                    statInd = j;
-                    break;
-                }
-            }
-
-            if(statInd != -1) {
-                var stat = stats[statInd];
-
-                stat.range = mod.ApplyTo(stats[statInd].range);
-
-                stats[statInd] = stat;
-            }
-        }
+        AtmosphereModifier.Apply(stats, seasonMods);
+        AtmosphereModifier.Apply(stats, regionMods);
     }
 }

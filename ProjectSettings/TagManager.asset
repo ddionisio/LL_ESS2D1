@@ -11,9 +11,9 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Ground
+  - Unit
+  - Structure
   - 
   - 
   - 
@@ -58,4 +58,22 @@ TagManager:
     locked: 0
   - name: Illustrate
     uniqueID: 1995122859
+    locked: 0
+  - name: Background
+    uniqueID: 2851329549
+    locked: 0
+  - name: Atmosphere
+    uniqueID: 1486833153
+    locked: 0
+  - name: Landscape
+    uniqueID: 4155139493
+    locked: 0
+  - name: Structure
+    uniqueID: 2043895669
+    locked: 0
+  - name: Ground
+    uniqueID: 2097231383
+    locked: 0
+  - name: Unit
+    uniqueID: 1328874929
     locked: 0

@@ -12,13 +12,6 @@ public class StructureData : ScriptableObject {
 
     public Sprite icon;
 
-    [Header("Stats")]
-    public ResourceStat capacity;
-    public ResourceStat generator;
-
-    public ResourceStat[] consumes;
-
-
     [Header("Spawn")]
-    public GameObject spawnPrefab;
+    public StructureBase spawnPrefab;
 }
