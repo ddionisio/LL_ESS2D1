@@ -4,17 +4,14 @@ using UnityEngine;
 
 public enum StructureState {
     None,
-    Spawn,
-    Placement,
+    Active,
+    Spawning,
     Construction,
-    Attacked,
-    Damaged
+    Demolish, //when moving/deconstruct via UI
+    Damaged, //when hp reaches 0
+    Reparing,
 }
 
-[System.Flags]
-public enum StructureFlags {
-    None = 0x0,
-
-    Damageable = 0x1,
-    Buildable = 0x2,
+public struct StructureSpawnParams {
+    public const string spawnPoint = "structureSpawnPt";
 }

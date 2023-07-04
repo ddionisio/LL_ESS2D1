@@ -28,6 +28,7 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public int overworldLaunchCriticGoodCount = 3; //determines how many must be satisfied to launch colony
 
     [Header("Colony")]
+    public LayerMask groundLayerMask;
     public float cycleDuration = 120f; //entire duration of the colony game
     public float cycleDaylightScaleDefault = 0.5f;
     public float fastForwardScale = 2.0f;
