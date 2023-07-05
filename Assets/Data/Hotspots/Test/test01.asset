@@ -19,6 +19,15 @@ MonoBehaviour:
     range:
       min: 60
       max: 85
+  - atmosphere: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
+    range:
+      min: 5
+      max: 10
+  - atmosphere: {fileID: 11400000, guid: f6bf4833d8274b04d85fdcf8f48c1cb7, type: 2}
+    range:
+      min: 1
+      max: 1
+  daylightInfos: []
   landscapePrefab: {fileID: 1356387101706006881, guid: 9e0010180e916814fa69750b5e0c1b02, type: 3}
   colonyScene:
     name: testColony

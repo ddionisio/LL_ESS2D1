@@ -10,13 +10,18 @@ public class ColonyController : GameModeController<ColonyController> {
     public HotspotData hotspotData; //correlates to the hotspot we launched from the overworld
     public CriteriaData criteriaData; //used to determine house req. params, correlates to hotspot group from the overworld
 
+    public StructurePaletteData structurePalette;
+
+    [Header("Spawn Info")]
+    public Transform spawnRoot;
+
     [Header("Landscape")]
     public GameBounds2D bounds;
     public GameObject regionRootGO; //grab cycle controllers here
 
-    [Header("Signal Invoke")]
-    public M8.SignalBoolean signalInvokePause;
-
+    [Header("Colony Ship")]
+    public StructureColonyShip colonyShip;
+        
     [Header("Debug")]
     public bool debugEnabled;
     public SeasonData debugSeason;
@@ -84,6 +89,11 @@ public class ColonyController : GameModeController<ColonyController> {
     }
 
     protected IEnumerator DoCycle() {
+        //colony ship enter
+        colonyShip.Spawn();
+
+        //show hud
+
         cycleController.Begin();
 
         while(cycleController.isRunning)

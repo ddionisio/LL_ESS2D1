@@ -9,8 +9,11 @@ public class CycleData : ScriptableObject {
         [Header("Atmosphere Info")]
         public WeatherTypeData weather;
         public AtmosphereModifier[] atmosphereMods;
+
+        public CycleResource resourceRateMod;
     }
 
-    [Header("Cycles")]
     public WeatherInfo[] cycles;
+
+    public CycleResource resourceRate;
 }

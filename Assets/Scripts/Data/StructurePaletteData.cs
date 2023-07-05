@@ -2,17 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StructurePaletteData : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+[CreateAssetMenu(fileName = "structurePalette", menuName = "Game/Structure Palette")]
+public class StructurePaletteData : ScriptableObject {
+    [System.Serializable]
+    public class ItemInfo {
+        [Header("Info")]
+        [M8.Localize]
+        public string nameRef;
+
+        public Sprite icon;
+
+        [Header("Catalog")]
+        public StructureData[] structures;
+
+        public int capacity;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public ItemInfo[] items;
 }

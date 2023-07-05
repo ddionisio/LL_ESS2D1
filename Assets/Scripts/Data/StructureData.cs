@@ -14,5 +14,5 @@ public class StructureData : ScriptableObject {
 
     [Header("Spawn")]
     public GameObject ghostPrefab;
-    public StructureBase spawnPrefab;
+    public Structure spawnPrefab;
 }

@@ -13,19 +13,17 @@ public class CycleController : MonoBehaviour {
     public int regionIndex; //which region this is used for    
     public CycleItemInfo[] cycleSeasons;
     public CycleData cycleDataDefault; //if no season match, or we just don't want to deal with season specifics
-
-    [Header("Signal Invoke")]
-    public SignalCycleInfo signalInvokeCycleBegin;
-    public SignalCycleInfo signalInvokeCycleNext;
-    public SignalCycleInfo signalInvokeCycleEnd;
-
-    [Header("Signal Listen")]
-    public M8.SignalBoolean signalListenPause;
-
+        
     public AtmosphereStat[] atmosphereStats { get; private set; }
+    public float daylightScale { get; private set; }
 
     public CycleData cycleData { get; private set; }
     public int cycleCurIndex { get; private set; }
+    public WeatherTypeData cycleCurWeather { get { return cycleData.cycles[cycleCurIndex].weather; } }
+    public float cycleDuration { get; private set; }
+    public int cycleCount { get { return cycleData.cycles.Length; } }
+
+    public CycleResource cycleResourceRate { get; private set; }
 
     public bool isPause { get; private set; }
 
@@ -34,8 +32,6 @@ public class CycleController : MonoBehaviour {
     private AtmosphereStat[] mAtmosphereStatsDefault;
     private AtmosphereModifier[] mSeasonAtmosphereMods;
     private AtmosphereModifier[] mRegionAtmosphereMods;
-
-    private CycleInfo mCycleInfo;
 
     private Coroutine mRout;
 
@@ -59,16 +55,16 @@ public class CycleController : MonoBehaviour {
         atmosphereStats = new AtmosphereStat[mAtmosphereStatsDefault.Length];
 
         //setup some fixed cycle info
-        mCycleInfo = new CycleInfo();
-        mCycleInfo.atmosphereStats = atmosphereStats;
-        mCycleInfo.daylightScale = hotspotData.GetDaylightScale(season);
-        mCycleInfo.cycleDuration = GameData.instance.cycleDuration / cycleData.cycles.Length;
-        mCycleInfo.cycleCount = cycleData.cycles.Length;
+        daylightScale = hotspotData.GetDaylightScale(season);
+        cycleDuration = GameData.instance.cycleDuration / cycleData.cycles.Length;
+
+        cycleResourceRate = cycleData.resourceRate;
     }
 
     public void Begin() {
         if(mRout != null) {
-            if(signalInvokeCycleEnd) signalInvokeCycleEnd.Invoke(mCycleInfo);
+            var signalCycleEnd = GameData.instance.signalCycleEnd;
+            if(signalCycleEnd) signalCycleEnd.Invoke();
 
             StopCoroutine(mRout);
         }
@@ -77,11 +73,11 @@ public class CycleController : MonoBehaviour {
     }
 
     void OnDisable() {
-        if(signalListenPause) signalListenPause.callback -= OnPause;
+        if(GameData.instance.signalPause) GameData.instance.signalPause.callback -= OnPause;
     }
 
     void OnEnable() {
-        if(signalListenPause) signalListenPause.callback += OnPause;
+        if(GameData.instance.signalPause) GameData.instance.signalPause.callback += OnPause;
     }
 
     void OnPause(bool pause) {
@@ -89,19 +85,22 @@ public class CycleController : MonoBehaviour {
     }
 
     IEnumerator DoProcess() {
+        var gameDat = GameData.instance;
 
         cycleCurIndex = 0;
 
         ApplyCurrentCycleInfo();
 
-        if(signalInvokeCycleBegin) signalInvokeCycleBegin.Invoke(mCycleInfo);
+        var signalCycleBegin = gameDat.signalCycleBegin;
+        var signalCycleNext = gameDat.signalCycleNext;
+        var signalCycleEnd = gameDat.signalCycleEnd;
 
-        var delay = mCycleInfo.cycleDuration;
+        if(signalCycleBegin) signalCycleBegin.Invoke();
 
         while(true) {
             //time pass
             var curTime = 0f;
-            while(curTime <= delay) {
+            while(curTime <= cycleDuration) {
                 yield return null;
 
                 if(!isPause)
@@ -109,15 +108,15 @@ public class CycleController : MonoBehaviour {
             }
 
             cycleCurIndex++;
-            if(cycleCurIndex == mCycleInfo.cycleCount)
+            if(cycleCurIndex == cycleCount)
                 break;
 
             ApplyCurrentCycleInfo();
 
-            if(signalInvokeCycleNext) signalInvokeCycleNext.Invoke(mCycleInfo);
+            if(signalCycleNext) signalCycleNext.Invoke();
         }
 
-        if(signalInvokeCycleEnd) signalInvokeCycleEnd.Invoke(mCycleInfo);
+        if(signalCycleEnd) signalCycleEnd.Invoke();
 
         mRout = null;
     }
@@ -137,7 +136,6 @@ public class CycleController : MonoBehaviour {
         if(curCycle.atmosphereMods != null)
             AtmosphereModifier.Apply(atmosphereStats, curCycle.atmosphereMods);
 
-        mCycleInfo.weather = curCycle.weather;
-        mCycleInfo.cycleIndex = cycleCurIndex;
+        cycleResourceRate = cycleData.resourceRate + curCycle.resourceRateMod;
     }
 }

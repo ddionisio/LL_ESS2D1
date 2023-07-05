@@ -13,30 +13,49 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     [Header("Modals")]
     public string modalOverworld = "overworld";
     public string modalHotspotInvestigate = "hotspotInvestigate";
+        
+    [Header("Overworld")]
+    public int overworldLaunchCriticGoodCount = 3; //determines how many must be satisfied to launch colony
 
-    [Header("Landscape Preview")]
+    [Header("Colony")]
+    public LayerMask groundLayerMask;
+
+    public float cycleDuration = 120f; //entire duration of the colony game
+    public float cycleDaylightScaleDefault = 0.5f;
+
+    public float fastForwardScale = 2.0f;
+
+    public float structureDamageDelay = 1f; //how long to stay in damaged state
+
+    [Header("Scenes")]
+    //intro sets progress to 1
+    public M8.SceneAssetPath overworldScene;
+    public M8.SceneAssetPath endScene;
+
+    [Header("General Signals")]
+    //colony specifics
+    public M8.SignalBoolean signalPause;
+
+    public M8.Signal signalCycleBegin;
+    public M8.Signal signalCycleNext;
+    public M8.Signal signalCycleEnd;
+
+    [Header("Editor Config")]
     public Vector2 landscapePreviewSize;
 
-    public Color landscapePreviewBoundsColor = Color.yellow;    
+    public Color landscapePreviewBoundsColor = Color.yellow;
     public float landscapePreviewBoundsEditSnap = 1f;
 
     public Color landscapePreviewRegionColor = Color.green;
     public float landscapePreviewRegionHandleScale = 0.05f;
     public float landscapePreviewRegionHandleSnap = 0.25f;
 
-    [Header("Overworld")]
-    public int overworldLaunchCriticGoodCount = 3; //determines how many must be satisfied to launch colony
+    public Color structurePlacementBoundsColor = Color.cyan;
+    public float structurePlacementBoundsEditSnap = 1f;
 
-    [Header("Colony")]
-    public LayerMask groundLayerMask;
-    public float cycleDuration = 120f; //entire duration of the colony game
-    public float cycleDaylightScaleDefault = 0.5f;
-    public float fastForwardScale = 2.0f;
-
-    [Header("Scenes")]
-    //intro sets progress to 1
-    public M8.SceneAssetPath overworldScene;
-    public M8.SceneAssetPath endScene;
+    public Color[] structureWaypointColors;
+    public float structureWaypointHandleScale = 0.05f;
+    public float structureWaypointHandleSnap = 0.25f;
 
     public bool isProceed { get; private set; }
 

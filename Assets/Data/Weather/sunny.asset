@@ -9,13 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8230f36c82d1f76499f4ba0569c6ce5f, type: 3}
-  m_Name: sun
+  m_Script: {fileID: 11500000, guid: 150bb3c28fdc4914ca3b2aa12395148c, type: 3}
+  m_Name: sunny
   m_EditorClassIdentifier: 
   nameRef: 
+  detailRef: 
   icon: {fileID: 0}
-  isMinLimit: 1
-  isMaxLimit: 0
-  rangeLimit:
-    min: 0
-    max: 0
+  image: {fileID: 0}
+  isHazzard: 0

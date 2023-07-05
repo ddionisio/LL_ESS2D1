@@ -14,17 +14,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modalOverworld: overworld
   modalHotspotInvestigate: hotspotInvestigate
-  landscapePreviewSize: {x: 12, y: 6.75}
-  landscapePreviewBoundsColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  landscapePreviewBoundsEditSnap: 0.5
-  landscapePreviewRegionColor: {r: 0, g: 1, b: 0, a: 1}
-  landscapePreviewRegionHandleScale: 0.05
-  landscapePreviewRegionHandleSnap: 0.25
   overworldLaunchCriticGoodCount: 3
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
   cycleDuration: 120
+  cycleDaylightScaleDefault: 0.5
+  fastForwardScale: 2
+  structureDamageDelay: 1
   overworldScene:
     name: overworld
     path: Assets/Scenes/overworld.unity
   endScene:
     name: 
     path: 
+  signalPause: {fileID: 11400000, guid: 2ebb4ac199a087f4583043627e0db5f6, type: 2}
+  signalCycleBegin: {fileID: 11400000, guid: d4036c4cb45ad164fb7af0cfe7bbe2a4, type: 2}
+  signalCycleNext: {fileID: 11400000, guid: afd17a7934cd42140b72612cd8d7f699, type: 2}
+  signalCycleEnd: {fileID: 11400000, guid: 489c025c4ad3b0a4fa9210adff1216a1, type: 2}
+  landscapePreviewSize: {x: 12, y: 6.75}
+  landscapePreviewBoundsColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  landscapePreviewBoundsEditSnap: 0.5
+  landscapePreviewRegionColor: {r: 0, g: 1, b: 0, a: 1}
+  landscapePreviewRegionHandleScale: 0.05
+  landscapePreviewRegionHandleSnap: 0.25
+  structurePlacementBoundsColor: {r: 0, g: 1, b: 1, a: 1}
+  structurePlacementBoundsEditSnap: 0.5
+  structureWaypointColors:
+  - {r: 0.39617455, g: 0.8584906, b: 0.3037113, a: 1}
+  - {r: 0.852551, g: 0.85882354, b: 0.30196083, a: 1}
+  - {r: 0.30196083, g: 0.7474491, b: 0.85882354, a: 1}
+  - {r: 0.8962264, g: 0.2325116, b: 0.78600615, a: 1}
+  structureWaypointHandleScale: 0.05
+  structureWaypointHandleSnap: 0.125

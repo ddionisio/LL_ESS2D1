@@ -2,7 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class StructureBase : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnComplete, M8.IPoolDespawn {
+public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnComplete, M8.IPoolDespawn {
+    [System.Serializable]
+    public struct WaypointGroup {
+        public string name;
+        public StructureWaypoint[] waypoints;
+    }
 
     [Header("Data")]    
     public int hitpoints; //for damageable, set to 0 for invulnerable
@@ -18,16 +23,21 @@ public abstract class StructureBase : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn
     [Header("Animations")]
     public M8.Animator.Animate animator;
 
+    [M8.Animator.TakeSelector]
+    public string takeSpawn;
+    [M8.Animator.TakeSelector]
+    public string takeDamage;
+    [M8.Animator.TakeSelector]
+    public string takeDestroyed;
+    [M8.Animator.TakeSelector]
+    public string takeDemolish;
+
     [Header("Dimensions")]
     [SerializeField]
-    Bounds _placementBounds;
+    Bounds _placementBounds = new Bounds(Vector3.zero, Vector3.one);
     [SerializeField]
-    Vector2 _spawnPoint; //local space, place to spawn any units
-    [SerializeField]
-    Vector2[] _waypoints; //local space, contains waypoints
-    [SerializeField]
-    Vector2[] _actionPoints; //local space, contains points for where units can take action
-        
+    WaypointGroup[] _waypointGroups;
+
     public StructureState state { 
         get { return mState; }
 
@@ -47,9 +57,14 @@ public abstract class StructureBase : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn
         set {
             var val = Mathf.Clamp(value, 0, hitpoints);
             if(mCurHitpoints != val) {
+                var prevHitpoints = mCurHitpoints;
                 mCurHitpoints = val;
 
                 //damaged completely?
+                if(mCurHitpoints == 0)
+                    state = StructureState.Destroyed;
+                else if(mCurHitpoints < prevHitpoints)
+                    state = StructureState.Damage;
 
                 //signal
             }
@@ -68,7 +83,7 @@ public abstract class StructureBase : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn
             if(position != value) {
                 transform.position = value;
 
-                RefreshPoints();
+                RefreshWaypoints();
             }
         }
     }
@@ -79,28 +94,26 @@ public abstract class StructureBase : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn
     }
 
     public Collider2D coll { get; private set; }
+    public M8.PoolDataController poolCtrl { get; private set; }
 
     public Bounds placementBounds { get { return _placementBounds; } }
-        
-    /// <summary>
-    /// In world space
-    /// </summary>
-    public GroundPoint spawnPoint { get; private set; }
-
-    /// <summary>
-    /// In world space
-    /// </summary>
-    public GroundPoint[] waypoints { get; private set; }
-
-    /// <summary>
-    /// In world space
-    /// </summary>
-    public GroundPoint[] actionPoints { get; private set; }
 
     protected Coroutine mRout;
 
     private StructureState mState;
     private int mCurHitpoints;
+
+    private Dictionary<string, StructureWaypoint[]> mWorldWaypoints;
+
+    public StructureWaypoint[] GetWaypoints(string waypointName) {
+        if(mWorldWaypoints == null)
+            return null;
+
+        StructureWaypoint[] ret;
+        mWorldWaypoints.TryGetValue(waypointName, out ret);
+
+        return ret;
+    }
 
     protected virtual void Init() { }
 
@@ -122,6 +135,11 @@ public abstract class StructureBase : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn
 
         switch(mState) {
             case StructureState.Spawning:
+                if(activeGO) activeGO.SetActive(true);
+
+                AnimateToState(takeSpawn, StructureState.Active);
+                break;
+
             case StructureState.Active:
                 if(activeGO) activeGO.SetActive(true);
                 break;
@@ -136,6 +154,19 @@ public abstract class StructureBase : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn
                 mRout = StartCoroutine(DoConstruction());
                 break;
 
+            case StructureState.Damage:
+                mRout = StartCoroutine(DoDamage());
+                break;
+
+            case StructureState.Destroyed:
+                if(animator && !string.IsNullOrEmpty(takeDestroyed))
+                    animator.Play(takeDestroyed);
+                break;
+
+            case StructureState.Demolish:
+                mRout = StartCoroutine(DoDemolish());
+                break;
+
             case StructureState.None:
                 if(activeGO) activeGO.SetActive(false);
                 if(constructionGO) constructionGO.SetActive(false);
@@ -145,9 +176,29 @@ public abstract class StructureBase : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn
         }
     }
 
+    protected void AnimateToState(string take, StructureState toState) {
+        mRout = StartCoroutine(DoAnimation(take, toState));
+    }
+        
     void M8.IPoolInit.OnInit() {
         coll = GetComponent<Collider2D>();
+        poolCtrl = GetComponent<M8.PoolDataController>();
 
+        //generate waypoints access
+        mWorldWaypoints = new Dictionary<string, StructureWaypoint[]>(_waypointGroups.Length);
+
+        for(int i = 0; i < _waypointGroups.Length; i++) {
+            var waypointGrp = _waypointGroups[i];
+
+            var waypointGrpPts = waypointGrp.waypoints;
+
+            var waypoints = new StructureWaypoint[waypointGrpPts.Length];
+            System.Array.Copy(waypointGrpPts, waypoints, waypoints.Length);
+
+            mWorldWaypoints.Add(waypointGrp.name, waypoints);
+        }
+
+        //initial states
         mState = StructureState.None;
         if(activeGO) activeGO.SetActive(false);
         if(constructionGO) constructionGO.SetActive(false);
@@ -178,6 +229,14 @@ public abstract class StructureBase : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn
     void M8.IPoolDespawn.OnDespawned() {
         state = StructureState.None;
 
+        if(mWorldWaypoints != null) { //clear out waypoint marks
+            for(int i = 0; i < _waypointGroups.Length; i++) {
+                var wps = _waypointGroups[i].waypoints;
+                for(int j = 0; j < wps.Length; j++)
+                    wps[j].ClearMarks();
+            }
+        }
+
         Deinit();
     }
 
@@ -197,27 +256,49 @@ public abstract class StructureBase : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn
         state = StructureState.Active;
     }
 
-    private void RefreshPoints() {
-        GroundPoint outputPt;
+    IEnumerator DoAnimation(string take, StructureState toState) {
+        if(animator && !string.IsNullOrEmpty(take))
+            yield return animator.PlayWait(take);
 
-        var pos = position;
+        mRout = null;
 
-        //spawn pt
-        GroundPoint.GetGroundPoint(pos + _spawnPoint, out outputPt);
-        spawnPoint = outputPt;
+        state = toState;
+    }
 
-        //waypoints
-        if(waypoints == null || waypoints.Length != _waypoints.Length) waypoints = new GroundPoint[_waypoints.Length];
-        for(int i = 0; i < _waypoints.Length; i++) {
-            GroundPoint.GetGroundPoint(pos + _waypoints[i], out outputPt);
-            waypoints[i] = outputPt;
+    IEnumerator DoDamage() {
+        if(animator && !string.IsNullOrEmpty(takeDamage))
+            animator.Play(takeDamage);
+
+        var curTime = 0f;
+        var delay = GameData.instance.structureDamageDelay;
+
+        while(curTime < delay) {
+            yield return null;
+
+            curTime += Time.deltaTime;
         }
 
-        //action points
-        if(actionPoints == null || actionPoints.Length != _actionPoints.Length) actionPoints = new GroundPoint[_actionPoints.Length];
-        for(int i = 0; i < _actionPoints.Length; i++) {
-            GroundPoint.GetGroundPoint(pos + _actionPoints[i], out outputPt);
-            actionPoints[i] = outputPt;
+        mRout = null;
+
+        state = StructureState.Active;
+    }
+
+    IEnumerator DoDemolish() {
+        if(animator && !string.IsNullOrEmpty(takeDemolish))
+            yield return animator.PlayWait(takeDemolish);
+
+        mRout = null;
+
+        poolCtrl.Release();
+    }
+
+    private void RefreshWaypoints() {
+        var pos = position;
+
+        for(int i = 0; i < _waypointGroups.Length; i++) {
+            var wps = _waypointGroups[i].waypoints;
+            for(int j = 0; j < wps.Length; j++)
+                wps[j].RefreshWorldPoint(pos);
         }
     }
 
