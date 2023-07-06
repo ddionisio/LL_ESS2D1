@@ -19,4 +19,23 @@ public class StructurePaletteData : ScriptableObject {
     }
 
     public ItemInfo[] items;
+
+    public int GetItemIndex(StructureData data) {
+        for(int i = 0; i < items.Length; i++) {
+            var itm = items[i];
+
+            bool isFound = false;
+            for(int j = 0; j < itm.structures.Length; j++) {
+                if(itm.structures[j] == data) {
+                    isFound = true;
+                    break;
+                }
+            }
+
+            if(isFound)
+                return i;
+        }
+
+        return -1;
+    }
 }

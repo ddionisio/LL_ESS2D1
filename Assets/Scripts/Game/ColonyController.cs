@@ -12,8 +12,8 @@ public class ColonyController : GameModeController<ColonyController> {
 
     public StructurePaletteData structurePalette;
 
-    [Header("Spawn Info")]
-    public Transform spawnRoot;
+    [Header("Controllers")]
+    public StructureController structureController;
 
     [Header("Landscape")]
     public GameBounds2D bounds;
@@ -98,5 +98,11 @@ public class ColonyController : GameModeController<ColonyController> {
 
         while(cycleController.isRunning)
             yield return null;
+
+        //determine population count, reset cycle if player needs more population
+
+        //hide hud
+
+        //victory
     }
 }

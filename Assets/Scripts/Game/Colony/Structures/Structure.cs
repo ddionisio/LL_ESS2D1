@@ -38,6 +38,8 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     [SerializeField]
     WaypointGroup[] _waypointGroups;
 
+    public StructureData data { get; private set; }
+
     public StructureState state { 
         get { return mState; }
 
@@ -210,6 +212,9 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
 
     void M8.IPoolSpawn.OnSpawned(M8.GenericParams parms) {
         if(parms != null) {
+            if(parms.ContainsKey(StructureSpawnParams.data))
+                data = parms.GetValue<StructureData>(StructureSpawnParams.data);
+
             if(parms.ContainsKey(StructureSpawnParams.spawnPoint))
                 position = parms.GetValue<Vector2>(StructureSpawnParams.spawnPoint);
         }
@@ -236,6 +241,8 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
                     wps[j].ClearMarks();
             }
         }
+
+        data = null;
 
         Deinit();
     }
