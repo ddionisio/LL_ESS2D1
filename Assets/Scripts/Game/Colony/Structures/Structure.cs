@@ -34,8 +34,6 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
 
     [Header("Dimensions")]
     [SerializeField]
-    Bounds _placementBounds = new Bounds(Vector3.zero, Vector3.one);
-    [SerializeField]
     WaypointGroup[] _waypointGroups;
 
     public StructureData data { get; private set; }
@@ -97,8 +95,6 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
 
     public Collider2D coll { get; private set; }
     public M8.PoolDataController poolCtrl { get; private set; }
-
-    public Bounds placementBounds { get { return _placementBounds; } }
 
     protected Coroutine mRout;
 

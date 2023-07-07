@@ -16,7 +16,7 @@ public class ColonyController : GameModeController<ColonyController> {
     public StructureController structureController;
 
     [Header("Landscape")]
-    public GameBounds2D bounds;
+    public Bounds bounds;
     public GameObject regionRootGO; //grab cycle controllers here
 
     [Header("Colony Ship")]
@@ -104,5 +104,10 @@ public class ColonyController : GameModeController<ColonyController> {
         //hide hud
 
         //victory
+    }
+
+    private void OnDrawGizmosSelected() {
+        Gizmos.color = Color.green;
+        M8.Gizmo.DrawWireRect(bounds.center, 0f, bounds.extents);
     }
 }

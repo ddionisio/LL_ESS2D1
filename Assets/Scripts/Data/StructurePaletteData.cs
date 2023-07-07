@@ -18,11 +18,11 @@ public class StructurePaletteData : ScriptableObject {
         public int capacity;
     }
 
-    public ItemInfo[] items;
+    public ItemInfo[] groups;
 
-    public int GetItemIndex(StructureData data) {
-        for(int i = 0; i < items.Length; i++) {
-            var itm = items[i];
+    public int GetGroupIndex(StructureData data) {
+        for(int i = 0; i < groups.Length; i++) {
+            var itm = groups[i];
 
             bool isFound = false;
             for(int j = 0; j < itm.structures.Length; j++) {

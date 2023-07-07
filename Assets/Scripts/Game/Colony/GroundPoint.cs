@@ -7,12 +7,12 @@ public struct GroundPoint {
     public Vector2 up;
 
     public static bool GetGroundPoint(Vector2 position, out GroundPoint point) {
-        var levelRect = ColonyController.instance.bounds.rect;
+        var levelBounds = ColonyController.instance.bounds;
 
-        var checkPoint = new Vector2(position.x, levelRect.yMax);
+        var checkPoint = new Vector2(position.x, levelBounds.max.y);
         var checkDir = Vector2.down;
 
-        var hit = Physics2D.Raycast(checkPoint, checkDir, levelRect.height, GameData.instance.groundLayerMask);
+        var hit = Physics2D.Raycast(checkPoint, checkDir, levelBounds.size.y, GameData.instance.groundLayerMask);
         if(hit.collider) {
             point = new GroundPoint() { position = hit.point, up = hit.normal };
 

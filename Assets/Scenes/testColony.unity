@@ -728,9 +728,6 @@ MonoBehaviour:
   takeDamage: 
   takeDestroyed: 
   takeDemolish: 
-  _placementBounds:
-    m_Center: {x: 0, y: 1.7600002, z: 0}
-    m_Extent: {x: 2, y: 1.75, z: 0}
   _waypointGroups: []
 --- !u!4 &1316209136
 Transform:
@@ -838,8 +835,10 @@ MonoBehaviour:
   hotspotData: {fileID: 11400000, guid: 347b023e96528be46bfde98ac32a8f85, type: 2}
   criteriaData: {fileID: 11400000, guid: 63004545603384745be1dcaf86bd5223, type: 2}
   structurePalette: {fileID: 0}
-  spawnRoot: {fileID: 0}
-  bounds: {fileID: 837405661}
+  structureController: {fileID: 0}
+  bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 16, y: 9, z: 0}
   regionRootGO: {fileID: 1173276948}
   colonyShip: {fileID: 1316209135}
   debugEnabled: 0
