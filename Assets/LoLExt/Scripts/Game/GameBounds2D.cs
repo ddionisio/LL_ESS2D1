@@ -31,6 +31,34 @@ namespace LoLExt {
             return center;
         }
 
+        public float ClampX(float centerX, float extX) {
+            var minX = rect.min.x + extX;
+            var maxX = rect.max.x - extX;
+
+            var rExtX = rect.width * 0.5f;
+
+            if(rExtX > extX)
+                centerX = Mathf.Clamp(centerX, minX, maxX);
+            else
+                centerX = rect.center.x;
+
+            return centerX;
+        }
+
+        public float ClampY(float centerY, float extY) {
+            var minY = rect.min.y + extY;
+            var maxY = rect.max.y - extY;
+
+            var rExtY = rect.height * 0.5f;
+
+            if(rExtY > extY)
+                centerY = Mathf.Clamp(centerY, minY, maxY);
+            else
+                centerY = rect.center.y;
+
+            return centerY;
+        }
+
         void OnDrawGizmos() {
             Gizmos.color = editRectColor;
             Gizmos.DrawWireCube(rect.center, rect.size);

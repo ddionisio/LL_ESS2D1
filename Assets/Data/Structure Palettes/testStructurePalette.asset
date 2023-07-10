@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67695fc814a4bca4ca33444be6a5c294, type: 3}
+  m_Name: testStructurePalette
+  m_EditorClassIdentifier: 
+  groups:
+  - nameRef: 
+    icon: {fileID: 0}
+    structures:
+    - {fileID: 11400000, guid: 8d088e574f52a6a4c8849ad862fc45e0, type: 2}
+    capacity: 4

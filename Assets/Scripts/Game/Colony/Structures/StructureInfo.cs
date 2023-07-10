@@ -14,7 +14,8 @@ public enum StructureState {
 
 public struct StructureSpawnParams {
     public const string data = "structureData"; //StructureData
-    public const string spawnPoint = "structureSpawnPt"; //Vector2
+    public const string spawnPoint = "structureSpawnP"; //Vector2
+    public const string spawnNormal = "structureSpawnN"; //Vector2
 }
 
 [System.Serializable]

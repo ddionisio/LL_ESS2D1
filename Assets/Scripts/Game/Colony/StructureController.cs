@@ -20,12 +20,12 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
         public GhostItem(StructureData data, Transform root) {
             structure = data;
 
-            mGO = Instantiate(structure.ghostPrefab, root);
+            ghost = Instantiate(structure.ghostPrefab, root);
+
+            mGO = ghost.gameObject;
             mGO.SetActive(false);
 
-            ghost = mGO.GetComponent<StructureGhost>();
-
-            var trans = mGO.transform;
+            var trans = ghost.transform;
             trans.localPosition = Vector3.zero;
             trans.localRotation = Quaternion.identity;
             trans.localScale = Vector3.one;
@@ -37,9 +37,12 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
 
     [Header("Placement Info")]
     public GameBounds2D placementBounds;
-    public StructurePlacementCursor placementCursor;
-    public Transform placementConfirmRoot;
+    public StructurePlacementCursor placementCursor;    
     public Transform placementGhostRoot; //structure's 'ghost' is placed here and activated during placement
+
+    [Header("Signal Invoke")]
+    public M8.SignalBoolean signalInvokePlacementActive;
+    public M8.Signal signalInvokePlacementClick;
 
     public StructurePaletteData paletteData { get; private set; }
 
@@ -63,25 +66,74 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
 
     private PointerEventData mPlacementPointerEvent;
     private bool mPlacementIsDragging;
-        
+
+    private bool mIsClicked;
+
+    private M8.GenericParams mSpawnParms = new M8.GenericParams();
+
+    public bool IsGroupFull(StructureData structureData) {
+        return IsGroupFull(GetGroupIndex(structureData));
+    }
+
+    public bool IsGroupFull(int groupIndex) {
+        if(groupIndex < 0 || groupIndex >= mGroupSpawnCapacities.Length)
+            return true;
+
+        return mGroupSpawnCounts[groupIndex] < mGroupSpawnCapacities[groupIndex];
+    }
+
     public void PlacementStart(StructureData structureData) {
         mPlacementCurStuctureData = structureData;
         mPlacementCurGroupIndex = GetGroupIndex(structureData);
 
+        //grab ghost
+        for(int i = 0; i < mGhostStructures.Length; i++) {
+            var ghostItem = mGhostStructures[i];
+            if(ghostItem.structure == structureData) {
+                mPlacementCurGhostItem = ghostItem;
+                break;
+            }
+        }
+
+        if(mPlacementCurGhostItem != null) {
+            mPlacementCurGhostItem.active = true;
+
+            placementCursor.width = mPlacementCurGhostItem.ghost.placementBounds.size.x;
+        }
+
+        placementCursor.active = true;
 
         mColl.enabled = true;
+
+        mIsClicked = false;
+
+        signalInvokePlacementActive?.Invoke(true);
     }
 
     /// <summary>
     /// Should be called via confirm
     /// </summary>
     public void PlacementAccept() {
+        //ensure it is valid (fail-safe)
+        if(!(mStructureActives.IsFull || IsGroupFull(mPlacementCurGroupIndex))) {
+            //spawn at ground
+            mSpawnParms[StructureSpawnParams.spawnPoint] = placementCursor.positionGround;
+            mSpawnParms[StructureSpawnParams.spawnNormal] = placementCursor.normalGround;
+
+            mSpawnParms[StructureSpawnParams.data] = mPlacementCurStuctureData;
+
+            var newStructure = mPoolCtrl.Spawn<Structure>(mPlacementCurStuctureData.spawnPrefab.name, spawnRoot, mSpawnParms);
+
+            mStructureActives.Add(newStructure);
+
+            mGroupSpawnCounts[mPlacementCurGroupIndex]++;
+        }
 
         PlacementClear();
     }
 
     /// <summary>
-    /// Should be called via confirm (also if HUD has a cancel button)
+    /// Should be called via cancel (also if HUD has a cancel button)
     /// </summary>
     public void PlacementCancel() {
         PlacementClear();
@@ -141,7 +193,6 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
         mColl.enabled = false;
 
         placementCursor.active = false;
-        placementConfirmRoot.gameObject.SetActive(false);
     }
 
     void OnDestroy() {
@@ -151,7 +202,9 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
     }
 
     void Update() {
-
+        if(!(mIsClicked || mPlacementIsDragging || mPlacementPointerEvent == null)) {
+            UpdateCursor(mPlacementPointerEvent);
+        }
     }
 
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) {
@@ -167,19 +220,41 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
     }
 
     void IPointerClickHandler.OnPointerClick(PointerEventData eventData) {
-        if(!isPlacementActive) return;
+        if(isPlacementActive) {
+
+            UpdateCursor(eventData);
+
+            //click
+            mIsClicked = true;
+        }
+
+        signalInvokePlacementClick?.Invoke();
     }
 
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData) {
         if(!isPlacementActive) return;
+
+        mPlacementIsDragging = true;
+
+        UpdateCursor(eventData);
     }
 
     void IDragHandler.OnDrag(PointerEventData eventData) {
-
+        if(mPlacementIsDragging)
+            UpdateCursor(eventData);
     }
 
     void IEndDragHandler.OnEndDrag(PointerEventData eventData) {
+        if(mPlacementIsDragging) {
+            mPlacementIsDragging = false;
 
+            UpdateCursor(eventData);
+
+            //click
+            mIsClicked = true;
+
+            signalInvokePlacementClick?.Invoke();
+        }
     }
 
     void OnStructureDespawn(M8.PoolDataController pdc) {
@@ -201,19 +276,40 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
         }
     }
 
+    private void UpdateCursor(PointerEventData pointerEventData) {
+        var ptrRaycast = pointerEventData.pointerCurrentRaycast;
+        if(ptrRaycast.isValid) {
+            placementCursor.active = true;
+
+            var worldPos = ptrRaycast.worldPosition;
+
+            //clamp from bounds
+            placementCursor.position = new Vector2(
+                placementBounds.ClampX(worldPos.x, mPlacementCurGhostItem.ghost.placementBounds.extents.x),
+                placementBounds.ClampY(worldPos.y, 0f));
+
+            //check if valid placement
+        }
+        else
+            placementCursor.active = false;
+    }
+
     private void PlacementClear() {
         mColl.enabled = false;
 
         mPlacementCurStuctureData = null;
 
-        mPlacementCurGhostItem.active = false;
-        mPlacementCurGhostItem = null;
+        if(mPlacementCurGhostItem != null) {
+            mPlacementCurGhostItem.active = false;
+            mPlacementCurGhostItem = null;
+        }
 
         mPlacementPointerEvent = null;
 
         mPlacementIsDragging = false;
 
         placementCursor.active = false;
-        placementConfirmRoot.gameObject.SetActive(false);
+
+        signalInvokePlacementActive?.Invoke(false);
     }
 }

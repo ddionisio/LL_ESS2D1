@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class StructurePlacementCursor : MonoBehaviour {
 
+    public Transform highlightRoot;
+    public Transform groundRoot; //set to a position on ground
+
     public bool active {
         get { return gameObject.activeSelf; }
         set { gameObject.SetActive(value); }
@@ -15,14 +18,34 @@ public class StructurePlacementCursor : MonoBehaviour {
             if(mPosition != value) {
                 mPosition = value;
 
-                //update ground position
+                //update highlight position
+                if(highlightRoot) {
+                    //simply update the x position
+                    var highlightPos = highlightRoot.position;
+                    highlightPos.x = mPosition.x;
 
-                //set position of self
+                    highlightRoot.position = highlightPos;
+                }
+
+                //update ground position/normal
+                if(groundRoot) {
+                    GroundPoint grdPt;
+
+                    if(GroundPoint.GetGroundPoint(mPosition, out grdPt)) {
+                        groundRoot.gameObject.SetActive(true);
+
+                        groundRoot.position = grdPt.position;
+                    }
+                    else {
+                        groundRoot.gameObject.SetActive(false);
+                    }
+                }
             }
         }
     }
 
-    public Vector2 positionGround { get { return mPositionGround; } }
+    public Vector2 positionGround { get; private set; }
+    public Vector2 normalGround { get; private set; }
 
     public float width { 
         get { return mWidth; } 
@@ -37,13 +60,4 @@ public class StructurePlacementCursor : MonoBehaviour {
 
     private float mWidth;
     private Vector2 mPosition;
-    private Vector2 mPositionGround;
-
-    public void Show() {
-
-    }
-
-    public void Hide() {
-
-    }
 }

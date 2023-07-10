@@ -13,6 +13,6 @@ public class StructureData : ScriptableObject {
     public Sprite icon;
 
     [Header("Spawn")]
-    public GameObject ghostPrefab;
+    public StructureGhost ghostPrefab;
     public Structure spawnPrefab;
 }
