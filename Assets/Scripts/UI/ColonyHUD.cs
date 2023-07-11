@@ -8,20 +8,35 @@ public class ColonyHUD : MonoBehaviour {
 
     [Header("Placement Display")]
     public GameObject placementRootGO;
-    public RectTransform placementConfirmRoot;
+    public Transform placementConfirmRoot;
 
     [Header("Palette Display")]
     public StructurePaletteWidget paletteStructureWidget;
 
     //animations
 
-    [Header("Signal Listen")]
+    [Header("Signal Listen")]    
     public M8.SignalBoolean signalListenPlacementActive;
+    public M8.Signal signalListenPlacementClick;
 
+    private bool mIsInit;
     private bool mIsPlacementActive;
+
+    public void PlacementAccept() {
+        var colonyCtrl = ColonyController.instance;
+
+        colonyCtrl.structureController.PlacementAccept();
+    }
+
+    public void PlacementCancel() {
+        var colonyCtrl = ColonyController.instance;
+
+        colonyCtrl.structureController.PlacementCancel();
+    }
 
     void OnDestroy() {
         if(signalListenPlacementActive) signalListenPlacementActive.callback -= OnPlacementActive;
+        if(signalListenPlacementClick) signalListenPlacementClick.callback -= OnPlacementClick;
 
         if(GameData.isInstantiated) {
             var gameDat = GameData.instance;
@@ -35,9 +50,12 @@ public class ColonyHUD : MonoBehaviour {
         var gameDat = GameData.instance;
 
         if(mainRootGO) mainRootGO.SetActive(false);
+
         if(placementRootGO) placementRootGO.SetActive(false);
+        if(placementConfirmRoot) placementConfirmRoot.gameObject.SetActive(false);
 
         if(signalListenPlacementActive) signalListenPlacementActive.callback += OnPlacementActive;
+        if(signalListenPlacementClick) signalListenPlacementClick.callback += OnPlacementClick;
 
         if(gameDat.signalCycleBegin) gameDat.signalCycleBegin.callback += OnCycleBegin;
         if(gameDat.signalCycleEnd) gameDat.signalCycleEnd.callback += OnCycleEnd;
@@ -54,13 +72,41 @@ public class ColonyHUD : MonoBehaviour {
         }
         else {
             if(mainRootGO) mainRootGO.SetActive(true);
+
             if(placementRootGO) placementRootGO.SetActive(false);
+            if(placementConfirmRoot) placementConfirmRoot.gameObject.SetActive(false);
 
             //animation
         }
     }
 
-    void OnCycleBegin() {        
+    void OnPlacementClick() {
+        if(!mIsPlacementActive) return;
+
+        if(placementConfirmRoot) {
+            var colonyCtrl = ColonyController.instance;
+
+            placementConfirmRoot.gameObject.SetActive(true);
+
+            placementConfirmRoot.position = colonyCtrl.structureController.placementCursor.position;
+        }
+    }
+
+    void OnCycleBegin() {
+        var colonyCtrl = ColonyController.instance;
+
+        if(!mIsInit) {
+            //initialize atmosphere info
+
+            //initialize resource info
+
+            //initialize palettes
+            paletteStructureWidget.Setup(colonyCtrl.structurePalette);
+            paletteStructureWidget.RefreshGroups();
+
+            mIsInit = true;
+        }
+
         if(mainRootGO) mainRootGO.SetActive(true);
 
         //animation

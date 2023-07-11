@@ -70,12 +70,16 @@ public class ColonyController : GameModeController<ColonyController> {
                 cycleCtrl.gameObject.SetActive(false);
         }
 
+        //setup cycle control
         if(!cycleController && cycleCtrls.Length > 0) { //no region index match, use first ctrl (fail-safe)
             cycleController = cycleCtrls[0];
             cycleController.gameObject.SetActive(true);
         }
 
         cycleController.Setup(hotspotData, season);
+
+        //setup structure control
+        structureController.Setup(structurePalette);
     }
 
     protected override IEnumerator Start() {

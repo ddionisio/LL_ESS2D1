@@ -32,6 +32,23 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
         }
     }
 
+    public struct GroupInfo {
+        /// <summary>
+        /// Current capacity for each group (use for house to limit capacity based on population)
+        /// </summary>
+        public int capacity;
+
+        /// <summary>
+        /// Current spawned structures under this group
+        /// </summary>
+        public int count;
+
+        /// <summary>
+        /// Tutorial purpose to slowly introduce structures
+        /// </summary>
+        public bool isHidden;
+    }
+
     [Header("Spawn Info")]
     public Transform spawnRoot;
 
@@ -43,13 +60,13 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
     [Header("Signal Invoke")]
     public M8.SignalBoolean signalInvokePlacementActive;
     public M8.Signal signalInvokePlacementClick;
+    public M8.Signal signalInvokeGroupInfoRefresh;
 
     public StructurePaletteData paletteData { get; private set; }
 
     public bool isPlacementActive { get { return mPlacementCurStuctureData; } }
 
-    private int[] mGroupSpawnCapacities; //current capacity for each group (use for house to limit capacity based on population)
-    private int[] mGroupSpawnCounts; //correlates to paletteData's items
+    private GroupInfo[] mGroupInfos; //correlates to paletteData's items
 
     private GhostItem[] mGhostStructures;
 
@@ -76,10 +93,19 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
     }
 
     public bool IsGroupFull(int groupIndex) {
-        if(groupIndex < 0 || groupIndex >= mGroupSpawnCapacities.Length)
+        if(groupIndex < 0 || groupIndex >= mGroupInfos.Length)
             return true;
 
-        return mGroupSpawnCounts[groupIndex] < mGroupSpawnCapacities[groupIndex];
+        var grpInf = mGroupInfos[groupIndex];
+
+        return grpInf.count < grpInf.capacity;
+    }
+
+    public GroupInfo GetGroupInfo(int groupIndex) {
+        if(groupIndex < 0 || groupIndex >= mGroupInfos.Length)
+            return new GroupInfo();
+
+        return mGroupInfos[groupIndex];
     }
 
     public void PlacementStart(StructureData structureData) {
@@ -126,7 +152,9 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
 
             mStructureActives.Add(newStructure);
 
-            mGroupSpawnCounts[mPlacementCurGroupIndex]++;
+            mGroupInfos[mPlacementCurGroupIndex].count++;
+
+            signalInvokeGroupInfoRefresh?.Invoke();
         }
 
         PlacementClear();
@@ -157,8 +185,7 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
 
         var groupCount = paletteData.groups.Length;
 
-        mGroupSpawnCapacities = new int[groupCount];
-        mGroupSpawnCounts = new int[groupCount];
+        mGroupInfos = new GroupInfo[groupCount];
                 
         var ghostStructureList = new List<GhostItem>();
 
@@ -180,7 +207,7 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
                 ghostStructureList.Add(new GhostItem(structure, placementGhostRoot));
             }
 
-            mGroupSpawnCapacities[i] = capacity;
+            mGroupInfos[i] = new GroupInfo { count = 0, capacity = capacity, isHidden = false };
 
             totalCapacity += capacity;
         }
@@ -271,8 +298,11 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
         if(structure) {
             int grpInd = GetGroupIndex(structure.data);
 
-            if(mGroupSpawnCounts[grpInd] > 0) //shouldn't be 0 at this point
-                mGroupSpawnCounts[grpInd]--;
+            if(mGroupInfos[grpInd].count > 0) { //shouldn't be 0 at this point
+                mGroupInfos[grpInd].count--;
+
+                signalInvokeGroupInfoRefresh?.Invoke();
+            }
         }
     }
 
