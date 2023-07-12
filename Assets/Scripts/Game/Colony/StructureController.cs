@@ -59,12 +59,14 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
 
     [Header("Signal Invoke")]
     public M8.SignalBoolean signalInvokePlacementActive;
-    public M8.Signal signalInvokePlacementClick;
+    public M8.SignalBoolean signalInvokePlacementClick; //false = placement is moving, true = clicked, placement move stoped
     public M8.Signal signalInvokeGroupInfoRefresh;
 
     public StructurePaletteData paletteData { get; private set; }
 
-    public bool isPlacementActive { get { return mPlacementCurStuctureData; } }
+    public bool isPlacementValid { get { return placementCursor.isValid; } }
+
+    public StructureGhost placementCurrentGhost { get { return mPlacementCurGhostItem != null ? mPlacementCurGhostItem.ghost : null; } }
 
     private GroupInfo[] mGroupInfos; //correlates to paletteData's items
 
@@ -98,7 +100,7 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
 
         var grpInf = mGroupInfos[groupIndex];
 
-        return grpInf.count < grpInf.capacity;
+        return grpInf.count >= grpInf.capacity;
     }
 
     public GroupInfo GetGroupInfo(int groupIndex) {
@@ -235,33 +237,26 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
     }
 
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) {
-        if(!isPlacementActive) return;
-
         mPlacementPointerEvent = eventData;
     }
 
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData) {
-        if(!isPlacementActive) return;
-
         mPlacementPointerEvent = null;
     }
 
     void IPointerClickHandler.OnPointerClick(PointerEventData eventData) {
-        if(isPlacementActive) {
+        UpdateCursor(eventData);
 
-            UpdateCursor(eventData);
-
-            //click
-            mIsClicked = true;
-        }
-
-        signalInvokePlacementClick?.Invoke();
+        //click
+        mIsClicked = isPlacementValid;
+        signalInvokePlacementClick?.Invoke(mIsClicked);
     }
 
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData) {
-        if(!isPlacementActive) return;
-
         mPlacementIsDragging = true;
+
+        mIsClicked = false;
+        signalInvokePlacementClick?.Invoke(false);
 
         UpdateCursor(eventData);
     }
@@ -278,9 +273,8 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
             UpdateCursor(eventData);
 
             //click
-            mIsClicked = true;
-
-            signalInvokePlacementClick?.Invoke();
+            mIsClicked = isPlacementValid;
+            signalInvokePlacementClick?.Invoke(mIsClicked);
         }
     }
 
@@ -313,15 +307,35 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
 
             var worldPos = ptrRaycast.worldPosition;
 
+            var itemBounds = mPlacementCurGhostItem.ghost.placementBounds;
+
             //clamp from bounds
-            placementCursor.position = new Vector2(
-                placementBounds.ClampX(worldPos.x, mPlacementCurGhostItem.ghost.placementBounds.extents.x),
+            var pos = new Vector2(
+                placementBounds.ClampX(worldPos.x, itemBounds.extents.x),
                 placementBounds.ClampY(worldPos.y, 0f));
 
+            placementCursor.position = pos;
+
             //check if valid placement
+            var checkValid = false;
+
+            var levelBounds = ColonyController.instance.bounds;
+
+            var checkPoint = new Vector2(pos.x, levelBounds.max.y);
+            var checkDir = Vector2.down;
+
+            var hit = Physics2D.BoxCast(checkPoint, itemBounds.size, 0f, checkDir, levelBounds.size.y, GameData.instance.placementCheckLayerMask);
+            var hitColl = hit.collider;
+            if(hitColl) {
+                checkValid = (mPlacementCurGhostItem.structure.placementValidLayerMask & (1 << hitColl.gameObject.layer)) != 0;
+            }
+
+            placementCursor.isValid = checkValid;
         }
-        else
+        else {
+            placementCursor.isValid = false;
             placementCursor.active = false;
+        }
     }
 
     private void PlacementClear() {

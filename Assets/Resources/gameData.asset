@@ -18,6 +18,9 @@ MonoBehaviour:
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  placementCheckLayerMask:
+    serializedVersion: 2
+    m_Bits: 320
   cycleDuration: 120
   cycleDaylightScaleDefault: 0.5
   fastForwardScale: 2

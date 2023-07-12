@@ -28,6 +28,9 @@ public class ColonyController : GameModeController<ColonyController> {
     public int debugRegionIndex;
 
     public CycleController cycleController { get; private set; }
+        
+    public Camera mainCamera { get; private set; }
+    public Transform mainCameraTransform { get; private set; }
 
     protected override void OnInstanceDeinit() {
         base.OnInstanceDeinit();
@@ -37,6 +40,10 @@ public class ColonyController : GameModeController<ColonyController> {
         base.OnInstanceInit();
 
         var gameDat = GameData.instance;
+
+        mainCamera = Camera.main;
+        if(mainCamera)
+            mainCameraTransform = mainCamera.transform.parent;
 
         //grab season and region info
         SeasonData season;

@@ -11,9 +11,6 @@ public class StructurePaletteWidget : MonoBehaviour {
     public StructureItemWidget itemWidgetTemplate;
     public Transform itemWidgetContainer;
 
-    [Header("Signal Listen")]
-    public M8.Signal signalListenGroupInfoRefresh;
-
     private StructureGroupWidget[] mGroupWidgets; //corresponds to group arrays in structure controller
 
     private StructureGroupWidget mGroupWidgetActive;
@@ -86,14 +83,21 @@ public class StructurePaletteWidget : MonoBehaviour {
         }
     }
 
-    void OnDisable() {
-        if(signalListenGroupInfoRefresh) signalListenGroupInfoRefresh.callback -= RefreshGroups;
+    public void ClearGroupActive() {
+        if(mGroupWidgetActive) {
+            mGroupWidgetActive.itemsActive = false;
+            mGroupWidgetActive = null;
+        }
 
-        ClearGroupActive();
-    }
+        for(int i = 0; i < mStructureItemWidgetActives.Count; i++) {
+            var itm = mStructureItemWidgetActives[i];
 
-    void OnEnable() {
-        if(signalListenGroupInfoRefresh) signalListenGroupInfoRefresh.callback += RefreshGroups;
+            itm.transform.SetParent(itemWidgetContainer, false);
+
+            mStructureItemWidgetCache.Add(itm);
+        }
+
+        mStructureItemWidgetActives.Clear();
     }
 
     void OnGroupClick(StructureGroupWidget groupWidget) {
@@ -130,22 +134,5 @@ public class StructurePaletteWidget : MonoBehaviour {
         structureCtrl.PlacementStart(itemWidget.data);
 
         ClearGroupActive();
-    }
-
-    private void ClearGroupActive() {
-        if(mGroupWidgetActive) {
-            mGroupWidgetActive.itemsActive = false;
-            mGroupWidgetActive = null;
-        }
-
-        for(int i = 0; i < mStructureItemWidgetActives.Count; i++) {
-            var itm = mStructureItemWidgetActives[i];
-
-            itm.transform.SetParent(itemWidgetContainer, false);
-
-            mStructureItemWidgetCache.Add(itm);
-        }
-
-        mStructureItemWidgetActives.Clear();
     }
 }

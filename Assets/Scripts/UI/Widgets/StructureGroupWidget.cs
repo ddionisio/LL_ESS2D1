@@ -53,6 +53,8 @@ public class StructureGroupWidget : MonoBehaviour {
                 iconImage.SetNativeSize();
         }
 
+        gameObject.name = info.nameRef;
+
         if(nameLabel) nameLabel.text = M8.Localize.Get(info.nameRef);
 
         structures = info.structures;

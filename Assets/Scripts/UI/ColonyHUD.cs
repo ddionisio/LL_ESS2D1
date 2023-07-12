@@ -17,9 +17,8 @@ public class ColonyHUD : MonoBehaviour {
 
     [Header("Signal Listen")]    
     public M8.SignalBoolean signalListenPlacementActive;
-    public M8.Signal signalListenPlacementClick;
+    public M8.SignalBoolean signalListenPlacementClick;
 
-    private bool mIsInit;
     private bool mIsPlacementActive;
 
     public void PlacementAccept() {
@@ -76,36 +75,50 @@ public class ColonyHUD : MonoBehaviour {
             if(placementRootGO) placementRootGO.SetActive(false);
             if(placementConfirmRoot) placementConfirmRoot.gameObject.SetActive(false);
 
+            paletteStructureWidget.RefreshGroups();
+
             //animation
         }
     }
 
-    void OnPlacementClick() {
-        if(!mIsPlacementActive) return;
+    void OnPlacementClick(bool isClick) {
+        if(mIsPlacementActive) {
+            if(placementConfirmRoot) {
+                if(isClick) {
+                    var colonyCtrl = ColonyController.instance;
+                    var structureCtrl = colonyCtrl.structureController;
 
-        if(placementConfirmRoot) {
-            var colonyCtrl = ColonyController.instance;
+                    placementConfirmRoot.gameObject.SetActive(true);
 
-            placementConfirmRoot.gameObject.SetActive(true);
+                    var worldPos = structureCtrl.placementCursor.position;
 
-            placementConfirmRoot.position = colonyCtrl.structureController.placementCursor.position;
+                    //ensure the position is at least above the ghost display
+                    var ghostPos = (Vector2)structureCtrl.placementCurrentGhost.transform.position;
+                    var ghostBounds = structureCtrl.placementCurrentGhost.placementBounds;
+
+                    if(worldPos.y < ghostPos.y + ghostBounds.max.y)
+                        worldPos.y = ghostPos.y + ghostBounds.max.y;
+
+                    var screenPos = RectTransformUtility.WorldToScreenPoint(colonyCtrl.mainCamera, worldPos);
+
+                    placementConfirmRoot.position = screenPos;
+                }
+                else
+                    placementConfirmRoot.gameObject.SetActive(false);
+            }
         }
     }
 
     void OnCycleBegin() {
         var colonyCtrl = ColonyController.instance;
 
-        if(!mIsInit) {
-            //initialize atmosphere info
+        //initialize atmosphere info
 
-            //initialize resource info
+        //initialize resource info
 
-            //initialize palettes
-            paletteStructureWidget.Setup(colonyCtrl.structurePalette);
-            paletteStructureWidget.RefreshGroups();
-
-            mIsInit = true;
-        }
+        //initialize palettes
+        paletteStructureWidget.Setup(colonyCtrl.structurePalette);
+        paletteStructureWidget.RefreshGroups();
 
         if(mainRootGO) mainRootGO.SetActive(true);
 

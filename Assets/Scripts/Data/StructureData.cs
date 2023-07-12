@@ -15,4 +15,7 @@ public class StructureData : ScriptableObject {
     [Header("Spawn")]
     public StructureGhost ghostPrefab;
     public Structure spawnPrefab;
+
+    [Header("Placement Info")]
+    public LayerMask placementValidLayerMask;
 }
