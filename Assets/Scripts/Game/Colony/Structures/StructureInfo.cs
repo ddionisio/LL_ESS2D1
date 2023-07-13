@@ -7,15 +7,52 @@ public enum StructureState {
     Active,
     Spawning,
     Construction,
+    Repair, //repairing
     Damage, //when hitpoint is decreased (used as immunity window)
+    Moving, //for moveable structures
     Destroyed, //when hitpoint reaches 0
     Demolish, //when moving/deconstruct via UI
+}
+
+public enum StructureStatus {
+    Construct, //build/repair
+    Food,
+    Water,
+    Power,
+}
+
+public enum StructureStatusState {
+    None,
+    Progress,
+    Require
+}
+
+[System.Flags]
+public enum StructureAction {
+    None = 0x0,
+
+    Move = 0x1,
+    Demolish = 0x2,
+
+    //Upgrade?
 }
 
 public struct StructureSpawnParams {
     public const string data = "structureData"; //StructureData
     public const string spawnPoint = "structureSpawnP"; //Vector2
     public const string spawnNormal = "structureSpawnN"; //Vector2
+}
+
+public struct StructureStatusInfo {
+    public StructureStatus type;
+    public StructureStatusState state;
+    public float progress; //[0, 1]
+
+    public StructureStatusInfo(StructureStatus aType) {
+        type = aType;
+        state = StructureStatusState.None;
+        progress = 0f;
+    }
 }
 
 [System.Serializable]

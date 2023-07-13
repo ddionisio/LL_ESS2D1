@@ -15,9 +15,12 @@ public class ColonyHUD : MonoBehaviour {
 
     //animations
 
-    [Header("Signal Listen")]    
+    [Header("Signal Listen")]
     public M8.SignalBoolean signalListenPlacementActive;
     public M8.SignalBoolean signalListenPlacementClick;
+
+    public SignalStructure signalListenStructureSpawned;
+    public SignalStructure signalListenStructureDespawned;
 
     private bool mIsPlacementActive;
 

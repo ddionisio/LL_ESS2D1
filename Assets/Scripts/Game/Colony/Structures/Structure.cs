@@ -15,10 +15,14 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     //for buildable
     public float buildTime; //if buildable, set to 0 for spawning building (e.g. house)
     public float repairPerHitTime;
-
+    public bool isDemolishable;
+    
     [Header("Toggle Display")]
     public GameObject activeGO; //once placed/spawned
     public GameObject constructionGO; //while being built
+
+    [Header("Overlay Display")]
+    public Transform overlayActionAnchor; //set actions widget position here
 
     [Header("Animations")]
     public M8.Animator.Animate animator;
@@ -48,6 +52,8 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
                 mState = value;
 
                 ApplyCurrentState();
+
+                stateChangedCallback?.Invoke(mState);
             }
         }
     }
@@ -77,6 +83,20 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     public bool isBuildable { get { return buildTime > 0f; } }
     public bool isDamageable { get { return hitpoints > 0; } }
 
+    public StructureAction actionFlags {
+        get {
+            var ret = StructureAction.None;
+
+            if(isDemolishable)
+                ret |= StructureAction.Demolish;
+
+            if(moveCtrl)
+                ret |= StructureAction.Move;
+
+            return ret;
+        }
+    }
+
     public Vector2 position {
         get { return transform.position; }
         set {
@@ -96,12 +116,19 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     public Collider2D coll { get; private set; }
     public M8.PoolDataController poolCtrl { get; private set; }
 
+    public MovableBase moveCtrl { get; private set; }
+        
+    public event System.Action<StructureStatusInfo> statusUpdateCallback;
+    public event System.Action<StructureState> stateChangedCallback;
+
     protected Coroutine mRout;
 
     private StructureState mState;
     private int mCurHitpoints;
 
     private Dictionary<string, StructureWaypoint[]> mWorldWaypoints;
+
+    private StructureStatusInfo[] mStatusInfos;
 
     public StructureWaypoint[] GetWaypoints(string waypointName) {
         if(mWorldWaypoints == null)
@@ -111,6 +138,44 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         mWorldWaypoints.TryGetValue(waypointName, out ret);
 
         return ret;
+    }
+
+    public StructureStatusInfo GetStatusInfo(StructureStatus status) {
+        return mStatusInfos[(int)status];
+    }
+
+    public float GetStatusProgress(StructureStatus status) {
+        return mStatusInfos[(int)status].progress;
+    }
+
+    public void SetStatusProgress(StructureStatus status, float progress) {
+        var inf = mStatusInfos[(int)status];
+
+        var newProg = Mathf.Clamp01(progress);
+
+        if(inf.progress != newProg) {
+            inf.progress = newProg;
+
+            mStatusInfos[(int)status] = inf;
+
+            statusUpdateCallback?.Invoke(inf);
+        }
+    }
+
+    public StructureStatusState GetStatusState(StructureStatus status) {
+        return mStatusInfos[(int)status].state;
+    }
+
+    public void SetStatusState(StructureStatus status, StructureStatusState state) {
+        var inf = mStatusInfos[(int)status];
+
+        if(inf.state != state) {
+            inf.state = state;
+
+            mStatusInfos[(int)status] = inf;
+
+            statusUpdateCallback?.Invoke(inf);
+        }
     }
 
     protected virtual void Init() { }
@@ -182,6 +247,8 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         coll = GetComponent<Collider2D>();
         poolCtrl = GetComponent<M8.PoolDataController>();
 
+        moveCtrl = GetComponent<MovableBase>();
+
         //generate waypoints access
         mWorldWaypoints = new Dictionary<string, StructureWaypoint[]>(_waypointGroups.Length);
 
@@ -195,6 +262,14 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
 
             mWorldWaypoints.Add(waypointGrp.name, waypoints);
         }
+
+        //initialize status
+        var statusEnumNames = System.Enum.GetNames(typeof(StructureStatus));
+
+        mStatusInfos = new StructureStatusInfo[statusEnumNames.Length];
+
+        for(int i = 0; i < mStatusInfos.Length; i++)
+            mStatusInfos[i] = new StructureStatusInfo((StructureStatus)i);
 
         //initial states
         mState = StructureState.None;

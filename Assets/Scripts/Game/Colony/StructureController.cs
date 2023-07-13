@@ -59,7 +59,11 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
 
     [Header("Signal Invoke")]
     public M8.SignalBoolean signalInvokePlacementActive;
-    public M8.SignalBoolean signalInvokePlacementClick; //false = placement is moving, true = clicked, placement move stoped
+    public M8.SignalBoolean signalInvokePlacementClick; //false = placement is moving, true = clicked, placement move stopped
+
+    public SignalStructure signalInvokeStructureSpawned;
+    public SignalStructure signalInvokeStructureDespawned;
+
     public M8.Signal signalInvokeGroupInfoRefresh;
 
     public StructurePaletteData paletteData { get; private set; }
@@ -67,6 +71,8 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
     public bool isPlacementValid { get { return placementCursor.isValid; } }
 
     public StructureGhost placementCurrentGhost { get { return mPlacementCurGhostItem != null ? mPlacementCurGhostItem.ghost : null; } }
+
+    public bool isPlacementActive { get { return mPlacementCurStuctureData; } }
 
     private GroupInfo[] mGroupInfos; //correlates to paletteData's items
 
@@ -157,6 +163,8 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
             mGroupInfos[mPlacementCurGroupIndex].count++;
 
             signalInvokeGroupInfoRefresh?.Invoke();
+
+            signalInvokeStructureSpawned?.Invoke(newStructure);
         }
 
         PlacementClear();
@@ -297,6 +305,8 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
 
                 signalInvokeGroupInfoRefresh?.Invoke();
             }
+
+            signalInvokeStructureDespawned?.Invoke(structure);
         }
     }
 
