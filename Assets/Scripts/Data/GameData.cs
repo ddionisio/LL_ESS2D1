@@ -41,6 +41,8 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public M8.Signal signalCycleNext;
     public M8.Signal signalCycleEnd;
 
+    public SignalStructure signalStructureClick;
+
     [Header("Editor Config")]
     public Vector2 landscapePreviewSize;
 

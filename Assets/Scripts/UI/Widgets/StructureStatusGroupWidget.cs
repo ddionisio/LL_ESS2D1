@@ -83,7 +83,8 @@ public class StructureStatusGroupWidget : MonoBehaviour {
         bool isVisible;
 
         switch(state) {
-            case StructureState.Spawning:            
+            case StructureState.Spawning:
+            case StructureState.MoveReady:
             case StructureState.Moving:
             case StructureState.Demolish:
             case StructureState.Destroyed:

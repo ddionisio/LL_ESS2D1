@@ -9,7 +9,8 @@ public enum StructureState {
     Construction,
     Repair, //repairing
     Damage, //when hitpoint is decreased (used as immunity window)
-    Moving, //for moveable structures
+    MoveReady, //during placement when move action is selected
+    Moving, //for moveable structures, start moving
     Destroyed, //when hitpoint reaches 0
     Demolish, //when moving/deconstruct via UI
 }

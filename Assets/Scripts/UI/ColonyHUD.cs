@@ -13,16 +13,18 @@ public class ColonyHUD : MonoBehaviour {
     [Header("Palette Display")]
     public StructurePaletteWidget paletteStructureWidget;
 
+    [Header("Structure Action Display")]
+    public StructureActionsWidget structureActionsWidget;
+
     //animations
 
     [Header("Signal Listen")]
     public M8.SignalBoolean signalListenPlacementActive;
     public M8.SignalBoolean signalListenPlacementClick;
 
-    public SignalStructure signalListenStructureSpawned;
-    public SignalStructure signalListenStructureDespawned;
-
     private bool mIsPlacementActive;
+
+    private Structure mStructureClicked;
 
     public void PlacementAccept() {
         var colonyCtrl = ColonyController.instance;
@@ -37,11 +39,16 @@ public class ColonyHUD : MonoBehaviour {
     }
 
     void OnDestroy() {
+        if(structureActionsWidget)
+            structureActionsWidget.clickCallback -= OnStructureActionClick;
+
         if(signalListenPlacementActive) signalListenPlacementActive.callback -= OnPlacementActive;
         if(signalListenPlacementClick) signalListenPlacementClick.callback -= OnPlacementClick;
 
         if(GameData.isInstantiated) {
             var gameDat = GameData.instance;
+
+            if(gameDat.signalStructureClick) gameDat.signalStructureClick.callback -= OnStructureClick;
 
             if(gameDat.signalCycleBegin) gameDat.signalCycleBegin.callback -= OnCycleBegin;
             if(gameDat.signalCycleEnd) gameDat.signalCycleEnd.callback -= OnCycleEnd;
@@ -56,8 +63,16 @@ public class ColonyHUD : MonoBehaviour {
         if(placementRootGO) placementRootGO.SetActive(false);
         if(placementConfirmRoot) placementConfirmRoot.gameObject.SetActive(false);
 
+        if(structureActionsWidget) {
+            structureActionsWidget.clickCallback += OnStructureActionClick;
+
+            structureActionsWidget.active = false;
+        }
+
         if(signalListenPlacementActive) signalListenPlacementActive.callback += OnPlacementActive;
         if(signalListenPlacementClick) signalListenPlacementClick.callback += OnPlacementClick;
+
+        if(gameDat.signalStructureClick) gameDat.signalStructureClick.callback += OnStructureClick;
 
         if(gameDat.signalCycleBegin) gameDat.signalCycleBegin.callback += OnCycleBegin;
         if(gameDat.signalCycleEnd) gameDat.signalCycleEnd.callback += OnCycleEnd;
@@ -67,14 +82,22 @@ public class ColonyHUD : MonoBehaviour {
         mIsPlacementActive = active;
 
         if(active) {
+            //main stuff
             if(mainRootGO) mainRootGO.SetActive(false);
+
+            if(structureActionsWidget) structureActionsWidget.active = false;
+            mStructureClicked = null;
+
+            //placement stuff
             if(placementRootGO) placementRootGO.SetActive(true);
 
             //animation
         }
         else {
+            //main stuff
             if(mainRootGO) mainRootGO.SetActive(true);
 
+            //placement stuff
             if(placementRootGO) placementRootGO.SetActive(false);
             if(placementConfirmRoot) placementConfirmRoot.gameObject.SetActive(false);
 
@@ -110,6 +133,50 @@ public class ColonyHUD : MonoBehaviour {
                     placementConfirmRoot.gameObject.SetActive(false);
             }
         }
+    }
+
+    void OnStructureClick(Structure structure) {
+        if(!structureActionsWidget) return;
+
+        if(mStructureClicked == structure) { //toggle
+            mStructureClicked = null;
+            structureActionsWidget.active = false;
+        }
+        else if(structure.isClicked) {
+            structureActionsWidget.SetActionsActive(structure.actionFlags);
+
+            if(structureActionsWidget.activeActionCount > 0) {
+                mStructureClicked = structure;
+
+                var colonyCtrl = ColonyController.instance;
+
+                var screenPos = RectTransformUtility.WorldToScreenPoint(colonyCtrl.mainCamera, structure.overlayAnchorPosition);
+
+                structureActionsWidget.transform.position = screenPos;
+                structureActionsWidget.active = true;
+            }
+            else { //cancels other structure
+                mStructureClicked = null;
+                structureActionsWidget.active = false;
+            }
+        }
+    }
+
+    void OnStructureActionClick(StructureAction action) {
+        if(!mStructureClicked) return;
+
+        switch(action) {
+            case StructureAction.Move:
+                ColonyController.instance.structureController.PlacementStart(mStructureClicked);
+                break;
+
+            case StructureAction.Demolish:
+                mStructureClicked.Demolish();
+                break;
+        }
+
+        if(structureActionsWidget) structureActionsWidget.active = false;
+        mStructureClicked = null;
     }
 
     void OnCycleBegin() {

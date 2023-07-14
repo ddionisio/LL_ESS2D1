@@ -20,7 +20,7 @@ MonoBehaviour:
     m_Bits: 64
   placementCheckLayerMask:
     serializedVersion: 2
-    m_Bits: 320
+    m_Bits: 832
   cycleDuration: 120
   cycleDaylightScaleDefault: 0.5
   fastForwardScale: 2
@@ -35,6 +35,7 @@ MonoBehaviour:
   signalCycleBegin: {fileID: 11400000, guid: d4036c4cb45ad164fb7af0cfe7bbe2a4, type: 2}
   signalCycleNext: {fileID: 11400000, guid: afd17a7934cd42140b72612cd8d7f699, type: 2}
   signalCycleEnd: {fileID: 11400000, guid: 489c025c4ad3b0a4fa9210adff1216a1, type: 2}
+  signalStructureClick: {fileID: 11400000, guid: a2955b41d5073154b8cf27250a2b8b7c, type: 2}
   landscapePreviewSize: {x: 12, y: 6.75}
   landscapePreviewBoundsColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   landscapePreviewBoundsEditSnap: 0.5

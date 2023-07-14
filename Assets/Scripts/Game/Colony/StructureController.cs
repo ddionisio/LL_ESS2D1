@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using LoLExt;
 
-using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler  {
@@ -56,6 +55,7 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
     public GameBounds2D placementBounds;
     public StructurePlacementCursor placementCursor;    
     public Transform placementGhostRoot; //structure's 'ghost' is placed here and activated during placement
+    public Transform placementBlockerRoot; //ensure this root's layer is "PlacementBlocker"
 
     [Header("Signal Invoke")]
     public M8.SignalBoolean signalInvokePlacementActive;
@@ -72,7 +72,7 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
 
     public StructureGhost placementCurrentGhost { get { return mPlacementCurGhostItem != null ? mPlacementCurGhostItem.ghost : null; } }
 
-    public bool isPlacementActive { get { return mPlacementCurStuctureData; } }
+    public bool isPlacementActive { get { return mPlacementCurStuctureData || mPlacementCurStructure; } }
 
     private GroupInfo[] mGroupInfos; //correlates to paletteData's items
 
@@ -82,7 +82,12 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
 
     private M8.PoolController mPoolCtrl;
 
+    private Dictionary<Structure, BoxCollider2D> mPlacementBlockerActives;
+    private M8.CacheList<BoxCollider2D> mPlacementBlockerCache;
+
     private Collider2D mColl;
+
+    private Structure mPlacementCurStructure; //when moving structures
         
     private StructureData mPlacementCurStuctureData;
     private int mPlacementCurGroupIndex;
@@ -116,55 +121,54 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
         return mGroupInfos[groupIndex];
     }
 
+    /// <summary>
+    /// For moving
+    /// </summary>
+    public void PlacementStart(Structure structure) {
+        //ensure we can move structure
+        if(!structure.isMovable) {
+            //display hint - can't move due to <something>
+            return;
+        }
+
+        mPlacementCurStructure = structure;
+        mPlacementCurStructure.state = StructureState.MoveReady;
+
+        PlacementActive(structure.data);
+    }
+
     public void PlacementStart(StructureData structureData) {
         mPlacementCurStuctureData = structureData;
         mPlacementCurGroupIndex = GetGroupIndex(structureData);
 
-        //grab ghost
-        for(int i = 0; i < mGhostStructures.Length; i++) {
-            var ghostItem = mGhostStructures[i];
-            if(ghostItem.structure == structureData) {
-                mPlacementCurGhostItem = ghostItem;
-                break;
-            }
-        }
-
-        if(mPlacementCurGhostItem != null) {
-            mPlacementCurGhostItem.active = true;
-
-            placementCursor.width = mPlacementCurGhostItem.ghost.placementBounds.size.x;
-        }
-
-        placementCursor.active = true;
-
-        mColl.enabled = true;
-
-        mIsClicked = false;
-
-        signalInvokePlacementActive?.Invoke(true);
+        PlacementActive(structureData);
     }
 
     /// <summary>
     /// Should be called via confirm
     /// </summary>
-    public void PlacementAccept() {
-        //ensure it is valid (fail-safe)
-        if(!(mStructureActives.IsFull || IsGroupFull(mPlacementCurGroupIndex))) {
-            //spawn at ground
-            mSpawnParms[StructureSpawnParams.spawnPoint] = placementCursor.positionGround;
-            mSpawnParms[StructureSpawnParams.spawnNormal] = placementCursor.normalGround;
+    public void PlacementAccept() {        
+        if(mPlacementCurStructure) { //move structure
+            mPlacementCurStructure.MoveTo(placementCursor.positionGround);
+        }
+        else if(mPlacementCurStuctureData) { //spawn structure
+            if(!(mStructureActives.IsFull || IsGroupFull(mPlacementCurGroupIndex))) { //ensure it is valid (fail-safe)
+                                                                                      //spawn at ground
+                mSpawnParms[StructureSpawnParams.spawnPoint] = placementCursor.positionGround;
+                mSpawnParms[StructureSpawnParams.spawnNormal] = placementCursor.normalGround;
 
-            mSpawnParms[StructureSpawnParams.data] = mPlacementCurStuctureData;
+                mSpawnParms[StructureSpawnParams.data] = mPlacementCurStuctureData;
 
-            var newStructure = mPoolCtrl.Spawn<Structure>(mPlacementCurStuctureData.spawnPrefab.name, spawnRoot, mSpawnParms);
+                var newStructure = mPoolCtrl.Spawn<Structure>(mPlacementCurStuctureData.spawnPrefab.name, spawnRoot, mSpawnParms);
 
-            mStructureActives.Add(newStructure);
+                mStructureActives.Add(newStructure);
 
-            mGroupInfos[mPlacementCurGroupIndex].count++;
+                mGroupInfos[mPlacementCurGroupIndex].count++;
 
-            signalInvokeGroupInfoRefresh?.Invoke();
+                signalInvokeGroupInfoRefresh?.Invoke();
 
-            signalInvokeStructureSpawned?.Invoke(newStructure);
+                signalInvokeStructureSpawned?.Invoke(newStructure);
+            }
         }
 
         PlacementClear();
@@ -174,7 +178,58 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
     /// Should be called via cancel (also if HUD has a cancel button)
     /// </summary>
     public void PlacementCancel() {
+        if(mPlacementCurStructure)
+            mPlacementCurStructure.state = StructureState.Active;
+
         PlacementClear();
+    }
+
+    public void PlacementAddBlocker(Structure structure) {
+        //add new blocker if it hasn't already
+        BoxCollider2D blocker;
+        if(!mPlacementBlockerActives.TryGetValue(structure, out blocker)) {
+            blocker = mPlacementBlockerCache.RemoveLast();
+
+            blocker.gameObject.SetActive(true);
+
+            mPlacementBlockerActives.Add(structure, blocker);
+        }
+
+        blocker.transform.position = structure.position;
+
+        //adjust dimensions
+        Vector2 ofs, size;
+
+        if(structure.boxCollider) {
+            ofs = structure.boxCollider.offset;
+            size = structure.boxCollider.size;
+        }
+        else {
+            ofs = structure.data.ghostPrefab.placementBounds.center;
+            size = structure.data.ghostPrefab.placementBounds.size;
+        }
+
+        blocker.offset = ofs;
+        blocker.size = size;
+    }
+
+    public void PlacementAddBlocker(Structure structure, Vector2 worldPos) {
+        PlacementAddBlocker(structure);
+
+        var blocker = mPlacementBlockerActives[structure];
+
+        blocker.transform.position = worldPos;
+    }
+
+    public void PlacementRemoveBlocker(Structure structure) {
+        BoxCollider2D blocker;
+        if(mPlacementBlockerActives.TryGetValue(structure, out blocker)) {
+            blocker.gameObject.SetActive(false);
+
+            mPlacementBlockerCache.Add(blocker);
+
+            mPlacementBlockerActives.Remove(structure);
+        }
     }
     
     public int GetGroupIndex(StructureData structureData) {
@@ -223,6 +278,25 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
         }
 
         mStructureActives = new M8.CacheList<Structure>(totalCapacity);
+
+        //setup placement blocker
+        mPlacementBlockerActives = new Dictionary<Structure, BoxCollider2D>(totalCapacity);
+        mPlacementBlockerCache = new M8.CacheList<BoxCollider2D>(totalCapacity);
+
+        int blockerLayer = placementBlockerRoot.gameObject.layer;
+
+        for(int i = 0; i < totalCapacity; i++) {
+            var newBlockerGO = new GameObject("blocker");
+            newBlockerGO.layer = blockerLayer;
+
+            newBlockerGO.transform.SetParent(placementBlockerRoot, false);
+
+            var newBlockerColl = newBlockerGO.AddComponent<BoxCollider2D>();
+
+            newBlockerGO.SetActive(false);
+
+            mPlacementBlockerCache.Add(newBlockerColl);
+        }
 
         mGhostStructures = ghostStructureList.ToArray();
 
@@ -298,6 +372,13 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
         }
 
         if(structure) {
+            //ensure associated blocker is detached
+            PlacementRemoveBlocker(structure);
+
+            //fail-safe - if for some reason we despawn during placement of this structure
+            if(mPlacementCurStructure == structure)
+                PlacementClear();
+
             int grpInd = GetGroupIndex(structure.data);
 
             if(mGroupInfos[grpInd].count > 0) { //shouldn't be 0 at this point
@@ -348,8 +429,35 @@ public class StructureController : MonoBehaviour, IPointerEnterHandler, IPointer
         }
     }
 
+    private void PlacementActive(StructureData structureData) {
+        //grab ghost
+        for(int i = 0; i < mGhostStructures.Length; i++) {
+            var ghostItem = mGhostStructures[i];
+            if(ghostItem.structure == structureData) {
+                mPlacementCurGhostItem = ghostItem;
+                break;
+            }
+        }
+
+        if(mPlacementCurGhostItem != null) {
+            mPlacementCurGhostItem.active = true;
+
+            placementCursor.width = mPlacementCurGhostItem.ghost.placementBounds.size.x;
+        }
+
+        placementCursor.active = true;
+
+        mColl.enabled = true;
+
+        mIsClicked = false;
+
+        signalInvokePlacementActive?.Invoke(true);
+    }
+
     private void PlacementClear() {
         mColl.enabled = false;
+
+        mPlacementCurStructure = null;
 
         mPlacementCurStuctureData = null;
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class MovableBase : MonoBehaviour {
     [Header("Move Info")]
-    public float moveDelay = 1f;
+    public float moveSpeed = 10f;
     public DG.Tweening.Ease moveEase = DG.Tweening.Ease.InOutSine;
 
     public bool isMoving { get { return mRout != null; } }
@@ -28,7 +28,10 @@ public abstract class MovableBase : MonoBehaviour {
         }
     }
 
-    protected abstract void MoveStart(Vector2 from, Vector2 to);
+    /// <summary>
+    /// Return distance
+    /// </summary>
+    protected abstract float MoveStart(Vector2 from, Vector2 to);
 
     protected abstract Vector2 MoveUpdate(Vector2 from, Vector2 to, float t);
 
@@ -41,20 +44,29 @@ public abstract class MovableBase : MonoBehaviour {
             mEaseFunc = DG.Tweening.Core.Easing.EaseManager.ToEaseFunction(moveEase);
 
         var startPos = (Vector2)transform.position;
+                
+        if(moveSpeed > 0f) {
+            var dist = MoveStart(startPos, dest);
 
-        MoveStart(startPos, dest);
+            var moveDelay = dist / moveSpeed;
 
-        var curTime = 0f;
-        while(curTime < moveDelay) {
+            var curTime = 0f;
+            while(curTime < moveDelay) {
+                yield return null;
+
+                curTime += Time.deltaTime;
+
+                var t = mEaseFunc(curTime, moveDelay, 0f, 0f);
+
+                var toPos = MoveUpdate(startPos, dest, t);
+
+                transform.position = toPos;
+            }
+        }
+        else {
             yield return null;
 
-            curTime += Time.deltaTime;
-
-            var t = mEaseFunc(curTime, moveDelay, 0f, 0f);
-
-            var toPos = MoveUpdate(startPos, dest, t);
-
-            transform.position = toPos;
+            transform.position = dest;
         }
 
         mRout = null;

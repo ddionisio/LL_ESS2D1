@@ -182,13 +182,15 @@ MonoBehaviour:
   hitpoints: 3
   buildTime: 0
   repairPerHitTime: 0
-  isDemolishable: 0
+  _isDemolishable: 0
   activeGO: {fileID: 7660431613868785072}
   constructionGO: {fileID: 0}
   overlayActionAnchor: {fileID: 1283989482142257408}
   animator: {fileID: 0}
   takeSpawn: 
+  takeIdle: 
   takeDamage: 
+  takeMoving: 
   takeDestroyed: 
   takeDemolish: 
   _waypointGroups: []
@@ -204,11 +206,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de171963723b00a44a28b9b00e34db6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveDelay: 2
+  moveSpeed: 10
   moveEase: 4
   heightRange:
-    min: 7
-    max: 9
+    min: 10
+    max: 14
 --- !u!61 &5482153772736545882
 BoxCollider2D:
   m_ObjectHideFlags: 0
