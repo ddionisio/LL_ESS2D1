@@ -38,6 +38,15 @@ public class ColonyHUD : MonoBehaviour {
         colonyCtrl.structureController.PlacementCancel();
     }
 
+    void OnDisable() {
+        if(GameData.isInstantiated)
+            GameData.instance.signalClickCategory.callback -= OnClickCategory;
+    }
+
+    void OnEnable() {
+        GameData.instance.signalClickCategory.callback += OnClickCategory;
+    }
+
     void OnDestroy() {
         if(structureActionsWidget)
             structureActionsWidget.clickCallback -= OnStructureActionClick;
@@ -112,15 +121,15 @@ public class ColonyHUD : MonoBehaviour {
             if(placementConfirmRoot) {
                 if(isClick) {
                     var colonyCtrl = ColonyController.instance;
-                    var structureCtrl = colonyCtrl.structureController;
+                    var placementInput = colonyCtrl.structureController.placementInput;
 
                     placementConfirmRoot.gameObject.SetActive(true);
 
-                    var worldPos = structureCtrl.placementCursor.position;
+                    var worldPos = placementInput.cursor.position;
 
                     //ensure the position is at least above the ghost display
-                    var ghostPos = (Vector2)structureCtrl.placementCurrentGhost.transform.position;
-                    var ghostBounds = structureCtrl.placementCurrentGhost.placementBounds;
+                    var ghostPos = (Vector2)placementInput.currentGhost.transform.position;
+                    var ghostBounds = placementInput.currentGhost.placementBounds;
 
                     if(worldPos.y < ghostPos.y + ghostBounds.max.y)
                         worldPos.y = ghostPos.y + ghostBounds.max.y;
@@ -177,6 +186,15 @@ public class ColonyHUD : MonoBehaviour {
 
         if(structureActionsWidget) structureActionsWidget.active = false;
         mStructureClicked = null;
+    }
+
+    void OnClickCategory(int category) {
+        if(category != GameData.clickCategoryStructure) {
+            mStructureClicked = null;
+
+            if(structureActionsWidget)
+                structureActionsWidget.active = false;
+        }
     }
 
     void OnCycleBegin() {

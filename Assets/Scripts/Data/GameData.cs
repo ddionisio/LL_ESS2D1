@@ -10,6 +10,10 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public const string saveKeyRegionIndex = "ri";
     public const string saveKeySeasonIndex = "si";
 
+    public const int clickCategoryBackground = 1;
+    public const int clickCategoryStructure = 2;
+    public const int clickCategoryStructurePalette = 3;
+
     [Header("Modals")]
     public string modalOverworld = "overworld";
     public string modalHotspotInvestigate = "hotspotInvestigate";
@@ -26,20 +30,26 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
 
     public float fastForwardScale = 2.0f;
 
-    public float structureDamageDelay = 1f; //how long to stay in damaged state
+    public float structureBuildScalePerWork = 1f; //scale build time by this amount per work
+    public float structureRepairScalePerWork = 1f; //scale build time by this amount per work
+
+    public float structureRepairPerHitDelay = 1f; //for reparable structures, delay to restore one hp
+    public float structureDamageDelay = 0.5f; //how long to stay in damaged state
 
     [Header("Scenes")]
     //intro sets progress to 1
     public M8.SceneAssetPath overworldScene;
     public M8.SceneAssetPath endScene;
 
-    [Header("General Signals")]
-    //colony specifics
+    [Header("Colony General Signals")]
     public M8.SignalBoolean signalPause;
+    public M8.SignalInteger signalClickCategory;
 
     public M8.Signal signalCycleBegin;
     public M8.Signal signalCycleNext;
     public M8.Signal signalCycleEnd;
+
+    public M8.SignalBoolean signalPlacementActive;
 
     public SignalStructure signalStructureClick;
 

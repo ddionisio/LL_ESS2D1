@@ -24,7 +24,10 @@ MonoBehaviour:
   cycleDuration: 120
   cycleDaylightScaleDefault: 0.5
   fastForwardScale: 2
-  structureDamageDelay: 1
+  structureBuildScalePerWork: 1
+  structureRepairScalePerWork: 1
+  structureRepairPerHitDelay: 1
+  structureDamageDelay: 0.5
   overworldScene:
     name: overworld
     path: Assets/Scenes/overworld.unity
@@ -32,9 +35,11 @@ MonoBehaviour:
     name: 
     path: 
   signalPause: {fileID: 11400000, guid: 2ebb4ac199a087f4583043627e0db5f6, type: 2}
+  signalClickCategory: {fileID: 11400000, guid: 821168db214a9e24fa0ee2b13a8e3d31, type: 2}
   signalCycleBegin: {fileID: 11400000, guid: d4036c4cb45ad164fb7af0cfe7bbe2a4, type: 2}
   signalCycleNext: {fileID: 11400000, guid: afd17a7934cd42140b72612cd8d7f699, type: 2}
   signalCycleEnd: {fileID: 11400000, guid: 489c025c4ad3b0a4fa9210adff1216a1, type: 2}
+  signalPlacementActive: {fileID: 11400000, guid: 694360c67dfbb5d45a1aa205fa83ad44, type: 2}
   signalStructureClick: {fileID: 11400000, guid: a2955b41d5073154b8cf27250a2b8b7c, type: 2}
   landscapePreviewSize: {x: 12, y: 6.75}
   landscapePreviewBoundsColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}

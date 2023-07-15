@@ -100,7 +100,17 @@ public class StructurePaletteWidget : MonoBehaviour {
         mStructureItemWidgetActives.Clear();
     }
 
+    void OnDisable() {
+        if(GameData.isInstantiated)
+            GameData.instance.signalClickCategory.callback -= OnClickCategory;
+    }
+
+    void OnEnable() {
+        GameData.instance.signalClickCategory.callback += OnClickCategory;
+    }
+
     void OnGroupClick(StructureGroupWidget groupWidget) {
+        GameData.instance.signalClickCategory?.Invoke(GameData.clickCategoryStructurePalette);
 
         if(mGroupWidgetActive != groupWidget) {
             ClearGroupActive();
@@ -134,5 +144,10 @@ public class StructurePaletteWidget : MonoBehaviour {
         structureCtrl.PlacementStart(itemWidget.data);
 
         ClearGroupActive();
+    }
+
+    void OnClickCategory(int category) {
+        if(category != GameData.clickCategoryStructurePalette)
+            ClearGroupActive();
     }
 }

@@ -16,13 +16,19 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
 
     //for buildable
     public float buildTime; //if buildable, set to 0 for spawning building (e.g. house)
-    public float repairPerHitTime;
+
+    public int workCapacity = 2; //how many can work on this structure
+
+    public bool isReparable;
+
     [SerializeField]
     bool _isDemolishable;
     
     [Header("Toggle Display")]
     public GameObject activeGO; //once placed/spawned
     public GameObject constructionGO; //while being built
+    public GameObject damagedGO; //when hp < hp max
+    public GameObject repairGO; //when there are workers actively repairing (workCount > 0)
 
     [Header("Overlay Display")]
     public Transform overlayActionAnchor; //set actions widget position here
@@ -78,14 +84,13 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
                     state = StructureState.Destroyed;
                 else if(mCurHitpoints < prevHitpoints)
                     state = StructureState.Damage;
+                else if(damagedGO)
+                    damagedGO.SetActive(false);
 
                 //signal
             }
         }
     }
-
-    public float buildTimeLeft { get; private set; }
-    public float buildTimeScale { get; set; } //increased by engineers
 
     public bool isBuildable { get { return buildTime > 0f; } }
     public bool isDamageable { get { return hitpoints > 0; } }
@@ -154,6 +159,11 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     public MovableBase moveCtrl { get; private set; }
 
     public bool isClicked { get; private set; }
+
+    /// <summary>
+    /// Current works going on this structure (added/subtracted by Units)
+    /// </summary>
+    public int workCount { get; private set; }
         
     public event System.Action<StructureStatusInfo> statusUpdateCallback;
     public event System.Action<StructureState> stateChangedCallback;
@@ -217,6 +227,19 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         }
     }
 
+    public void ResetAllStatus() {
+        for(int i = 0; i < mStatusInfos.Length; i++) {
+            var inf = mStatusInfos[i];
+
+            inf.state = StructureStatusState.None;
+            inf.progress = 0f;
+
+            mStatusInfos[i] = inf;
+
+            statusUpdateCallback?.Invoke(inf);
+        }
+    }
+
     public void MoveTo(Vector2 toPos) {
         if(!isMovable) return;
 
@@ -229,6 +252,16 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         if(!isDemolishable) return;
 
         state = StructureState.Demolish;
+    }
+
+    public void WorkAdd() {
+        if(workCount < workCapacity)
+            workCount++;
+    }
+
+    public void WorkRemove() {
+        if(workCount > 0)
+            workCount--;
     }
 
     protected virtual void Init() { }
@@ -246,8 +279,12 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         }
 
         switch(mState) {
-            case StructureState.Demolish:
+            case StructureState.Construction:
                 if(constructionGO) constructionGO.SetActive(false);
+                break;
+
+            case StructureState.Repair:
+                if(repairGO) repairGO.SetActive(false);
                 break;
         }
     }
@@ -278,9 +315,6 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
                 if(activeGO) activeGO.SetActive(false);
                 if(constructionGO) constructionGO.SetActive(true);
 
-                buildTimeLeft = buildTime;
-                buildTimeScale = 0f;
-
                 mRout = StartCoroutine(DoConstruction());
 
                 physicsActive = false;
@@ -300,27 +334,48 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
                 addPlacementBlocker = true;
                 break;
 
+            case StructureState.Repair:
+                mRout = StartCoroutine(DoRepair());
+                break;
+
             case StructureState.Damage:
+                if(damagedGO) damagedGO.SetActive(true);
+
                 mRout = StartCoroutine(DoDamage());
                 break;
 
             case StructureState.Destroyed:
-                if(animator && !string.IsNullOrEmpty(takeDestroyed))
-                    animator.Play(takeDestroyed);
+                if(damagedGO) damagedGO.SetActive(true);
+
+                //if repairable, simply play animation and show repair status
+                if(isReparable) {
+                    SetStatusState(StructureStatus.Construct, StructureStatusState.Require);
+
+                    if(animator && !string.IsNullOrEmpty(takeDestroyed))
+                        animator.Play(takeDestroyed);
+                }
+                else //release after destroyed animation (NOTE: make sure that "takeDestroyed" is not a loop animation)
+                    AnimateToRelease(takeDestroyed);
                 break;
 
             case StructureState.Demolish:
-                mRout = StartCoroutine(DoDemolish());
+                if(damagedGO) damagedGO.SetActive(true);
+
+                AnimateToRelease(takeDemolish);
 
                 physicsActive = false;
                 break;
 
             case StructureState.None:
+                ResetAllStatus();
+
                 if(animator)
                     animator.Stop();
 
                 if(activeGO) activeGO.SetActive(false);
                 if(constructionGO) constructionGO.SetActive(false);
+                if(damagedGO) damagedGO.SetActive(false);
+                if(repairGO) repairGO.SetActive(false);
 
                 mCurHitpoints = 0;
 
@@ -344,7 +399,11 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     }
 
     protected void AnimateToState(string take, StructureState toState) {
-        mRout = StartCoroutine(DoAnimation(take, toState));
+        mRout = StartCoroutine(DoAnimationToState(take, toState));
+    }
+
+    protected void AnimateToRelease(string take) {
+        mRout = StartCoroutine(DoAnimationToRelease(take));
     }
         
     void M8.IPoolInit.OnInit() {        
@@ -382,6 +441,8 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         mState = StructureState.None;
         if(activeGO) activeGO.SetActive(false);
         if(constructionGO) constructionGO.SetActive(false);
+        if(damagedGO) damagedGO.SetActive(false);
+        if(repairGO) repairGO.SetActive(false);
 
         mCurHitpoints = 0;
 
@@ -396,8 +457,6 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
             if(parms.ContainsKey(StructureSpawnParams.spawnPoint))
                 position = parms.GetValue<Vector2>(StructureSpawnParams.spawnPoint);
         }
-
-        //set initial states
 
         Spawned();
     }
@@ -427,18 +486,39 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     }
 
     void IPointerClickHandler.OnPointerClick(PointerEventData eventData) {
+        GameData.instance.signalClickCategory?.Invoke(GameData.clickCategoryStructure);
+
         isClicked = true;
         GameData.instance.signalStructureClick?.Invoke(this);
     }
 
     IEnumerator DoConstruction() {
-        if(buildTimeLeft > 0f) {
-            while(buildTimeLeft > 0f) {
+        var workTimeLeft = buildTime;
+
+        if(workTimeLeft > 0f) {
+            var timeScalePerWork = GameData.instance.structureBuildScalePerWork;
+
+            while(workTimeLeft > 0f) {
+                //no worker?
+                if(workCount == 0) {
+                    SetStatusState(StructureStatus.Construct, StructureStatusState.Require);
+
+                    while(workCount == 0)
+                        yield return null;
+
+                    SetStatusState(StructureStatus.Construct, StructureStatusState.Progress);
+                }
+
+                //progress
                 yield return null;
 
-                buildTimeLeft -= Time.deltaTime * buildTimeScale;
-                if(buildTimeLeft < 0f)
-                    buildTimeLeft = 0f;
+                var buildTimeScale = timeScalePerWork * workCount;
+
+                workTimeLeft -= Time.deltaTime * buildTimeScale;
+                if(workTimeLeft < 0f)
+                    workTimeLeft = 0f;
+
+                SetStatusProgress(StructureStatus.Construct, 1.0f - Mathf.Clamp01(workTimeLeft/buildTime));
             }
         }
         else
@@ -448,10 +528,26 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
 
         mCurHitpoints = hitpoints;
 
+        SetStatusState(StructureStatus.Construct, StructureStatusState.None);
+
         state = StructureState.Active;
     }
 
-    IEnumerator DoAnimation(string take, StructureState toState) {
+    IEnumerator DoRepair() {
+
+        while(mCurHitpoints < hitpoints) {
+            yield return null;
+        }
+
+        mRout = null;
+
+        if(mCurHitpoints == 0)
+            state = StructureState.Destroyed;
+        else
+            state = StructureState.Active;
+    }
+
+    IEnumerator DoAnimationToState(string take, StructureState toState) {
         if(animator && !string.IsNullOrEmpty(take))
             yield return animator.PlayWait(take);
         else
@@ -460,6 +556,17 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         mRout = null;
 
         state = toState;
+    }
+
+    IEnumerator DoAnimationToRelease(string take) {
+        if(animator && !string.IsNullOrEmpty(take))
+            yield return animator.PlayWait(take);
+        else
+            yield return null;
+
+        mRout = null;
+
+        poolCtrl.Release();
     }
 
     IEnumerator DoDamage() {
@@ -482,17 +589,6 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         mRout = null;
 
         state = StructureState.Active;
-    }
-
-    IEnumerator DoDemolish() {
-        if(animator && !string.IsNullOrEmpty(takeDemolish))
-            yield return animator.PlayWait(takeDemolish);
-        else
-            yield return null;
-
-        mRout = null;
-
-        poolCtrl.Release();
     }
 
     IEnumerator DoMove() {
