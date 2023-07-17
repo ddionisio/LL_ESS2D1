@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _placementBounds:
-    m_Center: {x: 0, y: 1.25, z: 0}
-    m_Extent: {x: 1.5, y: 1.25, z: 0}
+    m_Center: {x: 0, y: 1.1875, z: 0}
+    m_Extent: {x: 1.25, y: 1.1875, z: 0}
 --- !u!114 &3551837637356567574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,8 +90,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6688854446670651548}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.2, z: 0}
-  m_LocalScale: {x: 2.4, y: 2.4, z: 1}
+  m_LocalPosition: {x: 0, y: 1.09, z: 0}
+  m_LocalScale: {x: 2.1875, y: 2.1875, z: 1}
   m_Children: []
   m_Father: {fileID: 5731635856883157510}
   m_RootOrder: 0

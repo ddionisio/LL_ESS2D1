@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Place this inside Structure hierarchy
 /// </summary>
-public class StructureStatusGroupWidget : MonoBehaviour {
+public class StructureStatusGroupWidget : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolDespawn {
     public GameObject displayRootGO;
     public Transform statusItemRoot;
 
@@ -13,25 +13,24 @@ public class StructureStatusGroupWidget : MonoBehaviour {
 
     private Structure mStructure;
 
-    void OnDisable() {
+    void M8.IPoolDespawn.OnDespawned() {
         if(mStructure) {
             mStructure.statusUpdateCallback -= OnStatusUpdate;
             mStructure.stateChangedCallback -= RefreshDisplayFromStructureState;
         }
+
+        if(displayRootGO) displayRootGO.SetActive(false);
     }
 
-    void OnEnable() {
+    void M8.IPoolSpawn.OnSpawned(M8.GenericParams parms) {
         //apply current status display
         if(mStructure) {
             mStructure.statusUpdateCallback += OnStatusUpdate;
             mStructure.stateChangedCallback += RefreshDisplayFromStructureState;
-
-            RefreshStatusDisplay();
-            RefreshDisplayFromStructureState(mStructure.state);
         }
     }
 
-    void Awake() {
+    void M8.IPoolInit.OnInit() {
         mStructure = GetComponentInParent<Structure>(true);
 
         //setup item widgets corresponding to StructureStatus via name
@@ -58,6 +57,8 @@ public class StructureStatusGroupWidget : MonoBehaviour {
                     mStatusItemWidgets[index] = widget;
             }
         }
+
+        if(displayRootGO) displayRootGO.SetActive(false);
     }
 
     void OnStatusUpdate(StructureStatusInfo inf) {

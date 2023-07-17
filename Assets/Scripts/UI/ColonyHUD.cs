@@ -22,6 +22,9 @@ public class ColonyHUD : MonoBehaviour {
     public M8.SignalBoolean signalListenPlacementActive;
     public M8.SignalBoolean signalListenPlacementClick;
 
+    public SignalStructure signalListenStructureSpawned;
+    public SignalStructure signalListenStructureDespawned;
+
     private bool mIsPlacementActive;
 
     private Structure mStructureClicked;
@@ -54,6 +57,9 @@ public class ColonyHUD : MonoBehaviour {
         if(signalListenPlacementActive) signalListenPlacementActive.callback -= OnPlacementActive;
         if(signalListenPlacementClick) signalListenPlacementClick.callback -= OnPlacementClick;
 
+        if(signalListenStructureSpawned) signalListenStructureSpawned.callback -= OnStructureSpawned;
+        if(signalListenStructureDespawned) signalListenStructureDespawned.callback -= OnStructureDespawned;
+
         if(GameData.isInstantiated) {
             var gameDat = GameData.instance;
 
@@ -80,6 +86,9 @@ public class ColonyHUD : MonoBehaviour {
 
         if(signalListenPlacementActive) signalListenPlacementActive.callback += OnPlacementActive;
         if(signalListenPlacementClick) signalListenPlacementClick.callback += OnPlacementClick;
+
+        if(signalListenStructureSpawned) signalListenStructureSpawned.callback += OnStructureSpawned;
+        if(signalListenStructureDespawned) signalListenStructureDespawned.callback += OnStructureDespawned;
 
         if(gameDat.signalStructureClick) gameDat.signalStructureClick.callback += OnStructureClick;
 
@@ -109,8 +118,6 @@ public class ColonyHUD : MonoBehaviour {
             //placement stuff
             if(placementRootGO) placementRootGO.SetActive(false);
             if(placementConfirmRoot) placementConfirmRoot.gameObject.SetActive(false);
-
-            paletteStructureWidget.RefreshGroups();
 
             //animation
         }
@@ -186,6 +193,14 @@ public class ColonyHUD : MonoBehaviour {
 
         if(structureActionsWidget) structureActionsWidget.active = false;
         mStructureClicked = null;
+    }
+
+    void OnStructureSpawned(Structure structure) {
+        paletteStructureWidget.RefreshGroup(structure.data);
+    }
+
+    void OnStructureDespawned(Structure structure) {
+        paletteStructureWidget.RefreshGroup(structure.data);
     }
 
     void OnClickCategory(int category) {

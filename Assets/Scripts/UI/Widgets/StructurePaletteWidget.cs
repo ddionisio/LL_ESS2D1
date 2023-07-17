@@ -83,6 +83,22 @@ public class StructurePaletteWidget : MonoBehaviour {
         }
     }
 
+    public void RefreshGroup(StructureData structureData) {
+        if(mGroupWidgets == null) return; //fail-safe
+
+        var structureCtrl = ColonyController.instance.structureController;
+
+        var groupInd = structureCtrl.GetGroupIndex(structureData);
+        if(groupInd != -1) {
+            var groupInf = structureCtrl.GetGroupInfo(groupInd);
+
+            var groupWidget = mGroupWidgets[groupInd];
+
+            groupWidget.count = groupInf.capacity - groupInf.count;
+            groupWidget.active = !groupInf.isHidden;
+        }
+    }
+
     public void ClearGroupActive() {
         if(mGroupWidgetActive) {
             mGroupWidgetActive.itemsActive = false;

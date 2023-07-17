@@ -32,6 +32,7 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
 
     public float structureBuildScalePerWork = 1f; //scale build time by this amount per work
     public float structureRepairScalePerWork = 1f; //scale build time by this amount per work
+    public float growthScalePerWork = 1f; //scale growth time by this amount per work
 
     public float structureRepairPerHitDelay = 1f; //for reparable structures, delay to restore one hp
     public float structureDamageDelay = 0.5f; //how long to stay in damaged state

@@ -117,7 +117,8 @@ public class StructureController : MonoBehaviour  {
 
                 mSpawnParms[StructureSpawnParams.data] = mPlacementCurStuctureData;
 
-                var newStructure = mPoolCtrl.Spawn<Structure>(mPlacementCurStuctureData.spawnPrefab.name, spawnRoot, mSpawnParms);
+                var spawnName = mPlacementCurStuctureData.spawnPrefab.name;
+                var newStructure = mPoolCtrl.Spawn<Structure>(spawnName, spawnName, spawnRoot, mSpawnParms);
 
                 mStructureActives.Add(newStructure);
 

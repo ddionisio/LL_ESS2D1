@@ -26,6 +26,7 @@ MonoBehaviour:
   fastForwardScale: 2
   structureBuildScalePerWork: 1
   structureRepairScalePerWork: 1
+  growthScalePerWork: 1
   structureRepairPerHitDelay: 1
   structureDamageDelay: 0.5
   overworldScene:
@@ -48,7 +49,7 @@ MonoBehaviour:
   landscapePreviewRegionHandleScale: 0.05
   landscapePreviewRegionHandleSnap: 0.25
   structurePlacementBoundsColor: {r: 0, g: 1, b: 1, a: 1}
-  structurePlacementBoundsEditSnap: 0.25
+  structurePlacementBoundsEditSnap: 0.125
   structureWaypointColors:
   - {r: 0.39617455, g: 0.8584906, b: 0.3037113, a: 1}
   - {r: 0.852551, g: 0.85882354, b: 0.30196083, a: 1}

@@ -20,6 +20,7 @@ public enum StructureStatus {
     Food,
     Water,
     Power,
+    Growth, //for plants
 }
 
 public enum StructureStatusState {

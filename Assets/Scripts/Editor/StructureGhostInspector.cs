@@ -32,7 +32,7 @@ public class StructureGhostInspector : Editor {
             EditorGUI.BeginChangeCheck();
             mBoxHandle.DrawHandle();
             if(EditorGUI.EndChangeCheck()) {
-                Vector2 min = mBoxHandle.center - mBoxHandle.size * 0.5f;
+                Vector2 min = mBoxHandle.center - mBoxHandle.size * 0.5f - worldPos;
 
                 float _minX = Mathf.Round(min.x / gameDat.structurePlacementBoundsEditSnap);
                 float _minY = Mathf.Round(min.y / gameDat.structurePlacementBoundsEditSnap);
@@ -40,7 +40,7 @@ public class StructureGhostInspector : Editor {
                 min.x = _minX * gameDat.structurePlacementBoundsEditSnap;
                 min.y = _minY * gameDat.structurePlacementBoundsEditSnap;
 
-                Vector2 max = mBoxHandle.center + mBoxHandle.size * 0.5f;
+                Vector2 max = mBoxHandle.center + mBoxHandle.size * 0.5f - worldPos;
 
                 float _maxX = Mathf.Round(max.x / gameDat.structurePlacementBoundsEditSnap);
                 float _maxY = Mathf.Round(max.y / gameDat.structurePlacementBoundsEditSnap);
@@ -48,7 +48,7 @@ public class StructureGhostInspector : Editor {
                 max.x = _maxX * gameDat.structurePlacementBoundsEditSnap;
                 max.y = _maxY * gameDat.structurePlacementBoundsEditSnap;
 
-                b.center = Vector2.Lerp(min, max, 0.5f) - (Vector2)worldPos;
+                b.center = Vector2.Lerp(min, max, 0.5f);
                 b.size = max - min;
 
                 placementBoundsProp.boundsValue = b;

@@ -78,14 +78,16 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
             if(mCurHitpoints != val) {
                 var prevHitpoints = mCurHitpoints;
                 mCurHitpoints = val;
-
-                //damaged completely?
-                if(mCurHitpoints == 0)
+                
+                if(mCurHitpoints > prevHitpoints) { //healed?
+                    //remove damage display
+                    if(mCurHitpoints == hitpoints && damagedGO)
+                        damagedGO.SetActive(false);
+                }
+                else if(mCurHitpoints == 0) //damaged completely?
                     state = StructureState.Destroyed;
-                else if(mCurHitpoints < prevHitpoints)
+                else if(mCurHitpoints < prevHitpoints) //perform damage
                     state = StructureState.Damage;
-                else if(damagedGO)
-                    damagedGO.SetActive(false);
 
                 //signal
             }
@@ -254,19 +256,19 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         state = StructureState.Demolish;
     }
 
-    public void WorkAdd() {
+    public virtual void WorkAdd() {
         if(workCount < workCapacity)
             workCount++;
     }
 
-    public void WorkRemove() {
+    public virtual void WorkRemove() {
         if(workCount > 0)
             workCount--;
     }
 
     protected virtual void Init() { }
 
-    protected virtual void Deinit() { }
+    protected virtual void Despawned() { }
 
     protected virtual void Spawned() { }
 
@@ -482,7 +484,7 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
 
         data = null;
 
-        Deinit();
+        Despawned();
     }
 
     void IPointerClickHandler.OnPointerClick(PointerEventData eventData) {
@@ -534,14 +536,48 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     }
 
     IEnumerator DoRepair() {
+        var gameDat = GameData.instance;
 
-        while(mCurHitpoints < hitpoints) {
+        var repairScalePerWork = gameDat.structureRepairScalePerWork;
+        var repairPerHPDelay = gameDat.structureRepairPerHitDelay;
+
+        var curHP = mCurHitpoints;
+        var repairCount = hitpoints - curHP;
+
+        var totalDelay = repairCount * repairPerHPDelay;
+
+        var curTime = 0f;
+
+        while(curTime < totalDelay && mCurHitpoints < hitpoints) {
+            //no worker?
+            if(workCount == 0) {
+                SetStatusState(StructureStatus.Construct, StructureStatusState.Require);
+
+                while(workCount == 0)
+                    yield return null;
+
+                SetStatusState(StructureStatus.Construct, StructureStatusState.Progress);
+            }
+
+            //progress
             yield return null;
+
+            var repairTimeScale = repairScalePerWork * workCount;
+
+            curTime += Time.deltaTime * repairTimeScale;
+
+            var t = Mathf.Clamp01(curTime / totalDelay);
+
+            SetStatusProgress(StructureStatus.Construct, t);
+
+            hitpointsCurrent = curHP + Mathf.FloorToInt(repairCount * t);
         }
 
         mRout = null;
 
-        if(mCurHitpoints == 0)
+        SetStatusState(StructureStatus.Construct, StructureStatusState.None);
+
+        if(mCurHitpoints == 0) //fail-safe
             state = StructureState.Destroyed;
         else
             state = StructureState.Active;
