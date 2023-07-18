@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df0b1d9598de9e9438d830c306b3b567, type: 3}
-  m_Name: test01
+  m_Name: testHotspot01
   m_EditorClassIdentifier: 
   nameRef: region_NA
   climate: {fileID: 11400000, guid: 13eb6e3c01328d640944f6c54217865b, type: 2}
@@ -23,10 +23,6 @@ MonoBehaviour:
     range:
       min: 5
       max: 10
-  - atmosphere: {fileID: 11400000, guid: f6bf4833d8274b04d85fdcf8f48c1cb7, type: 2}
-    range:
-      min: 1
-      max: 1
   daylightInfos: []
   landscapePrefab: {fileID: 1356387101706006881, guid: 9e0010180e916814fa69750b5e0c1b02, type: 3}
   colonyScene:

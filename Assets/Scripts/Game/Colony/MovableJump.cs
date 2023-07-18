@@ -8,7 +8,7 @@ public class MovableJump : MovableBase {
 
     private Vector2 mMidPoint;
 
-    protected override float MoveStart(Vector2 from, Vector2 to) {
+    protected override float MoveInit(Vector2 from, Vector2 to) {
         var topY = Mathf.Max(from.y, to.y);
 
         mMidPoint = new Vector2(Mathf.Lerp(from.x, to.x, 0.5f), topY + heightRange.random);

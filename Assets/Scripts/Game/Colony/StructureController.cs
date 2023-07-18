@@ -5,7 +5,14 @@ using UnityEngine;
 public class StructureController : MonoBehaviour  {
     public const string poolGroup = "structure";
 
-    public struct GroupInfo {
+    public struct StructureInfo {
+        public StructureData data;
+        public bool isHidden;
+    }
+
+    public class GroupInfo {
+        public StructureInfo[] structures;
+
         /// <summary>
         /// Current capacity for each group (use for house to limit capacity based on population)
         /// </summary>
@@ -16,10 +23,51 @@ public class StructureController : MonoBehaviour  {
         /// </summary>
         public int count;
 
-        /// <summary>
-        /// Tutorial purpose to slowly introduce structures
-        /// </summary>
-        public bool isHidden;
+        public int visibleStructuresCount {
+            get {
+                var visibleCount = 0;
+
+                for(int i = 0; i < structures.Length; i++) {
+                    if(!structures[i].isHidden)
+                        visibleCount++;
+                }
+
+                return visibleCount;
+            }
+        }
+
+        public bool IsHidden(StructureData structureData) {
+            for(int i = 0; i < structures.Length; i++) {
+                var inf = structures[i];
+                if(inf.data == structureData)
+                    return inf.isHidden;
+            }
+
+            return true;
+        }
+
+        public void SetHidden(StructureData structureData, bool hidden) {
+            for(int i = 0; i < structures.Length; i++) {
+                var inf = structures[i];
+                if(inf.data == structureData) {
+                    inf.isHidden = hidden;
+                    structures[i] = inf;
+                    return;
+                }
+            }
+        }
+                
+        public GroupInfo(StructurePaletteData.GroupInfo dataGrpInf) {
+            capacity = dataGrpInf.capacityStart;
+            count = 0;
+
+            structures = new StructureInfo[dataGrpInf.structures.Length];
+            for(int i = 0; i < structures.Length; i++) {
+                var structureInfo = dataGrpInf.structures[i];
+
+                structures[i] = new StructureInfo { data = structureInfo.data, isHidden = structureInfo.isHidden };
+            }
+        }
     }
 
     [Header("Spawn Info")]
@@ -33,7 +81,7 @@ public class StructureController : MonoBehaviour  {
     public SignalStructure signalInvokeStructureSpawned;
     public SignalStructure signalInvokeStructureDespawned;
 
-    public M8.Signal signalInvokeGroupInfoRefresh;
+    public M8.SignalInteger signalInvokeGroupInfoRefresh;
 
     public StructurePaletteData paletteData { get; private set; }
 
@@ -55,11 +103,15 @@ public class StructureController : MonoBehaviour  {
                 
     private M8.GenericParams mSpawnParms = new M8.GenericParams();
 
-    public bool IsGroupFull(StructureData structureData) {
-        return IsGroupFull(GetGroupIndex(structureData));
+    public int GroupGetIndex(StructureData structureData) {
+        return paletteData.GetGroupIndex(structureData);
     }
 
-    public bool IsGroupFull(int groupIndex) {
+    public bool GroupIsFull(StructureData structureData) {
+        return GroupIsFull(GroupGetIndex(structureData));
+    }
+
+    public bool GroupIsFull(int groupIndex) {
         if(groupIndex < 0 || groupIndex >= mGroupInfos.Length)
             return true;
 
@@ -68,9 +120,35 @@ public class StructureController : MonoBehaviour  {
         return grpInf.count >= grpInf.capacity;
     }
 
-    public GroupInfo GetGroupInfo(int groupIndex) {
+    public void GroupSetStructureHidden(StructureData structureData, bool isHidden) {
+        var groupIndex = GroupGetIndex(structureData);
+        if(groupIndex == -1)
+            return;
+
+        var grpInf = mGroupInfos[groupIndex];
+        grpInf.SetHidden(structureData, isHidden);
+
+        signalInvokeGroupInfoRefresh?.Invoke(groupIndex);
+    }
+
+    public void GroupAddCapacity(StructureData structureData, int amount) {
+        GroupAddCapacity(GroupGetIndex(structureData), amount);
+    }
+
+    public void GroupAddCapacity(int groupIndex, int amount) {
         if(groupIndex < 0 || groupIndex >= mGroupInfos.Length)
-            return new GroupInfo();
+            return;
+
+        var grpInf = mGroupInfos[groupIndex];
+
+        grpInf.capacity = Mathf.Clamp(grpInf.capacity + amount, 0, paletteData.groups[groupIndex].capacity);
+
+        signalInvokeGroupInfoRefresh?.Invoke(groupIndex);
+    }
+
+    public GroupInfo GroupGetInfo(int groupIndex) {
+        if(groupIndex < 0 || groupIndex >= mGroupInfos.Length)
+            return null;
 
         return mGroupInfos[groupIndex];
     }
@@ -95,7 +173,7 @@ public class StructureController : MonoBehaviour  {
 
     public void PlacementStart(StructureData structureData) {
         mPlacementCurStuctureData = structureData;
-        mPlacementCurGroupIndex = GetGroupIndex(structureData);
+        mPlacementCurGroupIndex = GroupGetIndex(structureData);
 
         PlacementActive();
     }
@@ -110,7 +188,7 @@ public class StructureController : MonoBehaviour  {
             mPlacementCurStructure.MoveTo(placementCursor.positionGround);
         }
         else if(mPlacementCurStuctureData) { //spawn structure
-            if(!(mStructureActives.IsFull || IsGroupFull(mPlacementCurGroupIndex))) { //ensure it is valid (fail-safe)
+            if(!(mStructureActives.IsFull || GroupIsFull(mPlacementCurGroupIndex))) { //ensure it is valid (fail-safe)
                                                                                       //spawn at ground
                 mSpawnParms[StructureSpawnParams.spawnPoint] = placementCursor.positionGround;
                 mSpawnParms[StructureSpawnParams.spawnNormal] = placementCursor.normalGround;
@@ -123,8 +201,6 @@ public class StructureController : MonoBehaviour  {
                 mStructureActives.Add(newStructure);
 
                 mGroupInfos[mPlacementCurGroupIndex].count++;
-
-                signalInvokeGroupInfoRefresh?.Invoke();
 
                 signalInvokeStructureSpawned?.Invoke(newStructure);
             }
@@ -190,11 +266,7 @@ public class StructureController : MonoBehaviour  {
             mPlacementBlockerActives.Remove(structure);
         }
     }
-    
-    public int GetGroupIndex(StructureData structureData) {
-        return paletteData.GetGroupIndex(structureData);
-    }
-
+        
     public void Setup(StructurePaletteData aPaletteData) {
         //initialize pool
         if(!mPoolCtrl) {
@@ -213,18 +285,19 @@ public class StructureController : MonoBehaviour  {
 
         //setup pool
         for(int i = 0; i < groupCount; i++) {
-            var item = paletteData.groups[i];
+            var grpItm = paletteData.groups[i];
 
-            var capacity = item.capacity;
+            var capacity = grpItm.capacity;
 
-            for(int j = 0; j < item.structures.Length; j++) {
-                var structure = item.structures[j];
+            for(int j = 0; j < grpItm.structures.Length; j++) {
+                var structureInfo = grpItm.structures[j];
+                var structure = structureInfo.data;
 
                 //add new item in pool
                 mPoolCtrl.AddType(structure.spawnPrefab.gameObject, capacity, capacity);
             }
 
-            mGroupInfos[i] = new GroupInfo { count = 0, capacity = capacity, isHidden = false };
+            mGroupInfos[i] = new GroupInfo(grpItm);
 
             totalCapacity += capacity;
         }
@@ -279,13 +352,10 @@ public class StructureController : MonoBehaviour  {
             if(mPlacementCurStructure == structure)
                 PlacementClear();
 
-            int grpInd = GetGroupIndex(structure.data);
+            int grpInd = GroupGetIndex(structure.data);
 
-            if(mGroupInfos[grpInd].count > 0) { //shouldn't be 0 at this point
+            if(mGroupInfos[grpInd].count > 0) //shouldn't be 0 at this point
                 mGroupInfos[grpInd].count--;
-
-                signalInvokeGroupInfoRefresh?.Invoke();
-            }
 
             signalInvokeStructureDespawned?.Invoke(structure);
         }

@@ -10,19 +10,6 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         public string name;
         public StructureWaypoint[] waypoints;
     }
-
-    [Header("Data")]    
-    public int hitpoints; //for damageable, set to 0 for invulnerable
-
-    //for buildable
-    public float buildTime; //if buildable, set to 0 for spawning building (e.g. house)
-
-    public int workCapacity = 2; //how many can work on this structure
-
-    public bool isReparable;
-
-    [SerializeField]
-    bool _isDemolishable;
     
     [Header("Toggle Display")]
     public GameObject activeGO; //once placed/spawned
@@ -53,8 +40,8 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     [SerializeField]
     WaypointGroup[] _waypointGroups;
 
-    public StructureData data { get; private set; }
-
+    public StructureData data { get; protected set; }
+        
     public StructureState state { 
         get { return mState; }
 
@@ -74,28 +61,35 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     public int hitpointsCurrent { 
         get { return mCurHitpoints; }
         set {
-            var val = Mathf.Clamp(value, 0, hitpoints);
+            var val = Mathf.Clamp(value, 0, hitpointsMax);
             if(mCurHitpoints != val) {
                 var prevHitpoints = mCurHitpoints;
                 mCurHitpoints = val;
-                
+
                 if(mCurHitpoints > prevHitpoints) { //healed?
                     //remove damage display
-                    if(mCurHitpoints == hitpoints && damagedGO)
+                    if(mCurHitpoints == hitpointsMax && damagedGO)
                         damagedGO.SetActive(false);
                 }
-                else if(mCurHitpoints == 0) //damaged completely?
-                    state = StructureState.Destroyed;
-                else if(mCurHitpoints < prevHitpoints) //perform damage
-                    state = StructureState.Damage;
+                else if(state != StructureState.Demolish) { //already being demolished
+                    //damaged completely?
+                    if(mCurHitpoints == 0)
+                        state = StructureState.Destroyed;
+                    //perform damage
+                    else if(mCurHitpoints < prevHitpoints)
+                        state = StructureState.Damage;
+                }
 
                 //signal
             }
         }
     }
 
-    public bool isBuildable { get { return buildTime > 0f; } }
-    public bool isDamageable { get { return hitpoints > 0; } }
+    public int hitpointsMax { get { return data.hitpoints; } }
+
+    public bool isBuildable { get { return data.buildTime > 0f; } }
+
+    public bool isDamageable { get { return data.hitpoints > 0 && (state == StructureState.Active || state == StructureState.Repair || (state == StructureState.Demolish && mIsDemolishInProcess)); } }
 
     public bool isMovable { 
         get { 
@@ -105,7 +99,7 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
 
     public bool isDemolishable {
         get {
-            return _isDemolishable && !(state == StructureState.Demolish);
+            return data.isDemolishable && !(state == StructureState.Demolish);
         }
     }
 
@@ -118,6 +112,19 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
 
             if(moveCtrl)
                 ret |= StructureAction.Move;
+
+            //cancellable actions
+            var canCancel = false;
+
+            switch(state) {
+                case StructureState.Demolish:
+                    if(mIsDemolishInProcess)
+                        canCancel = true;
+                    break;
+            }
+
+            if(canCancel)
+                ret |= StructureAction.Cancel;
 
             return ret;
         }
@@ -166,6 +173,8 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     /// Current works going on this structure (added/subtracted by Units)
     /// </summary>
     public int workCount { get; private set; }
+    public int workCapacity { get { return data.workCapacity; } }
+    public bool workIsFull { get { return workCount >= data.workCapacity; } }
         
     public event System.Action<StructureStatusInfo> statusUpdateCallback;
     public event System.Action<StructureState> stateChangedCallback;
@@ -175,11 +184,18 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     private StructureState mState;
     private int mCurHitpoints;
 
-    private Vector2 mMoveToPos;
+    private bool mIsDemolishInProcess; //during demolish state
 
     private Dictionary<string, StructureWaypoint[]> mWorldWaypoints;
 
     private StructureStatusInfo[] mStatusInfos;
+
+    protected int mTakeSpawnInd = -1;
+    protected int mTakeIdleInd = -1;
+    protected int mTakeDamageInd = -1;
+    protected int mTakeMovingInd = -1;
+    protected int mTakeDestroyedInd = -1;
+    protected int mTakeDemolishInd = -1;
 
     public StructureWaypoint[] GetWaypoints(string waypointName) {
         if(mWorldWaypoints == null)
@@ -233,19 +249,21 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         for(int i = 0; i < mStatusInfos.Length; i++) {
             var inf = mStatusInfos[i];
 
-            inf.state = StructureStatusState.None;
-            inf.progress = 0f;
+            if(inf.state != StructureStatusState.None) {
+                inf.state = StructureStatusState.None;
+                inf.progress = 0f;
 
-            mStatusInfos[i] = inf;
+                mStatusInfos[i] = inf;
 
-            statusUpdateCallback?.Invoke(inf);
+                statusUpdateCallback?.Invoke(inf);
+            }
         }
     }
 
     public void MoveTo(Vector2 toPos) {
         if(!isMovable) return;
 
-        mMoveToPos = toPos;
+        moveCtrl.moveDestination = toPos;
 
         state = StructureState.Moving;
     }
@@ -256,8 +274,24 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         state = StructureState.Demolish;
     }
 
+    /// <summary>
+    /// Cancel any action that is cancellable
+    /// </summary>
+    public void CancelAction() {
+        switch(state) {
+            case StructureState.Demolish:
+                if(mIsDemolishInProcess) {
+                    if(mCurHitpoints == 0)
+                        state = StructureState.Destroyed;
+                    else
+                        state = StructureState.Active;
+                }
+                break;
+        }
+    }
+
     public virtual void WorkAdd() {
-        if(workCount < workCapacity)
+        if(!workIsFull)
             workCount++;
     }
 
@@ -275,6 +309,8 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     protected virtual void ClearCurrentState() {
         StopCurrentRout();
 
+        if(moveCtrl) moveCtrl.Cancel();
+
         if(isClicked) {
             isClicked = false;
             GameData.instance.signalStructureClick?.Invoke(this);
@@ -283,10 +319,22 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         switch(mState) {
             case StructureState.Construction:
                 if(constructionGO) constructionGO.SetActive(false);
+
+                SetStatusState(StructureStatus.Construct, StructureStatusState.None);
                 break;
 
             case StructureState.Repair:
                 if(repairGO) repairGO.SetActive(false);
+
+                SetStatusState(StructureStatus.Construct, StructureStatusState.None);
+                break;
+
+            case StructureState.Destroyed:
+                SetStatusState(StructureStatus.Construct, StructureStatusState.None);
+                break;
+
+            case StructureState.Demolish:
+                SetStatusState(StructureStatus.Demolish, StructureStatusState.None);
                 break;
         }
     }
@@ -300,7 +348,7 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
             case StructureState.Spawning:
                 if(activeGO) activeGO.SetActive(true);
 
-                AnimateToState(takeSpawn, StructureState.Active);
+                AnimateToState(mTakeSpawnInd, StructureState.Active);
 
                 physicsActive = false;
                 addPlacementBlocker = true;
@@ -309,8 +357,10 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
             case StructureState.Active:
                 if(activeGO) activeGO.SetActive(true);
 
-                if(animator && !string.IsNullOrEmpty(takeIdle))
-                    animator.Play(takeIdle);
+                if(damagedGO) damagedGO.SetActive(mCurHitpoints < hitpointsMax);
+
+                if(mTakeIdleInd != -1)
+                    animator.Play(mTakeIdleInd);
                 break;
 
             case StructureState.Construction:
@@ -350,22 +400,20 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
                 if(damagedGO) damagedGO.SetActive(true);
 
                 //if repairable, simply play animation and show repair status
-                if(isReparable) {
+                if(data.isReparable) {
                     SetStatusState(StructureStatus.Construct, StructureStatusState.Require);
 
-                    if(animator && !string.IsNullOrEmpty(takeDestroyed))
-                        animator.Play(takeDestroyed);
+                    if(mTakeDestroyedInd != -1)
+                        animator.Play(mTakeDestroyedInd);
                 }
                 else //release after destroyed animation (NOTE: make sure that "takeDestroyed" is not a loop animation)
-                    AnimateToRelease(takeDestroyed);
+                    AnimateToRelease(mTakeDestroyedInd);
                 break;
 
             case StructureState.Demolish:
                 if(damagedGO) damagedGO.SetActive(true);
 
-                AnimateToRelease(takeDemolish);
-
-                physicsActive = false;
+                mRout = StartCoroutine(DoDemolish());
                 break;
 
             case StructureState.None:
@@ -391,8 +439,8 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         var structureCtrl = ColonyController.instance.structureController;
 
         if(addPlacementBlocker) {
-            if(state == StructureState.Moving) //special case
-                structureCtrl.PlacementAddBlocker(this, mMoveToPos);
+            if(state == StructureState.Moving && !moveCtrl) //special case
+                structureCtrl.PlacementAddBlocker(this, moveCtrl.moveDestination);
             else
                 structureCtrl.PlacementAddBlocker(this);
         }
@@ -400,12 +448,12 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
             structureCtrl.PlacementRemoveBlocker(this);
     }
 
-    protected void AnimateToState(string take, StructureState toState) {
-        mRout = StartCoroutine(DoAnimationToState(take, toState));
+    protected void AnimateToState(int takeInd, StructureState toState) {
+        mRout = StartCoroutine(DoAnimationToState(takeInd, toState));
     }
 
-    protected void AnimateToRelease(string take) {
-        mRout = StartCoroutine(DoAnimationToRelease(take));
+    protected void AnimateToRelease(int takeInd) {
+        mRout = StartCoroutine(DoAnimationToRelease(takeInd));
     }
         
     void M8.IPoolInit.OnInit() {        
@@ -416,6 +464,16 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         boxCollider = GetComponent<BoxCollider2D>();
         if(boxCollider)
             boxCollider.enabled = false;
+
+        //initialize animation
+        if(animator) {
+            mTakeSpawnInd = animator.GetTakeIndex(takeSpawn);
+            mTakeIdleInd = animator.GetTakeIndex(takeIdle);
+            mTakeDamageInd = animator.GetTakeIndex(takeDamage);
+            mTakeMovingInd = animator.GetTakeIndex(takeMoving);
+            mTakeDestroyedInd = animator.GetTakeIndex(takeDestroyed);
+            mTakeDemolishInd = animator.GetTakeIndex(takeDemolish);
+        }
 
         //generate waypoints access
         mWorldWaypoints = new Dictionary<string, StructureWaypoint[]>(_waypointGroups.Length);
@@ -460,6 +518,8 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
                 position = parms.GetValue<Vector2>(StructureSpawnParams.spawnPoint);
         }
 
+        mCurHitpoints = hitpointsMax;
+
         Spawned();
     }
 
@@ -495,6 +555,7 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     }
 
     IEnumerator DoConstruction() {
+        var buildTime = data.buildTime;
         var workTimeLeft = buildTime;
 
         if(workTimeLeft > 0f) {
@@ -528,8 +589,6 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
 
         mRout = null;
 
-        mCurHitpoints = hitpoints;
-
         SetStatusState(StructureStatus.Construct, StructureStatusState.None);
 
         state = StructureState.Active;
@@ -542,13 +601,13 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         var repairPerHPDelay = gameDat.structureRepairPerHitDelay;
 
         var curHP = mCurHitpoints;
-        var repairCount = hitpoints - curHP;
+        var repairCount = hitpointsMax - curHP;
 
         var totalDelay = repairCount * repairPerHPDelay;
 
         var curTime = 0f;
 
-        while(curTime < totalDelay && mCurHitpoints < hitpoints) {
+        while(curTime < totalDelay && mCurHitpoints < hitpointsMax) {
             //no worker?
             if(workCount == 0) {
                 SetStatusState(StructureStatus.Construct, StructureStatusState.Require);
@@ -583,9 +642,9 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
             state = StructureState.Active;
     }
 
-    IEnumerator DoAnimationToState(string take, StructureState toState) {
-        if(animator && !string.IsNullOrEmpty(take))
-            yield return animator.PlayWait(take);
+    IEnumerator DoAnimationToState(int takeInd, StructureState toState) {
+        if(takeInd != -1)
+            yield return animator.PlayWait(takeInd);
         else
             yield return null;
 
@@ -594,9 +653,9 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         state = toState;
     }
 
-    IEnumerator DoAnimationToRelease(string take) {
-        if(animator && !string.IsNullOrEmpty(take))
-            yield return animator.PlayWait(take);
+    IEnumerator DoAnimationToRelease(int takeInd) {
+        if(takeInd != -1)
+            yield return animator.PlayWait(takeInd);
         else
             yield return null;
 
@@ -606,8 +665,8 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     }
 
     IEnumerator DoDamage() {
-        if(animator && !string.IsNullOrEmpty(takeDamage))
-            animator.Play(takeDamage);
+        if(mTakeDamageInd != -1)
+            animator.Play(mTakeDamageInd);
 
         var delay = GameData.instance.structureDamageDelay;
         if(delay > 0f) {
@@ -615,7 +674,6 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
 
             while(curTime < delay) {
                 yield return null;
-
                 curTime += Time.deltaTime;
             }
         }
@@ -630,10 +688,10 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     IEnumerator DoMove() {
         yield return null;
 
-        if(animator && !string.IsNullOrEmpty(takeMoving))
-            animator.Play(takeMoving);
+        if(mTakeMovingInd != -1)
+            animator.Play(mTakeMovingInd);
 
-        moveCtrl.Move(mMoveToPos);
+        moveCtrl.Move();
 
         while(moveCtrl.isMoving)
             yield return null;
@@ -641,6 +699,42 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         mRout = null;
 
         state = StructureState.Active;
+    }
+
+    IEnumerator DoDemolish() {
+        SetStatusState(StructureStatus.Demolish, StructureStatusState.Progress);
+
+        mIsDemolishInProcess = true;
+
+        //wait
+        var delay = GameData.instance.structureDemolishDelay;
+        if(delay > 0f) {
+            var curTime = 0f;
+            while(curTime < delay) {
+                yield return null;
+
+                curTime += Time.deltaTime;
+
+                SetStatusProgress(StructureStatus.Demolish, Mathf.Clamp01(curTime / delay));
+            }
+        }
+        else
+            yield return null;
+
+        if(boxCollider)
+            boxCollider.enabled = false;
+
+        mIsDemolishInProcess = false;
+
+        SetStatusState(StructureStatus.Demolish, StructureStatusState.None);
+
+        //proceed to release
+        if(mTakeDemolishInd != -1)
+            yield return animator.PlayWait(mTakeDemolishInd);
+
+        mRout = null;
+
+        poolCtrl.Release();
     }
 
     private void RefreshWaypoints() {

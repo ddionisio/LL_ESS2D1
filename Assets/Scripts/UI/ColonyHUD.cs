@@ -25,6 +25,8 @@ public class ColonyHUD : MonoBehaviour {
     public SignalStructure signalListenStructureSpawned;
     public SignalStructure signalListenStructureDespawned;
 
+    public M8.SignalInteger signalListenGroupInfoRefresh;
+
     private bool mIsPlacementActive;
 
     private Structure mStructureClicked;
@@ -60,6 +62,8 @@ public class ColonyHUD : MonoBehaviour {
         if(signalListenStructureSpawned) signalListenStructureSpawned.callback -= OnStructureSpawned;
         if(signalListenStructureDespawned) signalListenStructureDespawned.callback -= OnStructureDespawned;
 
+        if(signalListenGroupInfoRefresh) signalListenGroupInfoRefresh.callback -= OnGroupInfoRefresh;
+
         if(GameData.isInstantiated) {
             var gameDat = GameData.instance;
 
@@ -90,10 +94,20 @@ public class ColonyHUD : MonoBehaviour {
         if(signalListenStructureSpawned) signalListenStructureSpawned.callback += OnStructureSpawned;
         if(signalListenStructureDespawned) signalListenStructureDespawned.callback += OnStructureDespawned;
 
+        if(signalListenGroupInfoRefresh) signalListenGroupInfoRefresh.callback += OnGroupInfoRefresh;
+
         if(gameDat.signalStructureClick) gameDat.signalStructureClick.callback += OnStructureClick;
 
         if(gameDat.signalCycleBegin) gameDat.signalCycleBegin.callback += OnCycleBegin;
         if(gameDat.signalCycleEnd) gameDat.signalCycleEnd.callback += OnCycleEnd;
+    }
+
+    void OnGroupInfoRefresh(int groupIndex) {
+        paletteStructureWidget.RefreshGroup(groupIndex);
+
+        paletteStructureWidget.ClearGroupActive();
+
+        //TODO: play flashy "update" to group in palette structure
     }
 
     void OnPlacementActive(bool active) {
@@ -188,6 +202,10 @@ public class ColonyHUD : MonoBehaviour {
 
             case StructureAction.Demolish:
                 mStructureClicked.Demolish();
+                break;
+
+            case StructureAction.Cancel:
+                mStructureClicked.CancelAction();
                 break;
         }
 

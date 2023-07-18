@@ -20,15 +20,18 @@ MonoBehaviour:
     m_Bits: 64
   placementCheckLayerMask:
     serializedVersion: 2
-    m_Bits: 832
+    m_Bits: 448
   cycleDuration: 120
   cycleDaylightScaleDefault: 0.5
   fastForwardScale: 2
   structureBuildScalePerWork: 1
   structureRepairScalePerWork: 1
-  growthScalePerWork: 1
   structureRepairPerHitDelay: 1
   structureDamageDelay: 0.5
+  structureDemolishDelay: 2
+  growthScalePerWork: 1
+  unitHurtDelay: 0.5
+  unitDyingDelay: 5
   overworldScene:
     name: overworld
     path: Assets/Scenes/overworld.unity

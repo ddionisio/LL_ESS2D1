@@ -30,12 +30,21 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
 
     public float fastForwardScale = 2.0f;
 
+    [Header("Colony | Structure")]
     public float structureBuildScalePerWork = 1f; //scale build time by this amount per work
     public float structureRepairScalePerWork = 1f; //scale build time by this amount per work
-    public float growthScalePerWork = 1f; //scale growth time by this amount per work
-
+    
     public float structureRepairPerHitDelay = 1f; //for reparable structures, delay to restore one hp
     public float structureDamageDelay = 0.5f; //how long to stay in damaged state
+
+    public float structureDemolishDelay = 2f; //how long before demolish is actually done.
+
+    [Header("Colony | Structure | Plant")]
+    public float growthScalePerWork = 1f; //scale growth time by this amount per work
+
+    [Header("Colony | Unit")]
+    public float unitHurtDelay = 0.5f; //how long to stay in hurt state
+    public float unitDyingDelay = 5f; //how long to stay in dying state
 
     [Header("Scenes")]
     //intro sets progress to 1
@@ -54,7 +63,7 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
 
     public SignalStructure signalStructureClick;
 
-    [Header("Editor Config")]
+    [Header("Editor Config | Landscape")]
     public Vector2 landscapePreviewSize;
 
     public Color landscapePreviewBoundsColor = Color.yellow;
@@ -64,6 +73,7 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public float landscapePreviewRegionHandleScale = 0.05f;
     public float landscapePreviewRegionHandleSnap = 0.25f;
 
+    [Header("Editor Config | Structure")]
     public Color structurePlacementBoundsColor = Color.cyan;
     public float structurePlacementBoundsEditSnap = 1f;
 

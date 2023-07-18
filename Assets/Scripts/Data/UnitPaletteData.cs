@@ -4,5 +4,14 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "unitPalette", menuName = "Game/Unit Palette")]
 public class UnitPaletteData : ScriptableObject {
-    public UnitData[] items;
+    [System.Serializable]
+    public struct UnitInfo {
+        public UnitData data;
+        public bool isHidden;
+    }
+
+    public UnitInfo[] units;
+
+    public int capacityStart;
+    public int capacity;
 }

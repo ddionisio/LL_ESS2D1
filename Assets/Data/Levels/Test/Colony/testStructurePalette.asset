@@ -16,10 +16,14 @@ MonoBehaviour:
   - nameRef: 
     icon: {fileID: 0}
     structures:
-    - {fileID: 11400000, guid: 8d088e574f52a6a4c8849ad862fc45e0, type: 2}
+    - data: {fileID: 11400000, guid: 8d088e574f52a6a4c8849ad862fc45e0, type: 2}
+      isHidden: 0
+    capacityStart: 1
     capacity: 4
   - nameRef: 
     icon: {fileID: 0}
     structures:
-    - {fileID: 11400000, guid: c73b945acede2f241b89e40d6f760e93, type: 2}
+    - data: {fileID: 11400000, guid: c73b945acede2f241b89e40d6f760e93, type: 2}
+      isHidden: 0
+    capacityStart: 4
     capacity: 4

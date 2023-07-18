@@ -107,9 +107,9 @@ public class StructurePlant : Structure {
     private float mGrowthAnimScaleBase; //base growth animation
     private float mGrowthAnimTotalTime;
 
-    private int mGrowthReadyTakeInd;
-    private int mGrowthTakeInd;
-    private int mGrowthDecayTakeInd;
+    private int mGrowthReadyTakeInd = -1;
+    private int mGrowthTakeInd = -1;
+    private int mGrowthDecayTakeInd = -1;
 
     private BloomItem[] mBloomItems;
 
@@ -183,11 +183,6 @@ public class StructurePlant : Structure {
             mGrowthReadyTakeInd = growthAnimator.GetTakeIndex(growthReadyTake);
             mGrowthTakeInd = growthAnimator.GetTakeIndex(growthTake);
             mGrowthDecayTakeInd = growthAnimator.GetTakeIndex(growthDecayTake);
-        }
-        else {
-            mGrowthReadyTakeInd = -1;
-            mGrowthTakeInd = -1;
-            mGrowthDecayTakeInd = -1;
         }
 
         //setup base growth scale

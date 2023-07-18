@@ -4,8 +4,35 @@ using UnityEngine;
 
 public abstract class MovableBase : MonoBehaviour {
     [Header("Move Info")]
-    public float moveSpeed = 10f;
-    public DG.Tweening.Ease moveEase = DG.Tweening.Ease.InOutSine;
+    [SerializeField]
+    float _moveSpeed = 10f; //default move speed
+    [SerializeField]
+    DG.Tweening.Ease _moveEase = DG.Tweening.Ease.InOutSine;
+
+    /// <summary>
+    /// Set move speed, will not change until next call to Move (so make sure to Cancel first).
+    /// </summary>
+    public float moveSpeed {
+        get { return mMoveSpeed; }
+        set { mMoveSpeed = value; }
+    }
+
+    /// <summary>
+    /// Set destination, remember to call Move to actually move. Can be changed while moving (will cancel current, and move again)
+    /// </summary>
+    public Vector2 moveDestination { 
+        get { return mMoveDest; }
+        set {
+            if(mMoveDest != value) {
+                mMoveDest = value;
+
+                if(isMoving) { //cancel current, and move again
+                    Cancel();
+                    Move();
+                }
+            }
+        }
+    }
 
     public bool isMoving { get { return mRout != null; } }
 
@@ -15,10 +42,18 @@ public abstract class MovableBase : MonoBehaviour {
 
     private DG.Tweening.EaseFunction mEaseFunc;
 
-    public void Move(Vector2 dest) {
+    private Vector2 mMoveDest;
+
+    private float mMoveSpeed;
+
+    public void ResetMoveSpeed() {
+        mMoveSpeed = _moveSpeed;
+    }
+
+    public void Move() {
         Cancel();
 
-        mRout = StartCoroutine(DoMove(dest));
+        mRout = StartCoroutine(DoMove());
     }
 
     public void Cancel() {
@@ -31,7 +66,7 @@ public abstract class MovableBase : MonoBehaviour {
     /// <summary>
     /// Return distance
     /// </summary>
-    protected abstract float MoveStart(Vector2 from, Vector2 to);
+    protected abstract float MoveInit(Vector2 from, Vector2 to);
 
     protected abstract Vector2 MoveUpdate(Vector2 from, Vector2 to, float t);
 
@@ -39,16 +74,20 @@ public abstract class MovableBase : MonoBehaviour {
         Cancel();
     }
 
-    IEnumerator DoMove(Vector2 dest) {
+    void Awake() {
+        mMoveSpeed = _moveSpeed;
+    }
+
+    IEnumerator DoMove() {
         if(mEaseFunc == null)
-            mEaseFunc = DG.Tweening.Core.Easing.EaseManager.ToEaseFunction(moveEase);
+            mEaseFunc = DG.Tweening.Core.Easing.EaseManager.ToEaseFunction(_moveEase);
 
         var startPos = (Vector2)transform.position;
                 
-        if(moveSpeed > 0f) {
-            var dist = MoveStart(startPos, dest);
+        if(mMoveSpeed > 0f) {
+            var dist = MoveInit(startPos, mMoveDest);
 
-            var moveDelay = dist / moveSpeed;
+            var moveDelay = dist / mMoveSpeed;
 
             var curTime = 0f;
             while(curTime < moveDelay) {
@@ -58,7 +97,7 @@ public abstract class MovableBase : MonoBehaviour {
 
                 var t = mEaseFunc(curTime, moveDelay, 0f, 0f);
 
-                var toPos = MoveUpdate(startPos, dest, t);
+                var toPos = MoveUpdate(startPos, mMoveDest, t);
 
                 transform.position = toPos;
             }
@@ -66,7 +105,7 @@ public abstract class MovableBase : MonoBehaviour {
         else {
             yield return null;
 
-            transform.position = dest;
+            transform.position = mMoveDest;
         }
 
         mRout = null;

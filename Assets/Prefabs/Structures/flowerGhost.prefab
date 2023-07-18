@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4893859084732754580}
   - component: {fileID: 4893859084732754581}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: stem (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4893859085032602885}
   - component: {fileID: 4893859085032602882}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: bloom (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,7 +174,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4893859085335968972}
   - component: {fileID: 4893859085335968973}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: circle32x32 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -257,7 +257,7 @@ GameObject:
   - component: {fileID: 4893859085613387564}
   - component: {fileID: 4893859085613387567}
   - component: {fileID: 4893859085613387566}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: flowerGhost
   m_TagString: Untagged
   m_Icon: {fileID: 0}

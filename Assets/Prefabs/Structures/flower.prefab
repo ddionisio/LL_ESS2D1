@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2474430873995222743}
   - component: {fileID: 2474430873995222742}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: overlayAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -304,7 +304,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2474430875325669462}
   - component: {fileID: 2474430875325669463}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: growth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -671,7 +671,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2474430875748826320}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: active
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -706,7 +706,7 @@ GameObject:
   - component: {fileID: 2474430875812109766}
   - component: {fileID: 2474430875812109767}
   - component: {fileID: 2474430875812109764}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: flower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -742,11 +742,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11d17cdf45e57004d8c2850cb295cfbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitpoints: 1
-  buildTime: 0
-  workCapacity: 2
-  isReparable: 0
-  _isDemolishable: 1
   activeGO: {fileID: 2474430875748826321}
   constructionGO: {fileID: 0}
   damagedGO: {fileID: 0}
@@ -909,6 +904,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3433726084524744801, guid: 321782ceb2fb9b145bfcc00cda0b3c7a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491035592950782506, guid: 321782ceb2fb9b145bfcc00cda0b3c7a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491035592950782506, guid: 321782ceb2fb9b145bfcc00cda0b3c7a, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491035592950782506, guid: 321782ceb2fb9b145bfcc00cda0b3c7a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491035592950782506, guid: 321782ceb2fb9b145bfcc00cda0b3c7a, type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4913963837051661661, guid: 321782ceb2fb9b145bfcc00cda0b3c7a, type: 3}

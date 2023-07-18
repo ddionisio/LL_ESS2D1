@@ -15,6 +15,11 @@ MonoBehaviour:
   nameRef: 
   descRef: 
   icon: {fileID: 0}
+  hitpoints: 3
+  buildTime: 0
+  workCapacity: 2
+  isReparable: 1
+  isDemolishable: 0
   ghostPrefab: {fileID: 6100491300752757169, guid: e801c3cb42a7ec248b8537315099e954, type: 3}
   spawnPrefab: {fileID: 3674660599128121673, guid: 7dbccabfae8ef5e4a945438ff434be43, type: 3}
   placementValidLayerMask:

@@ -19,6 +19,8 @@ public class StructureGroupWidget : MonoBehaviour {
     public GameObject itemsRootGO;
     public Transform itemsContainerRoot;
 
+    public int index { get; private set; }
+
     public bool active {
         get { return gameObject.activeSelf; }
         set { gameObject.SetActive(value); }
@@ -39,13 +41,13 @@ public class StructureGroupWidget : MonoBehaviour {
         }
     }
 
-    public StructureData[] structures { get; private set; }
-
     public event System.Action<StructureGroupWidget> clickCallback;
 
     private int mCount;
 
-    public void Setup(StructurePaletteData.ItemInfo info) {
+    public void Setup(int aIndex, StructurePaletteData.GroupInfo info) {
+        index = aIndex;
+
         if(iconImage) {
             iconImage.sprite = info.icon;
 
@@ -56,8 +58,6 @@ public class StructureGroupWidget : MonoBehaviour {
         gameObject.name = info.nameRef;
 
         if(nameLabel) nameLabel.text = M8.Localize.Get(info.nameRef);
-
-        structures = info.structures;
 
         itemsActive = false;
 

@@ -12,6 +12,17 @@ public class StructureData : ScriptableObject {
 
     public Sprite icon;
 
+    [Header("Stats")]
+    public int hitpoints; //for damageable, set to 0 for invulnerable
+
+    //for buildable
+    public float buildTime; //if buildable, set to 0 for spawning building (e.g. house)
+
+    public int workCapacity = 2; //how many can work on this structure
+
+    public bool isReparable;
+    public bool isDemolishable;
+
     [Header("Spawn")]
     public StructureGhost ghostPrefab;
     public Structure spawnPrefab;

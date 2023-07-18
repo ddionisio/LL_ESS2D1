@@ -12,14 +12,17 @@ public enum StructureState {
     MoveReady, //during placement when move action is selected
     Moving, //for moveable structures, start moving
     Destroyed, //when hitpoint reaches 0
-    Demolish, //when moving/deconstruct via UI
+    Demolish, //when deconstruct via UI
 }
 
 public enum StructureStatus {
     Construct, //build/repair
+    Demolish,
+
     Food,
     Water,
     Power,
+
     Growth, //for plants
 }
 
@@ -33,8 +36,10 @@ public enum StructureStatusState {
 public enum StructureAction {
     None = 0x0,
 
-    Move = 0x1,
-    Demolish = 0x2,
+    Cancel = 0x1,
+
+    Move = 0x2,
+    Demolish = 0x4,
 
     //Upgrade?
 }

@@ -51,10 +51,10 @@ public class StructurePlacementInput : MonoBehaviour, IPointerEnterHandler, IPoi
         var ghostStructureList = new List<GhostItem>();
 
         for(int i = 0; i < paletteData.groups.Length; i++) {
-            var item = paletteData.groups[i];
+            var group = paletteData.groups[i];
 
-            for(int j = 0; j < item.structures.Length; j++) {
-                var structure = item.structures[j];
+            for(int j = 0; j < group.structures.Length; j++) {
+                var structure = group.structures[j].data;
 
                 //setup ghost
                 ghostStructureList.Add(new GhostItem(structure, ghostRoot));

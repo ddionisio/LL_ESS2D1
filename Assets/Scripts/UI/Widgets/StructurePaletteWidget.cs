@@ -35,7 +35,7 @@ public class StructurePaletteWidget : MonoBehaviour {
 
                 var newGroupWidget = Instantiate(groupWidgetTemplate);
 
-                newGroupWidget.Setup(grp);
+                newGroupWidget.Setup(i, grp);
 
                 newGroupWidget.clickCallback += OnGroupClick;
 
@@ -74,28 +74,43 @@ public class StructurePaletteWidget : MonoBehaviour {
         var structureCtrl = ColonyController.instance.structureController;
 
         for(int i = 0; i < mGroupWidgets.Length; i++) {
-            var groupInf = structureCtrl.GetGroupInfo(i);
-
             var groupWidget = mGroupWidgets[i];
+            if(!groupWidget) //fail-safe
+                continue;
 
-            groupWidget.count = groupInf.capacity - groupInf.count;
-            groupWidget.active = !groupInf.isHidden;
+            var groupInf = structureCtrl.GroupGetInfo(i);
+
+            if(groupInf != null) {
+                groupWidget.count = groupInf.capacity - groupInf.count;
+                groupWidget.active = groupInf.visibleStructuresCount > 0;
+            }
+            else //fail-safe
+                groupWidget.active = false;
         }
     }
 
     public void RefreshGroup(StructureData structureData) {
-        if(mGroupWidgets == null) return; //fail-safe
+        var structureCtrl = ColonyController.instance.structureController;
+        var groupInd = structureCtrl.GroupGetIndex(structureData);
+
+        RefreshGroup(groupInd);
+    }
+
+    public void RefreshGroup(int groupIndex) {
+        if(mGroupWidgets == null || groupIndex < 0 || groupIndex >= mGroupWidgets.Length) return; //fail-safe
 
         var structureCtrl = ColonyController.instance.structureController;
 
-        var groupInd = structureCtrl.GetGroupIndex(structureData);
-        if(groupInd != -1) {
-            var groupInf = structureCtrl.GetGroupInfo(groupInd);
+        var groupWidget = mGroupWidgets[groupIndex];
+        if(groupWidget) { //fail-safe
+            var groupInf = structureCtrl.GroupGetInfo(groupIndex);
 
-            var groupWidget = mGroupWidgets[groupInd];
-
-            groupWidget.count = groupInf.capacity - groupInf.count;
-            groupWidget.active = !groupInf.isHidden;
+            if(groupInf != null) {
+                groupWidget.count = groupInf.capacity - groupInf.count;
+                groupWidget.active = groupInf.visibleStructuresCount > 0;
+            }
+            else //fail-safe
+                groupWidget.active = false;
         }
     }
 
@@ -133,16 +148,22 @@ public class StructurePaletteWidget : MonoBehaviour {
 
             mGroupWidgetActive = groupWidget;
 
+            var structureCtrl = ColonyController.instance.structureController;
+
+            var grpInfo = structureCtrl.GroupGetInfo(groupWidget.index);
+
             //setup items
-            for(int i = 0; i < groupWidget.structures.Length; i++) {
+            for(int i = 0; i < grpInfo.structures.Length; i++) {
                 if(mStructureItemWidgetCache.Count == 0) //shouldn't happen
                     break;
 
-                var structureDat = groupWidget.structures[i];
+                var structureInf = grpInfo.structures[i];
+                if(structureInf.isHidden) //skip hidden
+                    continue;
 
                 var itm = mStructureItemWidgetCache.RemoveLast();
 
-                itm.Setup(structureDat);
+                itm.Setup(structureInf.data);
 
                 itm.transform.SetParent(mGroupWidgetActive.itemsContainerRoot, false);
 

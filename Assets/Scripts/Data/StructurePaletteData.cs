@@ -5,7 +5,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "structurePalette", menuName = "Game/Structure Palette")]
 public class StructurePaletteData : ScriptableObject {
     [System.Serializable]
-    public class ItemInfo {
+    public struct StructureInfo {
+        public StructureData data;
+        public bool isHidden;
+    }
+
+    [System.Serializable]
+    public class GroupInfo {
         [Header("Info")]
         [M8.Localize]
         public string nameRef;
@@ -13,12 +19,13 @@ public class StructurePaletteData : ScriptableObject {
         public Sprite icon;
 
         [Header("Catalog")]
-        public StructureData[] structures;
+        public StructureInfo[] structures;
 
+        public int capacityStart; //starting capacity
         public int capacity;
     }
 
-    public ItemInfo[] groups;
+    public GroupInfo[] groups;
 
     public int GetGroupIndex(StructureData data) {
         for(int i = 0; i < groups.Length; i++) {
@@ -26,7 +33,7 @@ public class StructurePaletteData : ScriptableObject {
 
             bool isFound = false;
             for(int j = 0; j < itm.structures.Length; j++) {
-                if(itm.structures[j] == data) {
+                if(itm.structures[j].data == data) {
                     isFound = true;
                     break;
                 }

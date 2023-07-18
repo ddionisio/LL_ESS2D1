@@ -12,6 +12,14 @@ public class UnitData : ScriptableObject {
 
     public Sprite icon;
 
+    [Header("Stats")]
+    public int hitpoints; //for damageable, set to 0 for invulnerable
+
+    public float moveSpeed = 10f;
+    public float runSpeed = 20f;
+
+    public bool canRevive; //can be revived by some means (e.g. medic for frogs)
+
     [Header("Spawn")]
-    public GameObject spawnPrefab;
+    public Unit spawnPrefab;
 }
