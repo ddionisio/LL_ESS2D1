@@ -24,4 +24,23 @@ public struct GroundPoint {
             return false;
         }
     }
+
+    public static bool GetGroundPoint(float x, out GroundPoint point) {
+        var levelBounds = ColonyController.instance.bounds;
+
+        var checkPoint = new Vector2(x, levelBounds.max.y);
+        var checkDir = Vector2.down;
+
+        var hit = Physics2D.Raycast(checkPoint, checkDir, levelBounds.size.y, GameData.instance.groundLayerMask);
+        if(hit.collider) {
+            point = new GroundPoint() { position = hit.point, up = hit.normal };
+
+            return true;
+        }
+        else {
+            point = new GroundPoint() { position = new Vector2(x, levelBounds.min.y), up = Vector2.up };
+
+            return false;
+        }
+    }
 }

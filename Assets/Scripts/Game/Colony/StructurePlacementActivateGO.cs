@@ -18,7 +18,7 @@ public class StructurePlacementActivateGO : MonoBehaviour {
             GameData.instance.signalPlacementActive.callback += OnPlacementActivate;
 
             //check if we are currently in placement mode
-            if(ColonyController.isInstantiated && ColonyController.instance.structureController.placementCurrentStructureData)
+            if(ColonyController.isInstantiated && ColonyController.instance.structurePaletteController.placementCurrentStructureData)
                 OnPlacementActivate(true);
             else
                 rootGO.SetActive(false);
@@ -26,7 +26,7 @@ public class StructurePlacementActivateGO : MonoBehaviour {
     }
 
     void OnPlacementActivate(bool active) {
-        var structureCtrl = ColonyController.instance.structureController;
+        var structureCtrl = ColonyController.instance.structurePaletteController;
 
         rootGO.SetActive(active && structureCtrl.placementCurrentStructureData.IsPlacementLayerValid(gameObject.layer));
     }

@@ -11,9 +11,13 @@ public class ColonyController : GameModeController<ColonyController> {
     public CriteriaData criteriaData; //used to determine house req. params, correlates to hotspot group from the overworld
 
     public StructurePaletteData structurePalette;
+    public UnitPaletteData unitPalette;
 
     [Header("Controllers")]
-    public StructureController structureController;
+    public StructurePaletteController structurePaletteController;
+
+    public UnitController unitController;
+    public UnitPaletteController unitPaletteController;
 
     [Header("Landscape")]
     public Bounds bounds;
@@ -86,7 +90,23 @@ public class ColonyController : GameModeController<ColonyController> {
         cycleController.Setup(hotspotData, season);
 
         //setup structure control
-        structureController.Setup(structurePalette);
+        structurePaletteController.Setup(structurePalette);
+
+        //setup unit control
+        unitPaletteController.Setup(unitController, unitPalette);
+
+        //setup units for structures (basically just house)
+        for(int i = 0; i < structurePalette.groups.Length; i++) {
+            var grp = structurePalette.groups[i];
+            var capacity = grp.capacity;
+
+            for(int j = 0; j < grp.structures.Length; j++) {
+                var structureHouseData = grp.structures[j].data as StructureHouseData;
+                if(structureHouseData && structureHouseData.unitSpawnData && structureHouseData.unitSpawnCapacity > 0) {
+                    unitController.AddUnitData(structureHouseData.unitSpawnData, structureHouseData.unitSpawnCapacity * capacity);
+                }
+            }
+        }
     }
 
     protected override IEnumerator Start() {

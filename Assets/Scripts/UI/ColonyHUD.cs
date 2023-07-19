@@ -34,13 +34,13 @@ public class ColonyHUD : MonoBehaviour {
     public void PlacementAccept() {
         var colonyCtrl = ColonyController.instance;
 
-        colonyCtrl.structureController.PlacementAccept();
+        colonyCtrl.structurePaletteController.PlacementAccept();
     }
 
     public void PlacementCancel() {
         var colonyCtrl = ColonyController.instance;
 
-        colonyCtrl.structureController.PlacementCancel();
+        colonyCtrl.structurePaletteController.PlacementCancel();
     }
 
     void OnDisable() {
@@ -142,7 +142,7 @@ public class ColonyHUD : MonoBehaviour {
             if(placementConfirmRoot) {
                 if(isClick) {
                     var colonyCtrl = ColonyController.instance;
-                    var placementInput = colonyCtrl.structureController.placementInput;
+                    var placementInput = colonyCtrl.structurePaletteController.placementInput;
 
                     placementConfirmRoot.gameObject.SetActive(true);
 
@@ -197,7 +197,7 @@ public class ColonyHUD : MonoBehaviour {
 
         switch(action) {
             case StructureAction.Move:
-                ColonyController.instance.structureController.PlacementStart(mStructureClicked);
+                ColonyController.instance.structurePaletteController.PlacementStart(mStructureClicked);
                 break;
 
             case StructureAction.Demolish:

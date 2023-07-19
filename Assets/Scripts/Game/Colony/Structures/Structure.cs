@@ -207,6 +207,17 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         return ret;
     }
 
+    public StructureWaypoint GetWaypointRandom(string waypointName) {
+        if(mWorldWaypoints == null)
+            return null;
+
+        StructureWaypoint[] ret;
+        if(mWorldWaypoints.TryGetValue(waypointName, out ret))
+            return ret.Length > 0 ? ret[Random.Range(0, ret.Length)] : null;
+
+        return null;
+    }
+
     public StructureStatusInfo GetStatusInfo(StructureStatus status) {
         return mStatusInfos[(int)status];
     }
@@ -429,6 +440,8 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
 
                 mCurHitpoints = 0;
 
+                up = Vector2.up;
+
                 physicsActive = false;
                 break;
         }
@@ -436,7 +449,7 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         if(boxCollider)
             boxCollider.enabled = physicsActive;
 
-        var structureCtrl = ColonyController.instance.structureController;
+        var structureCtrl = ColonyController.instance.structurePaletteController;
 
         if(addPlacementBlocker) {
             if(state == StructureState.Moving && !moveCtrl) //special case

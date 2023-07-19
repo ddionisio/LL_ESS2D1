@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class MovableBase : MonoBehaviour {
+    public enum Facing {
+        None,
+        Left,
+        Right
+    }
+
     [Header("Move Info")]
     [SerializeField]
     float _moveSpeed = 10f; //default move speed
@@ -37,6 +43,8 @@ public abstract class MovableBase : MonoBehaviour {
     public bool isMoving { get { return mRout != null; } }
 
     public bool isLocked { get; set; }
+
+    public Facing facing { get; private set; }
 
     private Coroutine mRout;
 
@@ -97,9 +105,16 @@ public abstract class MovableBase : MonoBehaviour {
 
                 var t = mEaseFunc(curTime, moveDelay, 0f, 0f);
 
+                var lastPos = transform.position;
+
                 var toPos = MoveUpdate(startPos, mMoveDest, t);
 
                 transform.position = toPos;
+
+                if(toPos.x > lastPos.x)
+                    facing = Facing.Right;
+                else if(toPos.x < lastPos.x)
+                    facing = Facing.Left;
             }
         }
         else {

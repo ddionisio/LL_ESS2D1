@@ -14,6 +14,8 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public const int clickCategoryStructure = 2;
     public const int clickCategoryStructurePalette = 3;
 
+    public const string structureWaypointSpawn = "spawn";
+
     [Header("Modals")]
     public string modalOverworld = "overworld";
     public string modalHotspotInvestigate = "hotspotInvestigate";

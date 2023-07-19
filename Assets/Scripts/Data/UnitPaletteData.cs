@@ -14,4 +14,13 @@ public class UnitPaletteData : ScriptableObject {
 
     public int capacityStart;
     public int capacity;
+
+    public int GetIndex(UnitData unitData) {
+        for(int i = 0; i < units.Length; i++) {
+            if(units[i].data == unitData)
+                return i;
+        }
+
+        return -1;
+    }
 }

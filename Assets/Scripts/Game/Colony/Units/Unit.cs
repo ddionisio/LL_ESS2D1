@@ -133,6 +133,13 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
         return true;
     }
 
+    public void Despawn() {
+        if(state == UnitState.Despawning || state == UnitState.None) //already despawing, or is released
+            return;
+
+        state = UnitState.Despawning;
+    }
+
     protected virtual void Init() { }
 
     protected virtual void Despawned() { }
@@ -198,6 +205,8 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
                     animator.Stop();
 
                 mCurHitpoints = 0;
+
+                up = Vector2.up;
 
                 physicsActive = false;
                 break;

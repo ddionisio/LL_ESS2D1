@@ -21,6 +21,6 @@ public enum UnitState {
 
 public struct UnitSpawnParams {
     public const string data = "unitData"; //UnitData
-    public const string home = "home"; //Structure (e.g. colony ship, house)
+    public const string structureOwner = "owner"; //Structure (e.g. colony ship, house)
     public const string spawnPoint = "unitSpawnP"; //Vector2
 }

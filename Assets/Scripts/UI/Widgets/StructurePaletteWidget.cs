@@ -71,7 +71,7 @@ public class StructurePaletteWidget : MonoBehaviour {
     public void RefreshGroups() {
         if(mGroupWidgets == null) return; //fail-safe
 
-        var structureCtrl = ColonyController.instance.structureController;
+        var structureCtrl = ColonyController.instance.structurePaletteController;
 
         for(int i = 0; i < mGroupWidgets.Length; i++) {
             var groupWidget = mGroupWidgets[i];
@@ -90,7 +90,7 @@ public class StructurePaletteWidget : MonoBehaviour {
     }
 
     public void RefreshGroup(StructureData structureData) {
-        var structureCtrl = ColonyController.instance.structureController;
+        var structureCtrl = ColonyController.instance.structurePaletteController;
         var groupInd = structureCtrl.GroupGetIndex(structureData);
 
         RefreshGroup(groupInd);
@@ -99,7 +99,7 @@ public class StructurePaletteWidget : MonoBehaviour {
     public void RefreshGroup(int groupIndex) {
         if(mGroupWidgets == null || groupIndex < 0 || groupIndex >= mGroupWidgets.Length) return; //fail-safe
 
-        var structureCtrl = ColonyController.instance.structureController;
+        var structureCtrl = ColonyController.instance.structurePaletteController;
 
         var groupWidget = mGroupWidgets[groupIndex];
         if(groupWidget) { //fail-safe
@@ -148,7 +148,7 @@ public class StructurePaletteWidget : MonoBehaviour {
 
             mGroupWidgetActive = groupWidget;
 
-            var structureCtrl = ColonyController.instance.structureController;
+            var structureCtrl = ColonyController.instance.structurePaletteController;
 
             var grpInfo = structureCtrl.GroupGetInfo(groupWidget.index);
 
@@ -177,7 +177,7 @@ public class StructurePaletteWidget : MonoBehaviour {
     }
 
     void OnItemClick(StructureItemWidget itemWidget) {
-        var structureCtrl = ColonyController.instance.structureController;
+        var structureCtrl = ColonyController.instance.structurePaletteController;
         structureCtrl.PlacementStart(itemWidget.data);
 
         ClearGroupActive();
