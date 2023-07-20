@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac2bd0f64b834f34ba1c60db9ed99980, type: 3}
+  m_Script: {fileID: 11500000, guid: ef0e0fa5eb36a9a44b83183ba1d40b87, type: 3}
   m_Name: colonyShip
   m_EditorClassIdentifier: 
   nameRef: 
@@ -25,3 +25,5 @@ MonoBehaviour:
   placementValidLayerMask:
     serializedVersion: 2
     m_Bits: 0
+  medicData: {fileID: 0}
+  medicCapacity: 0

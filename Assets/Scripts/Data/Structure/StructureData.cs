@@ -49,4 +49,7 @@ public class StructureData : ScriptableObject {
 
         return checkValid;
     }
+
+    //optional for structures that generate units
+    public virtual void SetupUnitSpawns(UnitController unitCtrl, int structureCount) { }
 }

@@ -34,7 +34,7 @@ public class UnitPaletteController : MonoBehaviour {
 
     public bool isFull {
         get {
-            return activeCount > mCapacity;
+            return activeCount >= mCapacity;
         }
     }
 
@@ -193,8 +193,9 @@ public class UnitPaletteController : MonoBehaviour {
     }
 
     IEnumerator WaitSpawn(int ind, Unit unit) {
-        while(unit.state == UnitState.Spawning)
+        do {
             yield return null;
+        } while(unit.state == UnitState.Spawning);
 
         mUnitInfos[ind].rout = null;
 
@@ -202,8 +203,9 @@ public class UnitPaletteController : MonoBehaviour {
     }
 
     IEnumerator WaitDespawn(int ind, Unit unit) {
-        while(unit.state != UnitState.None)
+        do {
             yield return null;
+        } while(unit.state != UnitState.None);
 
         mUnitInfos[ind].rout = null;
 

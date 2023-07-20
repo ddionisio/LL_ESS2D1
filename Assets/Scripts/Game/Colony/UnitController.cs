@@ -59,6 +59,8 @@ public class UnitController : MonoBehaviour {
     }
 
     public void AddUnitData(UnitData unitData, int capacity) {
+        if(capacity <= 0) return;
+
         if(!mIsInit) Init();
 
         //setup active list, expand if already exists
@@ -98,7 +100,7 @@ public class UnitController : MonoBehaviour {
     }
 
     private void Init() {
-        mPoolCtrl = M8.PoolController.GetPool(poolGroup);
+        mPoolCtrl = M8.PoolController.CreatePool(poolGroup);
 
         mPoolCtrl.despawnCallback += OnUnitDespawn;
 

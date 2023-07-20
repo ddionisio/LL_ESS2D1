@@ -41,6 +41,8 @@ public class UnitItemWidget : MonoBehaviour, IPointerClickHandler, IPointerEnter
             if(mAction != value) {
                 mAction = value;
                 ApplyAction();
+
+                actionChangeCallback?.Invoke(this);
             }
         }
     }
@@ -62,12 +64,14 @@ public class UnitItemWidget : MonoBehaviour, IPointerClickHandler, IPointerEnter
     public RectTransform rectTransform { get; private set; }
 
     public event System.Action<UnitItemWidget> clickCallback;
+    public event System.Action<UnitItemWidget> actionChangeCallback;
 
     private Action mAction;
     private bool mInteractable;
     private int mCounter;
 
     private bool mIsInit;
+    private PointerEventData mEnterPointerEventData;
 
     public void Setup(UnitData aUnitData) {
         if(!mIsInit) Init();
@@ -78,39 +82,50 @@ public class UnitItemWidget : MonoBehaviour, IPointerClickHandler, IPointerEnter
         if(nameLabel) nameLabel.text = M8.Localize.Get(aUnitData.nameRef);
     }
 
+    void OnDisable() {
+        action = Action.None;
+        mEnterPointerEventData = null;
+    }
+
     void Awake() {
         if(!mIsInit) Init();
     }
 
+    void Update() {
+        if(mEnterPointerEventData != null)
+            UpdateAction(mEnterPointerEventData);
+    }
+
     void IPointerClickHandler.OnPointerClick(PointerEventData eventData) {
+        GameData.instance.signalClickCategory?.Invoke(GameData.clickCategoryUnitPalette);
+
         if(!mInteractable) return;
 
-        UpdateAction(eventData);
+        //UpdateAction(eventData);
 
         clickCallback?.Invoke(this);
     }
 
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) {
-        UpdateAction(eventData);
+        mEnterPointerEventData = eventData;
     }
 
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData) {
+        mEnterPointerEventData = null;
         action = Action.None;
     }
 
     private void UpdateAction(PointerEventData eventData) {
-        Action toAction;
+        Action toAction = Action.None;
 
         Vector2 localPt;
         if(RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, eventData.position, null, out localPt)) {
             var rect = rectTransform.rect;
             if(localPt.y > rect.center.y)
                 toAction = Action.Increase;
-            else
+            else if(localPt.y < rect.center.y)
                 toAction = Action.Decrease;
         }
-        else
-            toAction = Action.None;
 
         action = toAction;
     }
@@ -124,15 +139,15 @@ public class UnitItemWidget : MonoBehaviour, IPointerClickHandler, IPointerEnter
         switch(mAction) {
             case Action.None:
                 if(increaseGO) increaseGO.SetActive(false);
-                if(decreaseGO) increaseGO.SetActive(false);
+                if(decreaseGO) decreaseGO.SetActive(false);
                 break;
             case Action.Increase:
                 if(increaseGO) increaseGO.SetActive(true);
-                if(decreaseGO) increaseGO.SetActive(false);
+                if(decreaseGO) decreaseGO.SetActive(false);
                 break;
             case Action.Decrease:
                 if(increaseGO) increaseGO.SetActive(false);
-                if(decreaseGO) increaseGO.SetActive(true);
+                if(decreaseGO) decreaseGO.SetActive(true);
                 break;
         }
     }

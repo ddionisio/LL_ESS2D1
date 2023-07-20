@@ -8,6 +8,7 @@ using TMPro;
 public class UnitPaletteWidget : MonoBehaviour {
     [Header("Display Info")]
     public GameObject activeGO; //show only when capacity is > 0
+    public GameObject isFullGO; //show when highlighting "increase" if capacity is full
 
     [Header("Unit Info")]
     public UnitItemWidget unitWidgetTemplate; //not prefab
@@ -17,13 +18,16 @@ public class UnitPaletteWidget : MonoBehaviour {
     public TMP_Text counterLabel;
     public string counterFormat = "{0}|{1}";
 
-    public Slider counterSlider;
-    public GameObject counterPipTemplate; //not prefab
+    public UnitPaletteCounterPipWidget counterPipTemplate; //not prefab
     public Transform counterPipRoot;
 
     private UnitItemWidget[] mUnitWidgets;
 
-    private GameObject[] mCounterPipGOs;
+    private UnitPaletteCounterPipWidget[] mCounterPips;
+
+    private UnitItemWidget.Action mActionHighlight;
+
+    private int mCounterPip;
     private int mCounterPipCount;
 
     public void Setup(UnitPaletteData unitPalette) {
@@ -38,6 +42,7 @@ public class UnitPaletteWidget : MonoBehaviour {
             newUnitWidget.Setup(unitInfo.data);
 
             newUnitWidget.clickCallback += OnClickUnit;
+            newUnitWidget.actionChangeCallback += OnActionChanged;
 
             newUnitWidget.active = !unitInfo.isHidden;
 
@@ -47,31 +52,36 @@ public class UnitPaletteWidget : MonoBehaviour {
         unitWidgetTemplate.gameObject.SetActive(false);
 
         //setup counter
-        mCounterPipCount = unitPalette.capacityStart > 0 ? unitPalette.capacityStart - 1 : 0;
+        mCounterPip = 0;
+        mCounterPipCount = unitPalette.capacityStart > 0 ? unitPalette.capacityStart : 0;
 
         if(unitPalette.capacity > 0) {
-            mCounterPipGOs = new GameObject[unitPalette.capacity - 1];
+            mCounterPips = new UnitPaletteCounterPipWidget[unitPalette.capacity];
 
-            for(int i = 0; i < mCounterPipGOs.Length; i++) {
-                var newCounterPipGO = Instantiate(counterPipTemplate, counterPipRoot);
+            for(int i = 0; i < mCounterPips.Length; i++) {
+                var newCounterPip = Instantiate(counterPipTemplate, counterPipRoot);
 
-                newCounterPipGO.SetActive(i < mCounterPipCount);
+                if(i < mCounterPipCount) {
+                    newCounterPip.active = true;
+                    newCounterPip.baseActive = false;
+                    newCounterPip.lineActive = i < mCounterPipCount - 1;
+                }
+                else
+                    newCounterPip.active = false;
 
-                mCounterPipGOs[i] = newCounterPipGO;
+                mCounterPips[i] = newCounterPip;
             }
         }
         else
-            mCounterPipGOs = new GameObject[0];
+            mCounterPips = new UnitPaletteCounterPipWidget[0];
 
-        if(counterLabel)
-            counterSlider.onValueChanged.AddListener(OnCounterValueChanged);
+        counterPipTemplate.active = false;
 
-        counterSlider.maxValue = unitPalette.capacityStart;
-        counterSlider.value = 0;
+        mActionHighlight = UnitItemWidget.Action.None;
 
-        counterPipTemplate.SetActive(false);
+        if(activeGO) activeGO.SetActive(unitPalette.capacityStart > 0);
 
-        activeGO.SetActive(unitPalette.capacityStart > 0);
+        if(isFullGO) isFullGO.SetActive(false);
     }
 
     public void RefreshInfo() {
@@ -79,7 +89,7 @@ public class UnitPaletteWidget : MonoBehaviour {
 
         var capacity = unitPaletteCtrl.capacity;
 
-        activeGO.SetActive(capacity > 0);
+        if(activeGO) activeGO.SetActive(capacity > 0);
 
         if(capacity == 0)
             return;
@@ -94,30 +104,48 @@ public class UnitPaletteWidget : MonoBehaviour {
             else {
                 unitWidget.active = true;
 
-                unitWidget.interactable = unitPaletteCtrl.IsBusy(i);
+                unitWidget.interactable = !unitPaletteCtrl.IsBusy(i);
 
                 unitWidget.counter = unitPaletteCtrl.GetActiveCountByType(unitWidget.unitData);
             }
         }
 
         //refresh counter
-        var curCapacity = Mathf.FloorToInt(counterSlider.maxValue);
-        if(curCapacity != capacity) {
-            mCounterPipCount = curCapacity > 0 ? curCapacity - 1 : 0;
-            for(int i = 0; i < mCounterPipGOs.Length; i++)
-                mCounterPipGOs[i].SetActive(i < mCounterPipCount);
+        mCounterPip = unitPaletteCtrl.activeCount;
 
-            counterSlider.maxValue = capacity;
+        var isCountChanged = mCounterPipCount != capacity;
 
-            //TODO: play flashy fx
+        mCounterPipCount = capacity;
+        for(int i = 0; i < mCounterPips.Length; i++) {
+            var counterPip = mCounterPips[i];
+
+            if(i < mCounterPipCount) {
+                counterPip.active = true;
+
+                if(i < mCounterPip) {
+                    counterPip.baseActive = true;
+                    counterPip.action = UnitItemWidget.Action.None;
+                }
+                else
+                    counterPip.baseActive = false;
+
+                counterPip.lineActive = i < mCounterPipCount - 1;
+            }
+            else
+                counterPip.active = false;
         }
 
-        counterSlider.value = unitPaletteCtrl.activeCount;
+        //TODO: play flashy fx
+        if(isCountChanged) {
+
+        }
+
+        //update pip highlight
+        if(mActionHighlight != UnitItemWidget.Action.None)
+            ApplyActionHighlight(mActionHighlight);
     }
 
     void OnClickUnit(UnitItemWidget unitWidget) {
-        GameData.instance.signalClickCategory?.Invoke(GameData.clickCategoryUnitPalette);
-
         var unitPaletteCtrl = ColonyController.instance.unitPaletteController;
 
         var unitData = unitWidget.unitData;
@@ -144,10 +172,48 @@ public class UnitPaletteWidget : MonoBehaviour {
         }
     }
 
-    void OnCounterValueChanged(float val) {
-        int count = Mathf.FloorToInt(val);
-        int maxCount = Mathf.FloorToInt(counterSlider.maxValue);
+    void OnActionChanged(UnitItemWidget unitWidget) {
+        if(mActionHighlight != unitWidget.action) {
+            ApplyActionHighlight(UnitItemWidget.Action.None); //clear previous
+            ApplyActionHighlight(unitWidget.action);
+        }
+    }
 
-        counterLabel.text = string.Format(counterFormat, count, maxCount);
+    private void ApplyActionHighlight(UnitItemWidget.Action action) {
+        switch(action) {
+            case UnitItemWidget.Action.Decrease:
+                if(mCounterPip > 0)
+                    mCounterPips[mCounterPip - 1].action = action;
+
+                if(isFullGO) isFullGO.SetActive(false);
+                break;
+
+            case UnitItemWidget.Action.Increase:
+                var canIncrease = mCounterPip < mCounterPipCount;
+                if(canIncrease) {
+                    mCounterPips[mCounterPip].baseActive = true;
+                    mCounterPips[mCounterPip].action = action;
+                }
+
+                if(isFullGO) isFullGO.SetActive(!canIncrease);
+                break;
+
+            case UnitItemWidget.Action.None:
+                switch(mActionHighlight) {
+                    case UnitItemWidget.Action.Decrease:
+                        if(mCounterPip > 0)
+                            mCounterPips[mCounterPip - 1].action = UnitItemWidget.Action.None;
+                        break;
+                    case UnitItemWidget.Action.Increase:
+                        if(mCounterPip < mCounterPipCount)
+                            mCounterPips[mCounterPip].baseActive = false;
+
+                        if(isFullGO) isFullGO.SetActive(false);
+                        break;
+                }
+                break;
+        }
+
+        mActionHighlight = action;
     }
 }

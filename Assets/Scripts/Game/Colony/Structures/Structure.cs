@@ -40,7 +40,7 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     [SerializeField]
     WaypointGroup[] _waypointGroups;
 
-    public StructureData data { get; protected set; }
+    public StructureData data { get; private set; }
         
     public StructureState state { 
         get { return mState; }
@@ -103,7 +103,7 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         }
     }
 
-    public StructureAction actionFlags {
+    public virtual StructureAction actionFlags {
         get {
             var ret = StructureAction.None;
 
@@ -528,10 +528,12 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
                 data = parms.GetValue<StructureData>(StructureSpawnParams.data);
 
             if(parms.ContainsKey(StructureSpawnParams.spawnPoint))
-                position = parms.GetValue<Vector2>(StructureSpawnParams.spawnPoint);
+                transform.position = parms.GetValue<Vector2>(StructureSpawnParams.spawnPoint);
         }
 
         mCurHitpoints = hitpointsMax;
+
+        RefreshWaypoints();
 
         Spawned();
     }
@@ -715,13 +717,13 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     }
 
     IEnumerator DoDemolish() {
-        SetStatusState(StructureStatus.Demolish, StructureStatusState.Progress);
-
-        mIsDemolishInProcess = true;
-
-        //wait
         var delay = GameData.instance.structureDemolishDelay;
         if(delay > 0f) {
+            SetStatusState(StructureStatus.Demolish, StructureStatusState.Progress);
+
+            mIsDemolishInProcess = true;
+
+            //wait
             var curTime = 0f;
             while(curTime < delay) {
                 yield return null;
@@ -730,16 +732,16 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
 
                 SetStatusProgress(StructureStatus.Demolish, Mathf.Clamp01(curTime / delay));
             }
+
+            mIsDemolishInProcess = false;
+
+            SetStatusState(StructureStatus.Demolish, StructureStatusState.None);
         }
         else
             yield return null;
 
         if(boxCollider)
             boxCollider.enabled = false;
-
-        mIsDemolishInProcess = false;
-
-        SetStatusState(StructureStatus.Demolish, StructureStatusState.None);
 
         //proceed to release
         if(mTakeDemolishInd != -1)

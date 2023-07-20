@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnComplete, M8.IPoolDespawn {
+    [Header("Display")]
+    public Transform root;
+
     [Header("Animations")]
     public M8.Animator.Animate animator;
 

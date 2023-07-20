@@ -95,18 +95,19 @@ public class ColonyController : GameModeController<ColonyController> {
         //setup unit control
         unitPaletteController.Setup(unitController, unitPalette);
 
-        //setup units for structures (basically just house)
+        //setup unit spawning for structures
         for(int i = 0; i < structurePalette.groups.Length; i++) {
             var grp = structurePalette.groups[i];
             var capacity = grp.capacity;
 
             for(int j = 0; j < grp.structures.Length; j++) {
-                var structureHouseData = grp.structures[j].data as StructureHouseData;
-                if(structureHouseData && structureHouseData.unitSpawnData && structureHouseData.unitSpawnCapacity > 0) {
-                    unitController.AddUnitData(structureHouseData.unitSpawnData, structureHouseData.unitSpawnCapacity * capacity);
-                }
+                var structureData = grp.structures[j].data;
+                structureData.SetupUnitSpawns(unitController, capacity);
             }
         }
+
+        //setup colony ship
+        colonyShip.Init(unitController);
     }
 
     protected override IEnumerator Start() {

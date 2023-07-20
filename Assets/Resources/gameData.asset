@@ -21,14 +21,14 @@ MonoBehaviour:
   placementCheckLayerMask:
     serializedVersion: 2
     m_Bits: 448
-  cycleDuration: 120
+  cycleDuration: 150
   cycleDaylightScaleDefault: 0.5
   fastForwardScale: 2
   structureBuildScalePerWork: 1
   structureRepairScalePerWork: 1
   structureRepairPerHitDelay: 1
   structureDamageDelay: 0.5
-  structureDemolishDelay: 2
+  structureDemolishDelay: 1
   growthScalePerWork: 1
   unitHurtDelay: 0.5
   unitDyingDelay: 5
