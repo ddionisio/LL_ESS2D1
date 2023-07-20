@@ -12,6 +12,7 @@ public class ColonyHUD : MonoBehaviour {
 
     [Header("Palette Display")]
     public StructurePaletteWidget paletteStructureWidget;
+    public UnitPaletteWidget paletteUnitWidget;
 
     [Header("Structure Action Display")]
     public StructureActionsWidget structureActionsWidget;
@@ -24,8 +25,9 @@ public class ColonyHUD : MonoBehaviour {
 
     public SignalStructure signalListenStructureSpawned;
     public SignalStructure signalListenStructureDespawned;
+    public M8.SignalInteger signalListenStructureGroupRefresh;
 
-    public M8.SignalInteger signalListenGroupInfoRefresh;
+    public M8.Signal signalListenUnitPaletteRefresh;
 
     private bool mIsPlacementActive;
 
@@ -61,8 +63,9 @@ public class ColonyHUD : MonoBehaviour {
 
         if(signalListenStructureSpawned) signalListenStructureSpawned.callback -= OnStructureSpawned;
         if(signalListenStructureDespawned) signalListenStructureDespawned.callback -= OnStructureDespawned;
+        if(signalListenStructureGroupRefresh) signalListenStructureGroupRefresh.callback -= OnStructureGroupRefresh;
 
-        if(signalListenGroupInfoRefresh) signalListenGroupInfoRefresh.callback -= OnGroupInfoRefresh;
+        if(signalListenUnitPaletteRefresh) signalListenUnitPaletteRefresh.callback -= OnUnitPaletteRefresh;
 
         if(GameData.isInstantiated) {
             var gameDat = GameData.instance;
@@ -93,8 +96,9 @@ public class ColonyHUD : MonoBehaviour {
 
         if(signalListenStructureSpawned) signalListenStructureSpawned.callback += OnStructureSpawned;
         if(signalListenStructureDespawned) signalListenStructureDespawned.callback += OnStructureDespawned;
+        if(signalListenStructureGroupRefresh) signalListenStructureGroupRefresh.callback += OnStructureGroupRefresh;
 
-        if(signalListenGroupInfoRefresh) signalListenGroupInfoRefresh.callback += OnGroupInfoRefresh;
+        if(signalListenUnitPaletteRefresh) signalListenUnitPaletteRefresh.callback += OnUnitPaletteRefresh;
 
         if(gameDat.signalStructureClick) gameDat.signalStructureClick.callback += OnStructureClick;
 
@@ -102,14 +106,38 @@ public class ColonyHUD : MonoBehaviour {
         if(gameDat.signalCycleEnd) gameDat.signalCycleEnd.callback += OnCycleEnd;
     }
 
-    void OnGroupInfoRefresh(int groupIndex) {
-        paletteStructureWidget.RefreshGroup(groupIndex);
+    void OnCycleBegin() {
+        var colonyCtrl = ColonyController.instance;
 
-        paletteStructureWidget.ClearGroupActive();
+        //initialize atmosphere info
 
-        //TODO: play flashy "update" to group in palette structure
+        //initialize resource info
+
+        //initialize palettes
+        paletteStructureWidget.Setup(colonyCtrl.structurePalette);
+        paletteStructureWidget.RefreshGroups();
+
+        paletteUnitWidget.Setup(colonyCtrl.unitPalette);
+        paletteUnitWidget.RefreshInfo();
+
+        if(mainRootGO) mainRootGO.SetActive(true);
+
+        //animation
     }
 
+    void OnCycleEnd() {
+        if(mIsPlacementActive) {
+            if(placementRootGO) placementRootGO.SetActive(false);
+
+            //animation
+        }
+        else {
+            if(mainRootGO) mainRootGO.SetActive(false);
+
+            //animation
+        }
+    }
+        
     void OnPlacementActive(bool active) {
         mIsPlacementActive = active;
 
@@ -163,6 +191,14 @@ public class ColonyHUD : MonoBehaviour {
                     placementConfirmRoot.gameObject.SetActive(false);
             }
         }
+    }
+
+    void OnStructureGroupRefresh(int groupIndex) {
+        paletteStructureWidget.RefreshGroup(groupIndex);
+
+        paletteStructureWidget.ClearGroupActive();
+
+        //TODO: play flashy "update" to group in palette structure
     }
 
     void OnStructureClick(Structure structure) {
@@ -221,41 +257,16 @@ public class ColonyHUD : MonoBehaviour {
         paletteStructureWidget.RefreshGroup(structure.data);
     }
 
+    void OnUnitPaletteRefresh() {
+        paletteUnitWidget.RefreshInfo();
+    }
+
     void OnClickCategory(int category) {
         if(category != GameData.clickCategoryStructure) {
             mStructureClicked = null;
 
             if(structureActionsWidget)
                 structureActionsWidget.active = false;
-        }
-    }
-
-    void OnCycleBegin() {
-        var colonyCtrl = ColonyController.instance;
-
-        //initialize atmosphere info
-
-        //initialize resource info
-
-        //initialize palettes
-        paletteStructureWidget.Setup(colonyCtrl.structurePalette);
-        paletteStructureWidget.RefreshGroups();
-
-        if(mainRootGO) mainRootGO.SetActive(true);
-
-        //animation
-    }
-
-    void OnCycleEnd() {
-        if(mIsPlacementActive) {
-            if(placementRootGO) placementRootGO.SetActive(false);
-
-            //animation
-        }
-        else {
-            if(mainRootGO) mainRootGO.SetActive(false);
-
-            //animation
         }
     }
 }

@@ -46,17 +46,42 @@ public class UnitPaletteController : MonoBehaviour {
 
     private int mCapacity;
 
+    public int GetUnitIndex(UnitData unitData) {
+        return unitPalette.GetIndex(unitData);
+    }
+        
     public int GetActiveCountByType(UnitData unitData) {
         var activeUnits = mUnitCtrl.GetUnitActivesByData(unitData);
         return activeUnits != null ? activeUnits.Count : 0;
+    }
+
+    public int GetActiveCountByType(int unitIndex) {
+        if(unitIndex < 0 || unitIndex >= mUnitInfos.Length) return 0;
+
+        var activeUnits = mUnitCtrl.GetUnitActivesByData(mUnitInfos[unitIndex].data);
+        return activeUnits != null ? activeUnits.Count : 0;
+    }
+
+    public bool IsHidden(UnitData unitData) {
+        return IsHidden(GetUnitIndex(unitData));
+    }
+
+    public bool IsHidden(int unitIndex) {
+        return unitIndex >= 0 && unitIndex < mUnitInfos.Length ? mUnitInfos[unitIndex].isHidden : true;
     }
 
     /// <summary>
     /// Check if this unit type is waiting for spawn/despawn
     /// </summary>
     public bool IsBusy(UnitData unitData) {
-        int ind = unitPalette.GetIndex(unitData);
-        return ind != -1 ? mUnitInfos[ind].rout != null : false;
+        return IsBusy(unitPalette.GetIndex(unitData));
+    }
+
+    /// <summary>
+    /// Check if this unit type is waiting for spawn/despawn
+    /// </summary>
+    public bool IsBusy(int unitIndex) {
+        return unitIndex >= 0 && unitIndex < mUnitInfos.Length ? mUnitInfos[unitIndex].rout != null : false;
     }
 
     public void Spawn(UnitData unitData) {

@@ -13,6 +13,7 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public const int clickCategoryBackground = 1;
     public const int clickCategoryStructure = 2;
     public const int clickCategoryStructurePalette = 3;
+    public const int clickCategoryUnitPalette = 4;
 
     public const string structureWaypointSpawn = "spawn";
 
