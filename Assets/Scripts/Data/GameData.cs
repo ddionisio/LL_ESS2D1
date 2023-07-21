@@ -16,6 +16,9 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public const int clickCategoryUnitPalette = 4;
 
     public const string structureWaypointSpawn = "spawn";
+    public const string structureWaypointWork = "work";
+    public const string structureWaypointCollect = "collect";
+    public const string structureWaypointIdle = "idle"; //use for any units that has no work to do and need to move somewhere
 
     [Header("Modals")]
     public string modalOverworld = "overworld";
@@ -46,8 +49,10 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public float growthScalePerWork = 1f; //scale growth time by this amount per work
 
     [Header("Colony | Unit")]
+    public float unitUpdateAIDelay = 0.3f;
     public float unitHurtDelay = 0.5f; //how long to stay in hurt state
     public float unitDyingDelay = 5f; //how long to stay in dying state
+    public float unitIdleWanderDelay = 2f; //how long to stay in idle before moving to a new spot
 
     [Header("Scenes")]
     //intro sets progress to 1

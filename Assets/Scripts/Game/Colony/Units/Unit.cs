@@ -37,6 +37,11 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
 
                 mState = value;
 
+                stateTimeLastChanged = Time.time;
+
+                if(CanUpdateAI())
+                    mUpdateAICurTime = 0f;
+
                 ApplyCurrentState();
 
                 stateChangedCallback?.Invoke(mState);
@@ -96,6 +101,23 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     public M8.PoolDataController poolCtrl { get; private set; }
     public MovableBase moveCtrl { get; private set; }
 
+    public Structure ownerStructure { get; private set; }
+
+    /// <summary>
+    /// Elapsed time since this state
+    /// </summary>
+    public float stateTimeElapsed { get { return Time.time - stateTimeLastChanged; } }
+
+    /// <summary>
+    /// Last time since state change
+    /// </summary>
+    public float stateTimeLastChanged { get; private set; }
+
+    /// <summary>
+    /// Current waypoint while moving
+    /// </summary>
+    public Waypoint moveWaypoint { get; private set; }
+
     public event System.Action<UnitState> stateChangedCallback;
 
     protected Coroutine mRout;
@@ -115,23 +137,49 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
 
     private int mTakeCurMoveInd;
 
+    private float mUpdateAICurTime;
+
     public bool MoveTo(Vector2 toPos, bool isRun) {
         if(!isMovable) return false;
 
-        if(isRun) {
-            mTakeCurMoveInd = mTakeRunInd;
-
-            moveCtrl.moveSpeed = data.runSpeed;
-        }
-        else {
-            mTakeCurMoveInd = mTakeMoveInd;
-
-            moveCtrl.moveSpeed = data.moveSpeed;
+        if(moveWaypoint != null) { //remove previous waypoint
+            moveWaypoint.RemoveMark();
+            moveWaypoint = null;
         }
 
-        moveCtrl.moveDestination = toPos;
+        MoveApply(toPos, isRun);
 
-        state = UnitState.Move;
+        return true;
+    }
+
+    public bool MoveTo(Waypoint toWaypoint, bool isRun) {
+        if(!isMovable) return false;
+
+        if(moveWaypoint != null) //remove previous waypoint
+            moveWaypoint.RemoveMark();
+
+        moveWaypoint = toWaypoint;
+        moveWaypoint.AddMark();
+
+        MoveApply(moveWaypoint.point, isRun);
+
+        return true;
+    }
+
+    public bool MoveToOwnerStructure(bool isRun) {
+        if(!(isMovable && ownerStructure)) return false;
+
+        if(moveWaypoint != null) //remove previous waypoint
+            moveWaypoint.RemoveMark();
+
+        moveWaypoint = ownerStructure.GetWaypointRandom(GameData.structureWaypointIdle, true);
+        if(moveWaypoint != null) {
+            moveWaypoint.AddMark();
+
+            MoveApply(moveWaypoint.point, isRun);
+        }
+        else //just move to structure's position
+            MoveApply(ownerStructure.position, isRun);
 
         return true;
     }
@@ -148,7 +196,7 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     protected virtual void Despawned() { }
 
     protected virtual void Spawned() { }
-
+                
     protected virtual void ClearCurrentState() {
         StopCurrentRout();
 
@@ -157,6 +205,11 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
         switch(mState) {
             case UnitState.Move:
                 mTakeCurMoveInd = -1;
+
+                if(moveWaypoint != null) {
+                    moveWaypoint.RemoveMark();
+                    moveWaypoint = null;
+                }
                 break;
         }
     }
@@ -203,6 +256,14 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
                 physicsActive = false;
                 break;
 
+            case UnitState.Retreat:
+                //TODO
+                break;
+
+            case UnitState.RetreatToBase:
+                //TODO
+                break;
+
             case UnitState.None:
                 if(animator)
                     animator.Stop();
@@ -215,8 +276,34 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
                 break;
         }
 
+        if(!CanUpdateAI())
+            ClearAIState();
+
         if(boxCollider)
             boxCollider.enabled = physicsActive;
+    }
+
+    protected virtual bool CanUpdateAI() {
+        return mState == UnitState.Idle || mState == UnitState.Move || mState == UnitState.Act;
+    }
+
+    protected virtual void ClearAIState() { }
+
+    protected virtual void UpdateAI() { }
+
+    protected virtual void Update() {
+        //AI update
+        if(CanUpdateAI()) {
+            mUpdateAICurTime += Time.deltaTime;
+            if(mUpdateAICurTime >= GameData.instance.unitUpdateAIDelay) {
+                mUpdateAICurTime = 0f;
+                UpdateAI();
+            }
+        }
+    }
+
+    protected virtual void MoveToComplete() {
+        state = UnitState.Idle;
     }
 
     protected void AnimateToState(int takeInd, UnitState toState) {
@@ -226,7 +313,7 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     protected void AnimateToRelease(int takeInd) {
         mRout = StartCoroutine(DoAnimationToRelease(takeInd));
     }
-
+        
     void M8.IPoolInit.OnInit() {
         poolCtrl = GetComponent<M8.PoolDataController>();
 
@@ -259,12 +346,16 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
             if(parms.ContainsKey(UnitSpawnParams.data))
                 data = parms.GetValue<UnitData>(UnitSpawnParams.data);
 
+            if(parms.ContainsKey(UnitSpawnParams.structureOwner))
+                ownerStructure = parms.GetValue<Structure>(UnitSpawnParams.structureOwner);
+
             if(parms.ContainsKey(UnitSpawnParams.spawnPoint))
                 position = parms.GetValue<Vector2>(UnitSpawnParams.spawnPoint);
         }
 
-        //set initial spawn states
+        //set initial states
         mCurHitpoints = hitpointsMax;
+        stateTimeLastChanged = Time.time;
 
         Spawned();
     }
@@ -275,9 +366,11 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
 
     void M8.IPoolDespawn.OnDespawned() {
         state = UnitState.None;
-        data = null;
-
+        
         Despawned();
+
+        data = null;
+        ownerStructure = null;
     }
 
     IEnumerator DoMove() {
@@ -293,7 +386,7 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
 
         mRout = null;
 
-        state = UnitState.Idle;
+        MoveToComplete();
     }
 
     IEnumerator DoHurt() {
@@ -358,6 +451,23 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
         mRout = null;
 
         poolCtrl.Release();
+    }
+
+    private void MoveApply(Vector2 toPos, bool isRun) {
+        if(isRun) {
+            mTakeCurMoveInd = mTakeRunInd;
+
+            moveCtrl.moveSpeed = data.runSpeed;
+        }
+        else {
+            mTakeCurMoveInd = mTakeMoveInd;
+
+            moveCtrl.moveSpeed = data.moveSpeed;
+        }
+
+        moveCtrl.moveDestination = toPos;
+
+        state = UnitState.Move;
     }
 
     private void StopCurrentRout() {

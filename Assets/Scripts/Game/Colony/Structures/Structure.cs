@@ -5,12 +5,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnComplete, M8.IPoolDespawn, IPointerClickHandler {
-    [System.Serializable]
-    public struct WaypointGroup {
-        public string name;
-        public StructureWaypoint[] waypoints;
-    }
-    
     [Header("Toggle Display")]
     public GameObject activeGO; //once placed/spawned
     public GameObject constructionGO; //while being built
@@ -186,7 +180,7 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
 
     private bool mIsDemolishInProcess; //during demolish state
 
-    private Dictionary<string, StructureWaypoint[]> mWorldWaypoints;
+    private Dictionary<string, WaypointControl> mWorldWaypoints;
 
     private StructureStatusInfo[] mStatusInfos;
 
@@ -197,23 +191,31 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     protected int mTakeDestroyedInd = -1;
     protected int mTakeDemolishInd = -1;
 
-    public StructureWaypoint[] GetWaypoints(string waypointName) {
-        if(mWorldWaypoints == null)
+    public Waypoint[] GetWaypoints(string waypointName) {
+        if(mWorldWaypoints == null || !mWorldWaypoints.ContainsKey(waypointName))
             return null;
 
-        StructureWaypoint[] ret;
-        mWorldWaypoints.TryGetValue(waypointName, out ret);
-
-        return ret;
+        return mWorldWaypoints[waypointName].waypoints;
     }
 
-    public StructureWaypoint GetWaypointRandom(string waypointName) {
+    public Waypoint GetWaypointRandom(string waypointName, bool checkMarked) {
         if(mWorldWaypoints == null)
             return null;
 
-        StructureWaypoint[] ret;
+        WaypointControl ret;
         if(mWorldWaypoints.TryGetValue(waypointName, out ret))
-            return ret.Length > 0 ? ret[Random.Range(0, ret.Length)] : null;
+            return ret.GetRandomWaypoint(checkMarked);
+
+        return null;
+    }
+
+    public Waypoint GetWaypointUnmarked(string waypointName) {
+        if(mWorldWaypoints == null)
+            return null;
+
+        WaypointControl ret;
+        if(mWorldWaypoints.TryGetValue(waypointName, out ret))
+            return ret.GetUnmarkedWaypoint();
 
         return null;
     }
@@ -439,6 +441,7 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
                 if(repairGO) repairGO.SetActive(false);
 
                 mCurHitpoints = 0;
+                workCount = 0;
 
                 up = Vector2.up;
 
@@ -489,17 +492,17 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         }
 
         //generate waypoints access
-        mWorldWaypoints = new Dictionary<string, StructureWaypoint[]>(_waypointGroups.Length);
+        mWorldWaypoints = new Dictionary<string, WaypointControl>(_waypointGroups.Length);
 
         for(int i = 0; i < _waypointGroups.Length; i++) {
             var waypointGrp = _waypointGroups[i];
 
             var waypointGrpPts = waypointGrp.waypoints;
 
-            var waypoints = new StructureWaypoint[waypointGrpPts.Length];
+            var waypoints = new Waypoint[waypointGrpPts.Length];
             System.Array.Copy(waypointGrpPts, waypoints, waypoints.Length);
 
-            mWorldWaypoints.Add(waypointGrp.name, waypoints);
+            mWorldWaypoints.Add(waypointGrp.name, new WaypointControl(waypoints));
         }
 
         //initialize status

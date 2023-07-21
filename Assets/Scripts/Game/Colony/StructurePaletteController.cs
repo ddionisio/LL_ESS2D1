@@ -85,10 +85,13 @@ public class StructurePaletteController : MonoBehaviour  {
 
     public StructurePaletteData paletteData { get; private set; }
 
+    public M8.CacheList<Structure> structureActives { get { return mStructureActives; } }
+
     public StructureData placementCurrentStructureData { get { return mPlacementCurStuctureData; } }
 
     private GroupInfo[] mGroupInfos; //correlates to paletteData's items
-        
+
+    private Dictionary<StructureData, M8.CacheList<Structure>> mStructureTypeActives; //categorized active structures
     private M8.CacheList<Structure> mStructureActives;
 
     private M8.PoolController mPoolCtrl;
@@ -102,6 +105,12 @@ public class StructurePaletteController : MonoBehaviour  {
     private int mPlacementCurGroupIndex;
                 
     private M8.GenericParams mSpawnParms = new M8.GenericParams();
+
+    public M8.CacheList<Structure> GetStructureActives(StructureData structureData) {
+        M8.CacheList<Structure> activeList;
+        mStructureTypeActives.TryGetValue(structureData, out activeList);
+        return activeList;
+    }
 
     public int GroupGetIndex(StructureData structureData) {
         return paletteData.GetGroupIndex(structureData);
@@ -189,7 +198,7 @@ public class StructurePaletteController : MonoBehaviour  {
         }
         else if(mPlacementCurStuctureData) { //spawn structure
             if(!(mStructureActives.IsFull || GroupIsFull(mPlacementCurGroupIndex))) { //ensure it is valid (fail-safe)
-                                                                                      //spawn at ground
+                //spawn at ground
                 mSpawnParms[StructureSpawnParams.spawnPoint] = placementCursor.positionGround;
                 mSpawnParms[StructureSpawnParams.spawnNormal] = placementCursor.normalGround;
 
@@ -199,6 +208,10 @@ public class StructurePaletteController : MonoBehaviour  {
                 var newStructure = mPoolCtrl.Spawn<Structure>(spawnName, spawnName, spawnRoot, mSpawnParms);
 
                 mStructureActives.Add(newStructure);
+
+                M8.CacheList<Structure> activeList;
+                if(mStructureTypeActives.TryGetValue(mPlacementCurStuctureData, out activeList) && !activeList.IsFull) //shouldn't be full...
+                    activeList.Add(newStructure);
 
                 mGroupInfos[mPlacementCurGroupIndex].count++;
 
@@ -284,6 +297,8 @@ public class StructurePaletteController : MonoBehaviour  {
         int totalCapacity = 0;
 
         //setup pool
+        mStructureTypeActives = new Dictionary<StructureData, M8.CacheList<Structure>>();
+
         for(int i = 0; i < groupCount; i++) {
             var grpItm = paletteData.groups[i];
 
@@ -295,6 +310,15 @@ public class StructurePaletteController : MonoBehaviour  {
 
                 //add new item in pool
                 mPoolCtrl.AddType(structure.spawnPrefab.gameObject, capacity, capacity);
+
+                //init category active list
+                M8.CacheList<Structure> activeList;
+                if(!mStructureTypeActives.TryGetValue(structure, out activeList)) {
+                    activeList = new M8.CacheList<Structure>(capacity);
+                    mStructureTypeActives.Add(structure, activeList);
+                }
+                else
+                    activeList.Expand(capacity);
             }
 
             mGroupInfos[i] = new GroupInfo(grpItm);
@@ -345,6 +369,10 @@ public class StructurePaletteController : MonoBehaviour  {
         }
 
         if(structure) {
+            M8.CacheList<Structure> activeList;
+            if(mStructureTypeActives.TryGetValue(structure.data, out activeList))
+                activeList.Remove(structure);
+
             //ensure associated blocker is detached
             PlacementRemoveBlocker(structure);
 

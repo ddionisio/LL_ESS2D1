@@ -170,6 +170,8 @@ MonoBehaviour:
   takeHurt: 
   takeDying: 
   takeDespawn: 
+  targetPlantStructures:
+  - {fileID: 11400000, guid: c73b945acede2f241b89e40d6f760e93, type: 2}
 --- !u!114 &132798742304965075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,7 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 10
-  _moveEase: 4
+  _moveEase: 1
   applyUpVector: 1
 --- !u!61 &3101369000753197816
 BoxCollider2D:

@@ -3932,6 +3932,16 @@ MonoBehaviour:
     - _point: {x: -0.54499996, y: 0}
     - _point: {x: 0.22, y: 0}
     - _point: {x: 0.545, y: 0}
+  - name: idle
+    waypoints:
+    - _point: {x: -0.38, y: 0}
+    - _point: {x: -0.7, y: 0}
+    - _point: {x: -1, y: 0}
+    - _point: {x: -1.32, y: 0}
+    - _point: {x: 0.38, y: 0}
+    - _point: {x: 0.7, y: 0}
+    - _point: {x: 1, y: 0}
+    - _point: {x: 1.32, y: 0}
   _data: {fileID: 11400000, guid: f8c0222d9792d864c8946a703825bec0, type: 2}
 --- !u!4 &1316209136
 Transform:

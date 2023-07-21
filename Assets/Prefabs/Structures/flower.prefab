@@ -754,7 +754,14 @@ MonoBehaviour:
   takeMoving: 
   takeDestroyed: 
   takeDemolish: 
-  _waypointGroups: []
+  _waypointGroups:
+  - name: collect
+    waypoints:
+    - _point: {x: 0, y: 0}
+  - name: work
+    waypoints:
+    - _point: {x: -0.46, y: 0}
+    - _point: {x: 0.46, y: 0}
   readyDelay: 1
   growthDelay: 2
   bloomRoots:

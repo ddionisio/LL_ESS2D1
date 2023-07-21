@@ -99,7 +99,7 @@ public class UnitPaletteController : MonoBehaviour {
 
         Vector2 spawnPt;
 
-        var wp = structureOwner.GetWaypointRandom(GameData.structureWaypointSpawn);
+        var wp = structureOwner.GetWaypointRandom(GameData.structureWaypointSpawn, false);
         if(wp != null)
             spawnPt = wp.groundPoint.position;
         else //fail-safe
@@ -219,7 +219,7 @@ public class UnitPaletteController : MonoBehaviour {
                     return 100;
                 case UnitState.Dying:
                     return 99;
-                case UnitState.Retreat:
+                case UnitState.RetreatToBase:
                     return 98;
                 case UnitState.Hurt:
                     return 97;

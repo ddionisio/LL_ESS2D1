@@ -9,9 +9,9 @@ public class MovableJump : MovableBase {
     private Vector2 mMidPoint;
 
     protected override float MoveInit(Vector2 from, Vector2 to) {
-        var topY = Mathf.Max(from.y, to.y);
+        var midY = Mathf.Min(from.y, to.y);
 
-        mMidPoint = new Vector2(Mathf.Lerp(from.x, to.x, 0.5f), topY + heightRange.random);
+        mMidPoint = new Vector2(Mathf.Lerp(from.x, to.x, 0.5f), midY + heightRange.random);
 
         var dist = (mMidPoint - from).magnitude + (to - mMidPoint).magnitude;
 
