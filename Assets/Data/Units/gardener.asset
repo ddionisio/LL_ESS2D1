@@ -16,7 +16,7 @@ MonoBehaviour:
   descRef: 
   icon: {fileID: 0}
   hitpoints: 1
-  moveSpeed: 10
-  runSpeed: 20
+  moveSpeed: 1.5
+  runSpeed: 3
   canRevive: 1
   spawnPrefab: {fileID: 8444095278437995103, guid: 7b505d61b9eaf254d8ea2d517a42ac04, type: 3}

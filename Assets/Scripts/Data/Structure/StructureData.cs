@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "structure", menuName = "Game/Structure")]
+[CreateAssetMenu(fileName = "structure", menuName = "Game/Structure/Generic")]
 public class StructureData : ScriptableObject {
     [Header("Info")]
     [M8.Localize]

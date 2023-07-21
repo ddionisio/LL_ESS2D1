@@ -26,6 +26,9 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     [M8.Animator.TakeSelector]
     public string takeDespawn;
 
+    [Header("Signal Invoke")]
+    public SignalUnit signalInvokeDeath; //use this to keep track of unit deaths
+
     public UnitData data { get; private set; }
 
     public UnitState state {
@@ -427,6 +430,8 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
             yield return null;
 
         mRout = null;
+
+        signalInvokeDeath?.Invoke(this);
 
         state = UnitState.Despawning;
     }

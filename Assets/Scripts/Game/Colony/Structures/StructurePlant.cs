@@ -79,10 +79,6 @@ public class StructurePlant : Structure {
         }
     }
 
-    [Header("Plant Info")]
-    public float readyDelay = 1f;
-    public float growthDelay = 3f;
-
     [Header("Bloom Info")]
     public Transform[] bloomRoots; //determines number of resources that can be collected
     public float bloomGrabDelay;
@@ -184,14 +180,7 @@ public class StructurePlant : Structure {
             mGrowthTakeInd = growthAnimator.GetTakeIndex(growthTake);
             mGrowthDecayTakeInd = growthAnimator.GetTakeIndex(growthDecayTake);
         }
-
-        //setup base growth scale
-        if(mGrowthTakeInd != -1) {
-            mGrowthAnimTotalTime = growthAnimator.GetTakeTotalTime(mGrowthTakeInd);
-
-            mGrowthAnimScaleBase = growthDelay > 0f ? mGrowthAnimTotalTime / growthDelay : 1f;
-        }
-
+                
         //setup blooms
         mBloomItems = new BloomItem[bloomRoots.Length];
         for(int i = 0; i < bloomRoots.Length; i++)
@@ -199,6 +188,15 @@ public class StructurePlant : Structure {
     }
 
     protected override void Spawned() {
+        var plantDat = data as StructurePlantData;
+
+        //setup base growth scale
+        if(mGrowthTakeInd != -1) {
+            mGrowthAnimTotalTime = growthAnimator.GetTakeTotalTime(mGrowthTakeInd);
+
+            mGrowthAnimScaleBase = plantDat.growthDelay > 0f ? mGrowthAnimTotalTime / plantDat.growthDelay : 1f;
+        }
+
         GameData.instance.signalCycleNext.callback += OnCycleNext;
     }
 
@@ -253,6 +251,10 @@ public class StructurePlant : Structure {
     }
 
     IEnumerator DoActive() {
+        var plantDat = data as StructurePlantData;
+
+        var readyDelay = plantDat.readyDelay;
+
         while(true) {
             yield return null;
 

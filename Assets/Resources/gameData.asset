@@ -29,9 +29,11 @@ MonoBehaviour:
   structureRepairPerHitDelay: 1
   structureDamageDelay: 0.5
   structureDemolishDelay: 1
-  growthScalePerWork: 1
+  growthScalePerWork: 0.5
+  unitUpdateAIDelay: 0.3
   unitHurtDelay: 0.5
   unitDyingDelay: 5
+  unitIdleWanderDelay: 2
   overworldScene:
     name: overworld
     path: Assets/Scenes/overworld.unity

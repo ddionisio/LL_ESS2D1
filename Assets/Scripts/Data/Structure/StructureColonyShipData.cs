@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "structureColonyShip", menuName = "Game/Structure (Colony Ship)")]
+[CreateAssetMenu(fileName = "structureColonyShip", menuName = "Game/Structure/Colony Ship")]
 public class StructureColonyShipData : StructureData {
     [Header("Medic Info")]
     public UnitData medicData;
