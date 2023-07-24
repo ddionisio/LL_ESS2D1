@@ -17,7 +17,8 @@ public enum UnitState {
     Retreat, //run away from danger
     RetreatToBase, //during hazzard events, retreat inside their respective base
 
-    Dying //for frogs, how long before despawn. Can be revived by medic at this point
+    Dying, //for frogs, how long before death. Can be revived by medic at this point
+    Death, //animate and despawn
 }
 
 public struct UnitSpawnParams {

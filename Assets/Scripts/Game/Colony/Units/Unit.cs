@@ -24,10 +24,9 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     [M8.Animator.TakeSelector]
     public string takeDying;
     [M8.Animator.TakeSelector]
+    public string takeDeath;
+    [M8.Animator.TakeSelector]
     public string takeDespawn;
-
-    [Header("Signal Invoke")]
-    public SignalUnit signalInvokeDeath; //use this to keep track of unit deaths
 
     public UnitData data { get; private set; }
 
@@ -67,7 +66,7 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
                     if(data.canRevive)
                         state = UnitState.Dying;
                     else
-                        state = UnitState.Despawning;
+                        state = UnitState.Death;
                 }
                 else if(mCurHitpoints < prevHitpoints) { //perform damage
                     state = UnitState.Hurt;
@@ -136,6 +135,7 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     protected int mTakeActInd = -1;
     protected int mTakeHurtInd = -1;
     protected int mTakeDyingInd = -1;
+    protected int mTakeDeathInd = -1;
     protected int mTakeDespawnInd = -1;
 
     private int mTakeCurMoveInd;
@@ -253,6 +253,12 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
                 physicsActive = false;
                 break;
 
+            case UnitState.Death:
+                AnimateToRelease(mTakeDeathInd);
+
+                physicsActive = false;
+                break;
+
             case UnitState.Despawning:
                 AnimateToRelease(mTakeDespawnInd);
 
@@ -335,6 +341,7 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
             mTakeActInd = animator.GetTakeIndex(takeAct);
             mTakeHurtInd = animator.GetTakeIndex(takeHurt);
             mTakeDyingInd = animator.GetTakeIndex(takeDying);
+            mTakeDeathInd = animator.GetTakeIndex(takeDeath);
             mTakeDespawnInd = animator.GetTakeIndex(takeDespawn);
         }
 
@@ -431,9 +438,7 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
 
         mRout = null;
 
-        signalInvokeDeath?.Invoke(this);
-
-        state = UnitState.Despawning;
+        state = UnitState.Death;
     }
 
     IEnumerator DoAnimationToState(int takeInd, UnitState toState) {

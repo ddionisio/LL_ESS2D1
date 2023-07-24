@@ -32,9 +32,75 @@ public class ColonyController : GameModeController<ColonyController> {
     public int debugRegionIndex;
 
     public CycleController cycleController { get; private set; }
-        
+
+    public float power { 
+        get { return mPower; }
+        set {
+            var _val = Mathf.Clamp(value, 0f, mPowerMax);
+            if(mPower != _val) {
+                mPower = _val;
+
+                //signal
+            }
+        }
+    }
+
+    public float powerMax { 
+        get { return mPowerMax; }
+        set {
+            if(mPowerMax != value) {
+                mPowerMax = value;
+                if(mPowerMax < 0f) //fail-safe
+                    mPowerMax = 0f;
+
+                if(mPower > mPowerMax)
+                    mPower = mPowerMax;
+
+                //signal
+            }
+        }
+    }
+
+    public float powerNormalized { get { return Mathf.Clamp01(mPower / mPowerMax); } }
+
+    public int water { 
+        get { return mWater; }
+        set {
+            var _val = Mathf.Clamp(value, 0, mWaterMax);
+            if(mWater != _val) {
+                mWater = _val;
+
+                //signal
+            }
+        }
+    }
+
+    public int waterMax { 
+        get { return mWaterMax; }
+        set {
+            if(mWaterMax != value) {
+                mWaterMax = value;
+                if(mWaterMax < 0) //fail-safe
+                    mWaterMax = 0;
+
+                if(mWater > mWaterMax)
+                    mWater = mWaterMax;
+
+                //signal
+            }
+        }
+    }
+
+    public float waterNormalized { get { return Mathf.Clamp01((float)mWater / mWaterMax); } }
+
     public Camera mainCamera { get; private set; }
     public Transform mainCameraTransform { get; private set; }
+
+    private float mPower;
+    private float mPowerMax;
+
+    private int mWater;
+    private int mWaterMax;
 
     protected override void OnInstanceDeinit() {
         base.OnInstanceDeinit();

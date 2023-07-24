@@ -112,6 +112,22 @@ public class StructurePaletteController : MonoBehaviour  {
         return activeList;
     }
 
+    public int GetStructureActiveCount(StructureData structureData) {
+        M8.CacheList<Structure> activeList;
+        if(mStructureTypeActives.TryGetValue(structureData, out activeList))
+            return activeList.Count;
+        return 0;
+    }
+
+    public int GetStructureActiveCount(StructureData[] structureDatas) {
+        int ret = 0;
+
+        for(int i = 0; i < structureDatas.Length; i++)
+            ret += GetStructureActiveCount(structureDatas[i]);
+
+        return ret;
+    }
+
     public int GroupGetIndex(StructureData structureData) {
         return paletteData.GetGroupIndex(structureData);
     }

@@ -29,6 +29,8 @@ public class CycleController : MonoBehaviour {
 
     public bool isRunning { get { return mRout != null; } }
 
+    public bool isHazzard { get { return cycleCurWeather ? cycleCurWeather.isHazzard : false; } }
+
     private AtmosphereStat[] mAtmosphereStatsDefault;
     private AtmosphereModifier[] mSeasonAtmosphereMods;
     private AtmosphereModifier[] mRegionAtmosphereMods;

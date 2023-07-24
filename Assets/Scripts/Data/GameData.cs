@@ -48,6 +48,9 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     [Header("Colony | Structure | Plant")]
     public float growthScalePerWork = 1f; //scale growth time by this amount per work
 
+    [Header("Colony | Structure | Unit Spawn")]
+    public float structureUnitSpawnDelay = 0.3f; //delay to spawn a unit
+
     [Header("Colony | Unit")]
     public float unitUpdateAIDelay = 0.3f;
     public float unitHurtDelay = 0.5f; //how long to stay in hurt state

@@ -258,11 +258,24 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         }
     }
 
+    public void SetStatusStateAndProgress(StructureStatus status, StructureStatusState state, float progress) {
+        var inf = mStatusInfos[(int)status];
+
+        if(inf.state != state || inf.progress != progress) {
+            inf.state = state;
+            inf.progress = progress;
+
+            mStatusInfos[(int)status] = inf;
+
+            statusUpdateCallback?.Invoke(inf);
+        }
+    }
+
     public void ResetAllStatus() {
         for(int i = 0; i < mStatusInfos.Length; i++) {
             var inf = mStatusInfos[i];
 
-            if(inf.state != StructureStatusState.None) {
+            if(inf.state != StructureStatusState.None || inf.progress != 0f) {
                 inf.state = StructureStatusState.None;
                 inf.progress = 0f;
 
@@ -322,6 +335,8 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     protected virtual void ClearCurrentState() {
         StopCurrentRout();
 
+        ResetAllStatus();
+
         if(moveCtrl) moveCtrl.Cancel();
 
         if(isClicked) {
@@ -332,22 +347,10 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         switch(mState) {
             case StructureState.Construction:
                 if(constructionGO) constructionGO.SetActive(false);
-
-                SetStatusState(StructureStatus.Construct, StructureStatusState.None);
                 break;
 
             case StructureState.Repair:
                 if(repairGO) repairGO.SetActive(false);
-
-                SetStatusState(StructureStatus.Construct, StructureStatusState.None);
-                break;
-
-            case StructureState.Destroyed:
-                SetStatusState(StructureStatus.Construct, StructureStatusState.None);
-                break;
-
-            case StructureState.Demolish:
-                SetStatusState(StructureStatus.Demolish, StructureStatusState.None);
                 break;
         }
     }
@@ -370,7 +373,15 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
             case StructureState.Active:
                 if(activeGO) activeGO.SetActive(true);
 
-                if(damagedGO) damagedGO.SetActive(mCurHitpoints < hitpointsMax);
+                if(mCurHitpoints < hitpointsMax) {
+                    if(damagedGO) damagedGO.SetActive(true);
+
+                    if(data.isReparable)
+                        SetStatusState(StructureStatus.Construct, StructureStatusState.Require);
+                }
+                else {
+                    if(damagedGO) damagedGO.SetActive(false);
+                }
 
                 if(mTakeIdleInd != -1)
                     animator.Play(mTakeIdleInd);
@@ -400,6 +411,8 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
                 break;
 
             case StructureState.Repair:
+                if(repairGO) repairGO.SetActive(true);
+
                 mRout = StartCoroutine(DoRepair());
                 break;
 
@@ -430,8 +443,6 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
                 break;
 
             case StructureState.None:
-                ResetAllStatus();
-
                 if(animator)
                     animator.Stop();
 
@@ -625,17 +636,11 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
 
         var curTime = 0f;
 
-        while(curTime < totalDelay && mCurHitpoints < hitpointsMax) {
-            //no worker?
-            if(workCount == 0) {
-                SetStatusState(StructureStatus.Construct, StructureStatusState.Require);
+        yield return null; //guarantee one frame
 
-                while(workCount == 0)
-                    yield return null;
+        SetStatusState(StructureStatus.Construct, StructureStatusState.Progress);
 
-                SetStatusState(StructureStatus.Construct, StructureStatusState.Progress);
-            }
-
+        while(workCount > 0 && curTime < totalDelay && mCurHitpoints < hitpointsMax) {
             //progress
             yield return null;
 
@@ -649,12 +654,10 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
 
             hitpointsCurrent = curHP + Mathf.FloorToInt(repairCount * t);
         }
-
+                
         mRout = null;
 
-        SetStatusState(StructureStatus.Construct, StructureStatusState.None);
-
-        if(mCurHitpoints == 0) //fail-safe
+        if(mCurHitpoints == 0)
             state = StructureState.Destroyed;
         else
             state = StructureState.Active;
