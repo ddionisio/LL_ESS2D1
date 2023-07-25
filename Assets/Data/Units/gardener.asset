@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9ae3f55968eda74db0b2c119104b24d, type: 3}
+  m_Script: {fileID: 11500000, guid: 204ae1ded5c415549800898d87985d00, type: 3}
   m_Name: gardener
   m_EditorClassIdentifier: 
   nameRef: 
@@ -20,3 +20,5 @@ MonoBehaviour:
   runSpeed: 3
   canRevive: 1
   spawnPrefab: {fileID: 8444095278437995103, guid: 7b505d61b9eaf254d8ea2d517a42ac04, type: 3}
+  targetPlantStructures:
+  - {fileID: 11400000, guid: 00c13b5caec751f4cac6d8ab4a682fc4, type: 2}

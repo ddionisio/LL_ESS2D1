@@ -44,11 +44,18 @@ public class StructurePlant : Structure {
                 mRout = root.StartCoroutine(DoGrab(destTrans, height, delay));
         }
 
-        public void Clear(MonoBehaviour root) {
+        public void GrabCancel(MonoBehaviour root) {
             if(mRout != null) {
                 root.StopCoroutine(mRout);
                 mRout = null;
             }
+
+            if(transform)
+                transform.localPosition = mDefaultLocalPos;
+        }
+
+        public void Clear(MonoBehaviour root) {
+            GrabCancel(root);
 
             if(mGO)
                 mGO.SetActive(false);
@@ -109,6 +116,16 @@ public class StructurePlant : Structure {
 
     private BloomItem[] mBloomItems;
 
+    public int BloomGrabAvailableIndex() {
+        for(int i = 0; i < mBloomItems.Length; i++) {
+            var itm = mBloomItems[i];
+            if(itm.isActive && !itm.isBusy)
+                return i;
+        }
+
+        return -1;
+    }
+
     /// <summary>
     /// Returns bloom index, -1 if no blooms to remove
     /// </summary>
@@ -141,6 +158,21 @@ public class StructurePlant : Structure {
     }
 
     /// <summary>
+    /// Start grab proceedure with given bloom index. Returns true if successfully grabbed.
+    /// </summary>
+    public bool BloomGrab(int bloomIndex, Transform dest) {
+        if(bloomIndex >= 0 && bloomIndex < mBloomItems.Length) {
+            var itm = mBloomItems[bloomIndex];
+            if(itm.isActive && !itm.isBusy) {
+                itm.Grab(this, dest, bloomGrabHeightRange.random, bloomGrabDelay);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
     /// Call this after BloomGrab to check its state, if 'false', then do whatever is next.
     /// </summary>
     public bool BloomIsBusy(int bloomIndex) {
@@ -148,6 +180,11 @@ public class StructurePlant : Structure {
             return mBloomItems[bloomIndex].isBusy;
 
         return false;
+    }
+
+    public void BloomGrabCancel(int bloomIndex) {
+        if(bloomIndex >= 0 && bloomIndex < mBloomItems.Length)
+            mBloomItems[bloomIndex].GrabCancel(this);
     }
 
     public override void WorkAdd() {

@@ -70,6 +70,8 @@ public class StructurePaletteController : MonoBehaviour  {
         }
     }
 
+    public delegate bool CheckStructureValid<T>(T structure) where T : Structure;
+
     [Header("Spawn Info")]
     public Transform spawnRoot;
 
@@ -105,6 +107,28 @@ public class StructurePaletteController : MonoBehaviour  {
     private int mPlacementCurGroupIndex;
                 
     private M8.GenericParams mSpawnParms = new M8.GenericParams();
+
+    public T GetStructureNearestActive<T>(float positionX, StructureData structureData, CheckStructureValid<T> checkValid) where T : Structure {
+        T ret = null;
+        float dist = 0f;
+
+        var activeList = GetStructureActives(structureData);
+        if(activeList != null) {
+            for(int i = 0; i < activeList.Count; i++) {
+                var structure = activeList[i] as T;
+                if(structure && checkValid(structure)) {
+                    //see if it's closer to our current available structure, or it's the first one
+                    var structureDist = Mathf.Abs(structure.position.x - positionX);
+                    if(!ret || structureDist < dist) {
+                        ret = structure;
+                        dist = structureDist;
+                    }
+                }
+            }
+        }
+
+        return ret;
+    }
 
     public M8.CacheList<Structure> GetStructureActives(StructureData structureData) {
         M8.CacheList<Structure> activeList;

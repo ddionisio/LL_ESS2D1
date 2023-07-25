@@ -61,7 +61,7 @@ public class ColonyController : GameModeController<ColonyController> {
         }
     }
 
-    public float powerNormalized { get { return Mathf.Clamp01(mPower / mPowerMax); } }
+    public float powerNormalized { get { return mPowerMax > 0f ? Mathf.Clamp01(mPower / mPowerMax) : 0f; } }
 
     public int water { 
         get { return mWater; }

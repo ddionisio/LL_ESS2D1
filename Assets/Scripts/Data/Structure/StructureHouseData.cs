@@ -23,7 +23,6 @@ public class StructureHouseData : StructureData {
     [Header("Structure Resource Look-ups")]
     public StructureData[] foodStructureSources;
     public StructureData[] waterStructureSources;
-    public StructureData[] powerStructureSources;
 
     public float populationPowerConsumeDelay; //how long to consume power before increasing population (if powerConsumptionRate > 0)
 

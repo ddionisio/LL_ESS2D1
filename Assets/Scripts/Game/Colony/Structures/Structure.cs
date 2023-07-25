@@ -191,6 +191,10 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     protected int mTakeDestroyedInd = -1;
     protected int mTakeDemolishInd = -1;
 
+    public bool IsTouchingUnit(Unit unit) {
+        return boxCollider.IsTouching(unit.boxCollider);
+    }
+
     public Waypoint[] GetWaypoints(string waypointName) {
         if(mWorldWaypoints == null || !mWorldWaypoints.ContainsKey(waypointName))
             return null;

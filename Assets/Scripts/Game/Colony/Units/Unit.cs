@@ -46,7 +46,7 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
 
                 ApplyCurrentState();
 
-                stateChangedCallback?.Invoke(mState);
+                stateChangedCallback?.Invoke(this);
             }
         }
     }
@@ -97,8 +97,6 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
         set { transform.up = value; }
     }
 
-    public Collider2D coll { get; private set; }
-
     public BoxCollider2D boxCollider { get; private set; }
     public M8.PoolDataController poolCtrl { get; private set; }
     public MovableBase moveCtrl { get; private set; }
@@ -120,7 +118,7 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     /// </summary>
     public Waypoint moveWaypoint { get; private set; }
 
-    public event System.Action<UnitState> stateChangedCallback;
+    public event System.Action<Unit> stateChangedCallback;
 
     protected Coroutine mRout;
 
@@ -141,6 +139,10 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     private int mTakeCurMoveInd;
 
     private float mUpdateAICurTime;
+
+    public bool IsTouchingStructure(Structure structure) {
+        return boxCollider.IsTouching(structure.boxCollider);
+    }
 
     public bool MoveTo(Vector2 toPos, bool isRun) {
         if(!isMovable) return false;
@@ -167,6 +169,14 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
         MoveApply(moveWaypoint.point, isRun);
 
         return true;
+    }
+
+    public bool MoveTo(Structure structure, string waypointName, bool checkMarked, bool isRun) {
+        var wp = structure.GetWaypointRandom(waypointName, checkMarked);
+        if(wp != null)
+            return MoveTo(wp, isRun);
+        else //fail-safe, just move at structure's position
+            return MoveTo(structure.position, isRun);
     }
 
     public bool MoveToOwnerStructure(bool isRun) {

@@ -3,15 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class UnitGardener : Unit {
-    [Header("Gardener Info")]
-    public StructureData[] targetPlantStructures;
 
     private StructurePlant mTargetPlant;
     private bool mTargetPlantIsWorkAdded;
-
-    protected override void Despawned() {
-        ClearAIState();
-    }
 
     protected override void ClearCurrentState() {
         base.ClearCurrentState();
@@ -46,7 +40,7 @@ public class UnitGardener : Unit {
             case UnitState.Idle:
                 if(mTargetPlant) { //have a target plant?
                     //check if it's still valid
-                    if(CanWorkOnPlant(mTargetPlant, true)) {
+                    if(CanGotoAndWorkOnPlant(mTargetPlant)) {
                         var wp = mTargetPlant.GetWaypointUnmarked(GameData.structureWaypointWork);
                         MoveTo(wp, false); //move to it
                     }
@@ -64,7 +58,7 @@ public class UnitGardener : Unit {
             case UnitState.Move:
                 //check if the plant is still valid
                 if(mTargetPlant) {
-                    if(!CanWorkOnPlant(mTargetPlant, false)) {
+                    if(!CanWorkOnPlant(mTargetPlant)) {
                         ClearTargetPlant();
 
                         //find a new one
@@ -90,13 +84,17 @@ public class UnitGardener : Unit {
     protected override void MoveToComplete() {
         //check if we can still work on the plant
         if(mTargetPlant) {
-            if(mTargetPlant.growthState == StructurePlant.GrowthState.Growing && !mTargetPlant.workIsFull)
-                state = UnitState.Act;
-            else //back to idle, find a new plant from there
-                base.MoveToComplete();
-        }
-        else //nothing
-            base.MoveToComplete();
+            if(CanWorkOnPlant(mTargetPlant)) {
+                //are we at the plant?
+                if(IsTouchingStructure(mTargetPlant)) {
+                    state = UnitState.Act;
+                    return;
+                } //move to plant again
+            } //can no longer work on plant
+        } //no target
+
+        //back to idle to re-evaluate our decisions
+        base.MoveToComplete();
     }
         
     private void ClearTargetPlant() {
@@ -117,8 +115,13 @@ public class UnitGardener : Unit {
         if(mTargetPlant) //fail-safe, shouldn't exist when calling this
             ClearTargetPlant();
 
+        var structureCtrl = ColonyController.instance.structurePaletteController;
+
+        var gardenerDat = data as UnitGardenerData;
+        var targetPlantStructures = gardenerDat.targetPlantStructures;
+
         for(int i = 0; i < targetPlantStructures.Length; i++) {
-            mTargetPlant = FindNearestPlantGrowing(targetPlantStructures[i]);
+            mTargetPlant = structureCtrl.GetStructureNearestActive<StructurePlant>(position.x, targetPlantStructures[i], CanGotoAndWorkOnPlant);
             if(mTargetPlant)
                 break;
         }
@@ -133,42 +136,16 @@ public class UnitGardener : Unit {
         return false;
     }
 
-    private StructurePlant FindNearestPlantGrowing(StructureData structureData) {
-        StructurePlant ret = null;
-        float dist = 0f;
-
-        var structureCtrl = ColonyController.instance.structurePaletteController;
-
-        var activeList = structureCtrl.GetStructureActives(structureData);
-        if(activeList != null) {
-            var x = position.x;
-
-            for(int i = 0; i < activeList.Count; i++) {
-                var plant = activeList[i] as StructurePlant;
-                if(CanWorkOnPlant(plant, true)) {
-                    //see if it's closer to our current available plant, or it's the first one
-                    var plantDist = Mathf.Abs(plant.position.x - x);
-                    if(!ret || plantDist < dist) {
-                        ret = plant;
-                        dist = plantDist;
-                    }
-                }
-            }
-        }
-
-        return ret;
+    private bool CanWorkOnPlant(StructurePlant plant) {
+        return plant.growthState == StructurePlant.GrowthState.Growing && !plant.workIsFull;
     }
 
-    private bool CanWorkOnPlant(StructurePlant plant, bool checkWorkWaypoint) {
-        if(plant && plant.growthState == StructurePlant.GrowthState.Growing && !plant.workIsFull) {
-            if(checkWorkWaypoint) {
-                //check if all work waypoint is marked (this means someone else is on the way)
-                var unmarkedWorkWp = plant.GetWaypointUnmarked(GameData.structureWaypointWork);
+    private bool CanGotoAndWorkOnPlant(StructurePlant plant) {
+        if(CanWorkOnPlant(plant)) {
+            //check if all work waypoint is marked (this means someone else is on the way)
+            var unmarkedWorkWp = plant.GetWaypointUnmarked(GameData.structureWaypointWork);
 
-                return unmarkedWorkWp != null;
-            }
-            else
-                return true;
+            return unmarkedWorkWp != null;
         }
 
         return false;
