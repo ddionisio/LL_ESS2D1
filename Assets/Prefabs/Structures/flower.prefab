@@ -762,14 +762,12 @@ MonoBehaviour:
     waypoints:
     - _point: {x: -0.46, y: 0}
     - _point: {x: 0.46, y: 0}
-  readyDelay: 1
-  growthDelay: 2
   bloomRoots:
   - {fileID: 2474430874385037497}
   bloomGrabDelay: 0.5
   bloomGrabHeightRange:
-    min: 5
-    max: 8
+    min: 1
+    max: 3
   growthRootGO: {fileID: 2474430875325669460}
   growthAnimator: {fileID: 2474430875325669463}
   growthReadyTake: ready

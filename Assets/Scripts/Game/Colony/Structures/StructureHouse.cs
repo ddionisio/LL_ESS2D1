@@ -3,10 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class StructureHouse : Structure {
-
-    [Header("House Signal Invoke")]
-    public M8.Signal signalInvokePopulationChanged;
-
     [Header("House Signal Listen")]
     public SignalUnit signalListenUnitDespawned;
 
@@ -114,6 +110,13 @@ public class StructureHouse : Structure {
                 break;
 
             case StructureState.None:
+                if(ColonyController.isInstantiated) {
+                    var colonyCtrl = ColonyController.instance;
+
+                    colonyCtrl.population -= population;
+                    colonyCtrl.populationCapacity -= populationMax;
+                }
+
                 populationLevelIndex = 0;
                 population = 0;
                 mFoodCount = 0;
@@ -146,6 +149,8 @@ public class StructureHouse : Structure {
     }
 
     protected override void Spawned() {
+        var colonyCtrl = ColonyController.instance;
+
         houseData = data as StructureHouseData;
 
         if(houseData) {
@@ -159,6 +164,9 @@ public class StructureHouse : Structure {
                 mCitizensActive = new M8.CacheList<Unit>(houseData.citizenCapacity);
 
             population = houseData.citizenStartCount;
+
+            colonyCtrl.populationCapacity += populationMax;
+            colonyCtrl.population += population;
         }
         else { //fail-safe
             if(mCitizensActive == null) mCitizensActive = new M8.CacheList<Unit>(0);
@@ -177,6 +185,8 @@ public class StructureHouse : Structure {
                 //decrease citizen count (min: 1)
                 if(population > 1) {
                     population--;
+
+                    ColonyController.instance.population--;
 
                     //also go back one level for requirements
                     if(populationLevelIndex > population - 1) {
@@ -242,12 +252,15 @@ public class StructureHouse : Structure {
 
                         var consumeAmt = powerConsumptionRate * dt;
 
-                        if(colonyCtrl.power > consumeAmt) {
-                            colonyCtrl.power -= consumeAmt;
-                            
+                        var colonyPower = colonyCtrl.GetResourceAmount(StructureResourceData.ResourceType.Power);
+
+                        if(colonyPower > consumeAmt) {
+                            colonyPower -= consumeAmt;
+                            colonyCtrl.SetResourceAmount(StructureResourceData.ResourceType.Power, colonyPower);
+
                             mCurPowerConsumeTime += dt;
 
-                            SetStatusStateAndProgress(StructureStatus.Power, StructureStatusState.Progress, power);
+                            SetStatusStateAndProgress(StructureStatus.Power, StructureStatusState.Progress, colonyPower);
                         }
                         else
                             SetStatusState(StructureStatus.Power, StructureStatusState.Require);
@@ -277,7 +290,7 @@ public class StructureHouse : Structure {
                 mWaterCount = 0;
                 mCurPowerConsumeTime = 0f;
 
-                signalInvokePopulationChanged?.Invoke();
+                ColonyController.instance.population++;
             }
         }
 
@@ -296,14 +309,17 @@ public class StructureHouse : Structure {
 
             //check if there are water reserves for the colony, and update progress based on waterCount/waterMax
             if(waterCount < waterMax) {
-                SetStatusStateAndProgress(StructureStatus.Water, colonyCtrl.waterMax > 0 ? StructureStatusState.Progress : StructureStatusState.Require, Mathf.Clamp01((float)waterCount / waterMax));
+                int waterSourceCount = structureCtrl.GetStructureActiveCount(houseData.waterStructureSources);
+                SetStatusStateAndProgress(StructureStatus.Water, waterSourceCount > 0 ? StructureStatusState.Progress : StructureStatusState.Require, Mathf.Clamp01((float)waterCount / waterMax));
             }
             else
                 SetStatusState(StructureStatus.Water, StructureStatusState.None);
 
             //check if there's any power left for the colony
             if(powerConsumptionRate > 0f && power < 1f) {
-                SetStatusStateAndProgress(StructureStatus.Power, colonyCtrl.power > 0f ? StructureStatusState.Progress : StructureStatusState.Require, power);
+                var colonyPower = colonyCtrl.GetResourceAmount(StructureResourceData.ResourceType.Power);
+
+                SetStatusStateAndProgress(StructureStatus.Power, colonyPower > 0f ? StructureStatusState.Progress : StructureStatusState.Require, power);
             }
             else
                 SetStatusState(StructureStatus.Power, StructureStatusState.None);

@@ -5,6 +5,29 @@ using UnityEngine;
 using LoLExt;
 
 public class ColonyController : GameModeController<ColonyController> {
+    public struct ResourceInfo {
+        public float amount {
+            get { return mAmount; }
+            set { mAmount = Mathf.Clamp(value, 0f, mCapacity); }
+        }
+
+        public float capacity {
+            get { return mCapacity; }
+            set {
+                mCapacity = value;
+
+                if(mAmount > mCapacity)
+                    mAmount = mCapacity;
+            }
+        }
+
+        public float scale { get { return Mathf.Clamp01(mAmount / mCapacity); } }
+
+        public bool isFull { get { return mAmount >= mCapacity; } }
+
+        private float mAmount;
+        private float mCapacity;
+    }
 
     [Header("Setup")]
     public HotspotData hotspotData; //correlates to the hotspot we launched from the overworld
@@ -25,6 +48,10 @@ public class ColonyController : GameModeController<ColonyController> {
 
     [Header("Colony Ship")]
     public StructureColonyShip colonyShip;
+
+    [Header("Signal Invoke")]
+    public M8.Signal signalInvokePopulationUpdate;
+    public M8.Signal signalInvokeResourceUpdate;
         
     [Header("Debug")]
     public bool debugEnabled;
@@ -33,76 +60,79 @@ public class ColonyController : GameModeController<ColonyController> {
 
     public CycleController cycleController { get; private set; }
 
-    public float power { 
-        get { return mPower; }
-        set {
-            var _val = Mathf.Clamp(value, 0f, mPowerMax);
-            if(mPower != _val) {
-                mPower = _val;
-
-                //signal
-            }
-        }
-    }
-
-    public float powerMax { 
-        get { return mPowerMax; }
-        set {
-            if(mPowerMax != value) {
-                mPowerMax = value;
-                if(mPowerMax < 0f) //fail-safe
-                    mPowerMax = 0f;
-
-                if(mPower > mPowerMax)
-                    mPower = mPowerMax;
-
-                //signal
-            }
-        }
-    }
-
-    public float powerNormalized { get { return mPowerMax > 0f ? Mathf.Clamp01(mPower / mPowerMax) : 0f; } }
-
-    public int water { 
-        get { return mWater; }
-        set {
-            var _val = Mathf.Clamp(value, 0, mWaterMax);
-            if(mWater != _val) {
-                mWater = _val;
-
-                //signal
-            }
-        }
-    }
-
-    public int waterMax { 
-        get { return mWaterMax; }
-        set {
-            if(mWaterMax != value) {
-                mWaterMax = value;
-                if(mWaterMax < 0) //fail-safe
-                    mWaterMax = 0;
-
-                if(mWater > mWaterMax)
-                    mWater = mWaterMax;
-
-                //signal
-            }
-        }
-    }
-
-    public float waterNormalized { get { return Mathf.Clamp01((float)mWater / mWaterMax); } }
-
     public Camera mainCamera { get; private set; }
     public Transform mainCameraTransform { get; private set; }
 
-    private float mPower;
-    private float mPowerMax;
+    public int population { 
+        get { return mPopulation; }
+        set {
+            var _val = Mathf.Clamp(value, 0, mPopulationCapacity);
+            if(mPopulation != _val) {
+                mPopulation = _val;
 
-    private int mWater;
-    private int mWaterMax;
+                signalInvokePopulationUpdate?.Invoke();
+            }
+        }
+    }
+
+    public int populationCapacity { 
+        get { return mPopulationCapacity; }
+        set {
+            if(mPopulationCapacity != value) {
+                mPopulationCapacity = value;
+
+                if(mPopulation > mPopulationCapacity)
+                    mPopulation = mPopulationCapacity;
+
+                signalInvokePopulationUpdate?.Invoke();
+            }
+        }
+    }
+
+    private ResourceInfo[] mResources;
+
+    private int mPopulation;
+    private int mPopulationCapacity;
+
+    public float GetResourceAmount(StructureResourceData.ResourceType resourceType) {
+        return mResources[(int)resourceType].amount;
+    }
+
+    public void SetResourceAmount(StructureResourceData.ResourceType resourceType, float amount) {
+        var resInd = (int)resourceType;
+
+        if(mResources[resInd].amount != amount) {
+            mResources[resInd].amount = amount;
+
+            //signal
+            signalInvokeResourceUpdate?.Invoke();
+        }
+    }
+
+    public float GetResourceScale(StructureResourceData.ResourceType resourceType) {
+        return mResources[(int)resourceType].scale;
+    }
+
+    public float GetResourceCapacity(StructureResourceData.ResourceType resourceType) {
+        return mResources[(int)resourceType].capacity;
+    }
+
+    public void SetResourceCapacity(StructureResourceData.ResourceType resourceType, float capacity) {
+        var resInd = (int)resourceType;
+
+        if(mResources[resInd].capacity != capacity) {
+            mResources[resInd].capacity = capacity;
+
+            signalInvokeResourceUpdate?.Invoke();
+        }
+    }
+
+    public bool IsResourceFull(StructureResourceData.ResourceType resourceType) {
+        return mResources[(int)resourceType].isFull;
+    }
 
     protected override void OnInstanceDeinit() {
+
         base.OnInstanceDeinit();
     }
 
@@ -114,6 +144,12 @@ public class ColonyController : GameModeController<ColonyController> {
         mainCamera = Camera.main;
         if(mainCamera)
             mainCameraTransform = mainCamera.transform.parent;
+
+        //initialize resource array
+        var structureResVals = System.Enum.GetValues(typeof(StructureResourceData.ResourceType));
+        mResources = new ResourceInfo[structureResVals.Length];
+        for(int i = 0; i < mResources.Length; i++)
+            mResources[i] = new ResourceInfo();
 
         //grab season and region info
         SeasonData season;
@@ -174,6 +210,8 @@ public class ColonyController : GameModeController<ColonyController> {
 
         //setup colony ship
         colonyShip.Init(unitController);
+
+        //setup signals
     }
 
     protected override IEnumerator Start() {
@@ -186,7 +224,7 @@ public class ColonyController : GameModeController<ColonyController> {
         StartCoroutine(DoCycle());
     }
 
-    protected IEnumerator DoCycle() {
+    IEnumerator DoCycle() {
         //colony ship enter
         colonyShip.Spawn();
 

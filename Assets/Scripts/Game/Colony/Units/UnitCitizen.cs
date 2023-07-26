@@ -17,6 +17,7 @@ public class UnitCitizen : Unit {
     private ResourceGatherType mCarryType;
 
     private Structure mGatherTarget;
+    private bool mGatherInProcess;
     private int mGatherGrabIndex = -1;
     private Waypoint mGatherWaypoint;
 
@@ -43,7 +44,12 @@ public class UnitCitizen : Unit {
                         var plant = (StructurePlant)mGatherTarget;
                         mGatherGrabIndex = plant.BloomGrab(carryRoot);
                     }
-                    //TODO: water
+                    else if(mGatherTarget is StructureResourceGenerateContainer) {
+                        var resGen = (StructureResourceGenerateContainer)mGatherTarget;
+                        resGen.resource--;
+                    }
+
+                    mGatherInProcess = true;
                 }
                 break;
 
@@ -129,13 +135,21 @@ public class UnitCitizen : Unit {
                                 //collect
                                 SetCarryType(ResourceGatherType.Food);
                                 mGatherGrabIndex = -1;
+                                mGatherInProcess = false;
                                 isActFinish = true;
                             }
                         }
                         else
                             isActFinish = true;
                     }
-                    //TODO: water
+                    else if(mGatherTarget is StructureResourceGenerateContainer) {
+                        if(stateTimeElapsed >= GameData.instance.unitGatherContainerDelay) {
+                            //collect
+                            SetCarryType(ResourceGatherType.Water);
+                            mGatherInProcess = false;
+                            isActFinish = true;
+                        }
+                    }
                 }
                 else
                     isActFinish = true;
@@ -179,7 +193,15 @@ public class UnitCitizen : Unit {
                         return;
                     }
                 }
-                //TODO: water
+                else if(mGatherTarget is StructureResourceGenerateContainer) {
+                    if(CanGatherWater((StructureResourceGenerateContainer)mGatherTarget)) {
+                        mGatherWaypoint = moveWaypoint;
+                        if(mGatherWaypoint != null) mGatherWaypoint.AddMark(); //re-add mark to persist until we finish gathering
+
+                        state = UnitState.Act;
+                        return;
+                    }
+                }
             } //move to gather spot again
         } //no target
 
@@ -209,10 +231,17 @@ public class UnitCitizen : Unit {
 
                 if(house) house.RemoveFoodGather();
             }
-            //TODO: water
+            else if(mGatherTarget is StructureResourceGenerateContainer) {
+                if(house) house.RemoveWaterGather();
+
+                if(mGatherInProcess)
+                    ((StructureResourceGenerateContainer)mGatherTarget).resource++; //return resource
+            }
 
             mGatherTarget = null;
         }
+
+        mGatherInProcess = false;
 
         //free up waypoint from gathering
         if(mGatherWaypoint != null) {
@@ -241,7 +270,7 @@ public class UnitCitizen : Unit {
 
             if(carryRoot) {
                 if(isCarryRootActive) {
-                    carryRoot.SetParent(transform.parent);
+                    carryRoot.SetParent(transform.parent, true);
                     carryRoot.gameObject.SetActive(true);
                 }
                 else {
@@ -289,7 +318,27 @@ public class UnitCitizen : Unit {
         }
 
         //check if we need water
-        //TODO
+        if(house.isWaterGatherAvailable) {
+            //find nearest water generator with available gather
+            StructureResourceGenerateContainer waterGen = null;
+            for(int i = 0; i < house.houseData.waterStructureSources.Length; i++) {
+                waterGen = structureCtrl.GetStructureNearestActive<StructureResourceGenerateContainer>(position.x, house.houseData.waterStructureSources[i], CanGotoAndGatherWater);
+                if(waterGen)
+                    break;
+            }
+
+            //set as target, and move to it
+            if(waterGen) {
+                mGatherTarget = waterGen;
+
+                var wp = waterGen.GetWaypointUnmarked(GameData.structureWaypointCollect);
+                MoveTo(wp, false);
+
+                house.AddWaterGather();
+
+                return true;
+            }
+        }
 
         return false;
     }
@@ -302,6 +351,21 @@ public class UnitCitizen : Unit {
         if(CanGatherPlant(plant)) {
             //check if all collect waypoint is marked (this means someone else is on the way)
             var unmarkedCollectWp = plant.GetWaypointUnmarked(GameData.structureWaypointCollect);
+
+            return unmarkedCollectWp != null;
+        }
+
+        return false;
+    }
+
+    private bool CanGatherWater(StructureResourceGenerateContainer waterGen) {
+        return waterGen.resourceWhole > 0;
+    }
+
+    private bool CanGotoAndGatherWater(StructureResourceGenerateContainer waterGen) {
+        if(CanGatherWater(waterGen)) {
+            //check if all collect waypoint is marked (this means someone else is on the way)
+            var unmarkedCollectWp = waterGen.GetWaypointUnmarked(GameData.structureWaypointCollect);
 
             return unmarkedCollectWp != null;
         }

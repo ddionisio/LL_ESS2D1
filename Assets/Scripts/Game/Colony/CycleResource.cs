@@ -2,6 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum CycleResourceType {
+    None,
+    Sun,
+    Wind,
+    Water,
+    Growth
+}
+
 [System.Serializable]
 public struct CycleResource {
     public float sun;

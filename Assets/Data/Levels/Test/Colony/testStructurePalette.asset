@@ -27,3 +27,10 @@ MonoBehaviour:
       isHidden: 0
     capacityStart: 4
     capacity: 4
+  - nameRef: 
+    icon: {fileID: 0}
+    structures:
+    - data: {fileID: 11400000, guid: e6518c7cb5a58f34d8950afde470f478, type: 2}
+      isHidden: 0
+    capacityStart: 4
+    capacity: 4

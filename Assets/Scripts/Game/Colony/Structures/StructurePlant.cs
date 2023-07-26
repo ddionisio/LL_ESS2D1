@@ -412,8 +412,8 @@ public class StructurePlant : Structure {
         var scale = 0f;
 
         //add atmosphere attribute
-        var resRate = ColonyController.instance.cycleController.cycleResourceRate;
-        scale += resRate.growth;
+        var resRate = ColonyController.instance.cycleController.GetResourceRate(CycleResourceType.Growth);
+        scale += resRate;
 
         //add worker attribute
         scale += workCount * GameData.instance.growthScalePerWork;

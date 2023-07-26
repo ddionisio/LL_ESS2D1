@@ -56,6 +56,7 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public float unitHurtDelay = 0.5f; //how long to stay in hurt state
     public float unitDyingDelay = 5f; //how long to stay in dying state
     public float unitIdleWanderDelay = 2f; //how long to stay in idle before moving to a new spot
+    public float unitGatherContainerDelay = 0.5f; //how long to 'act' before getting resource from a container
 
     [Header("Scenes")]
     //intro sets progress to 1

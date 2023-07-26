@@ -37,6 +37,21 @@ public class CycleController : MonoBehaviour {
 
     private Coroutine mRout;
 
+    public float GetResourceRate(CycleResourceType cycleResourceType) {
+        switch(cycleResourceType) {
+            case CycleResourceType.Sun:
+                return cycleResourceRate.sun;
+            case CycleResourceType.Wind:
+                return cycleResourceRate.wind;
+            case CycleResourceType.Water:
+                return cycleResourceRate.water;
+            case CycleResourceType.Growth:
+                return cycleResourceRate.growth;
+            default:
+                return 0f;
+        }
+    }
+
     public void Setup(HotspotData hotspotData, SeasonData season) {
         //grab cycle data based on season
         cycleData = cycleDataDefault;
