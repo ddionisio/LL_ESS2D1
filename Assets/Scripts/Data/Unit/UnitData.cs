@@ -15,8 +15,8 @@ public class UnitData : ScriptableObject {
     [Header("Stats")]
     public int hitpoints; //for damageable, set to 0 for invulnerable
 
-    public float moveSpeed = 10f;
-    public float runSpeed = 20f;
+    public float moveSpeed = 1f;
+    public float runSpeed = 1.5f;
 
     public bool canRevive; //can be revived by some means (e.g. medic for frogs)
 

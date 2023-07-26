@@ -50,6 +50,10 @@ public class StructureStatusWidget : MonoBehaviour {
 
     public void ResetState() {
         mState = StructureStatusState.None;
+        mProgressFillAmount = 0f;
+
+        if(progressImage) progressImage.fillAmount = 0f;
+
         ApplyCurrentState();        
     }
 

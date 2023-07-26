@@ -191,7 +191,26 @@ MonoBehaviour:
   takeMoving: 
   takeDestroyed: 
   takeDemolish: 
-  _waypointGroups: []
+  _waypointGroups:
+  - name: spawn
+    waypoints:
+    - _point: {x: -0.3, y: 0}
+    - _point: {x: -0.7, y: 0}
+    - _point: {x: 0.3, y: 0}
+    - _point: {x: 0.7, y: 0}
+  - name: work
+    waypoints:
+    - _point: {x: -0.9, y: 0}
+    - _point: {x: 0.9, y: 0}
+  - name: idle
+    waypoints:
+    - _point: {x: 0, y: 0}
+    - _point: {x: -0.55, y: 0}
+    - _point: {x: -1.1, y: 0}
+    - _point: {x: 0.55, y: 0}
+    - _point: {x: 1.1, y: 0}
+  signalInvokePopulationChanged: {fileID: 0}
+  signalListenUnitDespawned: {fileID: 0}
 --- !u!114 &2184511054322578209
 MonoBehaviour:
   m_ObjectHideFlags: 0

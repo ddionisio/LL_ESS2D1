@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddfec19979a6985409a43ed3b1342800, type: 3}
+  m_Name: citizen
+  m_EditorClassIdentifier: 
+  nameRef: 
+  descRef: 
+  icon: {fileID: 0}
+  hitpoints: 1
+  moveSpeed: 1
+  runSpeed: 2
+  canRevive: 1
+  spawnPrefab: {fileID: 602341086552725993, guid: 7bdacf7b04f0858428106e48d9518772, type: 3}

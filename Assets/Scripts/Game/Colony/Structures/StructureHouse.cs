@@ -54,13 +54,13 @@ public class StructureHouse : Structure {
     /// <summary>
     /// [0, 1] gets filled gradually via (populationPowerConsumeDelay)
     /// </summary>
-    public float power { get { return Mathf.Clamp01(mCurPowerConsumeTime / houseData.populationPowerConsumeDelay); } }
+    public float power { get { return houseData.populationPowerConsumeDelay > 0f ? Mathf.Clamp01(mCurPowerConsumeTime / houseData.populationPowerConsumeDelay) : 1f; } }
 
     public float powerConsumptionRate { get { return houseData.GetPopulationLevelInfo(populationLevelIndex).powerConsumptionRate; } }
 
     //AI purpose for citizens to gather resources
-    public bool isFoodGatherAvailable { get { return mFoodGatherCount < mFoodCount && foodCount < foodMax; } }
-    public bool isWaterGatherAvailable { get { return mWaterGatherCount < mWaterCount && waterCount < waterMax; } }
+    public bool isFoodGatherAvailable { get { return foodCount < foodMax && mFoodGatherCount < (foodMax - mFoodCount); } }
+    public bool isWaterGatherAvailable { get { return waterCount < waterMax && mWaterGatherCount < (waterMax - waterCount); } }
 
     private M8.CacheList<Unit> mCitizensActive;
 
@@ -73,13 +73,23 @@ public class StructureHouse : Structure {
     private float mCurPowerConsumeTime;
 
     public void AddFoodGather() {
-        if(mFoodGatherCount < mFoodCount)
-            mFoodGatherCount++;
+        if(foodCount < foodMax)
+            mFoodGatherCount = Mathf.Clamp(mFoodGatherCount + 1, 0, foodMax - foodCount);
     }
 
     public void RemoveFoodGather() {
         if(mFoodGatherCount > 0)
             mFoodGatherCount--;
+    }
+
+    public void AddWaterGather() {
+        if(waterCount < waterMax)
+            mWaterGatherCount = Mathf.Clamp(mWaterGatherCount + 1, 0, waterMax - waterCount);
+    }
+
+    public void RemoveWaterGather() {
+        if(mWaterGatherCount > 0)
+            mWaterGatherCount--;
     }
 
     protected override void ClearCurrentState() {
@@ -252,7 +262,9 @@ public class StructureHouse : Structure {
     }
 
     private void UpdatePopulation() {
-        bool isWaterComplete = false, isFoodComplete = false, isPowerComplete = false;
+        bool isWaterComplete = waterMax == 0 || waterCount == waterMax, 
+             isFoodComplete  = foodMax == 0 || foodCount == foodMax, 
+             isPowerComplete = powerConsumptionRate == 0 || power == 1f;
 
         if(isWaterComplete && isFoodComplete && isPowerComplete) {
             if(population < populationMax) {
@@ -275,7 +287,7 @@ public class StructureHouse : Structure {
             var structureCtrl = colonyCtrl.structurePaletteController;
 
             //check if there are any food structures on the map, and update progress based on foodCount/foodMax
-            if(foodMax > 0) {
+            if(foodCount < foodMax) {
                 int foodSourceCount = structureCtrl.GetStructureActiveCount(houseData.foodStructureSources);
                 SetStatusStateAndProgress(StructureStatus.Food, foodSourceCount > 0 ? StructureStatusState.Progress : StructureStatusState.Require, Mathf.Clamp01((float)foodCount/foodMax));
             }
@@ -283,14 +295,14 @@ public class StructureHouse : Structure {
                 SetStatusState(StructureStatus.Food, StructureStatusState.None);
 
             //check if there are water reserves for the colony, and update progress based on waterCount/waterMax
-            if(waterMax > 0) {
+            if(waterCount < waterMax) {
                 SetStatusStateAndProgress(StructureStatus.Water, colonyCtrl.waterMax > 0 ? StructureStatusState.Progress : StructureStatusState.Require, Mathf.Clamp01((float)waterCount / waterMax));
             }
             else
                 SetStatusState(StructureStatus.Water, StructureStatusState.None);
 
             //check if there's any power left for the colony
-            if(powerConsumptionRate > 0f) {
+            if(powerConsumptionRate > 0f && power < 1f) {
                 SetStatusStateAndProgress(StructureStatus.Power, colonyCtrl.power > 0f ? StructureStatusState.Progress : StructureStatusState.Require, power);
             }
             else

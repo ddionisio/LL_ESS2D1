@@ -98,6 +98,12 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     }
 
     public BoxCollider2D boxCollider { get; private set; }
+    public Rect boxColliderRectLocal { get { return boxCollider ? new Rect(boxCollider.offset, boxCollider.size) : new Rect(); } }
+    /// <summary>
+    /// NOTE: doesn't take into account rotation and scale
+    /// </summary>
+    public Rect boxColliderRect { get { return boxCollider ? new Rect(position + boxCollider.offset, boxCollider.size) : new Rect(); } }
+
     public M8.PoolDataController poolCtrl { get; private set; }
     public MovableBase moveCtrl { get; private set; }
 
@@ -141,7 +147,7 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     private float mUpdateAICurTime;
 
     public bool IsTouchingStructure(Structure structure) {
-        return boxCollider.IsTouching(structure.boxCollider);
+        return boxColliderRect.Overlaps(structure.boxColliderRect);
     }
 
     public bool MoveTo(Vector2 toPos, bool isRun) {

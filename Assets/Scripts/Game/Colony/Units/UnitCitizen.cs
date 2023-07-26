@@ -64,7 +64,10 @@ public class UnitCitizen : Unit {
         switch(state) {
             case UnitState.Idle:
                 if(mCarryType != ResourceGatherType.None) { //carrying something? move back to base
-                    MoveTo(ownerStructure, GameData.structureWaypointSpawn, false, false);
+                    if(ownerStructure.state != StructureState.Moving)
+                        MoveTo(ownerStructure, GameData.structureWaypointSpawn, false, false);
+                    else
+                        MoveTo(ownerStructure.position, false);
                 }
                 else if(mGatherTarget) { //have a target gather? Try to move to it
                     Waypoint wp = null;
@@ -146,7 +149,7 @@ public class UnitCitizen : Unit {
     protected override void MoveToComplete() {
         //returning with resource, check if we are at base
         if(mCarryType != ResourceGatherType.None) {
-            if(IsTouchingStructure(ownerStructure)) {
+            if(ownerStructure.state != StructureState.Moving && IsTouchingStructure(ownerStructure)) { //don't add yet until the house has finished moving
                 var house = ownerStructure as StructureHouse;
                 if(house) {
                     //add resource to house
@@ -263,7 +266,7 @@ public class UnitCitizen : Unit {
         var structureCtrl = ColonyController.instance.structurePaletteController;
 
         //check if we need food
-        if(house.foodCount < house.foodMax && house.isFoodGatherAvailable) {
+        if(house.isFoodGatherAvailable) {
             //find nearest plant with available gather
             StructurePlant plant = null;
             for(int i = 0; i < house.houseData.foodStructureSources.Length; i++) {

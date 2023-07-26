@@ -157,6 +157,12 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     }
 
     public BoxCollider2D boxCollider { get; private set; }
+    public Rect boxColliderRectLocal { get { return boxCollider ? new Rect(boxCollider.offset, boxCollider.size) : new Rect(); } }
+    /// <summary>
+    /// NOTE: doesn't take into account rotation and scale
+    /// </summary>
+    public Rect boxColliderRect { get { return boxCollider ? new Rect(position + boxCollider.offset, boxCollider.size) : new Rect(); } }
+
     public M8.PoolDataController poolCtrl { get; private set; }
 
     public MovableBase moveCtrl { get; private set; }
@@ -192,7 +198,7 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     protected int mTakeDemolishInd = -1;
 
     public bool IsTouchingUnit(Unit unit) {
-        return boxCollider.IsTouching(unit.boxCollider);
+        return boxColliderRect.Overlaps(unit.boxColliderRect);
     }
 
     public Waypoint[] GetWaypoints(string waypointName) {
@@ -349,6 +355,10 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         }
 
         switch(mState) {
+            case StructureState.Moving:
+                RefreshWaypoints();
+                break;
+
             case StructureState.Construction:
                 if(constructionGO) constructionGO.SetActive(false);
                 break;

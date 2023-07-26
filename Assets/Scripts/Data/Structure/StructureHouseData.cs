@@ -6,9 +6,20 @@ using UnityEngine;
 public class StructureHouseData : StructureData {
     [System.Serializable]
     public struct PopulationLevelInfo {
-        public int foodMax; //food required
-        public int waterMax; //water required
-        public float powerConsumptionRate; //power consumption per second
+        /// <summary>
+        /// Amount of food needed, set to 0 disregard this requirement.
+        /// </summary>
+        public int foodMax;
+
+        /// <summary>
+        /// Amount of water needed, set to 0 disregard this requirement.
+        /// </summary>
+        public int waterMax;
+
+        /// <summary>
+        /// Amount of power to consume, set to 0 disregard this requirement.
+        /// </summary>
+        public float powerConsumptionRate;
     }
 
     [Header("Citizen Info")]
