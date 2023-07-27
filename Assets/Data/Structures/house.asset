@@ -34,13 +34,13 @@ MonoBehaviour:
     powerConsumptionRate: 0
   - foodMax: 2
     waterMax: 1
-    powerConsumptionRate: 0
+    powerConsumptionRate: 0.5
   - foodMax: 3
     waterMax: 2
-    powerConsumptionRate: 0.1
+    powerConsumptionRate: 1
   - foodMax: 4
     waterMax: 3
-    powerConsumptionRate: 0.2
+    powerConsumptionRate: 1.5
   foodStructureSources:
   - {fileID: 11400000, guid: 00c13b5caec751f4cac6d8ab4a682fc4, type: 2}
   waterStructureSources:

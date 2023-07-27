@@ -43,6 +43,6 @@ MonoBehaviour:
       growth: 0
   resourceRate:
     sun: 0
-    wind: 0
+    wind: 0.5
     water: 0.5
     growth: 0.05

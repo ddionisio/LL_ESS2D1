@@ -57,6 +57,10 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         set {
             var val = Mathf.Clamp(value, 0, hitpointsMax);
             if(mCurHitpoints != val) {
+                //prevent getting damaged (fail-safe, maybe check from outside instead?)
+                if(val < mCurHitpoints && !isDamageable)
+                    return;
+
                 var prevHitpoints = mCurHitpoints;
                 mCurHitpoints = val;
 
@@ -83,17 +87,19 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
 
     public bool isBuildable { get { return data.buildTime > 0f; } }
 
-    public bool isDamageable { get { return data.hitpoints > 0 && (state == StructureState.Active || state == StructureState.Repair || (state == StructureState.Demolish && mIsDemolishInProcess)); } }
+    public bool isDamageable { get { return data.hitpoints > 0 && (state == StructureState.Active || state == StructureState.Repair || state == StructureState.Construction || (state == StructureState.Demolish && mIsDemolishInProcess)); } }
+
+    public bool canEngineer { get { return state == StructureState.Construction || (data.isReparable && hitpointsCurrent < hitpointsMax && (state == StructureState.Active || state == StructureState.Destroyed || state == StructureState.Repair)); } }
 
     public bool isMovable { 
         get { 
-            return moveCtrl && !moveCtrl.isLocked && !(state == StructureState.Destroyed || state == StructureState.Demolish); 
+            return moveCtrl && !moveCtrl.isLocked && !(state == StructureState.Destroyed || state == StructureState.Demolish || state == StructureState.Construction); 
         } 
     }
 
     public bool isDemolishable {
         get {
-            return data.isDemolishable && !(state == StructureState.Demolish);
+            return data.isDemolishable && !(state == StructureState.Demolish || state == StructureState.Construction);
         }
     }
 
@@ -111,6 +117,9 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
             var canCancel = false;
 
             switch(state) {
+                case StructureState.Construction:
+                    canCancel = true;
+                    break;
                 case StructureState.Demolish:
                     if(mIsDemolishInProcess)
                         canCancel = true;
@@ -315,6 +324,10 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     /// </summary>
     public void CancelAction() {
         switch(state) {
+            case StructureState.Construction:
+                poolCtrl.Release();
+                break;
+
             case StructureState.Demolish:
                 if(mIsDemolishInProcess) {
                     if(mCurHitpoints == 0)
@@ -406,9 +419,6 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
                 if(constructionGO) constructionGO.SetActive(true);
 
                 mRout = StartCoroutine(DoConstruction());
-
-                physicsActive = false;
-                addPlacementBlocker = true;
                 break;
 
             case StructureState.MoveReady:
