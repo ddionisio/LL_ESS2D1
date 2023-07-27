@@ -56,11 +56,17 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
         set {
             var val = Mathf.Clamp(value, 0, hitpointsMax);
             if(mCurHitpoints != val) {
+                if(val < mCurHitpoints && !isDamageable) //prevent actual damage
+                    return;
+
                 var prevHitpoints = mCurHitpoints;
                 mCurHitpoints = val;
 
                 if(mCurHitpoints > prevHitpoints) { //healed?
                     //heal fx?
+
+                    if(state == UnitState.Dying)
+                        state = UnitState.Idle;
                 }
                 else if(mCurHitpoints == 0) { //dead?
                     if(data.canRevive)
@@ -98,11 +104,6 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     }
 
     public BoxCollider2D boxCollider { get; private set; }
-    public Rect boxColliderRectLocal { get { return boxCollider ? new Rect(boxCollider.offset, boxCollider.size) : new Rect(); } }
-    /// <summary>
-    /// NOTE: doesn't take into account rotation and scale
-    /// </summary>
-    public Rect boxColliderRect { get { return boxCollider ? new Rect(position + boxCollider.offset, boxCollider.size) : new Rect(); } }
 
     public M8.PoolDataController poolCtrl { get; private set; }
     public MovableBase moveCtrl { get; private set; }
@@ -146,8 +147,16 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
 
     private float mUpdateAICurTime;
 
+    public bool IsTouching(Unit otherUnit) {
+        if(!(boxCollider && otherUnit.boxCollider)) return false;
+
+        return boxCollider.bounds.Intersects(otherUnit.boxCollider.bounds);
+    }
+
     public bool IsTouchingStructure(Structure structure) {
-        return boxColliderRect.Overlaps(structure.boxColliderRect);
+        if(!(boxCollider && structure.boxCollider)) return false;
+
+        return boxCollider.bounds.Intersects(structure.boxCollider.bounds);
     }
 
     public bool MoveTo(Vector2 toPos, bool isRun) {
@@ -267,6 +276,8 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
                 mRout = StartCoroutine(DoDying());
 
                 physicsActive = false;
+
+                GameData.instance.signalUnitDying?.Invoke(this);
                 break;
 
             case UnitState.Death:

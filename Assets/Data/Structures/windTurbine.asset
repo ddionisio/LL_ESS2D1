@@ -16,7 +16,7 @@ MonoBehaviour:
   descRef: 
   icon: {fileID: 0}
   hitpoints: 2
-  buildTime: 2
+  buildTime: 3
   workCapacity: 2
   isReparable: 1
   isDemolishable: 1
@@ -28,4 +28,4 @@ MonoBehaviour:
   resourceInputType: 2
   resourceType: 1
   resourceGenerateRate: 0
-  resourceCapacity: 2
+  resourceCapacity: 1

@@ -55,7 +55,7 @@ public class StructureHouse : Structure {
     public float powerConsumptionRate { get { return houseData.GetPopulationLevelInfo(populationLevelIndex).powerConsumptionRate; } }
 
     //AI purpose for citizens to gather resources
-    public bool isFoodGatherAvailable { get { return foodCount < foodMax && mFoodGatherCount < (foodMax - mFoodCount); } }
+    public bool isFoodGatherAvailable { get { return foodCount < foodMax && mFoodGatherCount < (foodMax - foodCount); } }
     public bool isWaterGatherAvailable { get { return waterCount < waterMax && mWaterGatherCount < (waterMax - waterCount); } }
 
     private M8.CacheList<Unit> mCitizensActive;
@@ -262,8 +262,6 @@ public class StructureHouse : Structure {
 
                             SetStatusStateAndProgress(StructureStatus.Power, StructureStatusState.Progress, colonyPower);
                         }
-                        else
-                            SetStatusState(StructureStatus.Power, StructureStatusState.Require);
                     }
                     else
                         UpdatePopulation();
@@ -317,9 +315,9 @@ public class StructureHouse : Structure {
 
             //check if there's any power left for the colony
             if(powerConsumptionRate > 0f && power < 1f) {
-                var colonyPower = colonyCtrl.GetResourceAmount(StructureResourceData.ResourceType.Power);
+                var colonyPowerCapacity = colonyCtrl.GetResourceCapacity(StructureResourceData.ResourceType.Power);
 
-                SetStatusStateAndProgress(StructureStatus.Power, colonyPower > 0f ? StructureStatusState.Progress : StructureStatusState.Require, power);
+                SetStatusStateAndProgress(StructureStatus.Power, colonyPowerCapacity > 0f ? StructureStatusState.Progress : StructureStatusState.Require, power);
             }
             else
                 SetStatusState(StructureStatus.Power, StructureStatusState.None);

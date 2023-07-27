@@ -87,9 +87,9 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
 
     public bool isBuildable { get { return data.buildTime > 0f; } }
 
-    public bool isDamageable { get { return data.hitpoints > 0 && (state == StructureState.Active || state == StructureState.Repair || state == StructureState.Construction || (state == StructureState.Demolish && mIsDemolishInProcess)); } }
+    public bool isDamageable { get { return data.hitpoints > 0 && (state == StructureState.Active || state == StructureState.Repair || (state == StructureState.Demolish && mIsDemolishInProcess)); } }
 
-    public bool canEngineer { get { return state == StructureState.Construction || (data.isReparable && hitpointsCurrent < hitpointsMax && (state == StructureState.Active || state == StructureState.Destroyed || state == StructureState.Repair)); } }
+    public bool canEngineer { get { return state == StructureState.Construction || ((state == StructureState.Active || state == StructureState.Destroyed || state == StructureState.Repair) && hitpointsCurrent < hitpointsMax && data.isReparable); } }
 
     public bool isMovable { 
         get { 
@@ -166,11 +166,6 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     }
 
     public BoxCollider2D boxCollider { get; private set; }
-    public Rect boxColliderRectLocal { get { return boxCollider ? new Rect(boxCollider.offset, boxCollider.size) : new Rect(); } }
-    /// <summary>
-    /// NOTE: doesn't take into account rotation and scale
-    /// </summary>
-    public Rect boxColliderRect { get { return boxCollider ? new Rect(position + boxCollider.offset, boxCollider.size) : new Rect(); } }
 
     public M8.PoolDataController poolCtrl { get; private set; }
 
@@ -207,7 +202,9 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     protected int mTakeDemolishInd = -1;
 
     public bool IsTouchingUnit(Unit unit) {
-        return boxColliderRect.Overlaps(unit.boxColliderRect);
+        if(!(boxCollider && unit.boxCollider)) return false;
+
+        return boxCollider.bounds.Intersects(unit.boxCollider.bounds);
     }
 
     public Waypoint[] GetWaypoints(string waypointName) {

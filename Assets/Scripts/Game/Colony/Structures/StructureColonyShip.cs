@@ -6,11 +6,19 @@ public class StructureColonyShip : Structure {
     [SerializeField]
     StructureColonyShipData _data;
 
+    [Header("Colony Ship Signal Listen")]
+    public SignalUnit signalListenUnitDespawned;
+
+    public StructureColonyShipData colonyShipData { get { return _data; } }
+
     public override StructureAction actionFlags {
         get {
             return StructureAction.None;
         }
     }
+
+    private M8.CacheList<Unit> mUnitDyingList;
+    private M8.CacheList<UnitMedic> mMedicActives;
 
     private bool mIsInit;
 
@@ -41,5 +49,82 @@ public class StructureColonyShip : Structure {
         var spawnComplete = this as M8.IPoolSpawnComplete;
         if(spawnComplete != null)
             spawnComplete.OnSpawnComplete();
+    }
+        
+    protected override void Init() {
+        mUnitDyingList = new M8.CacheList<Unit>(64);
+        mMedicActives = new M8.CacheList<UnitMedic>(_data.medicCapacity);
+
+        //setup signals
+        if(GameData.instance.signalUnitDying) GameData.instance.signalUnitDying.callback += OnUnitDying;
+
+        if(signalListenUnitDespawned) signalListenUnitDespawned.callback += OnUnitDespawned;
+    }
+
+    protected override void Spawned() {
+        
+    }
+        
+    void OnDestroy() {
+        if(GameData.instance.signalUnitDying) GameData.instance.signalUnitDying.callback -= OnUnitDying;
+
+        if(signalListenUnitDespawned) signalListenUnitDespawned.callback -= OnUnitDespawned;
+    }
+
+    void Update() {
+        //check for dying units
+        if(mUnitDyingList.Count > 0) {
+            for(int i = 0; i < mUnitDyingList.Count; i++) {
+                var unitDying = mUnitDyingList[i];
+                if(unitDying.state != UnitState.Dying) { //this unit is no longer dying
+                    mUnitDyingList.RemoveAt(i);
+                    continue;
+                }
+
+                UnitMedic medicAssigned = null;
+
+                for(int j = 0; j < mMedicActives.Count; j++) {
+                    var medic = mMedicActives[j];
+
+                    if(medic.targetUnit == unitDying) { //already targeted by a medic?
+                        medicAssigned = medic;
+                        break;
+                    }
+                    else if(!medic.targetUnit && (medic.state == UnitState.Idle || medic.state == UnitState.Move)) { //reassign medic to this unit
+                        medic.targetUnit = unitDying;
+                        medicAssigned = medic;
+                        break;
+                    }
+                }
+
+                if(!medicAssigned) {
+                    //can spawn medic?
+                    if(!mMedicActives.IsFull) {
+                        var wp = GetWaypointRandom(GameData.structureWaypointSpawn, false);
+                        var medic = (UnitMedic)ColonyController.instance.unitController.Spawn(_data.medicData, this, wp != null ? wp.groundPoint.position : position);
+
+                        medic.targetUnit = unitDying;
+
+                        mMedicActives.Add(medic);
+                    }
+                    else //wait for available medic
+                        break;
+                }
+            }
+        }
+    }
+
+    void OnUnitDying(Unit unit) {
+        if(unit.CompareTag(GameData.instance.unitAllyTag))
+            mUnitDyingList.Add(unit);
+    }
+
+    void OnUnitDespawned(Unit unit) {
+        //check if it's one of those units we have in dying queue
+        mUnitDyingList.Remove(unit);
+
+        //remove from active medics if it's ours
+        if(unit is UnitMedic)
+            mMedicActives.Remove((UnitMedic)unit);
     }
 }

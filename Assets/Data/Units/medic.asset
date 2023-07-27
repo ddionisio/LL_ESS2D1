@@ -9,16 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 204ae1ded5c415549800898d87985d00, type: 3}
-  m_Name: gardener
+  m_Script: {fileID: 11500000, guid: fd7ed3022dcd75445a164d69fe93fc30, type: 3}
+  m_Name: medic
   m_EditorClassIdentifier: 
   nameRef: 
   descRef: 
   icon: {fileID: 0}
-  hitpoints: 2
-  moveSpeed: 1.5
+  hitpoints: 1
+  moveSpeed: 2
   runSpeed: 3
-  canRevive: 1
-  spawnPrefab: {fileID: 8444095278437995103, guid: 7b505d61b9eaf254d8ea2d517a42ac04, type: 3}
-  targetPlantStructures:
-  - {fileID: 11400000, guid: 00c13b5caec751f4cac6d8ab4a682fc4, type: 2}
+  canRevive: 0
+  spawnPrefab: {fileID: 6320844051917784433, guid: b43770ad6812fa54386e9b379e3dd64d, type: 3}

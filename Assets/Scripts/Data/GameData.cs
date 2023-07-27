@@ -52,6 +52,11 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public float structureUnitSpawnDelay = 0.3f; //delay to spawn a unit
 
     [Header("Colony | Unit")]
+    [M8.TagSelector]
+    public string unitAllyTag;
+    [M8.TagSelector]
+    public string unitEnemyTag;
+
     public float unitUpdateAIDelay = 0.3f;
     public float unitHurtDelay = 0.5f; //how long to stay in hurt state
     public float unitDyingDelay = 5f; //how long to stay in dying state
@@ -74,6 +79,8 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public M8.SignalBoolean signalPlacementActive;
 
     public SignalStructure signalStructureClick;
+
+    public SignalUnit signalUnitDying;
 
     [Header("Editor Config | Landscape")]
     public Vector2 landscapePreviewSize;

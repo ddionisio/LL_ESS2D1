@@ -24,6 +24,10 @@ public class UnitEngineer : Unit {
                 //work on the plant
                 if(mTargetStructure) {
                     mTargetStructure.WorkAdd();
+
+                    if(mTargetStructure.state == StructureState.Active || mTargetStructure.state == StructureState.Destroyed)
+                        mTargetStructure.state = StructureState.Repair;
+
                     mTargetIsWorkAdded = true;
                 }
                 break;

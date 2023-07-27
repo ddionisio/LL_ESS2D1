@@ -124,9 +124,10 @@ public class CycleController : MonoBehaviour {
                     curTime += Time.deltaTime;
             }
 
-            cycleCurIndex++;
-            if(cycleCurIndex == cycleCount)
+            if(cycleCurIndex + 1 == cycleCount)
                 break;
+
+            cycleCurIndex++;
 
             ApplyCurrentCycleInfo();
 

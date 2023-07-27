@@ -355,7 +355,11 @@ MonoBehaviour:
   takeMoving: 
   takeDestroyed: 
   takeDemolish: 
-  _waypointGroups: []
+  _waypointGroups:
+  - name: work
+    waypoints:
+    - _point: {x: -0.35, y: 0}
+    - _point: {x: 0.35, y: 0}
 --- !u!61 &6819044348375123023
 BoxCollider2D:
   m_ObjectHideFlags: 0

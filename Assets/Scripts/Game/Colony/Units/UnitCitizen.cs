@@ -128,15 +128,15 @@ public class UnitCitizen : Unit {
                 var isActFinish = false;
 
                 if(mGatherTarget) {
-                    if(mGatherTarget is StructurePlant) {
+                    if(mGatherTarget.state == StructureState.Destroyed || mGatherTarget.state == StructureState.None) { //got destroyed or something, can't collect
+                        mGatherGrabIndex = -1;
+                        mGatherInProcess = false;
+                        isActFinish = true;
+                    }
+                    else if(mGatherTarget is StructurePlant) {
                         if(mGatherGrabIndex != -1) {
                             var plant = (StructurePlant)mGatherTarget;
-                            if(plant.growthState == StructurePlant.GrowthState.None) { //got destroyed or something, can't collect
-                                mGatherGrabIndex = -1;
-                                mGatherInProcess = false;
-                                isActFinish = true;
-                            }
-                            else if(!plant.BloomIsBusy(mGatherGrabIndex)) {
+                            if(!plant.BloomIsBusy(mGatherGrabIndex)) {
                                 //collect
                                 SetCarryType(ResourceGatherType.Food);
                                 mGatherGrabIndex = -1;
@@ -151,10 +151,6 @@ public class UnitCitizen : Unit {
                         if(stateTimeElapsed >= GameData.instance.unitGatherContainerDelay) {
                             //collect
                             SetCarryType(ResourceGatherType.Water);
-                            mGatherInProcess = false;
-                            isActFinish = true;
-                        }
-                        else if(mGatherTarget.state == StructureState.Destroyed || mGatherTarget.state == StructureState.None) { //got destroyed or something, can't collect
                             mGatherInProcess = false;
                             isActFinish = true;
                         }

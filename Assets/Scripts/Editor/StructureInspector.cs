@@ -7,7 +7,25 @@ using UnityEditor.IMGUI.Controls;
 
 [CustomEditor(typeof(Structure), true)]
 public class StructureInspector : Editor {
-    
+
+    public override void OnInspectorGUI() {
+        base.OnInspectorGUI();
+
+        //debug stuff
+        if(Application.isPlaying) {
+            M8.EditorExt.Utility.DrawSeparator();
+
+            var dat = target as Structure;
+
+            if(GUILayout.Button("Damage")) {
+                dat.hitpointsCurrent--;
+            }
+
+            if(GUILayout.Button("Destroy")) {
+                dat.hitpointsCurrent = 0;
+            }
+        }
+    }
 
     void OnSceneGUI() {
         var gameDat = GameData.instance;
