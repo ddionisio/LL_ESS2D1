@@ -44,7 +44,7 @@ public class ColonyController : GameModeController<ColonyController> {
 
     [Header("Landscape")]
     public Bounds bounds;
-    public GameObject regionRootGO; //grab cycle controllers here
+    public Transform regionRoot; //grab cycle controllers here
 
     [Header("Colony Ship")]
     public StructureColonyShip colonyShip;
@@ -61,6 +61,7 @@ public class ColonyController : GameModeController<ColonyController> {
     public CycleController cycleController { get; private set; }
 
     public Camera mainCamera { get; private set; }
+    public M8.Camera2D mainCamera2D { get; private set; }
     public Transform mainCameraTransform { get; private set; }
 
     public int population { 
@@ -142,14 +143,22 @@ public class ColonyController : GameModeController<ColonyController> {
         var gameDat = GameData.instance;
 
         mainCamera = Camera.main;
-        if(mainCamera)
+        if(mainCamera) {
+            mainCamera2D = mainCamera.GetComponent<M8.Camera2D>();
             mainCameraTransform = mainCamera.transform.parent;
+        }
 
         //initialize resource array
         var structureResVals = System.Enum.GetValues(typeof(StructureResourceData.ResourceType));
         mResources = new ResourceInfo[structureResVals.Length];
         for(int i = 0; i < mResources.Length; i++)
             mResources[i] = new ResourceInfo();
+
+        //setup structure control
+        structurePaletteController.Setup(structurePalette);
+
+        //setup unit control
+        unitPaletteController.Setup(this);
 
         //grab season and region info
         SeasonData season;
@@ -171,45 +180,43 @@ public class ColonyController : GameModeController<ColonyController> {
         }
 
         //determine landscape
-        var cycleCtrls = regionRootGO.GetComponentsInChildren<CycleController>(true);
-        for(int i = 0; i < cycleCtrls.Length; i++) {
-            var cycleCtrl = cycleCtrls[i];
-            if(cycleCtrl.regionIndex == regionInd) {
-                cycleController = cycleCtrl;
+        CycleController firstCycleController = null;
 
-                cycleCtrl.gameObject.SetActive(true);
-            }
+        for(int i = 0; i < regionRoot.childCount; i++) {
+            var cycleCtrl = regionRoot.GetChild(i).GetComponent<CycleController>();
+            if(!cycleCtrl)
+                continue;
+
+            if(!firstCycleController)
+                firstCycleController = cycleCtrl;
+
+            if(cycleCtrl.regionIndex == regionInd)
+                cycleController = cycleCtrl;
             else
                 cycleCtrl.gameObject.SetActive(false);
         }
 
         //setup cycle control
-        if(!cycleController && cycleCtrls.Length > 0) { //no region index match, use first ctrl (fail-safe)
-            cycleController = cycleCtrls[0];
-            cycleController.gameObject.SetActive(true);
-        }
+        if(!cycleController && firstCycleController) //no region index match, use first ctrl (fail-safe)
+            cycleController = firstCycleController;
+
+        cycleController.gameObject.SetActive(true);
 
         cycleController.Setup(hotspotData, season);
 
-        //setup structure control
-        structurePaletteController.Setup(structurePalette);
-
-        //setup unit control
-        unitPaletteController.Setup(unitController, unitPalette);
-
-        //setup unit spawning for structures
+        //setup structures (unit spawning, etc)
         for(int i = 0; i < structurePalette.groups.Length; i++) {
             var grp = structurePalette.groups[i];
             var capacity = grp.capacity;
 
             for(int j = 0; j < grp.structures.Length; j++) {
                 var structureData = grp.structures[j].data;
-                structureData.SetupUnitSpawns(unitController, capacity);
+                structureData.Setup(this, capacity);
             }
         }
 
         //setup colony ship
-        colonyShip.Init(unitController);
+        colonyShip.Init(this);
 
         //setup signals
     }

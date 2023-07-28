@@ -25,4 +25,6 @@ public struct UnitSpawnParams {
     public const string data = "unitData"; //UnitData
     public const string structureOwner = "owner"; //Structure (e.g. colony ship, house)
     public const string spawnPoint = "unitSpawnP"; //Vector2
+
+    public const string structureTarget = "structTgt"; //target structure for specific units
 }

@@ -6,9 +6,6 @@ public class StructureColonyShip : Structure {
     [SerializeField]
     StructureColonyShipData _data;
 
-    [Header("Colony Ship Signal Listen")]
-    public SignalUnit signalListenUnitDespawned;
-
     public StructureColonyShipData colonyShipData { get { return _data; } }
 
     public override StructureAction actionFlags {
@@ -22,10 +19,10 @@ public class StructureColonyShip : Structure {
 
     private bool mIsInit;
 
-    public void Init(UnitController unitController) {
+    public void Init(ColonyController colonyController) {
         if(mIsInit) return;
 
-        _data.SetupUnitSpawns(unitController, 1);
+        _data.Setup(colonyController, 1);
 
         //special case since we are not spawned from pool
         var init = this as M8.IPoolInit;
@@ -56,9 +53,10 @@ public class StructureColonyShip : Structure {
         mMedicActives = new M8.CacheList<UnitMedic>(_data.medicCapacity);
 
         //setup signals
-        if(GameData.instance.signalUnitDying) GameData.instance.signalUnitDying.callback += OnUnitDying;
+        var gameDat = GameData.instance;
 
-        if(signalListenUnitDespawned) signalListenUnitDespawned.callback += OnUnitDespawned;
+        if(gameDat.signalUnitDying) GameData.instance.signalUnitDying.callback += OnUnitDying;
+        if(gameDat.signalUnitDespawned) gameDat.signalUnitDespawned.callback += OnUnitDespawned;
     }
 
     protected override void Spawned() {
@@ -66,9 +64,12 @@ public class StructureColonyShip : Structure {
     }
         
     void OnDestroy() {
-        if(GameData.instance.signalUnitDying) GameData.instance.signalUnitDying.callback -= OnUnitDying;
+        if(GameData.isInstantiated) {
+            var gameDat = GameData.instance;
 
-        if(signalListenUnitDespawned) signalListenUnitDespawned.callback -= OnUnitDespawned;
+            if(gameDat.signalUnitDying) GameData.instance.signalUnitDying.callback -= OnUnitDying;
+            if(gameDat.signalUnitDespawned) gameDat.signalUnitDespawned.callback -= OnUnitDespawned;
+        }
     }
 
     void Update() {
@@ -124,7 +125,7 @@ public class StructureColonyShip : Structure {
         mUnitDyingList.Remove(unit);
 
         //remove from active medics if it's ours
-        if(unit is UnitMedic)
+        if(unit.data == _data.medicData)
             mMedicActives.Remove((UnitMedic)unit);
     }
 }

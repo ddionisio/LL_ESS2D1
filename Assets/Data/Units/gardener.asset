@@ -15,9 +15,12 @@ MonoBehaviour:
   nameRef: 
   descRef: 
   icon: {fileID: 0}
+  hitpointStartApply: 0
+  hitpointStart: 0
   hitpoints: 2
-  moveSpeed: 1.5
-  runSpeed: 3
+  _moveSpeed: 2
+  _moveSpeedDeviation: 0.05
+  _runSpeed: 4
   canRevive: 1
   spawnPrefab: {fileID: 8444095278437995103, guid: 7b505d61b9eaf254d8ea2d517a42ac04, type: 3}
   targetPlantStructures:

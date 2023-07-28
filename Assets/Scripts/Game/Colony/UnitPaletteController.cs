@@ -12,10 +12,6 @@ public class UnitPaletteController : MonoBehaviour {
     [Header("Signal Invoke")]
     public M8.Signal signalInvokeRefresh;
 
-    [Header("Signal Listen")]
-    public SignalUnit signalListenUnitSpawned;
-    public SignalUnit signalListenUnitDespawned;
-
     public UnitPaletteData unitPalette { get; private set; }
 
     public int capacity {
@@ -134,10 +130,10 @@ public class UnitPaletteController : MonoBehaviour {
         }
     }
 
-    public void Setup(UnitController unitCtrl, UnitPaletteData aUnitPalette) {
-        mUnitCtrl = unitCtrl;
+    public void Setup(ColonyController colonyCtrl) {
+        mUnitCtrl = colonyCtrl.unitController;
 
-        unitPalette = aUnitPalette;
+        unitPalette = colonyCtrl.unitPalette;
 
         int unitCapacity = unitPalette.capacity;
 
@@ -149,7 +145,8 @@ public class UnitPaletteController : MonoBehaviour {
         for(int i = 0; i < unitTypeCount; i++) {
             var paletteItm = unitPalette.units[i];
 
-            unitCtrl.AddUnitData(paletteItm.data, unitCapacity);
+            mUnitCtrl.AddUnitData(paletteItm.data, unitCapacity, true);
+            paletteItm.data.Setup(colonyCtrl);
 
             mUnitInfos[i] = new UnitInfo { data = paletteItm.data, isHidden = paletteItm.isHidden, rout = null };
         }
@@ -160,8 +157,9 @@ public class UnitPaletteController : MonoBehaviour {
     }
 
     void OnDisable() {
-        if(signalListenUnitSpawned) signalListenUnitSpawned.callback -= OnSignalUnitSpawned;
-        if(signalListenUnitDespawned) signalListenUnitDespawned.callback -= OnSignalUnitDespawned;
+        var gameDat = GameData.instance;
+        if(gameDat.signalUnitSpawned) gameDat.signalUnitSpawned.callback -= OnSignalUnitSpawned;
+        if(gameDat.signalUnitDespawned) gameDat.signalUnitDespawned.callback -= OnSignalUnitDespawned;
 
         for(int i = 0; i < mUnitInfos.Length; i++) {
             if(mUnitInfos[i].rout != null) {
@@ -172,8 +170,9 @@ public class UnitPaletteController : MonoBehaviour {
     }
 
     void OnEnable() {
-        if(signalListenUnitSpawned) signalListenUnitSpawned.callback += OnSignalUnitSpawned;
-        if(signalListenUnitDespawned) signalListenUnitDespawned.callback += OnSignalUnitDespawned;
+        var gameDat = GameData.instance;
+        if(gameDat.signalUnitSpawned) gameDat.signalUnitSpawned.callback += OnSignalUnitSpawned;
+        if(gameDat.signalUnitDespawned) gameDat.signalUnitDespawned.callback += OnSignalUnitDespawned;
     }
 
     void OnSignalUnitSpawned(Unit unit) {

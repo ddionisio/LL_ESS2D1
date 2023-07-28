@@ -39,7 +39,7 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
 
                 mState = value;
 
-                stateTimeLastChanged = Time.time;
+                RestartStateTime();
 
                 if(CanUpdateAI())
                     mUpdateAICurTime = 0f;
@@ -62,23 +62,9 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
                 var prevHitpoints = mCurHitpoints;
                 mCurHitpoints = val;
 
-                if(mCurHitpoints > prevHitpoints) { //healed?
-                    //heal fx?
+                HitpointsChanged(prevHitpoints);
 
-                    if(state == UnitState.Dying)
-                        state = UnitState.Idle;
-                }
-                else if(mCurHitpoints == 0) { //dead?
-                    if(data.canRevive)
-                        state = UnitState.Dying;
-                    else
-                        state = UnitState.Death;
-                }
-                else if(mCurHitpoints < prevHitpoints) { //perform damage
-                    state = UnitState.Hurt;
-                }
-
-                //signal
+                //signal                
             }
         }
     }
@@ -125,6 +111,11 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     /// </summary>
     public Waypoint moveWaypoint { get; private set; }
 
+    /// <summary>
+    /// Check if this unit has been marked (used for targeting by AI)
+    /// </summary>
+    public int markCount { get { return mMark; } }
+
     public event System.Action<Unit> stateChangedCallback;
 
     protected Coroutine mRout;
@@ -146,6 +137,17 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     private int mTakeCurMoveInd;
 
     private float mUpdateAICurTime;
+
+    private int mMark;
+
+    public void AddMark() {
+        mMark++;
+    }
+
+    public void RemoveMark() {
+        if(mMark > 0)
+            mMark--;
+    }
 
     public bool IsTouching(Unit otherUnit) {
         if(!(boxCollider && otherUnit.boxCollider)) return false;
@@ -213,18 +215,22 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     }
 
     public void Despawn() {
-        if(state == UnitState.Despawning || state == UnitState.None) //already despawing, or is released
+        if(state == UnitState.Despawning || state == UnitState.Death || state == UnitState.None) //already despawing/death, or is released
             return;
 
         state = UnitState.Despawning;
+    }
+
+    protected void RestartStateTime() {
+        stateTimeLastChanged = Time.time;
     }
 
     protected virtual void Init() { }
 
     protected virtual void Despawned() { }
 
-    protected virtual void Spawned() { }
-                
+    protected virtual void Spawned(M8.GenericParams parms) { }
+
     protected virtual void ClearCurrentState() {
         StopCurrentRout();
 
@@ -244,6 +250,7 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
 
     protected virtual void ApplyCurrentState() {
         var physicsActive = true;
+        var canMove = false;
 
         switch(mState) {
             case UnitState.Spawning:
@@ -255,15 +262,22 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
             case UnitState.Idle:
                 if(mTakeIdleInd != -1)
                     animator.Play(mTakeIdleInd);
+
+                canMove = true;
                 break;
 
             case UnitState.Move:
                 mRout = StartCoroutine(DoMove());
+
+                canMove = true;
                 break;
 
             case UnitState.Act:
-                if(mTakeActInd != -1)
-                    animator.Play(mTakeActInd);
+                var actTakeInd = GetActTakeIndex();
+                if(actTakeInd != -1)
+                    animator.Play(actTakeInd);
+
+                canMove = true;
                 break;
 
             case UnitState.Hurt:
@@ -294,10 +308,14 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
 
             case UnitState.Retreat:
                 //TODO
+
+                canMove = true;
                 break;
 
             case UnitState.RetreatToBase:
                 //TODO
+
+                canMove = true;
                 break;
 
             case UnitState.None:
@@ -309,14 +327,23 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
                 up = Vector2.up;
 
                 physicsActive = false;
+
+                mMark = 0;
                 break;
         }
 
         if(!CanUpdateAI())
             ClearAIState();
 
+        if(moveCtrl)
+            moveCtrl.isLocked = !canMove;
+
         if(boxCollider)
             boxCollider.enabled = physicsActive;
+    }
+
+    protected virtual int GetActTakeIndex() {
+        return mTakeActInd;
     }
 
     protected virtual bool CanUpdateAI() {
@@ -326,6 +353,24 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     protected virtual void ClearAIState() { }
 
     protected virtual void UpdateAI() { }
+
+    protected virtual void HitpointsChanged(int previousHitpoints) {
+        if(mCurHitpoints > previousHitpoints) { //healed?
+            //heal fx?
+
+            if(state == UnitState.Dying) //revived?
+                state = UnitState.Idle;
+        }
+        else if(mCurHitpoints == 0) { //dead?
+            if(data.canRevive)
+                state = UnitState.Dying;
+            else
+                state = UnitState.Death;
+        }
+        else if(mCurHitpoints < previousHitpoints) { //perform damage
+            state = UnitState.Hurt;
+        }
+    }
 
     protected virtual void Update() {
         //AI update
@@ -391,10 +436,10 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
         }
 
         //set initial states
-        mCurHitpoints = hitpointsMax;
+        mCurHitpoints = data.hitpointStartApply ? data.hitpointStart : data.hitpoints;
         stateTimeLastChanged = Time.time;
 
-        Spawned();
+        Spawned(parms);
     }
 
     void M8.IPoolSpawnComplete.OnSpawnComplete() {

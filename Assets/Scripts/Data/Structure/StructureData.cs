@@ -50,6 +50,8 @@ public class StructureData : ScriptableObject {
         return checkValid;
     }
 
-    //optional for structures that generate units
-    public virtual void SetupUnitSpawns(UnitController unitCtrl, int structureCount) { }
+    /// <summary>
+    /// For structures that need specific setup during initialization
+    /// </summary>
+    public virtual void Setup(ColonyController colonyCtrl, int structureCount) { }
 }

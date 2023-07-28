@@ -43,7 +43,8 @@ public class StructureHouseData : StructureData {
         return index >= 0 && index < _populationLevels.Length ? _populationLevels[index] : new PopulationLevelInfo(); //fail-safe
     }
 
-    public override void SetupUnitSpawns(UnitController unitCtrl, int structureCount) {
-        unitCtrl.AddUnitData(citizenData, citizenCapacity * structureCount);
+    public override void Setup(ColonyController colonyCtrl, int structureCount) {
+        colonyCtrl.unitController.AddUnitData(citizenData, citizenCapacity * structureCount, false);
+        citizenData.Setup(colonyCtrl);
     }
 }

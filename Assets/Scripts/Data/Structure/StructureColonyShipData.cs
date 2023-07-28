@@ -8,7 +8,8 @@ public class StructureColonyShipData : StructureData {
     public UnitData medicData;
     public int medicCapacity;
 
-    public override void SetupUnitSpawns(UnitController unitCtrl, int structureCount) {
-        unitCtrl.AddUnitData(medicData, medicCapacity * structureCount);
+    public override void Setup(ColonyController colonyCtrl, int structureCount) {
+        colonyCtrl.unitController.AddUnitData(medicData, medicCapacity * structureCount, false);
+        medicData.Setup(colonyCtrl);
     }
 }

@@ -19,6 +19,7 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public const string structureWaypointWork = "work";
     public const string structureWaypointCollect = "collect";
     public const string structureWaypointIdle = "idle"; //use for any units that has no work to do and need to move somewhere
+    public const string structureWaypointPatrol = "patrol"; //use for hunters while no target via colony ship's waypoints
 
     [Header("Modals")]
     public string modalOverworld = "overworld";
@@ -68,8 +69,10 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public M8.SceneAssetPath overworldScene;
     public M8.SceneAssetPath endScene;
 
-    [Header("Colony General Signals")]
+    [Header("Signals")]
     public M8.SignalBoolean signalPause;
+
+    [Header("Signals | Colony")]    
     public M8.SignalInteger signalClickCategory;
 
     public M8.Signal signalCycleBegin;
@@ -80,6 +83,8 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
 
     public SignalStructure signalStructureClick;
 
+    public SignalUnit signalUnitSpawned;
+    public SignalUnit signalUnitDespawned;
     public SignalUnit signalUnitDying;
 
     [Header("Editor Config | Landscape")]
@@ -100,7 +105,32 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public float structureWaypointHandleScale = 0.05f;
     public float structureWaypointHandleSnap = 0.25f;
 
+    [Header("Editor Config | Unit Spawner Waypoint")]
+    public Color unitSpawnerWaypointColor = Color.red;
+    public float unitSpawnerWaypointHandleScale = 0.05f;
+    public float unitSpawnerWaypointHandleSnap = 0.25f;
+
     public bool isProceed { get; private set; }
+
+    public bool isPaused {
+        get { return mIsPaused; }
+        set {
+            if(mIsPaused != value) {
+                mIsPaused = value;
+
+                if(M8.SceneManager.isInstantiated) {
+                    if(mIsPaused)
+                        M8.SceneManager.instance.Pause();
+                    else
+                        M8.SceneManager.instance.Resume();
+                }
+
+                signalPause?.Invoke(mIsPaused);
+            }
+        }
+    }
+
+    private bool mIsPaused;
 
     /// <summary>
     /// Uses current progress to determine index = (curProgress - 1) / 2
@@ -202,5 +232,10 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
                 overworldScene.Load();
             }
         }
+    }
+
+    protected override void OnInstanceInit() {
+        isProceed = false;
+        mIsPaused = false;
     }
 }

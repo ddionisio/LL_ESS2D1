@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class StructureHouse : Structure {
-    [Header("House Signal Listen")]
-    public SignalUnit signalListenUnitDespawned;
-
     public StructureHouseData houseData { get; private set; }
 
     /// <summary>
@@ -145,7 +142,7 @@ public class StructureHouse : Structure {
 
         houseData = null;
 
-        if(signalListenUnitDespawned) signalListenUnitDespawned.callback -= OnSignalUnitDespawned;
+        if(GameData.instance.signalUnitDespawned) GameData.instance.signalUnitDespawned.callback -= OnSignalUnitDespawned;
     }
 
     protected override void Spawned() {
@@ -176,7 +173,7 @@ public class StructureHouse : Structure {
 
         populationLevelIndex = 0;
 
-        if(signalListenUnitDespawned) signalListenUnitDespawned.callback += OnSignalUnitDespawned;
+        if(GameData.instance.signalUnitDespawned) GameData.instance.signalUnitDespawned.callback += OnSignalUnitDespawned;
     }
 
     void OnUnitStateChanged(Unit unit) {
@@ -205,10 +202,12 @@ public class StructureHouse : Structure {
     }
 
     void OnSignalUnitDespawned(Unit unit) {
-        int ind = mCitizensActive.IndexOf(unit);
-        if(ind != -1) {
-            unit.stateChangedCallback -= OnUnitStateChanged;
-            mCitizensActive.RemoveAt(ind);
+        if(unit.data == houseData.citizenData) {
+            int ind = mCitizensActive.IndexOf(unit);
+            if(ind != -1) {
+                unit.stateChangedCallback -= OnUnitStateChanged;
+                mCitizensActive.RemoveAt(ind);
+            }
         }
     }
 

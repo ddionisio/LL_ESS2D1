@@ -8,17 +8,17 @@ public class UnitController : MonoBehaviour {
     [Header("Spawn Info")]
     public Transform spawnRoot;
 
-    [Header("Signal Invoke")]
-    public SignalUnit signalInvokeUnitSpawned;
-    public SignalUnit signalInvokeUnitDespawned;
-
     /// <summary>
     /// All spawned units, treat this as a read-only.
     /// </summary>
     public M8.CacheList<Unit> unitActives { get { return mUnitActives; } }
+    public M8.CacheList<Unit> unitAllyActives { get { return mUnitAllyActives; } }
+    public M8.CacheList<Unit> unitEnemyActives { get { return mUnitEnemyActives; } }
 
     private Dictionary<UnitData, M8.CacheList<Unit>> mUnitTypeActives; //use this to go through specific active unit type
     private M8.CacheList<Unit> mUnitActives; //use this to go through all active units
+    private M8.CacheList<Unit> mUnitAllyActives; //use this to go through ally active units
+    private M8.CacheList<Unit> mUnitEnemyActives; //use this to go through enemy active units
 
     private M8.PoolController mPoolCtrl;
 
@@ -36,29 +36,42 @@ public class UnitController : MonoBehaviour {
     }
 
     public Unit Spawn(UnitData unitData, Structure structureOwner, Vector2 position) {
+        mUnitSpawnParms[UnitSpawnParams.structureOwner] = structureOwner;
+        mUnitSpawnParms[UnitSpawnParams.spawnPoint] = position;
+
+        return Spawn(unitData, mUnitSpawnParms);
+    }
+
+    public Unit Spawn(UnitData unitData, M8.GenericParams parms) {
         if(!mUnitTypeActives.ContainsKey(unitData)) { //fail-safe
             Debug.LogWarning("Trying to spawn unregistered unit data: " + unitData.name);
             return null;
         }
 
-        mUnitSpawnParms[UnitSpawnParams.data] = unitData;
-        mUnitSpawnParms[UnitSpawnParams.structureOwner] = structureOwner;
-        mUnitSpawnParms[UnitSpawnParams.spawnPoint] = position;
+        parms[UnitSpawnParams.data] = unitData;
 
         var spawnTypeName = unitData.spawnPrefab.name;
 
-        var spawnedUnit = mPoolCtrl.Spawn<Unit>(spawnTypeName, spawnTypeName, spawnRoot, mUnitSpawnParms);
+        var spawnedUnit = mPoolCtrl.Spawn<Unit>(spawnTypeName, spawnTypeName, spawnRoot, parms);
         if(spawnedUnit) {
             mUnitTypeActives[unitData].Add(spawnedUnit);
             mUnitActives.Add(spawnedUnit);
 
-            signalInvokeUnitSpawned?.Invoke(spawnedUnit);
+            if(spawnedUnit.CompareTag(GameData.instance.unitAllyTag))
+                mUnitAllyActives.Add(spawnedUnit);
+            else if(spawnedUnit.CompareTag(GameData.instance.unitEnemyTag))
+                mUnitEnemyActives.Add(spawnedUnit);
+
+            GameData.instance.signalUnitSpawned?.Invoke(spawnedUnit);
         }
 
         return spawnedUnit;
     }
 
-    public void AddUnitData(UnitData unitData, int capacity) {
+    /// <summary>
+    /// Register and cache unit pool for spawning. If capacityExpand=true, expand existing cache by capacity, otherwise only expand if given capacity is larger
+    /// </summary>
+    public void AddUnitData(UnitData unitData, int capacity, bool capacityExpand) {
         if(capacity <= 0) return;
 
         if(!mIsInit) Init();
@@ -69,14 +82,34 @@ public class UnitController : MonoBehaviour {
             cacheList = new M8.CacheList<Unit>(capacity);
             mUnitTypeActives.Add(unitData, cacheList);
         }
-        else
-            cacheList.Expand(capacity);
+        else {
+            if(capacityExpand)
+                cacheList.Expand(capacity);
+            else if(cacheList.Capacity < capacity)
+                cacheList.Resize(capacity);
+        }
 
-        mUnitActives.Expand(capacity);
+        if(capacityExpand) {
+            mUnitActives.Expand(capacity);
+            mUnitAllyActives.Expand(capacity);
+            mUnitEnemyActives.Expand(capacity);
+        }
+        else if(mUnitActives.Capacity < capacity) {
+            mUnitActives.Resize(capacity);
+            mUnitAllyActives.Resize(capacity);
+            mUnitEnemyActives.Resize(capacity);
+        }
 
         //setup pool cache, expand if already exists
-        if(!mPoolCtrl.AddType(unitData.spawnPrefab.gameObject, capacity, capacity))
-            mPoolCtrl.Expand(unitData.spawnPrefab.name, capacity);
+        if(!mPoolCtrl.AddType(unitData.spawnPrefab.gameObject, capacity, capacity)) {
+            if(capacityExpand)
+                mPoolCtrl.Expand(unitData.spawnPrefab.name, capacity);
+            else {
+                var curPoolCapacity = mPoolCtrl.CapacityCount(unitData.spawnPrefab.name);
+                if(curPoolCapacity < capacity)
+                    mPoolCtrl.Expand(unitData.spawnPrefab.name, capacity - curPoolCapacity);
+            }
+        }
     }
 
     void OnUnitDespawn(M8.PoolDataController pdc) {
@@ -95,7 +128,12 @@ public class UnitController : MonoBehaviour {
             if(mUnitTypeActives.TryGetValue(unit.data, out typeActives))
                 typeActives.Remove(unit);
 
-            signalInvokeUnitDespawned?.Invoke(unit);
+            if(unit.CompareTag(GameData.instance.unitAllyTag))
+                mUnitAllyActives.Remove(unit);
+            else if(unit.CompareTag(GameData.instance.unitEnemyTag))
+                mUnitEnemyActives.Remove(unit);
+
+            GameData.instance.signalUnitDespawned?.Invoke(unit);
         }
     }
 
@@ -107,6 +145,8 @@ public class UnitController : MonoBehaviour {
         mUnitTypeActives = new Dictionary<UnitData, M8.CacheList<Unit>>();
 
         mUnitActives = new M8.CacheList<Unit>(0);
+        mUnitAllyActives = new M8.CacheList<Unit>(0);
+        mUnitEnemyActives = new M8.CacheList<Unit>(0);
 
         mIsInit = true;
     }

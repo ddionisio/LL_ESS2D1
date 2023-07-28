@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using UnityEditor;
-using UnityEditor.IMGUI.Controls;
 
 [CustomEditor(typeof(Structure), true)]
 public class StructureInspector : Editor {

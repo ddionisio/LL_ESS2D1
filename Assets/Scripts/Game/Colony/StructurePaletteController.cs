@@ -434,6 +434,7 @@ public class StructurePaletteController : MonoBehaviour  {
         if(!placementInput.Activate(mPlacementCurStuctureData))
             return; //shouldn't happen
 
+        GameData.instance.isPaused = true;
         GameData.instance.signalPlacementActive?.Invoke(true);
     }
 
@@ -444,6 +445,7 @@ public class StructurePaletteController : MonoBehaviour  {
 
         placementInput.Deactivate();
 
+        GameData.instance.isPaused = false;
         GameData.instance.signalPlacementActive?.Invoke(false);
     }
 }

@@ -13,13 +13,35 @@ public class UnitData : ScriptableObject {
     public Sprite icon;
 
     [Header("Stats")]
+    public bool hitpointStartApply; //if true, apply hitpointStart at spawn
+    public int hitpointStart; //initial hitpoint value
     public int hitpoints; //for damageable, set to 0 for invulnerable
 
-    public float moveSpeed = 1f;
-    public float runSpeed = 1.5f;
+    [SerializeField]
+    float _moveSpeed = 1f;
+    [SerializeField]
+    float _moveSpeedDeviation = 0f;
+    [SerializeField]
+    float _runSpeed = 1.5f;
 
     public bool canRevive; //can be revived by some means (e.g. medic for frogs)
 
     [Header("Spawn")]
     public Unit spawnPrefab;
+
+    public float moveSpeed { 
+        get {
+            if(_moveSpeedDeviation != 0f)
+                return _moveSpeed + Random.Range(-_moveSpeedDeviation, _moveSpeedDeviation);
+            else
+                return _moveSpeed;
+        }
+    }
+
+    public float runSpeed { get { return _runSpeed; } }
+
+    /// <summary>
+    /// For units that need specific setup during initialization (cache projectiles, spawning other units)
+    /// </summary>
+    public virtual void Setup(ColonyController colonyCtrl) { }
 }

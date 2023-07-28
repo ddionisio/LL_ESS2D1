@@ -15,8 +15,11 @@ MonoBehaviour:
   nameRef: 
   descRef: 
   icon: {fileID: 0}
+  hitpointStartApply: 0
+  hitpointStart: 0
   hitpoints: 2
-  moveSpeed: 1.5
-  runSpeed: 3
+  _moveSpeed: 2
+  _moveSpeedDeviation: 0.05
+  _runSpeed: 4
   canRevive: 1
   spawnPrefab: {fileID: 2543768139291352931, guid: 72eb70fe3ca01d5498746f71c2f4367b, type: 3}

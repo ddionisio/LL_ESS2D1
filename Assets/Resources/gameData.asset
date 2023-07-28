@@ -51,6 +51,8 @@ MonoBehaviour:
   signalCycleEnd: {fileID: 11400000, guid: 489c025c4ad3b0a4fa9210adff1216a1, type: 2}
   signalPlacementActive: {fileID: 11400000, guid: 694360c67dfbb5d45a1aa205fa83ad44, type: 2}
   signalStructureClick: {fileID: 11400000, guid: a2955b41d5073154b8cf27250a2b8b7c, type: 2}
+  signalUnitSpawned: {fileID: 11400000, guid: 4565133f988d40c41b734fd559aa436f, type: 2}
+  signalUnitDespawned: {fileID: 11400000, guid: fdb8538ca225a5a4da2426cfd2c69d25, type: 2}
   signalUnitDying: {fileID: 11400000, guid: ed8a26deaa688794c9536e7b7423913f, type: 2}
   landscapePreviewSize: {x: 12, y: 6.75}
   landscapePreviewBoundsColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -67,3 +69,6 @@ MonoBehaviour:
   - {r: 0.8962264, g: 0.2325116, b: 0.78600615, a: 1}
   structureWaypointHandleScale: 0.05
   structureWaypointHandleSnap: 0.125
+  unitSpawnerWaypointColor: {r: 1, g: 0, b: 0, a: 1}
+  unitSpawnerWaypointHandleScale: 0.05
+  unitSpawnerWaypointHandleSnap: 0.25

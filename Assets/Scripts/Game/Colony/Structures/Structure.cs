@@ -87,9 +87,11 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
 
     public bool isBuildable { get { return data.buildTime > 0f; } }
 
+    public bool isReparable { get { return data.isReparable; } }
+
     public bool isDamageable { get { return data.hitpoints > 0 && (state == StructureState.Active || state == StructureState.Repair || (state == StructureState.Demolish && mIsDemolishInProcess)); } }
 
-    public bool canEngineer { get { return state == StructureState.Construction || ((state == StructureState.Active || state == StructureState.Destroyed || state == StructureState.Repair) && hitpointsCurrent < hitpointsMax && data.isReparable); } }
+    public bool canEngineer { get { return state == StructureState.Construction || ((state == StructureState.Active || state == StructureState.Destroyed || state == StructureState.Repair) && hitpointsCurrent < hitpointsMax && isReparable); } }
 
     public bool isMovable { 
         get { 
@@ -400,7 +402,7 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
                 if(mCurHitpoints < hitpointsMax) {
                     if(damagedGO) damagedGO.SetActive(true);
 
-                    if(data.isReparable)
+                    if(isReparable)
                         SetStatusState(StructureStatus.Construct, StructureStatusState.Require);
                 }
                 else {
@@ -447,7 +449,7 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
                 if(damagedGO) damagedGO.SetActive(true);
 
                 //if repairable, simply play animation and show repair status
-                if(data.isReparable) {
+                if(isReparable) {
                     SetStatusState(StructureStatus.Construct, StructureStatusState.Require);
 
                     if(mTakeDestroyedInd != -1)

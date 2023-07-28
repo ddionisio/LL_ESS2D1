@@ -27,22 +27,19 @@ MonoBehaviour:
     m_Bits: 64
   citizenData: {fileID: 11400000, guid: 497eb44adfc8b984c8cb4b395de39cec, type: 2}
   citizenStartCount: 1
-  citizenCapacity: 5
+  citizenCapacity: 4
   _populationLevels:
   - foodMax: 1
     waterMax: 0
     powerConsumptionRate: 0
   - foodMax: 2
     waterMax: 1
-    powerConsumptionRate: 0.5
+    powerConsumptionRate: 0.25
   - foodMax: 3
     waterMax: 2
-    powerConsumptionRate: 1
-  - foodMax: 4
-    waterMax: 3
-    powerConsumptionRate: 1.5
+    powerConsumptionRate: 0.5
   foodStructureSources:
   - {fileID: 11400000, guid: 00c13b5caec751f4cac6d8ab4a682fc4, type: 2}
   waterStructureSources:
   - {fileID: 11400000, guid: e6518c7cb5a58f34d8950afde470f478, type: 2}
-  populationPowerConsumeDelay: 1
+  populationPowerConsumeDelay: 2

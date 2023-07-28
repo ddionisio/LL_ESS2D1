@@ -13,19 +13,19 @@ public class CycleController : MonoBehaviour {
     public int regionIndex; //which region this is used for    
     public CycleItemInfo[] cycleSeasons;
     public CycleData cycleDataDefault; //if no season match, or we just don't want to deal with season specifics
-        
+
     public AtmosphereStat[] atmosphereStats { get; private set; }
     public float daylightScale { get; private set; }
 
     public CycleData cycleData { get; private set; }
     public int cycleCurIndex { get; private set; }
     public WeatherTypeData cycleCurWeather { get { return cycleData.cycles[cycleCurIndex].weather; } }
+    public float cycleCurElapsed { get; private set; }
+    public float cycleTimeScale { get; set; }
     public float cycleDuration { get; private set; }
     public int cycleCount { get { return cycleData.cycles.Length; } }
 
     public CycleResource cycleResourceRate { get; private set; }
-
-    public bool isPause { get; private set; }
 
     public bool isRunning { get { return mRout != null; } }
 
@@ -53,6 +53,8 @@ public class CycleController : MonoBehaviour {
     }
 
     public void Setup(HotspotData hotspotData, SeasonData season) {
+        cycleTimeScale = 1f;
+
         //grab cycle data based on season
         cycleData = cycleDataDefault;
         for(int i = 0; i < cycleSeasons.Length; i++) {
@@ -76,6 +78,10 @@ public class CycleController : MonoBehaviour {
         cycleDuration = GameData.instance.cycleDuration / cycleData.cycles.Length;
 
         cycleResourceRate = cycleData.resourceRate;
+
+        var cycleControls = GetComponentsInChildren<CycleControl>(false);
+        for(int i = 0; i < cycleControls.Length; i++)
+            cycleControls[i].Init();
     }
 
     public void Begin() {
@@ -89,22 +95,11 @@ public class CycleController : MonoBehaviour {
         mRout = StartCoroutine(DoProcess());
     }
 
-    void OnDisable() {
-        if(GameData.instance.signalPause) GameData.instance.signalPause.callback -= OnPause;
-    }
-
-    void OnEnable() {
-        if(GameData.instance.signalPause) GameData.instance.signalPause.callback += OnPause;
-    }
-
-    void OnPause(bool pause) {
-        isPause = pause;
-    }
-
     IEnumerator DoProcess() {
         var gameDat = GameData.instance;
 
         cycleCurIndex = 0;
+        cycleCurElapsed = 0f;
 
         ApplyCurrentCycleInfo();
 
@@ -116,18 +111,17 @@ public class CycleController : MonoBehaviour {
 
         while(true) {
             //time pass
-            var curTime = 0f;
-            while(curTime <= cycleDuration) {
+            while(cycleCurElapsed <= cycleDuration) {
                 yield return null;
 
-                if(!isPause)
-                    curTime += Time.deltaTime;
+                cycleCurElapsed += Time.deltaTime * cycleTimeScale;
             }
 
             if(cycleCurIndex + 1 == cycleCount)
                 break;
 
             cycleCurIndex++;
+            cycleCurElapsed = 0f;
 
             ApplyCurrentCycleInfo();
 
