@@ -86,8 +86,7 @@ public class StructureStatusGroupWidget : MonoBehaviour, M8.IPoolInit, M8.IPoolS
         switch(state) {
             case StructureState.Spawning:
             case StructureState.MoveReady:
-            case StructureState.Moving:
-            case StructureState.Destroyed:
+            case StructureState.Moving:            
             case StructureState.None:
                 isVisible = false;
                 break;

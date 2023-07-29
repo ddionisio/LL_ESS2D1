@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class UnitGardener : Unit {
 
+    private Unit mTargetEnemy;
+
     private StructurePlant mTargetPlant;
     private bool mTargetPlantIsWorkAdded;
 

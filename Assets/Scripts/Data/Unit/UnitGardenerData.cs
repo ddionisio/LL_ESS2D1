@@ -6,4 +6,5 @@ using UnityEngine;
 public class UnitGardenerData : UnitData {
     [Header("Gardener Info")]
     public StructureData[] targetPlantStructures;
+    public UnitData[] targetDestroy;
 }

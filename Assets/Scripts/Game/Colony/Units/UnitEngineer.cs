@@ -78,7 +78,15 @@ public class UnitEngineer : Unit {
 
             case UnitState.Act:
                 //simply check if it's still workable, if not, then we are done
-                if(!mTargetStructure || !CanWorkOnStructure(mTargetStructure))
+                if(mTargetStructure) {
+                    if(CanWorkOnStructure(mTargetStructure)) {
+                        if(mTargetStructure.state == StructureState.Destroyed) //it got destroyed while we're fixing it
+                            mTargetStructure.state = StructureState.Repair;
+                    }
+                    else
+                        MoveToOwnerStructure(false);
+                }
+                else
                     MoveToOwnerStructure(false);
                 break;
         }

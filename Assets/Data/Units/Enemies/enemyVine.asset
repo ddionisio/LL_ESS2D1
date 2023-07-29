@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee7dc61719dd852428bf6d5e792b5e28, type: 3}
+  m_Name: enemyVine
+  m_EditorClassIdentifier: 
+  nameRef: 
+  descRef: 
+  icon: {fileID: 0}
+  hitpointStartApply: 1
+  hitpointStart: 1
+  hitpoints: 3
+  _moveSpeed: 0
+  _moveSpeedDeviation: 0
+  _runSpeed: 0
+  canRevive: 0
+  spawnPrefab: {fileID: 4123533792905938872, guid: 7069be74d59ef9a46850a2791e06ef8e, type: 3}
+  structureTargetFlags: 6
+  growthDelay: 2
+  attackDelay: 2

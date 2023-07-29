@@ -15,6 +15,8 @@ public class UnitController : MonoBehaviour {
     public M8.CacheList<Unit> unitAllyActives { get { return mUnitAllyActives; } }
     public M8.CacheList<Unit> unitEnemyActives { get { return mUnitEnemyActives; } }
 
+    public delegate bool CheckUnitValid<T>(T structure) where T : Unit;
+
     private Dictionary<UnitData, M8.CacheList<Unit>> mUnitTypeActives; //use this to go through specific active unit type
     private M8.CacheList<Unit> mUnitActives; //use this to go through all active units
     private M8.CacheList<Unit> mUnitAllyActives; //use this to go through ally active units
@@ -25,6 +27,28 @@ public class UnitController : MonoBehaviour {
     private bool mIsInit;
 
     private M8.GenericParams mUnitSpawnParms = new M8.GenericParams();
+
+    public T GetUnitNearestActiveByData<T>(float positionX, UnitData unitData, CheckUnitValid<T> checkValid) where T : Unit {
+        T ret = null;
+        float dist = 0f;
+
+        var activeList = GetUnitActivesByData(unitData);
+        if(activeList != null) {
+            for(int i = 0; i < activeList.Count; i++) {
+                var unit = activeList[i] as T;
+                if(unit && checkValid(unit)) {
+                    //see if it's closer to our current available structure, or it's the first one
+                    var structureDist = Mathf.Abs(unit.position.x - positionX);
+                    if(!ret || structureDist < dist) {
+                        ret = unit;
+                        dist = structureDist;
+                    }
+                }
+            }
+        }
+
+        return ret;
+    }
 
     /// <summary>
     /// Spawned units by UnitData, treat this as a read-only.

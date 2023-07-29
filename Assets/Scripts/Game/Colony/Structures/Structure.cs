@@ -64,19 +64,7 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
                 var prevHitpoints = mCurHitpoints;
                 mCurHitpoints = val;
 
-                if(mCurHitpoints > prevHitpoints) { //healed?
-                    //remove damage display
-                    if(mCurHitpoints == hitpointsMax && damagedGO)
-                        damagedGO.SetActive(false);
-                }
-                else if(state != StructureState.Demolish) { //already being demolished
-                    //damaged completely?
-                    if(mCurHitpoints == 0)
-                        state = StructureState.Destroyed;
-                    //perform damage
-                    else if(mCurHitpoints < prevHitpoints)
-                        state = StructureState.Damage;
-                }
+                HitpointsChanged(prevHitpoints);
 
                 //signal
             }
@@ -442,6 +430,9 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
             case StructureState.Damage:
                 if(damagedGO) damagedGO.SetActive(true);
 
+                if(isReparable)
+                    SetStatusState(StructureStatus.Construct, StructureStatusState.Require);
+
                 mRout = StartCoroutine(DoDamage());
                 break;
 
@@ -496,6 +487,22 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         }
         else
             structureCtrl.PlacementRemoveBlocker(this);
+    }
+
+    protected virtual void HitpointsChanged(int previousHitpoints) {
+        if(mCurHitpoints > previousHitpoints) { //healed?
+                                            //remove damage display
+            if(mCurHitpoints == hitpointsMax && damagedGO)
+                damagedGO.SetActive(false);
+        }
+        else if(state != StructureState.Demolish) { //already being demolished
+                                                    //damaged completely?
+            if(mCurHitpoints == 0)
+                state = StructureState.Destroyed;
+            //perform damage
+            else if(mCurHitpoints < previousHitpoints)
+                state = StructureState.Damage;
+        }
     }
 
     protected void AnimateToState(int takeInd, StructureState toState) {

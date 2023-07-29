@@ -10,10 +10,30 @@ public class UnitStructureEater : UnitTargetStructure {
         public Transform right; //horizontally reposition based on target structure's width
 
         public bool active { get { return rootGO ? rootGO.activeSelf : false; } set { if(rootGO) rootGO.SetActive(value); } }
+
+        public void ApplyWidth(float width) {
+            var ext = width * 0.5f;
+
+            if(left) {
+                var pos = left.localPosition;
+                pos.x = -ext;
+                left.localPosition = pos;
+            }
+
+            if(right) {
+                var pos = right.localPosition;
+                pos.x = ext;
+                right.localPosition = pos;
+            }
+        }
     }
 
     [Header("Segments Display")]
     public SegmentInfo[] segments;
+
+    protected override void TargetChanged() {
+        ApplyTargetDimension();
+    }
 
     protected override void ApplyCurrentState() {
         base.ApplyCurrentState();
@@ -36,6 +56,7 @@ public class UnitStructureEater : UnitTargetStructure {
     protected override void Spawned(M8.GenericParams parms) {
         base.Spawned(parms);
 
+        ApplyTargetDimension();
         RefreshSegmentDisplay();
     }
 
@@ -80,13 +101,12 @@ public class UnitStructureEater : UnitTargetStructure {
 
         //damage target
         if(targetStructure && !(targetStructure.state == StructureState.None || targetStructure.state == StructureState.Moving || (targetStructure.state == StructureState.Destroyed && !targetStructure.isReparable))) {
-            while(targetStructure.state == StructureState.Damage) //wait for structure to be ready
-                yield return null;
+            if(targetStructure.isDamageable) {
+                targetStructure.hitpointsCurrent--;
 
-            targetStructure.hitpointsCurrent--;
-
-            mRout = null;
-            state = UnitState.Idle;
+                mRout = null;
+                state = UnitState.Idle;
+            }
         }
         else { //no longer have a viable target
             targetStructure = null;
@@ -103,5 +123,21 @@ public class UnitStructureEater : UnitTargetStructure {
 
         for(int i = 0; i < segments.Length; i++)
             segments[i].active = i <= segmentActiveMax;
+    }
+
+    private void ApplyTargetDimension() {
+        if(!targetStructure)
+            return;
+
+        var width = targetStructure.boxCollider.size.x;
+
+        if(boxCollider) {
+            var size = boxCollider.size;
+            size.x = width;
+            boxCollider.size = size;
+        }
+
+        for(int i = 0; i < segments.Length; i++)
+            segments[i].ApplyWidth(width);
     }
 }
