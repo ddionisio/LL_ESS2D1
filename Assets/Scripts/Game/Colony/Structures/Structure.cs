@@ -226,6 +226,32 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         return null;
     }
 
+    public Waypoint GetWaypointUnmarkedClosest(string waypointName, float x) {
+        if(mWorldWaypoints == null)
+            return null;
+
+        WaypointControl ret;
+        if(mWorldWaypoints.TryGetValue(waypointName, out ret)) {
+            Waypoint wpClosest = null;
+            float distClosest = 0f;
+
+            for(int i = 0; i < ret.waypoints.Length; i++) {
+                var wp = ret.waypoints[i];
+                if(!wp.isMarked) {
+                    var dist = Mathf.Abs(wp.point.x - x);
+                    if(wpClosest == null || dist < distClosest) {
+                        wpClosest = wp;
+                        distClosest = dist;
+                    }
+                }
+            }
+
+            return wpClosest;
+        }
+
+        return null;
+    }
+
     public StructureStatusInfo GetStatusInfo(StructureStatus status) {
         return mStatusInfos[(int)status];
     }

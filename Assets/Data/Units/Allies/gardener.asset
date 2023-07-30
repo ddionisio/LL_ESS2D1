@@ -22,6 +22,10 @@ MonoBehaviour:
   _moveSpeedDeviation: 0.05
   _runSpeed: 4
   canRevive: 1
+  damageImmunity: 2
   spawnPrefab: {fileID: 8444095278437995103, guid: 7b505d61b9eaf254d8ea2d517a42ac04, type: 3}
   targetPlantStructures:
   - {fileID: 11400000, guid: 00c13b5caec751f4cac6d8ab4a682fc4, type: 2}
+  targetDestroy:
+  - {fileID: 11400000, guid: 3b71eae6c7d47d34b9489fd9f1ca156a, type: 2}
+  - {fileID: 11400000, guid: 0baff66e6b7ad8a4891bf9c957b3b139, type: 2}

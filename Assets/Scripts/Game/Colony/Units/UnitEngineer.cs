@@ -44,7 +44,7 @@ public class UnitEngineer : Unit {
                 if(mTargetStructure) { //have a target?
                     //check if it's still valid
                     if(CanGotoAndWorkOnStructure(mTargetStructure)) {
-                        var wp = mTargetStructure.GetWaypointUnmarked(GameData.structureWaypointWork);
+                        var wp = mTargetStructure.GetWaypointUnmarkedClosest(GameData.structureWaypointWork, position.x);
                         MoveTo(wp, false); //move to it
                     }
                     else
@@ -172,7 +172,7 @@ public class UnitEngineer : Unit {
             mTargetStructure = repair;
 
         if(mTargetStructure) {
-            var wp = mTargetStructure.GetWaypointUnmarked(GameData.structureWaypointWork);
+            var wp = mTargetStructure.GetWaypointUnmarkedClosest(GameData.structureWaypointWork, position.x);
             MoveTo(wp, false); //move to it
 
             return true;
@@ -188,7 +188,7 @@ public class UnitEngineer : Unit {
     private bool CanGotoAndWorkOnStructure(Structure structure) {
         if(CanWorkOnStructure(structure)) {
             //check if all work waypoint is marked (this means someone else is on the way)
-            var unmarkedWorkWp = structure.GetWaypointUnmarked(GameData.structureWaypointWork);
+            var unmarkedWorkWp = structure.GetWaypointUnmarkedClosest(GameData.structureWaypointWork, position.x);
 
             return unmarkedWorkWp != null;
         }

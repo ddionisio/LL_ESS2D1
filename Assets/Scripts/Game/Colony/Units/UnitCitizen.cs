@@ -81,7 +81,7 @@ public class UnitCitizen : Unit {
                     //plant, check if it's still valid
                     if(mGatherTarget is StructurePlant) {
                         if(CanGotoAndGatherPlant((StructurePlant)mGatherTarget))
-                            wp = mGatherTarget.GetWaypointUnmarked(GameData.structureWaypointCollect);
+                            wp = mGatherTarget.GetWaypointUnmarkedClosest(GameData.structureWaypointCollect, position.x);
                     }
                     //TODO: water
 
@@ -313,7 +313,7 @@ public class UnitCitizen : Unit {
             if(plant) {
                 mGatherTarget = plant;
 
-                var wp = plant.GetWaypointUnmarked(GameData.structureWaypointCollect);
+                var wp = plant.GetWaypointUnmarkedClosest(GameData.structureWaypointCollect, position.x);
                 MoveTo(wp, false);
 
                 house.AddFoodGather();
@@ -336,7 +336,7 @@ public class UnitCitizen : Unit {
             if(waterGen) {
                 mGatherTarget = waterGen;
 
-                var wp = waterGen.GetWaypointUnmarked(GameData.structureWaypointCollect);
+                var wp = waterGen.GetWaypointUnmarkedClosest(GameData.structureWaypointCollect, position.x);
                 MoveTo(wp, false);
 
                 house.AddWaterGather();
@@ -355,7 +355,7 @@ public class UnitCitizen : Unit {
     private bool CanGotoAndGatherPlant(StructurePlant plant) {
         if(CanGatherPlant(plant)) {
             //check if all collect waypoint is marked (this means someone else is on the way)
-            var unmarkedCollectWp = plant.GetWaypointUnmarked(GameData.structureWaypointCollect);
+            var unmarkedCollectWp = plant.GetWaypointUnmarkedClosest(GameData.structureWaypointCollect, position.x);
 
             return unmarkedCollectWp != null;
         }
@@ -370,7 +370,7 @@ public class UnitCitizen : Unit {
     private bool CanGotoAndGatherWater(StructureResourceGenerateContainer waterGen) {
         if(CanGatherWater(waterGen)) {
             //check if all collect waypoint is marked (this means someone else is on the way)
-            var unmarkedCollectWp = waterGen.GetWaypointUnmarked(GameData.structureWaypointCollect);
+            var unmarkedCollectWp = waterGen.GetWaypointUnmarkedClosest(GameData.structureWaypointCollect, position.x);
 
             return unmarkedCollectWp != null;
         }

@@ -287,6 +287,8 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
                 break;
 
             case UnitState.Dying:
+                mCurHitpoints = 0; //just in case
+
                 mRout = StartCoroutine(DoDying());
 
                 physicsActive = false;
@@ -295,12 +297,16 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
                 break;
 
             case UnitState.Death:
+                mCurHitpoints = 0; //just in case
+
                 AnimateToRelease(mTakeDeathInd);
 
                 physicsActive = false;
                 break;
 
             case UnitState.Despawning:
+                mCurHitpoints = 0;
+
                 AnimateToRelease(mTakeDespawnInd);
 
                 physicsActive = false;

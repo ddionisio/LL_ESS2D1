@@ -26,6 +26,8 @@ public class UnitData : ScriptableObject {
 
     public bool canRevive; //can be revived by some means (e.g. medic for frogs)
 
+    public DamageFlags damageImmunity;
+
     [Header("Spawn")]
     public Unit spawnPrefab;
 

@@ -7,9 +7,9 @@ public class UnitTargetStructureData : UnitData {
     public enum StructureTargetFlags {
         None = 0x0,
         Plants = 0x1,
-        Buildables = 0x2,
-        Damageable = 0x4,
-        Invulnerables = 0x8,
+        ColonyShip = 0x2,
+        House = 0x4,
+        Resource = 0x8,
     }
 
     [Header("Target Structure Info")]
@@ -22,11 +22,18 @@ public class UnitTargetStructureData : UnitData {
         if(structure.state == StructureState.None || structure.state == StructureState.Spawning || structure.state == StructureState.Construction || structure.state == StructureState.Demolish || structure.state == StructureState.Moving)
             return false;
 
-        bool invulValid = dat.hitpoints == 0 && (structureTargetFlags | StructureTargetFlags.Invulnerables) == StructureTargetFlags.None,
-             plantValid = dat is StructurePlantData && (structureTargetFlags | StructureTargetFlags.Plants) != StructureTargetFlags.None,
-             buildableValid = dat.buildTime > 0f && (structureTargetFlags | StructureTargetFlags.Buildables) != StructureTargetFlags.None,
-             damageableValid = dat.hitpoints > 0 && (structureTargetFlags | StructureTargetFlags.Damageable) != StructureTargetFlags.None;
+        if((structureTargetFlags & StructureTargetFlags.Plants) != StructureTargetFlags.None && dat is StructurePlantData)
+            return true;
 
-        return invulValid || plantValid || buildableValid || damageableValid;
+        if((structureTargetFlags & StructureTargetFlags.ColonyShip) != StructureTargetFlags.None && dat is StructureColonyShipData)
+            return true;
+
+        if((structureTargetFlags & StructureTargetFlags.House) != StructureTargetFlags.None && dat is StructureHouseData)
+            return true;
+
+        if((structureTargetFlags & StructureTargetFlags.Resource) != StructureTargetFlags.None && dat is StructureResourceData)
+            return true;
+
+        return false;
     }
 }

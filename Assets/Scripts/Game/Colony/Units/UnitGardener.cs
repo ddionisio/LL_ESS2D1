@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class UnitGardener : Unit {
+    [Header("Gardener Animations")]
+    public string takeAttack;
 
     private Unit mTargetEnemy;
 
     private StructurePlant mTargetPlant;
     private bool mTargetPlantIsWorkAdded;
+
+    private int mTakeAttackInd = -1;
 
     protected override void ClearCurrentState() {
         base.ClearCurrentState();
@@ -33,33 +37,54 @@ public class UnitGardener : Unit {
         }
     }
 
+    protected override int GetActTakeIndex() {
+        return mTargetEnemy ? mTakeAttackInd : base.GetActTakeIndex();
+    }
+
     protected override void ClearAIState() {
         ClearTargetPlant();
+        ClearTargetEnemy();
     }
 
     protected override void UpdateAI() {
         switch(state) {
             case UnitState.Idle:
-                if(mTargetPlant) { //have a target plant?
+                if(mTargetEnemy) { //have target enemy?
+                    if(mTargetEnemy.hitpointsCurrent == 0) //no longer valid, wait for new target
+                        ClearTargetEnemy();
+                    else if(IsTouching(mTargetEnemy))
+                        state = UnitState.Act;
+                    else //keep moving towards it
+                        MoveTo(mTargetEnemy.position, false);
+                }
+                else if(mTargetPlant) { //have a target plant?
                     //check if it's still valid
                     if(CanGotoAndWorkOnPlant(mTargetPlant)) {
-                        var wp = mTargetPlant.GetWaypointUnmarked(GameData.structureWaypointWork);
+                        var wp = mTargetPlant.GetWaypointUnmarkedClosest(GameData.structureWaypointWork, position.x);
                         MoveTo(wp, false); //move to it
                     }
                     else
                         ClearTargetPlant();
                 }
-                else { //look for plant to help grow
-                    if(!RefreshAndMoveToNewTarget()) {
-                        if(stateTimeElapsed >= GameData.instance.unitIdleWanderDelay) //wander
-                            MoveToOwnerStructure(false);
-                    }
+                else if(!RefreshAndMoveToNewTarget()) { //look for new target
+                    if(stateTimeElapsed >= GameData.instance.unitIdleWanderDelay) //wander
+                        MoveToOwnerStructure(false);
                 }
                 break;
 
             case UnitState.Move:
-                //check if the plant is still valid
-                if(mTargetPlant) {
+                if(mTargetEnemy) { //check if target is still killable
+                    if(mTargetEnemy.hitpointsCurrent == 0) {
+                        ClearTargetEnemy();
+
+                        //find a new target
+                        if(!RefreshAndMoveToNewTarget()) //return to base
+                            MoveToOwnerStructure(false);
+                    }
+                    else if(IsTouching(mTargetEnemy))
+                        state = UnitState.Act;
+                }
+                else if(mTargetPlant) { //check if the plant is still valid
                     if(!CanWorkOnPlant(mTargetPlant)) {
                         ClearTargetPlant();
 
@@ -68,24 +93,40 @@ public class UnitGardener : Unit {
                             MoveToOwnerStructure(false);
                     }
                 }
-                else {
-                    //look for plant to help grow
+                else //look for plant to help grow
                     RefreshAndMoveToNewTarget();
-                }
-                //other things
                 break;
 
-            case UnitState.Act:
-                //finished growing? move back to base
-                if(!mTargetPlant || mTargetPlant.growthState != StructurePlant.GrowthState.Growing)
-                    MoveToOwnerStructure(false);
+            case UnitState.Act:                
+                if(mTargetEnemy) { //target still alive?
+                    if(mTargetEnemy.hitpointsCurrent > 0) {
+                        mTargetEnemy.hitpointsCurrent--;
+                        return;
+                    }
+                }                
+                else if(mTargetPlant) { //plant still growing?
+                    if(mTargetPlant.growthState == StructurePlant.GrowthState.Growing)
+                        return;
+                }
+
+                MoveToOwnerStructure(false);
                 break;
         }
     }
 
     protected override void MoveToComplete() {
+        //check if we can still kill target
+        if(mTargetEnemy) {
+            if(mTargetEnemy.hitpointsCurrent > 0) {
+                //are we in contact?
+                if(IsTouching(mTargetEnemy)) {
+                    state = UnitState.Act;
+                    return;
+                }
+            }
+        }
         //check if we can still work on the plant
-        if(mTargetPlant) {
+        else if(mTargetPlant) {
             if(CanWorkOnPlant(mTargetPlant)) {
                 //are we at the plant?
                 if(IsTouchingStructure(mTargetPlant)) {
@@ -98,7 +139,12 @@ public class UnitGardener : Unit {
         //back to idle to re-evaluate our decisions
         base.MoveToComplete();
     }
-        
+
+    protected override void Init() {
+        if(animator)
+            mTakeAttackInd = animator.GetTakeIndex(takeAttack);
+    }
+
     private void ClearTargetPlant() {
         if(mTargetPlant) {
             if(mTargetPlant.state != StructureState.None) {
@@ -113,13 +159,44 @@ public class UnitGardener : Unit {
         mTargetPlantIsWorkAdded = false;
     }
 
+    private void ClearTargetEnemy() {
+        if(mTargetEnemy) {
+            mTargetEnemy.RemoveMark();
+            mTargetEnemy = null;
+        }
+    }
+
     private bool RefreshAndMoveToNewTarget() {
         if(mTargetPlant) //fail-safe, shouldn't exist when calling this
             ClearTargetPlant();
-
-        var structureCtrl = ColonyController.instance.structurePaletteController;
+        if(mTargetEnemy)
+            ClearTargetEnemy();
 
         var gardenerDat = data as UnitGardenerData;
+
+        var colonyCtrl = ColonyController.instance;
+
+        //check for enemies
+        var unitCtrl = colonyCtrl.unitController;
+
+        var targetEnemies = gardenerDat.targetDestroy;
+
+        for(int i = 0; i < targetEnemies.Length; i++) {
+            mTargetEnemy = unitCtrl.GetUnitNearestActiveByData<Unit>(position.x, targetEnemies[i], CanTargetEnemy);
+            if(mTargetEnemy)
+                break;
+        }
+
+        if(mTargetEnemy) {
+            mTargetEnemy.AddMark();
+            MoveTo(mTargetEnemy.position, false);
+
+            return true;
+        }
+
+        //check for plants
+        var structureCtrl = colonyCtrl.structurePaletteController;
+        
         var targetPlantStructures = gardenerDat.targetPlantStructures;
 
         for(int i = 0; i < targetPlantStructures.Length; i++) {
@@ -129,7 +206,7 @@ public class UnitGardener : Unit {
         }
 
         if(mTargetPlant) {
-            var wp = mTargetPlant.GetWaypointUnmarked(GameData.structureWaypointWork);
+            var wp = mTargetPlant.GetWaypointUnmarkedClosest(GameData.structureWaypointWork, position.x);
             MoveTo(wp, false); //move to it
 
             return true;
@@ -145,11 +222,15 @@ public class UnitGardener : Unit {
     private bool CanGotoAndWorkOnPlant(StructurePlant plant) {
         if(CanWorkOnPlant(plant)) {
             //check if all work waypoint is marked (this means someone else is on the way)
-            var unmarkedWorkWp = plant.GetWaypointUnmarked(GameData.structureWaypointWork);
+            var unmarkedWorkWp = plant.GetWaypointUnmarkedClosest(GameData.structureWaypointWork, position.x);
 
             return unmarkedWorkWp != null;
         }
 
         return false;
+    }
+
+    private bool CanTargetEnemy(Unit unit) {
+        return unit.markCount < 1 && unit.hitpointsCurrent > 0;
     }
 }

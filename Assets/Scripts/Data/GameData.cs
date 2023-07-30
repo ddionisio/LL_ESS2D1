@@ -30,6 +30,7 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
 
     [Header("Colony")]
     public LayerMask groundLayerMask;
+    public LayerMask waterLayerMask;
     public LayerMask placementCheckLayerMask;
 
     public float cycleDuration = 120f; //entire duration of the colony game
@@ -38,6 +39,7 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public float fastForwardScale = 2.0f;
 
     [Header("Colony | Structure")]
+    public LayerMask structureLayerMask;
     public float structureBuildScalePerWork = 1f; //scale build time by this amount per work
     public float structureRepairScalePerWork = 1f; //scale build time by this amount per work
     
@@ -57,6 +59,8 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public string unitAllyTag;
     [M8.TagSelector]
     public string unitEnemyTag;
+
+    public LayerMask unitLayerMask;
 
     public float unitUpdateAIDelay = 0.3f;
     public float unitHurtDelay = 0.5f; //how long to stay in hurt state

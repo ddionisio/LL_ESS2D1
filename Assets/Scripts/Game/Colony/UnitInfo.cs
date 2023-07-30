@@ -21,6 +21,14 @@ public enum UnitState {
     Death, //animate and despawn
 }
 
+[System.Flags]
+public enum DamageFlags {
+    None = 0x0,
+    Physical = 0x1,
+    Poison = 0x2,
+    Structure = 0x4,
+}
+
 public struct UnitSpawnParams {
     public const string data = "unitData"; //UnitData
     public const string structureOwner = "owner"; //Structure (e.g. colony ship, house)

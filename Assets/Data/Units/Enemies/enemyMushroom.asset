@@ -9,21 +9,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee7dc61719dd852428bf6d5e792b5e28, type: 3}
-  m_Name: enemyVine
+  m_Script: {fileID: 11500000, guid: bf62d29afad1af04f9d6869572ce7eaf, type: 3}
+  m_Name: enemyMushroom
   m_EditorClassIdentifier: 
   nameRef: 
   descRef: 
   icon: {fileID: 0}
-  hitpointStartApply: 1
-  hitpointStart: 1
-  hitpoints: 3
+  hitpointStartApply: 0
+  hitpointStart: 0
+  hitpoints: 1
   _moveSpeed: 0
   _moveSpeedDeviation: 0
   _runSpeed: 0
   canRevive: 0
   damageImmunity: 1
-  spawnPrefab: {fileID: 4123533792905938872, guid: 7069be74d59ef9a46850a2791e06ef8e, type: 3}
-  structureTargetFlags: 12
-  growthDelay: 2
+  spawnPrefab: {fileID: 8651710515154814314, guid: 12eae5e8f8b231a419d58fe79f1b6f95, type: 3}
+  attackUnitTagFilter: Ally
+  attackFlags: 2
+  attackDamage: 1
   attackDelay: 2

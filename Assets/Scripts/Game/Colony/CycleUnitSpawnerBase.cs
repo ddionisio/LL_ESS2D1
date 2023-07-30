@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class CycleUnitSpawnerBase : CycleControl {
     [System.Serializable]
     public struct SpawnInfo {
-        public float delay;        
+        public float delay;
         public int count;
     }
 
@@ -38,6 +38,24 @@ public abstract class CycleUnitSpawnerBase : CycleControl {
     /// Apply any parameters needed for this spawn (mostly just position and target structure)
     /// </summary>
     protected abstract void ApplySpawnParams(M8.GenericParams parms);
+
+    /// <summary>
+    /// Force a spawn regardless of counter
+    /// </summary>
+    public void Spawn() {
+        if(!spawnedUnits.IsFull && CanSpawn()) {
+            var colonyCtrl = ColonyController.instance;
+            var unitCtrl = colonyCtrl.unitController;
+
+            ApplySpawnParams(mSpawnParms);
+
+            var newUnit = unitCtrl.Spawn(unitData, mSpawnParms);
+
+            spawnedUnits.Add(newUnit);
+
+            spawnCounter++;
+        }
+    }
 
     public override void Init() {
         base.Init();

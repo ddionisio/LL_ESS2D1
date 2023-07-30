@@ -18,12 +18,18 @@ MonoBehaviour:
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  waterLayerMask:
+    serializedVersion: 2
+    m_Bits: 16
   placementCheckLayerMask:
     serializedVersion: 2
     m_Bits: 448
   cycleDuration: 180
   cycleDaylightScaleDefault: 0.5
   fastForwardScale: 2
+  structureLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
   structureBuildScalePerWork: 1
   structureRepairScalePerWork: 1
   structureRepairPerHitDelay: 1
@@ -33,6 +39,9 @@ MonoBehaviour:
   structureUnitSpawnDelay: 0.3
   unitAllyTag: Ally
   unitEnemyTag: Enemy
+  unitLayerMask:
+    serializedVersion: 2
+    m_Bits: 512
   unitUpdateAIDelay: 0.3
   unitHurtDelay: 0.5
   unitDyingDelay: 5
