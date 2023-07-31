@@ -116,6 +116,17 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     /// </summary>
     public int markCount { get { return mMark; } }
 
+    public bool isOffscreen {
+        get {
+            var colonyCtrl = ColonyController.instance;
+            var screenExt = colonyCtrl.mainCamera2D.screenExtent;
+
+            var bounds = boxCollider ? boxCollider.bounds : new Bounds(position, Vector2.one);
+
+            return bounds.max.x < screenExt.min.x || bounds.min.x > screenExt.max.x || bounds.max.y < screenExt.min.y || bounds.min.y > screenExt.max.y;
+        }
+    }
+
     public event System.Action<Unit> stateChangedCallback;
 
     protected Coroutine mRout;
@@ -212,6 +223,29 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
             MoveApply(ownerStructure.position, isRun);
 
         return true;
+    }
+
+    /// <summary>
+    /// Move unit's y-position until it hits ground. Returns true if grounded
+    /// </summary>
+    public bool FallDown() {
+        var pos = position;
+
+        var bounds = boxCollider ? boxCollider.bounds : new Bounds(position, Vector2.zero);
+        float dist = GameData.instance.unitFallSpeed * Time.deltaTime;
+        var hit = Physics2D.Raycast(bounds.center, Vector2.down, dist + bounds.extents.y, GameData.instance.groundLayerMask);
+        if(hit.collider) {
+            pos.y -= dist - hit.distance;
+            position = pos;
+
+            return true;
+        }
+        else {
+            pos.y -= dist;
+            position = pos;
+
+            return false;
+        }
     }
 
     public void Despawn() {
@@ -400,7 +434,40 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     protected void AnimateToRelease(int takeInd) {
         mRout = StartCoroutine(DoAnimationToRelease(takeInd));
     }
+
+    protected Vector2 GetScreenOutsidePosition(DirType dir) {
+        var colonyCtrl = ColonyController.instance;
+        var screenExt = colonyCtrl.mainCamera2D.screenExtent;
+
+        Vector2 ofs, size;
+
+        if(boxCollider) {
+            ofs = boxCollider.offset;
+            size = boxCollider.size;
+        }
+        else {
+            ofs = Vector2.zero;
+            size = Vector2.zero;
+        }
         
+        switch(dir) {
+            case DirType.Up:
+                return new Vector2(position.x, screenExt.max.y + ofs.y + size.y);
+
+            case DirType.Down:
+                return new Vector2(position.x, screenExt.min.y - ofs.y - size.y);
+
+            case DirType.Left:
+                return new Vector2(screenExt.min.x - ofs.x - size.x, position.y);
+
+            case DirType.Right:
+                return new Vector2(screenExt.max.x + ofs.x + size.x, position.y);
+
+            default:
+                return position;
+        }
+    }
+
     void M8.IPoolInit.OnInit() {
         poolCtrl = GetComponent<M8.PoolDataController>();
 

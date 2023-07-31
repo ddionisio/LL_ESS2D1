@@ -62,6 +62,7 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
 
     public LayerMask unitLayerMask;
 
+    public float unitFallSpeed = 10f;
     public float unitUpdateAIDelay = 0.3f;
     public float unitHurtDelay = 0.5f; //how long to stay in hurt state
     public float unitDyingDelay = 5f; //how long to stay in dying state

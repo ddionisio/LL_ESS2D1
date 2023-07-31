@@ -9,7 +9,7 @@ public class UnitAttackData : UnitData {
     public string attackUnitTagFilter;
     public DamageFlags attackFlags;
     public int attackDamage = 1;
-    public float attackDelay = 2f;
+    public float attackIdleDelay = 2f;
 
     public bool canAttackStructure { get { return (attackFlags & DamageFlags.Structure) != DamageFlags.None; } }
 
