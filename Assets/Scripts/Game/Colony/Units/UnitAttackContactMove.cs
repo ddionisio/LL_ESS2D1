@@ -34,7 +34,6 @@ public class UnitAttackContactMove : Unit {
 
     protected override void UpdateAI() {
         switch(state) {
-            case UnitState.Idle:
             case UnitState.Move:
                 if(CheckContactAndAttack())
                     state = UnitState.Act;
@@ -89,7 +88,7 @@ public class UnitAttackContactMove : Unit {
 
         mRout = null;
 
-        MoveTo(mMoveDest, false);
+        state = UnitState.Idle;
     }
 
     private bool CheckContactAndAttack() {
@@ -115,16 +114,23 @@ public class UnitAttackContactMove : Unit {
             checkSize = Vector2.one;
         }
 
+        var attackCount = 0;
+
         var hitCount = Physics2D.OverlapBoxNonAlloc(checkPos, checkSize, 0f, mAttackCheckColls, lookupLayerMask);
         for(int i = 0; i < hitCount; i++) {
             var coll = mAttackCheckColls[i];
+            if(coll == boxCollider)
+                continue;
+
             var go = coll.gameObject;
 
             if((1 << go.layer) == gameDat.unitLayerMask) { //is unit?
                 if(attackDat.CheckUnitTag(go)) { //check tag
                     var unit = coll.GetComponent<Unit>();
-                    if(unit && attackDat.CanAttackUnit(unit)) //check damage eligibility and immunity
+                    if(unit && attackDat.CanAttackUnit(unit)) { //check damage eligibility and immunity
                         unit.hitpointsCurrent -= attackDat.attackDamage;
+                        attackCount++;
+                    }
                 }
             }
             else if((1 << go.layer) == gameDat.structureLayerMask) {
@@ -134,11 +140,13 @@ public class UnitAttackContactMove : Unit {
                         structure.hitpointsCurrent -= attackDat.attackDamage;
 
                         mLastStructureAttacked = structure;
+
+                        attackCount++;
                     }
                 }
             }
         }
 
-        return hitCount > 0;
+        return attackCount > 0;
     }
 }

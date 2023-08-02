@@ -249,8 +249,8 @@ public class ColonyController : GameModeController<ColonyController> {
         //victory
     }
 
-    private void OnDrawGizmosSelected() {
-        Gizmos.color = Color.green;
+    private void OnDrawGizmos() {
+        Gizmos.color = Color.cyan;
         M8.Gizmo.DrawWireRect(bounds.center, 0f, bounds.extents);
     }
 }

@@ -53,6 +53,20 @@ public class UnitStructureEater : UnitTargetStructure {
         }
     }
 
+    protected override void UpdateAI() {
+        switch(state) {
+            case UnitState.Idle:
+            case UnitState.Act:
+                //check if target is still viable
+                if(!targetStructure || targetStructure.state == StructureState.None || targetStructure.state == StructureState.Moving || (targetStructure.state == StructureState.Destroyed && !targetStructure.isReparable)) {
+                    targetStructure = null;
+
+                    hitpointsCurrent = 0; //destroy self
+                }
+                break;
+        }
+    }
+
     protected override void Spawned(M8.GenericParams parms) {
         base.Spawned(parms);
 
@@ -100,20 +114,11 @@ public class UnitStructureEater : UnitTargetStructure {
             yield return null;
 
         //damage target
-        if(targetStructure && !(targetStructure.state == StructureState.None || targetStructure.state == StructureState.Moving || (targetStructure.state == StructureState.Destroyed && !targetStructure.isReparable))) {
-            if(targetStructure.isDamageable) {
-                targetStructure.hitpointsCurrent--;
+        if(targetStructure.isDamageable)
+            targetStructure.hitpointsCurrent--;
 
-                mRout = null;
-                state = UnitState.Idle;
-            }
-        }
-        else { //no longer have a viable target
-            targetStructure = null;
-
-            mRout = null;
-            Despawn();
-        }
+        mRout = null;
+        state = UnitState.Idle;
     }
 
     private void RefreshSegmentDisplay() {

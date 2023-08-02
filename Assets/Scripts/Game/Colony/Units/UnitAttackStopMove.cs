@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class UnitAttackStopMove : Unit {
     [Header("Move Info")]
-    public bool moveFallOnIdle;
+    public bool moveIsGrounded;
     public M8.RangeFloat moveDistanceRange;
 
     [Header("Attack Info")]
@@ -77,7 +77,7 @@ public class UnitAttackStopMove : Unit {
         do {
             yield return null;
 
-            if(moveFallOnIdle)
+            if(moveIsGrounded)
                 isGrounded = FallDown();
 
         } while(!isGrounded || stateTimeElapsed < attackDat.attackIdleDelay);
@@ -103,6 +103,12 @@ public class UnitAttackStopMove : Unit {
                 break;
         }
 
+        if(moveIsGrounded) {
+            GroundPoint groundPos;
+            if(GroundPoint.GetGroundPoint(toPos.x, out groundPos))
+                toPos = groundPos.position;
+        }
+
         MoveTo(toPos, false);
     }
 
@@ -126,6 +132,9 @@ public class UnitAttackStopMove : Unit {
         var hitCount = Physics2D.OverlapBoxNonAlloc(attackAreaCenter, attackAreaSize, 0f, mAttackCheckColls, lookupLayerMask);
         for(int i = 0; i < hitCount; i++) {
             var coll = mAttackCheckColls[i];
+            if(coll == boxCollider)
+                continue;
+
             var go = coll.gameObject;
 
             if((1 << go.layer) == gameDat.unitLayerMask) { //is unit?

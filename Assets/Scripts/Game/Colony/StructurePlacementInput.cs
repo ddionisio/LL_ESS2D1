@@ -30,7 +30,6 @@ public class StructurePlacementInput : MonoBehaviour, IPointerEnterHandler, IPoi
     }
 
     [Header("Info")]
-    public GameBounds2D bounds;
     public StructurePlacementCursor cursor;
     public Transform ghostRoot; //structure's 'ghost' is placed here and activated during placement
 
@@ -168,8 +167,8 @@ public class StructurePlacementInput : MonoBehaviour, IPointerEnterHandler, IPoi
 
             //clamp from bounds
             var pos = new Vector2(
-                bounds.ClampX(worldPos.x, itemBounds.extents.x),
-                bounds.ClampY(worldPos.y, 0f));
+                ClampX(worldPos.x, itemBounds.extents.x),
+                ClampY(worldPos.y, 0f));
 
             cursor.position = pos;
 
@@ -180,5 +179,37 @@ public class StructurePlacementInput : MonoBehaviour, IPointerEnterHandler, IPoi
             cursor.isValid = false;
             cursor.active = false;
         }
+    }
+
+    private float ClampX(float centerX, float extX) {
+        var bounds = ColonyController.instance.bounds;
+
+        var minX = bounds.min.x + extX;
+        var maxX = bounds.max.x - extX;
+
+        var rExtX = bounds.size.x * 0.5f;
+
+        if(rExtX > extX)
+            centerX = Mathf.Clamp(centerX, minX, maxX);
+        else
+            centerX = bounds.center.x;
+
+        return centerX;
+    }
+
+    private float ClampY(float centerY, float extY) {
+        var bounds = ColonyController.instance.bounds;
+
+        var minY = bounds.min.y + extY;
+        var maxY = bounds.max.y - extY;
+
+        var rExtY = bounds.size.y * 0.5f;
+
+        if(rExtY > extY)
+            centerY = Mathf.Clamp(centerY, minY, maxY);
+        else
+            centerY = bounds.center.y;
+
+        return centerY;
     }
 }

@@ -62,10 +62,16 @@ public class UnitSpawnerStationary : Unit {
             yield break;
         }
 
+        yield return null;
+
         //wait for delay and spawn availability
-        do {
+        while(spawnedUnitCount >= spawnDat.spawnUnitCount)
             yield return null;
-        } while(spawnedUnitCount >= spawnDat.spawnUnitCount || stateTimeElapsed < spawnDat.spawnDelay);
+
+        RestartStateTime();
+
+        while(stateTimeElapsed < spawnDat.spawnDelay)
+            yield return null;
 
         mRout = null;
         state = UnitState.Act;

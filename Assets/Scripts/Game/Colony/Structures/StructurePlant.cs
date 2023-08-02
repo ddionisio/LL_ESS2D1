@@ -105,6 +105,8 @@ public class StructurePlant : Structure {
 
     public GrowthState growthState { get; private set; }
 
+    public int bloomCount { get { return bloomRoots.Length; } }
+
     private float mReadyTime; //time before ready to grow
 
     private float mGrowthAnimScaleBase; //base growth animation
@@ -125,21 +127,10 @@ public class StructurePlant : Structure {
 
         return -1;
     }
-
-    /// <summary>
-    /// Returns bloom index, -1 if no blooms to remove
-    /// </summary>
-    public int BloomClear() {
-        //ignore busy blooms (being grabbed by someone else)
-        for(int i = 0; i < mBloomItems.Length; i++) {
-            var itm = mBloomItems[i];
-            if(itm.isActive && !itm.isBusy) {
-                itm.Clear(this);
-                return i;
-            }
-        }
-
-        return -1;
+        
+    public void BloomClear(int bloomIndex) {
+        if(bloomIndex >= 0 && bloomIndex < mBloomItems.Length)
+            mBloomItems[bloomIndex].Clear(this);
     }
 
     /// <summary>
@@ -185,6 +176,24 @@ public class StructurePlant : Structure {
     public void BloomGrabCancel(int bloomIndex) {
         if(bloomIndex >= 0 && bloomIndex < mBloomItems.Length)
             mBloomItems[bloomIndex].GrabCancel(this);
+    }
+
+    public bool BloomIsAvailable(int bloomIndex) {
+        if(bloomIndex >= 0 && bloomIndex < mBloomItems.Length) {
+            var itm = mBloomItems[bloomIndex];
+            return itm.isActive && !itm.isBusy;
+        }
+
+        return false;
+    }
+
+    public Vector2 BloomPosition(int bloomIndex) {
+        if(bloomIndex >= 0 && bloomIndex < mBloomItems.Length) {
+            var itm = mBloomItems[bloomIndex];
+            return itm.transform.position;
+        }
+
+        return position;
     }
 
     public override void WorkAdd() {

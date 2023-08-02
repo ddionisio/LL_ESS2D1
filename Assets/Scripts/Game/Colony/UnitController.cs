@@ -37,7 +37,7 @@ public class UnitController : MonoBehaviour {
             for(int i = 0; i < activeList.Count; i++) {
                 var unit = activeList[i] as T;
                 if(unit && checkValid(unit)) {
-                    //see if it's closer to our current available structure, or it's the first one
+                    //see if it's closer to our current available unit, or it's the first one
                     var structureDist = Mathf.Abs(unit.position.x - positionX);
                     if(!ret || structureDist < dist) {
                         ret = unit;
@@ -56,6 +56,25 @@ public class UnitController : MonoBehaviour {
     public M8.CacheList<Unit> GetUnitActivesByData(UnitData unitData) {
         M8.CacheList<Unit> ret;
         mUnitTypeActives.TryGetValue(unitData, out ret);
+        return ret;
+    }
+
+    public T GetUnitEnemyNearestActive<T>(float positionX, CheckUnitValid<T> checkValid) where T : Unit {
+        T ret = null;
+        float dist = 0f;
+
+        for(int i = 0; i < mUnitEnemyActives.Count; i++) {
+            var unit = mUnitEnemyActives[i] as T;
+            if(unit && checkValid(unit)) {
+                //see if it's closer to our current available unit, or it's the first one
+                var structureDist = Mathf.Abs(unit.position.x - positionX);
+                if(!ret || structureDist < dist) {
+                    ret = unit;
+                    dist = structureDist;
+                }
+            }
+        }
+
         return ret;
     }
 

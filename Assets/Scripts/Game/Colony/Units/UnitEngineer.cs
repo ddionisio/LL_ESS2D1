@@ -3,8 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class UnitEngineer : Unit {
+    [Header("Engineer Animations")]
+    [Tooltip("Ensure this is not in loop.")]
+    [M8.Animator.TakeSelector]
+    public string takeAttack;
+
+    private Unit mTargetEnemySpawner;
+
     private Structure mTargetStructure;
     private bool mTargetIsWorkAdded;
+
+    private int mTakeAttackInd = -1;
 
     protected override void ClearCurrentState() {
         base.ClearCurrentState();
@@ -21,34 +30,39 @@ public class UnitEngineer : Unit {
 
         switch(state) {
             case UnitState.Act:
-                //work on the plant
-                if(mTargetStructure) {
-                    mTargetStructure.WorkAdd();
-
-                    if(mTargetStructure.state == StructureState.Active || mTargetStructure.state == StructureState.Destroyed)
-                        mTargetStructure.state = StructureState.Repair;
-
-                    mTargetIsWorkAdded = true;
-                }
+                mRout = StartCoroutine(DoAct());
                 break;
         }
     }
 
+    protected override int GetActTakeIndex() {
+        return mTargetEnemySpawner ? mTakeAttackInd : base.GetActTakeIndex();
+    }
+
     protected override void ClearAIState() {
-        ClearTarget();
+        ClearTargetStructure();
+        ClearTargetEnemy();
     }
 
     protected override void UpdateAI() {
         switch(state) {
             case UnitState.Idle:
-                if(mTargetStructure) { //have a target?
+                if(mTargetEnemySpawner) { //have target enemy?
+                    if(mTargetEnemySpawner.hitpointsCurrent == 0) //no longer valid, wait for new target
+                        ClearTargetEnemy();
+                    else if(IsTouching(mTargetEnemySpawner))
+                        state = UnitState.Act;
+                    else //keep moving towards it
+                        MoveTo(mTargetEnemySpawner.position, false);
+                }
+                else if(mTargetStructure) { //have a target?
                     //check if it's still valid
                     if(CanGotoAndWorkOnStructure(mTargetStructure)) {
                         var wp = mTargetStructure.GetWaypointUnmarkedClosest(GameData.structureWaypointWork, position.x);
                         MoveTo(wp, false); //move to it
                     }
                     else
-                        ClearTarget();
+                        ClearTargetStructure();
                 }
                 else { //look for work
                     if(!RefreshAndMoveToNewTarget()) {
@@ -59,10 +73,20 @@ public class UnitEngineer : Unit {
                 break;
 
             case UnitState.Move:
-                //check if structure is still workable
-                if(mTargetStructure) {
+                if(mTargetEnemySpawner) { //check if target is still killable
+                    if(mTargetEnemySpawner.hitpointsCurrent == 0) {
+                        ClearTargetEnemy();
+
+                        //find a new target
+                        if(!RefreshAndMoveToNewTarget()) //return to base
+                            MoveToOwnerStructure(false);
+                    }
+                    else if(IsTouching(mTargetEnemySpawner))
+                        state = UnitState.Act;
+                }
+                else if(mTargetStructure) { //check if structure is still workable
                     if(!CanWorkOnStructure(mTargetStructure)) {
-                        ClearTarget();
+                        ClearTargetStructure();
 
                         //find a new one
                         if(!RefreshAndMoveToNewTarget()) //return to base
@@ -75,26 +99,22 @@ public class UnitEngineer : Unit {
                 }
                 //other things
                 break;
-
-            case UnitState.Act:
-                //simply check if it's still workable, if not, then we are done
-                if(mTargetStructure) {
-                    if(CanWorkOnStructure(mTargetStructure)) {
-                        if(mTargetStructure.state == StructureState.Destroyed) //it got destroyed while we're fixing it
-                            mTargetStructure.state = StructureState.Repair;
-                    }
-                    else
-                        MoveToOwnerStructure(false);
-                }
-                else
-                    MoveToOwnerStructure(false);
-                break;
         }
     }
 
     protected override void MoveToComplete() {
+        //check if we can still kill target
+        if(mTargetEnemySpawner) {
+            if(mTargetEnemySpawner.hitpointsCurrent > 0) {
+                //are we in contact?
+                if(IsTouching(mTargetEnemySpawner)) {
+                    state = UnitState.Act;
+                    return;
+                }
+            }
+        }
         //check if we can still work on the target
-        if(mTargetStructure) {
+        else if(mTargetStructure) {
             if(CanWorkOnStructure(mTargetStructure)) {
                 //are we at the structure?
                 if(IsTouchingStructure(mTargetStructure)) {
@@ -108,7 +128,41 @@ public class UnitEngineer : Unit {
         base.MoveToComplete();
     }
 
-    private void ClearTarget() {
+    IEnumerator DoAct() {
+        if(mTargetEnemySpawner) {
+            yield return null;
+
+            while(mTargetEnemySpawner.hitpointsCurrent > 0) {
+                if(mTakeAttackInd != -1)
+                    yield return animator.PlayWait(mTakeAttackInd);
+                else
+                    yield return null;
+
+                mTargetEnemySpawner.hitpointsCurrent--;
+            }
+        }
+        else if(mTargetStructure) { //simply check if it's still workable, if not, then we are done
+            mTargetStructure.WorkAdd();
+            mTargetIsWorkAdded = true;
+
+            if(mTargetStructure.state == StructureState.Active || mTargetStructure.state == StructureState.Destroyed)
+                mTargetStructure.state = StructureState.Repair;
+
+            yield return null;
+
+            while(CanWorkOnStructure(mTargetStructure)) {
+                if(mTargetStructure.state == StructureState.Destroyed) //it got destroyed while we're fixing it
+                    mTargetStructure.state = StructureState.Repair;
+
+                yield return null;
+            }
+        }
+
+        mRout = null;
+        MoveToOwnerStructure(false);
+    }
+
+    private void ClearTargetStructure() {
         if(mTargetStructure) {
             if(mTargetStructure.state != StructureState.None) {
                 //remove from work
@@ -122,11 +176,34 @@ public class UnitEngineer : Unit {
         mTargetIsWorkAdded = false;
     }
 
+    private void ClearTargetEnemy() {
+        if(mTargetEnemySpawner) {
+            mTargetEnemySpawner.RemoveMark();
+            mTargetEnemySpawner = null;
+        }
+    }
+
     private bool RefreshAndMoveToNewTarget() {
         if(mTargetStructure) //fail-safe, shouldn't exist when calling this
-            ClearTarget();
+            ClearTargetStructure();
+        if(mTargetEnemySpawner)
+            ClearTargetEnemy();
 
-        var structureCtrl = ColonyController.instance.structurePaletteController;
+        var colonyCtrl = ColonyController.instance;
+
+        //check for enemy unit spawners
+        var unitCtrl = colonyCtrl.unitController;
+
+        mTargetEnemySpawner = unitCtrl.GetUnitEnemyNearestActive<Unit>(position.x, CanTargetEnemy);
+        if(mTargetEnemySpawner) {
+            mTargetEnemySpawner.AddMark();
+            MoveTo(mTargetEnemySpawner.position, false);
+
+            return true;
+        }
+
+        //check for structures to repair
+        var structureCtrl = colonyCtrl.structurePaletteController;
 
         Structure construct = null;
         float constructDist = 0f;
@@ -194,5 +271,10 @@ public class UnitEngineer : Unit {
         }
 
         return false;
+    }
+
+    private bool CanTargetEnemy(Unit unit) {
+        //we only target spawners
+        return unit.data is UnitSpawnerData && unit.markCount < 1 && unit.hitpointsCurrent > 0;
     }
 }

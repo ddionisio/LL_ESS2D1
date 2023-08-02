@@ -169,7 +169,12 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     public int workCount { get; private set; }
     public int workCapacity { get { return data.workCapacity; } }
     public bool workIsFull { get { return workCount >= data.workCapacity; } }
-        
+
+    /// <summary>
+    /// Check if this unit has been marked (used for targeting by AI)
+    /// </summary>
+    public int markCount { get { return mMark; } }
+
     public event System.Action<StructureStatusInfo> statusUpdateCallback;
     public event System.Action<StructureState> stateChangedCallback;
 
@@ -190,6 +195,17 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     protected int mTakeMovingInd = -1;
     protected int mTakeDestroyedInd = -1;
     protected int mTakeDemolishInd = -1;
+
+    private int mMark;
+
+    public void AddMark() {
+        mMark++;
+    }
+
+    public void RemoveMark() {
+        if(mMark > 0)
+            mMark--;
+    }
 
     public bool IsTouchingUnit(Unit unit) {
         if(!(boxCollider && unit.boxCollider)) return false;
@@ -495,6 +511,8 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
                 workCount = 0;
 
                 up = Vector2.up;
+
+                mMark = 0;
 
                 physicsActive = false;
                 break;

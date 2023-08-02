@@ -71,6 +71,9 @@ public class UnitAttackStationary : Unit {
         var hitCount = Physics2D.OverlapBoxNonAlloc(attackAreaCenter, attackAreaSize, 0f, mAttackCheckColls, lookupLayerMask);
         for(int i = 0; i < hitCount; i++) {
             var coll = mAttackCheckColls[i];
+            if(coll == boxCollider)
+                continue;
+
             var go = coll.gameObject;
 
             if((1<< go.layer) == gameDat.unitLayerMask) { //is unit?

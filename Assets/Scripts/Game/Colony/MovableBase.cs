@@ -64,7 +64,7 @@ public abstract class MovableBase : MonoBehaviour {
         mRout = StartCoroutine(DoMove());
     }
 
-    public void Cancel() {
+    public virtual void Cancel() {
         if(mRout != null) {
             StopCoroutine(mRout);
             mRout = null;
@@ -82,7 +82,7 @@ public abstract class MovableBase : MonoBehaviour {
         Cancel();
     }
 
-    void Awake() {
+    protected virtual void Awake() {
         mMoveSpeed = _moveSpeed;
     }
 
@@ -91,9 +91,11 @@ public abstract class MovableBase : MonoBehaviour {
             mEaseFunc = DG.Tweening.Core.Easing.EaseManager.ToEaseFunction(_moveEase);
 
         var startPos = (Vector2)transform.position;
-                
+                                
         if(mMoveSpeed > 0f) {
             var dist = MoveInit(startPos, mMoveDest);
+
+            facing = mMoveDest.x - startPos.x < 0f ? Facing.Left : Facing.Right;
 
             var moveDelay = dist / mMoveSpeed;
 
@@ -111,10 +113,10 @@ public abstract class MovableBase : MonoBehaviour {
 
                 transform.position = toPos;
 
-                if(toPos.x > lastPos.x)
+                /*if(toPos.x > lastPos.x)
                     facing = Facing.Right;
                 else if(toPos.x < lastPos.x)
-                    facing = Facing.Left;
+                    facing = Facing.Left;*/
             }
         }
         else {

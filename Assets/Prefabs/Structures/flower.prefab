@@ -762,6 +762,9 @@ MonoBehaviour:
     waypoints:
     - _point: {x: -0.46, y: 0}
     - _point: {x: 0.46, y: 0}
+  - name: roam
+    waypoints:
+    - _point: {x: 0, y: 7}
   bloomRoots:
   - {fileID: 2474430874385037497}
   bloomGrabDelay: 0.5

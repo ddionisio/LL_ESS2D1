@@ -19,7 +19,7 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public const string structureWaypointWork = "work";
     public const string structureWaypointCollect = "collect";
     public const string structureWaypointIdle = "idle"; //use for any units that has no work to do and need to move somewhere
-    public const string structureWaypointPatrol = "patrol"; //use for hunters while no target via colony ship's waypoints
+    public const string structureWaypointRoam = "roam"; //use for fly when roaming around target, or for hunter patrol
 
     [Header("Modals")]
     public string modalOverworld = "overworld";

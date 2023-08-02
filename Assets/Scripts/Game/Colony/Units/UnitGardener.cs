@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class UnitGardener : Unit {
     [Header("Gardener Animations")]
+    [Tooltip("Ensure this is not in loop.")]
+    [M8.Animator.TakeSelector]
     public string takeAttack;
 
     private Unit mTargetEnemy;
@@ -28,11 +30,7 @@ public class UnitGardener : Unit {
 
         switch(state) {
             case UnitState.Act:
-                //work on the plant
-                if(mTargetPlant) {
-                    mTargetPlant.WorkAdd();
-                    mTargetPlantIsWorkAdded = true;
-                }
+                mRout = StartCoroutine(DoAct());
                 break;
         }
     }
@@ -96,21 +94,6 @@ public class UnitGardener : Unit {
                 else //look for plant to help grow
                     RefreshAndMoveToNewTarget();
                 break;
-
-            case UnitState.Act:                
-                if(mTargetEnemy) { //target still alive?
-                    if(mTargetEnemy.hitpointsCurrent > 0) {
-                        mTargetEnemy.hitpointsCurrent--;
-                        return;
-                    }
-                }                
-                else if(mTargetPlant) { //plant still growing?
-                    if(mTargetPlant.growthState == StructurePlant.GrowthState.Growing)
-                        return;
-                }
-
-                MoveToOwnerStructure(false);
-                break;
         }
     }
 
@@ -143,6 +126,32 @@ public class UnitGardener : Unit {
     protected override void Init() {
         if(animator)
             mTakeAttackInd = animator.GetTakeIndex(takeAttack);
+    }
+
+    IEnumerator DoAct() {
+        yield return null;
+
+        if(mTargetEnemy) { //target still alive?            
+            while(mTargetEnemy.hitpointsCurrent > 0) {
+                if(mTakeAttackInd != -1)
+                    yield return animator.PlayWait(mTakeAttackInd);
+                else
+                    yield return null;
+
+                mTargetEnemy.hitpointsCurrent--;
+            }
+        }
+        else if(mTargetPlant) {
+            mTargetPlant.WorkAdd();
+            mTargetPlantIsWorkAdded = true;
+
+            while(mTargetPlant.growthState == StructurePlant.GrowthState.Growing) //wait for plant to stop growing
+                yield return null;
+        }
+
+        mRout = null;
+
+        MoveToOwnerStructure(false);
     }
 
     private void ClearTargetPlant() {

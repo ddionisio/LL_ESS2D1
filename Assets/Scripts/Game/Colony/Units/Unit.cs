@@ -71,7 +71,7 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
 
     public int hitpointsMax { get { return data.hitpoints; } }
 
-    public bool isDamageable { get { return data.hitpoints > 0 && (state == UnitState.Idle || state == UnitState.Move || state == UnitState.Act); } }
+    public bool isDamageable { get { return data.hitpoints > 0 && (state == UnitState.Idle || state == UnitState.Move || state == UnitState.Act || state == UnitState.Retreat || state == UnitState.RetreatToBase); } }
 
     public bool isMovable {
         get {
@@ -87,6 +87,31 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     public Vector2 up {
         get { return transform.up; }
         set { transform.up = value; }
+    }
+
+    public MovableBase.Facing facing {
+        get { return mFacing; }
+        set {
+            if(mFacing != value) {
+                mFacing = value;
+
+                if(root) {
+                    var s = root.localScale;
+
+                    switch(mFacing) {
+                        case MovableBase.Facing.Left:
+                            s.x = -Mathf.Abs(s.x);
+                            break;
+
+                        default:
+                            s.x = Mathf.Abs(s.x);
+                            break;
+                    }
+
+                    root.localScale = s;
+                }
+            }
+        }
     }
 
     public BoxCollider2D boxCollider { get; private set; }
@@ -148,6 +173,8 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     private int mTakeCurMoveInd;
 
     private float mUpdateAICurTime;
+
+    private MovableBase.Facing mFacing = MovableBase.Facing.None;
 
     private int mMark;
 
@@ -226,17 +253,15 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     }
 
     /// <summary>
-    /// Move unit's y-position until it hits ground. Returns true if grounded
+    /// Move unit's y-position until it hits ground. Assumes pivot is at bottom. Returns true if grounded
     /// </summary>
     public bool FallDown() {
         var pos = position;
 
-        var bounds = boxCollider ? boxCollider.bounds : new Bounds(position, Vector2.zero);
         float dist = GameData.instance.unitFallSpeed * Time.deltaTime;
-        var hit = Physics2D.Raycast(bounds.center, Vector2.down, dist + bounds.extents.y, GameData.instance.groundLayerMask);
+        var hit = Physics2D.Raycast(pos, Vector2.down, dist, GameData.instance.groundLayerMask);
         if(hit.collider) {
-            pos.y -= dist - hit.distance;
-            position = pos;
+            position = hit.point;
 
             return true;
         }
@@ -365,6 +390,7 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
                 mCurHitpoints = 0;
 
                 up = Vector2.up;
+                facing = MovableBase.Facing.None;
 
                 physicsActive = false;
 
@@ -452,16 +478,16 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
         
         switch(dir) {
             case DirType.Up:
-                return new Vector2(position.x, screenExt.max.y + ofs.y + size.y);
+                return new Vector2(position.x, screenExt.max.y + ofs.y + size.y * 0.5f);
 
             case DirType.Down:
-                return new Vector2(position.x, screenExt.min.y - ofs.y - size.y);
+                return new Vector2(position.x, screenExt.min.y - ofs.y - size.y * 0.5f);
 
             case DirType.Left:
-                return new Vector2(screenExt.min.x - ofs.x - size.x, position.y);
+                return new Vector2(screenExt.min.x - ofs.x - size.x * 0.5f, position.y);
 
             case DirType.Right:
-                return new Vector2(screenExt.max.x + ofs.x + size.x, position.y);
+                return new Vector2(screenExt.max.x + ofs.x + size.x * 0.5f, position.y);
 
             default:
                 return position;
@@ -536,8 +562,12 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
 
         moveCtrl.Move();
 
-        while(moveCtrl.isMoving)
+        while(moveCtrl.isMoving) {
+            //update facing
+            facing = moveCtrl.facing;
+
             yield return null;
+        }
 
         mRout = null;
 

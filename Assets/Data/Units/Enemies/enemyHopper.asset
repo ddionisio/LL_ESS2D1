@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bf62d29afad1af04f9d6869572ce7eaf, type: 3}
-  m_Name: enemyMole
+  m_Name: enemyHopper
   m_EditorClassIdentifier: 
   nameRef: 
   descRef: 
@@ -18,13 +18,13 @@ MonoBehaviour:
   hitpointStartApply: 0
   hitpointStart: 0
   hitpoints: 2
-  _moveSpeed: 1
+  _moveSpeed: 6
   _moveSpeedDeviation: 0.5
-  _runSpeed: 1
+  _runSpeed: 6
   canRevive: 0
   damageImmunity: 2
-  spawnPrefab: {fileID: 43060748964759515, guid: 4ea29f0f3ee34e7419c73c7c88065c8c, type: 3}
+  spawnPrefab: {fileID: 2444954639787283386, guid: dbd274be815abb548aed544c49b38c91, type: 3}
   attackUnitTagFilter: Ally
-  attackFlags: 5
+  attackFlags: 1
   attackDamage: 1
   attackIdleDelay: 2

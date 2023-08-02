@@ -9,22 +9,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf62d29afad1af04f9d6869572ce7eaf, type: 3}
-  m_Name: enemyMole
+  m_Script: {fileID: 11500000, guid: 02ca3a679b472b049b71fea8ce733052, type: 3}
+  m_Name: enemyFly
   m_EditorClassIdentifier: 
   nameRef: 
   descRef: 
   icon: {fileID: 0}
   hitpointStartApply: 0
   hitpointStart: 0
-  hitpoints: 2
-  _moveSpeed: 1
+  hitpoints: 1
+  _moveSpeed: 2
   _moveSpeedDeviation: 0.5
-  _runSpeed: 1
+  _runSpeed: 2
   canRevive: 0
   damageImmunity: 2
-  spawnPrefab: {fileID: 43060748964759515, guid: 4ea29f0f3ee34e7419c73c7c88065c8c, type: 3}
-  attackUnitTagFilter: Ally
-  attackFlags: 5
-  attackDamage: 1
-  attackIdleDelay: 2
+  spawnPrefab: {fileID: 1926875938908409004, guid: 33c7efd43a1bff24bbbc28874057d7d6, type: 3}
+  flyWaitRadius: 1.5
+  flyWaitDelay: 1
+  flyWaitMoveDelay: 1
+  flyWaitMoveEase: 4
+  flyGrabDelay: 1.5
+  flyGrabEase: 3

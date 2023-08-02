@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEditor;
 
 [CustomEditor(typeof(CycleUnitSpawnerWaypoint))]
-public class CycleUnitSpawnerWaypointInspector : Editor {
+public class CycleUnitSpawnerWaypointInspector : CycleUnitSpawnerBaseInspector {
     void OnSceneGUI() {
         var gameDat = GameData.instance;
 
