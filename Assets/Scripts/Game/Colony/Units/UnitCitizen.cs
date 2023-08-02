@@ -39,18 +39,7 @@ public class UnitCitizen : Unit {
 
         switch(state) {
             case UnitState.Act:
-                if(mGatherTarget) {
-                    if(mGatherTarget is StructurePlant) {
-                        var plant = (StructurePlant)mGatherTarget;
-                        mGatherGrabIndex = plant.BloomGrab(carryRoot);
-                    }
-                    else if(mGatherTarget is StructureResourceGenerateContainer) {
-                        var resGen = (StructureResourceGenerateContainer)mGatherTarget;
-                        resGen.resource--;
-                    }
-
-                    mGatherInProcess = true;
-                }
+                mRout = StartCoroutine(DoAct());
                 break;
 
             case UnitState.Dying:
@@ -83,7 +72,10 @@ public class UnitCitizen : Unit {
                         if(CanGotoAndGatherPlant((StructurePlant)mGatherTarget))
                             wp = mGatherTarget.GetWaypointUnmarkedClosest(GameData.structureWaypointCollect, position.x);
                     }
-                    //TODO: water
+                    else if(mGatherTarget is StructureResourceGenerateContainer) {
+                        if(CanGotoAndGatherWater((StructureResourceGenerateContainer)mGatherTarget))
+                            wp = mGatherTarget.GetWaypointUnmarkedClosest(GameData.structureWaypointCollect, position.x);
+                    }
 
                     if(wp != null)
                         MoveTo(wp, false);
@@ -107,7 +99,8 @@ public class UnitCitizen : Unit {
                     if(mGatherTarget is StructurePlant) {
                         isValid = CanGatherPlant((StructurePlant)mGatherTarget);
                     }
-                    //TODO: water
+                    else if(mGatherTarget is StructureResourceGenerateContainer)
+                        isValid = CanGatherWater((StructureResourceGenerateContainer)mGatherTarget);
 
                     if(!isValid) {
                         GatherCancel();
@@ -122,45 +115,6 @@ public class UnitCitizen : Unit {
                     RefreshAndMoveToNewTarget();
                 }
                 //other things
-                break;
-
-            case UnitState.Act:
-                var isActFinish = false;
-
-                if(mGatherTarget) {
-                    if(mGatherTarget.state == StructureState.Destroyed || mGatherTarget.state == StructureState.None) { //got destroyed or something, can't collect
-                        mGatherGrabIndex = -1;
-                        mGatherInProcess = false;
-                        isActFinish = true;
-                    }
-                    else if(mGatherTarget is StructurePlant) {
-                        if(mGatherGrabIndex != -1) {
-                            var plant = (StructurePlant)mGatherTarget;
-                            if(!plant.BloomIsBusy(mGatherGrabIndex)) {
-                                //collect
-                                SetCarryType(ResourceGatherType.Food);
-                                mGatherGrabIndex = -1;
-                                mGatherInProcess = false;
-                                isActFinish = true;
-                            }
-                        }
-                        else
-                            isActFinish = true;
-                    }
-                    else if(mGatherTarget is StructureResourceGenerateContainer) {
-                        if(stateTimeElapsed >= GameData.instance.unitGatherContainerDelay) {
-                            //collect
-                            SetCarryType(ResourceGatherType.Water);
-                            mGatherInProcess = false;
-                            isActFinish = true;
-                        }
-                    }
-                }
-                else
-                    isActFinish = true;
-
-                if(isActFinish) //return to base
-                    MoveToOwnerStructure(false);
                 break;
         }
     }
@@ -221,6 +175,62 @@ public class UnitCitizen : Unit {
 
             carryRoot.gameObject.SetActive(false);
         }
+    }
+
+    IEnumerator DoAct() {
+        if(mGatherTarget) {
+            if(mGatherTarget is StructurePlant) {
+                var plant = (StructurePlant)mGatherTarget;
+                mGatherGrabIndex = plant.BloomGrab(carryRoot);
+            }
+            else if(mGatherTarget is StructureResourceGenerateContainer) {
+                var resGen = (StructureResourceGenerateContainer)mGatherTarget;
+                resGen.resource--;
+            }
+
+            mGatherInProcess = true;
+        }
+
+        var isActFinish = false;
+        while(!isActFinish) {
+            yield return null;
+
+            if(mGatherTarget) {
+                if(mGatherTarget.state == StructureState.Destroyed || mGatherTarget.state == StructureState.None) { //got destroyed or something, can't collect
+                    mGatherGrabIndex = -1;
+                    mGatherInProcess = false;
+                    isActFinish = true;
+                }
+                else if(mGatherTarget is StructurePlant) {
+                    if(mGatherGrabIndex != -1) {
+                        var plant = (StructurePlant)mGatherTarget;
+                        if(!plant.BloomIsBusy(mGatherGrabIndex)) {
+                            //collect
+                            SetCarryType(ResourceGatherType.Food);
+                            mGatherGrabIndex = -1;
+                            mGatherInProcess = false;
+                            isActFinish = true;
+                        }
+                    }
+                    else
+                        isActFinish = true;
+                }
+                else if(mGatherTarget is StructureResourceGenerateContainer) {
+                    if(stateTimeElapsed >= GameData.instance.unitGatherContainerDelay) {
+                        //collect
+                        SetCarryType(ResourceGatherType.Water);
+                        mGatherInProcess = false;
+                        isActFinish = true;
+                    }
+                }
+            }
+            else
+                isActFinish = true;
+        }
+
+        mRout = null;
+
+        MoveToOwnerStructure(false); //return to base
     }
 
     private void GatherCancel() {
@@ -303,8 +313,8 @@ public class UnitCitizen : Unit {
         if(house.isFoodGatherAvailable) {
             //find nearest plant with available gather
             StructurePlant plant = null;
-            for(int i = 0; i < house.houseData.foodStructureSources.Length; i++) {
-                plant = structureCtrl.GetStructureNearestActive<StructurePlant>(position.x, house.houseData.foodStructureSources[i], CanGotoAndGatherPlant);
+            for(int i = 0; i < GameData.instance.structureFoodSources.Length; i++) {
+                plant = structureCtrl.GetStructureNearestActive<StructurePlant>(position.x, GameData.instance.structureFoodSources[i], CanGotoAndGatherPlant);
                 if(plant)
                     break;
             }
@@ -326,8 +336,8 @@ public class UnitCitizen : Unit {
         if(house.isWaterGatherAvailable) {
             //find nearest water generator with available gather
             StructureResourceGenerateContainer waterGen = null;
-            for(int i = 0; i < house.houseData.waterStructureSources.Length; i++) {
-                waterGen = structureCtrl.GetStructureNearestActive<StructureResourceGenerateContainer>(position.x, house.houseData.waterStructureSources[i], CanGotoAndGatherWater);
+            for(int i = 0; i < GameData.instance.structureWaterSources.Length; i++) {
+                waterGen = structureCtrl.GetStructureNearestActive<StructureResourceGenerateContainer>(position.x, GameData.instance.structureWaterSources[i], CanGotoAndGatherWater);
                 if(waterGen)
                     break;
             }

@@ -27,6 +27,7 @@ public class UnitData : ScriptableObject {
     public bool canRevive; //can be revived by some means (e.g. medic for frogs)
 
     public DamageFlags damageImmunity;
+    public int courageLevel; //used for fear sensor to determine if we want to retreat
 
     [Header("Spawn")]
     public Unit spawnPrefab;

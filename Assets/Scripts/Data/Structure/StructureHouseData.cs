@@ -30,11 +30,6 @@ public class StructureHouseData : StructureData {
     [Header("Population Info")]
     [SerializeField]
     PopulationLevelInfo[] _populationLevels;
-
-    [Header("Structure Resource Look-ups")]
-    public StructureData[] foodStructureSources;
-    public StructureData[] waterStructureSources;
-
     public float populationPowerConsumeDelay; //how long to consume power before increasing population (if powerConsumptionRate > 0)
 
     public int populationLevelCount { get { return _populationLevels.Length; } }

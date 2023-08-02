@@ -237,6 +237,12 @@ MonoBehaviour:
     - _point: {x: -0.8, y: 0}
     - _point: {x: 0.4, y: 0}
     - _point: {x: 0.8, y: 0}
+  - name: idle
+    waypoints:
+    - _point: {x: -2, y: 0}
+    - _point: {x: -3.5, y: 0}
+    - _point: {x: 2, y: 0}
+    - _point: {x: 3.5, y: 0}
   containerFillRender: {fileID: 2381496647592389845}
 --- !u!61 &5238396390110150549
 BoxCollider2D:

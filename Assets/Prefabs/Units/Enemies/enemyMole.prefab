@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 43060748964759515}
   - component: {fileID: 6814634120993939163}
   - component: {fileID: 2509283504092040759}
+  - component: {fileID: 108462134629773862}
   - component: {fileID: 1811804558507474437}
   m_Layer: 9
   m_Name: enemyMole
@@ -84,6 +85,7 @@ MonoBehaviour:
   takeIdle: 
   takeMove: 
   takeRun: 
+  takeMidAir: 
   takeAct: 
   takeHurt: 
   takeDying: 
@@ -131,6 +133,28 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 1.5}
   m_EdgeRadius: 0
+--- !u!114 &108462134629773862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6508526242294910738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ebd12d454b95904fbf8f92335ea6145, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkType: 3
+  checkTagFilter: Ally
+  checkLayermask:
+    serializedVersion: 2
+    m_Bits: 512
+  checkOffset: {x: 0, y: 0.7}
+  checkSize: {x: 3, y: 0}
+  checkDelay: 0.3
+  checkCapacity: 8
+  fearLevel: 1
 --- !u!114 &1811804558507474437
 MonoBehaviour:
   m_ObjectHideFlags: 0

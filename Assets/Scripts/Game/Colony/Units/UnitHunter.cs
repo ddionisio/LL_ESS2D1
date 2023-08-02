@@ -19,9 +19,14 @@ public class UnitHunter : Unit {
 
     private bool mIsMovingLeft;
 
-    private UnitAttackData mAttackData;
-
     private Unit mTargetUnit;
+
+    protected override void SpawnComplete() {
+        if(moveCtrl) moveCtrl.isLocked = false;
+
+        mIsMovingLeft = Random.Range(0, 2) == 0 ? true : false;
+        MoveRoam();
+    }
 
     protected override void ClearCurrentState() {
         base.ClearCurrentState();
@@ -99,12 +104,6 @@ public class UnitHunter : Unit {
         base.MoveToComplete();
     }
 
-    protected override void Spawned(M8.GenericParams parms) {
-        mAttackData = data as UnitAttackData;
-
-        mIsMovingLeft = Random.Range(0, 2) == 0 ? true : false;
-    }
-
     protected override void Init() {
         if(animator) {
             mTakeAttackJumpInd = animator.GetTakeIndex(takeAttackJump);
@@ -124,14 +123,14 @@ public class UnitHunter : Unit {
                 yield return null;
         }
 
+        var lastPosition = position;
+
         up = Vector2.up;
-                
+
         //check if target is still valid
-        while(mTargetUnit.hitpointsCurrent > 0 && IsUnitInAttackRange(mTargetUnit)) {
+        if(mTargetUnit.hitpointsCurrent > 0 && IsUnitInAttackRange(mTargetUnit)) {
             RestartStateTime();
-
-            var lastPosition = position;
-
+                        
             //face enemy
             facing = mTargetUnit.position.x - position.x < 0f ? MovableBase.Facing.Left : MovableBase.Facing.Right;
 
@@ -154,51 +153,52 @@ public class UnitHunter : Unit {
 
                 position = new Vector2(Mathf.Lerp(lastPosition.x, targetPos.x, t), Mathf.Lerp(lastPosition.y, targetPos.y, t) + attackJumpHeight * Mathf.Sin(t * Mathf.PI));
             }
-
-            //check again if still valid
-            if(mTargetUnit.hitpointsCurrent > 0) {
-                //do actual attack
-                mTargetUnit.hitpointsCurrent--;
-
-                if(mTakeAttackHitInd != -1)
-                    yield return animator.PlayWait(mTakeAttackHitInd);
-            }
-
-            //drop back down
-            if(lastPosition != position) {
-                RestartStateTime();
-
-                if(mTakeAttackJumpInd != -1)
-                    animator.Play(mTakeAttackJumpInd);
-                                
-                var dist = Mathf.Abs(lastPosition.x - position.x);
-                                
-                GroundPoint toGroundPt;
-                switch(facing) {
-                    case MovableBase.Facing.Left:
-                        GroundPoint.GetGroundPoint(position.x - dist, out toGroundPt);
-                        break;
-                    default:
-                        GroundPoint.GetGroundPoint(position.x + dist, out toGroundPt);
-                        break;
-                }
-
-                lastPosition = position;
-                var toPos = toGroundPt.position;
-                
-                while(stateTimeElapsed < attackJumpDelay) {
-                    yield return null;
-
-                    var t = Mathf.Clamp01(stateTimeElapsed / attackJumpDelay);
-
-                    position = new Vector2(Mathf.Lerp(lastPosition.x, toPos.x, t), Mathf.Lerp(lastPosition.y, toPos.y, t) + attackJumpHeight * Mathf.Sin(t * Mathf.PI));
-                }
-            }
-
-            yield return null;
         }
 
-        state = UnitState.Idle;
+        //check again if still valid
+        if(mTargetUnit.hitpointsCurrent > 0) {
+            //do actual attack
+            mTargetUnit.hitpointsCurrent--;
+
+            if(mTakeAttackHitInd != -1)
+                yield return animator.PlayWait(mTakeAttackHitInd);
+        }
+
+        //drop back down
+        if(lastPosition != position) {
+            RestartStateTime();
+
+            if(mTakeMidAirInd != -1)
+                animator.Play(mTakeMidAirInd);
+            else if(mTakeAttackJumpInd != -1)
+                animator.Play(mTakeAttackJumpInd);
+                                
+            var dist = Mathf.Abs(lastPosition.x - position.x);
+                                
+            GroundPoint toGroundPt;
+            switch(facing) {
+                case MovableBase.Facing.Left:
+                    GroundPoint.GetGroundPoint(position.x - dist, out toGroundPt);
+                    break;
+                default:
+                    GroundPoint.GetGroundPoint(position.x + dist, out toGroundPt);
+                    break;
+            }
+
+            lastPosition = position;
+            var toPos = toGroundPt.position;
+                
+            while(stateTimeElapsed < attackJumpDelay) {
+                yield return null;
+
+                var t = Mathf.Clamp01(stateTimeElapsed / attackJumpDelay);
+
+                position = new Vector2(Mathf.Lerp(lastPosition.x, toPos.x, t), Mathf.Lerp(lastPosition.y, toPos.y, t) + attackJumpHeight * Mathf.Sin(t * Mathf.PI));
+            }
+        }
+
+        mIsMovingLeft = facing == MovableBase.Facing.Left;
+        MoveRoam();
     }
 
     private void MoveRoam() {
@@ -249,6 +249,10 @@ public class UnitHunter : Unit {
     }
 
     private bool CanTargetEnemy(Unit unit) {
-        return mAttackData.CanAttackUnit(unit) && unit.markCount < unit.hitpointsCurrent;
+        var attackDat = data as UnitAttackData;
+        if(!attackDat)
+            return false;
+
+        return attackDat.CanAttackUnit(unit) && unit.markCount < unit.hitpointsCurrent;
     }
 }

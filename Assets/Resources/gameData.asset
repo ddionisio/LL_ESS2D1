@@ -35,6 +35,10 @@ MonoBehaviour:
   structureRepairPerHitDelay: 1
   structureDamageDelay: 0.5
   structureDemolishDelay: 1
+  structureFoodSources:
+  - {fileID: 11400000, guid: 00c13b5caec751f4cac6d8ab4a682fc4, type: 2}
+  structureWaterSources:
+  - {fileID: 11400000, guid: e6518c7cb5a58f34d8950afde470f478, type: 2}
   growthScalePerWork: 0.5
   structureUnitSpawnDelay: 0.3
   unitAllyTag: Ally
@@ -42,11 +46,19 @@ MonoBehaviour:
   unitLayerMask:
     serializedVersion: 2
     m_Bits: 512
+  unitFallSpeed: 10
   unitUpdateAIDelay: 0.3
   unitHurtDelay: 0.5
   unitDyingDelay: 5
   unitIdleWanderDelay: 2
   unitGatherContainerDelay: 0.5
+  unitRetreatDistanceRange:
+    min: 4
+    max: 5
+  unitBounceToBaseDelay: 1.5
+  unitBounceToBaseHeightRange:
+    min: 5
+    max: 6
   overworldScene:
     name: overworld
     path: Assets/Scenes/overworld.unity

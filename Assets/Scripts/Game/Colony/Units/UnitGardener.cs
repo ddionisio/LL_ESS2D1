@@ -206,7 +206,7 @@ public class UnitGardener : Unit {
         //check for plants
         var structureCtrl = colonyCtrl.structurePaletteController;
         
-        var targetPlantStructures = gardenerDat.targetPlantStructures;
+        var targetPlantStructures = GameData.instance.structureFoodSources;
 
         for(int i = 0; i < targetPlantStructures.Length; i++) {
             mTargetPlant = structureCtrl.GetStructureNearestActive<StructurePlant>(position.x, targetPlantStructures[i], CanGotoAndWorkOnPlant);

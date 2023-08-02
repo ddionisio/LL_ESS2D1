@@ -16,6 +16,7 @@ public enum UnitState {
 
     Retreat, //run away from danger
     RetreatToBase, //during hazzard events, retreat inside their respective base
+    BounceToBase, //bounce back to their structure owner
 
     Dying, //for frogs, how long before death. Can be revived by medic at this point
     Death, //animate and despawn

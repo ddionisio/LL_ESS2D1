@@ -48,6 +48,9 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
 
     public float structureDemolishDelay = 2f; //how long before demolish is actually done.
 
+    public StructureData[] structureFoodSources;
+    public StructureData[] structureWaterSources;
+
     [Header("Colony | Structure | Plant")]
     public float growthScalePerWork = 1f; //scale growth time by this amount per work
 
@@ -68,6 +71,11 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public float unitDyingDelay = 5f; //how long to stay in dying state
     public float unitIdleWanderDelay = 2f; //how long to stay in idle before moving to a new spot
     public float unitGatherContainerDelay = 0.5f; //how long to 'act' before getting resource from a container
+
+    public M8.RangeFloat unitRetreatDistanceRange;
+
+    public float unitBounceToBaseDelay = 1.5f;
+    public M8.RangeFloat unitBounceToBaseHeightRange;
 
     [Header("Scenes")]
     //intro sets progress to 1

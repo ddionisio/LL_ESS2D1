@@ -17,6 +17,10 @@ public class UnitSpawnerStationary : Unit {
 
     private M8.GenericParams mSpawnParms = new M8.GenericParams();
 
+    protected override void SpawnComplete() {
+        state = UnitState.Act;
+    }
+
     protected override void ApplyCurrentState() {
         base.ApplyCurrentState();
 
@@ -26,7 +30,7 @@ public class UnitSpawnerStationary : Unit {
                 break;
 
             case UnitState.Act:
-                mRout = StartCoroutine(DoSpawn());
+                mRout = StartCoroutine(DoAct());
                 break;
 
             case UnitState.None:
@@ -77,7 +81,7 @@ public class UnitSpawnerStationary : Unit {
         state = UnitState.Act;
     }
 
-    IEnumerator DoSpawn() {
+    IEnumerator DoAct() {
         var spawnDat = data as UnitSpawnerData;
         if(!(spawnDat && spawnDat.spawnUnitData && mSpawnedUnits != null)) { //fail-safe
             mRout = null;

@@ -298,7 +298,7 @@ public class StructureHouse : Structure {
 
             //check if there are any food structures on the map, and update progress based on foodCount/foodMax
             if(foodCount < foodMax) {
-                int foodSourceCount = structureCtrl.GetStructureActiveCount(houseData.foodStructureSources);
+                int foodSourceCount = structureCtrl.GetStructureActiveCount(GameData.instance.structureFoodSources);
                 SetStatusStateAndProgress(StructureStatus.Food, foodSourceCount > 0 ? StructureStatusState.Progress : StructureStatusState.Require, Mathf.Clamp01((float)foodCount/foodMax));
             }
             else
@@ -306,7 +306,7 @@ public class StructureHouse : Structure {
 
             //check if there are water reserves for the colony, and update progress based on waterCount/waterMax
             if(waterCount < waterMax) {
-                int waterSourceCount = structureCtrl.GetStructureActiveCount(houseData.waterStructureSources);
+                int waterSourceCount = structureCtrl.GetStructureActiveCount(GameData.instance.structureWaterSources);
                 SetStatusStateAndProgress(StructureStatus.Water, waterSourceCount > 0 ? StructureStatusState.Progress : StructureStatusState.Require, Mathf.Clamp01((float)waterCount / waterMax));
             }
             else

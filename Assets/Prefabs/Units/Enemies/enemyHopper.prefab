@@ -125,6 +125,7 @@ GameObject:
   - component: {fileID: 2444954639787283386}
   - component: {fileID: 6170316469381549982}
   - component: {fileID: 5606560534925111322}
+  - component: {fileID: 2635686372701027575}
   - component: {fileID: 6368202581967963183}
   m_Layer: 9
   m_Name: enemyHopper
@@ -166,6 +167,7 @@ MonoBehaviour:
   takeIdle: 
   takeMove: 
   takeRun: 
+  takeMidAir: 
   takeAct: 
   takeHurt: 
   takeDying: 
@@ -222,6 +224,28 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 1.5}
   m_EdgeRadius: 0
+--- !u!114 &2635686372701027575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5769811907462433654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ebd12d454b95904fbf8f92335ea6145, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkType: 3
+  checkTagFilter: Ally
+  checkLayermask:
+    serializedVersion: 2
+    m_Bits: 512
+  checkOffset: {x: 0, y: 0.7}
+  checkSize: {x: 2, y: 0}
+  checkDelay: 0.5
+  checkCapacity: 8
+  fearLevel: 1
 --- !u!114 &6368202581967963183
 MonoBehaviour:
   m_ObjectHideFlags: 0

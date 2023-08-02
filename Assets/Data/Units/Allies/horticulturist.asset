@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 204ae1ded5c415549800898d87985d00, type: 3}
-  m_Name: gardener
+  m_Script: {fileID: 11500000, guid: 980204d315fd97f4ca212de1e81dcacc, type: 3}
+  m_Name: horticulturist
   m_EditorClassIdentifier: 
   nameRef: 
   descRef: 
@@ -22,9 +22,6 @@ MonoBehaviour:
   _moveSpeedDeviation: 0.15
   _runSpeed: 4
   canRevive: 1
-  damageImmunity: 2
+  damageImmunity: 0
   courageLevel: 0
-  spawnPrefab: {fileID: 8444095278437995103, guid: 7b505d61b9eaf254d8ea2d517a42ac04, type: 3}
-  targetDestroy:
-  - {fileID: 11400000, guid: 3b71eae6c7d47d34b9489fd9f1ca156a, type: 2}
-  - {fileID: 11400000, guid: 0baff66e6b7ad8a4891bf9c957b3b139, type: 2}
+  spawnPrefab: {fileID: 1597191800017414625, guid: bd2b29ec0d555954595b6b7bc25d2ecf, type: 3}

@@ -42,8 +42,7 @@ public class UnitAttackFly : Unit {
                 break;
 
             case UnitState.Despawning: //override despawn state
-                if(moveCtrl) moveCtrl.isLocked = false;
-                if(boxCollider) boxCollider.enabled = false;
+                ApplyTelemetryState(false, false);
 
                 mRout = StartCoroutine(DoDespawn());
                 break;

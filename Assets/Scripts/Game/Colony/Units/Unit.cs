@@ -18,6 +18,8 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     [M8.Animator.TakeSelector]
     public string takeRun;
     [M8.Animator.TakeSelector]
+    public string takeMidAir;
+    [M8.Animator.TakeSelector]
     public string takeAct;
     [M8.Animator.TakeSelector]
     public string takeHurt;
@@ -163,6 +165,7 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     protected int mTakeSpawnInd = -1;
     protected int mTakeIdleInd = -1;
     protected int mTakeMoveInd = -1;
+    protected int mTakeMidAirInd = -1;
     protected int mTakeRunInd = -1;
     protected int mTakeActInd = -1;
     protected int mTakeHurtInd = -1;
@@ -209,6 +212,8 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
 
         MoveApply(toPos, isRun);
 
+        state = UnitState.Move;
+
         return true;
     }
 
@@ -222,6 +227,8 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
         moveWaypoint.AddMark();
 
         MoveApply(moveWaypoint.point, isRun);
+
+        state = UnitState.Move;
 
         return true;
     }
@@ -249,6 +256,8 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
         else //just move to structure's position
             MoveApply(ownerStructure.position, isRun);
 
+        state = UnitState.Move;
+
         return true;
     }
 
@@ -273,6 +282,28 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
         }
     }
 
+    public void RetreatFrom(Vector2 sourcePoint) {
+        if(!isMovable) return;
+
+        Vector2 retreatPos;
+
+        var dposX = position.x - sourcePoint.x;
+        if(dposX < 0f)
+            retreatPos = new Vector2(position.x - GameData.instance.unitRetreatDistanceRange.random, position.y);
+        else
+            retreatPos = new Vector2(position.x + GameData.instance.unitRetreatDistanceRange.random, position.y);
+
+        MoveApply(retreatPos, true);
+
+        state = UnitState.Retreat;
+    }
+
+    public void RetreatToBase() {
+        if(!isMovable) return;
+
+        state = UnitState.RetreatToBase;
+    }
+
     public void Despawn() {
         if(state == UnitState.Despawning || state == UnitState.Death || state == UnitState.None) //already despawing/death, or is released
             return;
@@ -289,6 +320,13 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     protected virtual void Despawned() { }
 
     protected virtual void Spawned(M8.GenericParams parms) { }
+
+    /// <summary>
+    /// Called after spawn animation finished during Spawning state
+    /// </summary>
+    protected virtual void SpawnComplete() { 
+        state = UnitState.Idle; 
+    }
 
     protected virtual void ClearCurrentState() {
         StopCurrentRout();
@@ -308,79 +346,85 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     }
 
     protected virtual void ApplyCurrentState() {
-        var physicsActive = true;
-        var canMove = false;
+        if(!CanUpdateAI())
+            ClearAIState();
 
         switch(mState) {
             case UnitState.Spawning:
-                AnimateToState(mTakeSpawnInd, UnitState.Idle);
+                ApplyTelemetryState(false, false);
 
-                physicsActive = false;
+                mRout = StartCoroutine(_DoSpawn());
                 break;
 
             case UnitState.Idle:
                 if(mTakeIdleInd != -1)
                     animator.Play(mTakeIdleInd);
 
-                canMove = true;
+                ApplyTelemetryState(true, true);
                 break;
 
             case UnitState.Move:
-                mRout = StartCoroutine(DoMove());
+                ApplyTelemetryState(true, true);
 
-                canMove = true;
+                mRout = StartCoroutine(DoMove());
                 break;
 
             case UnitState.Act:
+                ApplyTelemetryState(true, true);
+
                 var actTakeInd = GetActTakeIndex();
                 if(actTakeInd != -1)
                     animator.Play(actTakeInd);
-
-                canMove = true;
                 break;
 
             case UnitState.Hurt:
-                mRout = StartCoroutine(DoHurt());
+                ApplyTelemetryState(false, false);
 
-                physicsActive = false;
+                mRout = StartCoroutine(DoHurt());
                 break;
 
             case UnitState.Dying:
+                ApplyTelemetryState(false, false);
+
                 mCurHitpoints = 0; //just in case
 
                 mRout = StartCoroutine(DoDying());
-
-                physicsActive = false;
 
                 GameData.instance.signalUnitDying?.Invoke(this);
                 break;
 
             case UnitState.Death:
+                ApplyTelemetryState(false, false);
+
                 mCurHitpoints = 0; //just in case
 
                 AnimateToRelease(mTakeDeathInd);
-
-                physicsActive = false;
                 break;
 
             case UnitState.Despawning:
+                ApplyTelemetryState(false, false);
+
                 mCurHitpoints = 0;
 
                 AnimateToRelease(mTakeDespawnInd);
-
-                physicsActive = false;
                 break;
 
             case UnitState.Retreat:
-                //TODO
+                ApplyTelemetryState(true, true);
 
-                canMove = true;
+                mRout = StartCoroutine(DoMove());
                 break;
 
             case UnitState.RetreatToBase:
-                //TODO
+                ApplyTelemetryState(true, true);
 
-                canMove = true;
+                //TODO
+                break;
+
+            case UnitState.BounceToBase:
+                ApplyTelemetryState(true, false);
+
+                mRout = StartCoroutine(DoBounceToBase());
                 break;
 
             case UnitState.None:
@@ -392,15 +436,14 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
                 up = Vector2.up;
                 facing = MovableBase.Facing.None;
 
-                physicsActive = false;
+                ApplyTelemetryState(false, false);
 
                 mMark = 0;
                 break;
         }
+    }
 
-        if(!CanUpdateAI())
-            ClearAIState();
-
+    protected void ApplyTelemetryState(bool canMove, bool physicsActive) {
         if(moveCtrl)
             moveCtrl.isLocked = !canMove;
 
@@ -413,7 +456,7 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     }
 
     protected virtual bool CanUpdateAI() {
-        return mState == UnitState.Idle || mState == UnitState.Move || mState == UnitState.Act;
+        return mState == UnitState.Idle || mState == UnitState.Move || mState == UnitState.Act || mState == UnitState.Retreat;
     }
 
     protected virtual void ClearAIState() { }
@@ -445,6 +488,12 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
             if(mUpdateAICurTime >= GameData.instance.unitUpdateAIDelay) {
                 mUpdateAICurTime = 0f;
                 UpdateAI();
+            }
+
+            //check if we are off-screen and we have an owner structure
+            if(ownerStructure && isOffscreen) {
+                //bounce back to base
+                state = UnitState.BounceToBase;
             }
         }
     }
@@ -509,6 +558,7 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
             mTakeIdleInd = animator.GetTakeIndex(takeIdle);
             mTakeMoveInd = animator.GetTakeIndex(takeMove);
             mTakeRunInd = animator.GetTakeIndex(takeRun);
+            mTakeMidAirInd = animator.GetTakeIndex(takeMidAir);
             mTakeActInd = animator.GetTakeIndex(takeAct);
             mTakeHurtInd = animator.GetTakeIndex(takeHurt);
             mTakeDyingInd = animator.GetTakeIndex(takeDying);
@@ -554,6 +604,17 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
         ownerStructure = null;
     }
 
+    IEnumerator _DoSpawn() {
+        if(mTakeSpawnInd != -1)
+            yield return animator.PlayWait(mTakeSpawnInd);
+        else
+            yield return null;
+
+        mRout = null;
+
+        SpawnComplete();
+    }
+
     IEnumerator DoMove() {
         yield return null;
 
@@ -572,6 +633,43 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
         mRout = null;
 
         MoveToComplete();
+    }
+
+    IEnumerator DoBounceToBase() {
+        var gameDat = GameData.instance;
+
+        up = Vector2.up;
+
+        if(mTakeMidAirInd != -1)
+            animator.Play(mTakeMidAirInd);
+
+        var dposX = ownerStructure.position.x - position.x;
+
+        facing = dposX < 0f ? MovableBase.Facing.Left : MovableBase.Facing.Right;
+
+        var startPos = position;
+
+        Vector2 endPos;
+
+        var wp = ownerStructure.GetWaypointRandom(GameData.structureWaypointSpawn, false);
+        if(wp != null)
+            endPos = wp.groundPoint.position;
+        else
+            endPos = ownerStructure.position;
+
+        var height = gameDat.unitBounceToBaseHeightRange.random;
+
+        while(stateTimeElapsed < gameDat.unitBounceToBaseDelay) {
+            yield return null;
+
+            var t = Mathf.Clamp01(stateTimeElapsed / gameDat.unitBounceToBaseDelay);
+
+            position = new Vector2(Mathf.Lerp(startPos.x, endPos.x, t), Mathf.Lerp(startPos.y, endPos.y, t) + height * Mathf.Sin(t * Mathf.PI));
+        }
+
+        mRout = null;
+
+        state = UnitState.Idle;
     }
 
     IEnumerator DoHurt() {
@@ -651,8 +749,6 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
         }
 
         moveCtrl.moveDestination = toPos;
-
-        state = UnitState.Move;
     }
 
     private void StopCurrentRout() {

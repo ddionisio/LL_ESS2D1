@@ -116,7 +116,7 @@ public class StructurePaletteController : MonoBehaviour  {
         if(activeList != null) {
             for(int i = 0; i < activeList.Count; i++) {
                 var structure = activeList[i] as T;
-                if(structure && checkValid(structure)) {
+                if(structure && (checkValid == null || checkValid(structure))) {
                     //see if it's closer to our current available structure, or it's the first one
                     var structureDist = Mathf.Abs(structure.position.x - positionX);
                     if(!ret || structureDist < dist) {

@@ -378,6 +378,11 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
             workCount--;
     }
 
+    /// <summary>
+    /// Called after unit reaches its owner structure during RetreatToBase state. (use for hazzard evacuation)
+    /// </summary>
+    public virtual void UnitRetreatToBaseRequest(Unit unit) { }
+
     protected virtual void Init() { }
 
     protected virtual void Despawned() { }

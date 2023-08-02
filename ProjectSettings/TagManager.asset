@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ally
   - Enemy
+  - Plant
   layers:
   - Default
   - TransparentFX
@@ -19,8 +20,8 @@ TagManager:
   - Unit
   - Vegetation
   - WaterSource
-  - 
-  - 
+  - ArableField
+  - IceField
   - 
   - 
   - 

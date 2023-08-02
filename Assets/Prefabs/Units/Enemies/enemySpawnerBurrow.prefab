@@ -84,6 +84,7 @@ MonoBehaviour:
   takeIdle: 
   takeMove: 
   takeRun: 
+  takeMidAir: 
   takeAct: 
   takeHurt: 
   takeDying: 
@@ -180,7 +181,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0070035458, y: -0.07703698}
+  m_Offset: {x: -0.0070035458, y: 0.78492236}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -191,7 +192,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.4707055, y: 0.84592605}
+  m_Size: {x: 2.14, y: 1.9144697}
   m_EdgeRadius: 0
 --- !u!114 &8432256848193835941
 MonoBehaviour:
@@ -206,8 +207,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bound:
-    m_Center: {x: -0.0070035458, y: -0.07703698, z: 0}
-    m_Extent: {x: 1.2353528, y: 0.42296302, z: 0}
+    m_Center: {x: -0.0070035458, y: 0.78492236, z: 0}
+    m_Extent: {x: 1.07, y: 0.95723486, z: 0}
   color: {r: 0.9056604, g: 0.08116765, b: 0.22130515, a: 1}
   useCollider: 1
 --- !u!1 &6021812087670070056
