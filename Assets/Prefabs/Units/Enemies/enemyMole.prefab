@@ -80,6 +80,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   root: {fileID: 7439901179165354240}
+  spriteRender: {fileID: 0}
+  spriteOverlayRender: {fileID: 0}
   animator: {fileID: 0}
   takeSpawn: 
   takeIdle: 
@@ -91,6 +93,7 @@ MonoBehaviour:
   takeDying: 
   takeDeath: 
   takeDespawn: 
+  takeVictory: 
   attackCheckCapacity: 4
 --- !u!114 &6814634120993939163
 MonoBehaviour:
@@ -151,8 +154,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   checkOffset: {x: 0, y: 0.7}
-  checkSize: {x: 3, y: 0}
-  checkDelay: 0.3
+  checkSize: {x: 2, y: 0}
+  checkDelay: 0.5
   checkCapacity: 8
   fearLevel: 1
 --- !u!114 &1811804558507474437

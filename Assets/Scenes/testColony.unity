@@ -4020,7 +4020,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1068562075
 Transform:
   m_ObjectHideFlags: 0
@@ -8919,6 +8919,10 @@ PrefabInstance:
     - target: {fileID: 8992602271487551781, guid: 7bdacf7b04f0858428106e48d9518772, type: 3}
       propertyPath: m_Name
       value: citizen
+      objectReference: {fileID: 0}
+    - target: {fileID: 8992602271487551781, guid: 7bdacf7b04f0858428106e48d9518772, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7bdacf7b04f0858428106e48d9518772, type: 3}

@@ -340,8 +340,6 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
 
         switch(mState) {
             case UnitState.Move:
-                mTakeCurMoveInd = -1;
-
                 if(moveWaypoint != null) {
                     moveWaypoint.RemoveMark();
                     moveWaypoint = null;
