@@ -5,6 +5,8 @@ using UnityEngine;
 public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnComplete, M8.IPoolDespawn {
     [Header("Display")]
     public Transform root;
+    public SpriteRenderer spriteRender;
+    public SpriteRenderer spriteOverlayRender;
 
     [Header("Animations")]
     public M8.Animator.Animate animator;
@@ -29,6 +31,8 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     public string takeDeath;
     [M8.Animator.TakeSelector]
     public string takeDespawn;
+    [M8.Animator.TakeSelector]
+    public string takeVictory;
 
     public UnitData data { get; private set; }
 
@@ -172,6 +176,7 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     protected int mTakeDyingInd = -1;
     protected int mTakeDeathInd = -1;
     protected int mTakeDespawnInd = -1;
+    protected int mTakeVictoryInd = -1;
 
     private int mTakeCurMoveInd;
 
@@ -348,6 +353,23 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     protected virtual void ApplyCurrentState() {
         if(!CanUpdateAI())
             ClearAIState();
+
+        //reset sprite render
+        if(spriteRender) {
+            spriteRender.gameObject.SetActive(true);
+            spriteRender.transform.localPosition = Vector3.zero;
+            spriteRender.transform.localScale = Vector3.one;
+            spriteRender.transform.localRotation = Quaternion.identity;
+            spriteRender.color = Color.white;
+        }
+
+        if(spriteOverlayRender) {
+            spriteOverlayRender.gameObject.SetActive(false);
+            spriteOverlayRender.transform.localPosition = Vector3.zero;
+            spriteOverlayRender.transform.localScale = Vector3.one;
+            spriteOverlayRender.transform.localRotation = Quaternion.identity;
+            spriteOverlayRender.color = Color.white;
+        }
 
         switch(mState) {
             case UnitState.Spawning:
@@ -564,6 +586,7 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
             mTakeDyingInd = animator.GetTakeIndex(takeDying);
             mTakeDeathInd = animator.GetTakeIndex(takeDeath);
             mTakeDespawnInd = animator.GetTakeIndex(takeDespawn);
+            mTakeVictoryInd = animator.GetTakeIndex(takeVictory);
         }
 
         //initial states
