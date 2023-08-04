@@ -22,6 +22,8 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     [M8.Animator.TakeSelector]
     public string takeMidAir;
     [M8.Animator.TakeSelector]
+    public string takeSwim;
+    [M8.Animator.TakeSelector]
     public string takeAct;
     [M8.Animator.TakeSelector]
     public string takeHurt;
@@ -168,9 +170,10 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
 
     protected int mTakeSpawnInd = -1;
     protected int mTakeIdleInd = -1;
-    protected int mTakeMoveInd = -1;
-    protected int mTakeMidAirInd = -1;
+    protected int mTakeMoveInd = -1;    
     protected int mTakeRunInd = -1;
+    protected int mTakeMidAirInd = -1;
+    protected int mTakeSwimInd = -1;
     protected int mTakeActInd = -1;
     protected int mTakeHurtInd = -1;
     protected int mTakeDyingInd = -1;
@@ -338,6 +341,25 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
 
         if(moveCtrl) moveCtrl.Cancel();
 
+        //reset sprite render
+        if(spriteRender) {
+            spriteRender.gameObject.SetActive(true);
+            spriteRender.transform.localPosition = Vector3.zero;
+            spriteRender.transform.localScale = Vector3.one;
+            spriteRender.transform.localRotation = Quaternion.identity;
+            spriteRender.color = Color.white;
+            spriteRender.flipX = false;
+            spriteRender.flipY = false;
+        }
+
+        if(spriteOverlayRender) {
+            spriteOverlayRender.gameObject.SetActive(false);
+            spriteOverlayRender.transform.localPosition = Vector3.zero;
+            spriteOverlayRender.transform.localScale = Vector3.one;
+            spriteOverlayRender.transform.localRotation = Quaternion.identity;
+            spriteOverlayRender.color = Color.white;
+        }
+
         switch(mState) {
             case UnitState.Move:
                 if(moveWaypoint != null) {
@@ -351,23 +373,6 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     protected virtual void ApplyCurrentState() {
         if(!CanUpdateAI())
             ClearAIState();
-
-        //reset sprite render
-        if(spriteRender) {
-            spriteRender.gameObject.SetActive(true);
-            spriteRender.transform.localPosition = Vector3.zero;
-            spriteRender.transform.localScale = Vector3.one;
-            spriteRender.transform.localRotation = Quaternion.identity;
-            spriteRender.color = Color.white;
-        }
-
-        if(spriteOverlayRender) {
-            spriteOverlayRender.gameObject.SetActive(false);
-            spriteOverlayRender.transform.localPosition = Vector3.zero;
-            spriteOverlayRender.transform.localScale = Vector3.one;
-            spriteOverlayRender.transform.localRotation = Quaternion.identity;
-            spriteOverlayRender.color = Color.white;
-        }
 
         switch(mState) {
             case UnitState.Spawning:
@@ -579,6 +584,7 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
             mTakeMoveInd = animator.GetTakeIndex(takeMove);
             mTakeRunInd = animator.GetTakeIndex(takeRun);
             mTakeMidAirInd = animator.GetTakeIndex(takeMidAir);
+            mTakeSwimInd = animator.GetTakeIndex(takeSwim);
             mTakeActInd = animator.GetTakeIndex(takeAct);
             mTakeHurtInd = animator.GetTakeIndex(takeHurt);
             mTakeDyingInd = animator.GetTakeIndex(takeDying);

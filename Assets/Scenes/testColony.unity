@@ -9268,10 +9268,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: gardener
       objectReference: {fileID: 0}
-    - target: {fileID: 7578418909286911164, guid: 7b505d61b9eaf254d8ea2d517a42ac04, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b505d61b9eaf254d8ea2d517a42ac04, type: 3}
 --- !u!1001 &8948876562615465843
