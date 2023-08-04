@@ -354,9 +354,6 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
 
         if(spriteOverlayRender) {
             spriteOverlayRender.gameObject.SetActive(false);
-            spriteOverlayRender.transform.localPosition = Vector3.zero;
-            spriteOverlayRender.transform.localScale = Vector3.one;
-            spriteOverlayRender.transform.localRotation = Quaternion.identity;
             spriteOverlayRender.color = Color.white;
         }
 

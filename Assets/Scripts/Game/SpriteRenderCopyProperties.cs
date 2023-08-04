@@ -13,6 +13,7 @@ public class SpriteRenderCopyProperties : MonoBehaviour {
     public bool copyColor = false;
     public bool copyFlipX = true;
     public bool copyFlipY = true;
+    public bool copySize = true;
 
     void Awake() {
         if(!destinationSpriteRender)
@@ -36,6 +37,11 @@ public class SpriteRenderCopyProperties : MonoBehaviour {
 
             if(copyFlipY)
                 destinationSpriteRender.flipY = sourceSpriteRender.flipY;
+
+            if(copySize) {
+                if(destinationSpriteRender.size != sourceSpriteRender.size)
+                    destinationSpriteRender.size = sourceSpriteRender.size;
+            }
         }
     }
 }
