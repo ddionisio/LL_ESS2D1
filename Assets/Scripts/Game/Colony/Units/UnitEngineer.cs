@@ -36,7 +36,7 @@ public class UnitEngineer : Unit {
     }
 
     protected override int GetActTakeIndex() {
-        return mTargetEnemySpawner ? mTakeAttackInd : base.GetActTakeIndex();
+        return mTargetEnemySpawner ? -1 : base.GetActTakeIndex();
     }
 
     protected override void ClearAIState() {
@@ -128,6 +128,11 @@ public class UnitEngineer : Unit {
         base.MoveToComplete();
     }
 
+    protected override void Init() {
+        if(animator)
+            mTakeAttackInd = animator.GetTakeIndex(takeAttack);
+    }
+
     IEnumerator DoAct() {
         if(mTargetEnemySpawner) {
             yield return null;
@@ -135,10 +140,10 @@ public class UnitEngineer : Unit {
             while(mTargetEnemySpawner.hitpointsCurrent > 0) {
                 if(mTakeAttackInd != -1)
                     yield return animator.PlayWait(mTakeAttackInd);
-                else
-                    yield return null;
 
                 mTargetEnemySpawner.hitpointsCurrent--;
+
+                yield return null;
             }
         }
         else if(mTargetStructure) { //simply check if it's still workable, if not, then we are done

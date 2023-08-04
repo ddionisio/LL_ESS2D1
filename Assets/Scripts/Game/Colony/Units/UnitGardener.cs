@@ -36,7 +36,7 @@ public class UnitGardener : Unit {
     }
 
     protected override int GetActTakeIndex() {
-        return mTargetEnemy ? mTakeAttackInd : base.GetActTakeIndex();
+        return mTargetEnemy ? -1 : base.GetActTakeIndex();
     }
 
     protected override void ClearAIState() {
@@ -135,10 +135,10 @@ public class UnitGardener : Unit {
             while(mTargetEnemy.hitpointsCurrent > 0) {
                 if(mTakeAttackInd != -1)
                     yield return animator.PlayWait(mTakeAttackInd);
-                else
-                    yield return null;
 
                 mTargetEnemy.hitpointsCurrent--;
+
+                yield return null;
             }
         }
         else if(mTargetPlant) {
@@ -147,6 +147,8 @@ public class UnitGardener : Unit {
 
             while(mTargetPlant.growthState == StructurePlant.GrowthState.Growing) //wait for plant to stop growing
                 yield return null;
+
+            yield return null;
         }
 
         mRout = null;
