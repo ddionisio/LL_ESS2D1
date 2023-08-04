@@ -18,8 +18,8 @@ MonoBehaviour:
   hitpointStartApply: 0
   hitpointStart: 0
   hitpoints: 2
-  _moveSpeed: 1
-  _moveSpeedDeviation: 0.05
+  _moveSpeed: 1.5
+  _moveSpeedDeviation: 0.1
   _runSpeed: 3
   canRevive: 1
   damageImmunity: 0

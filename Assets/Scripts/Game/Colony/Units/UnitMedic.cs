@@ -22,12 +22,7 @@ public class UnitMedic : Unit {
 
         switch(state) {
             case UnitState.Act:
-                if(mTargetUnit) {
-                    if(CanWorkOnUnit(mTargetUnit))
-                        mTargetUnit.hitpointsCurrent = mTargetUnit.hitpointsMax;
-
-                    mTargetUnit = null;
-                }
+                mRout = StartCoroutine(DoAct());                
                 break;
         }
     }
@@ -63,13 +58,6 @@ public class UnitMedic : Unit {
                     }
                 }
                 break;
-
-            case UnitState.Act:
-                if(mTakeActInd == -1 || !animator.isPlaying) {
-                    mTargetUnit = null;
-                    MoveToOwnerStructure(false);
-                }
-                break;
         }
     }
 
@@ -94,6 +82,26 @@ public class UnitMedic : Unit {
         }
 
         base.MoveToComplete();
+    }
+
+    IEnumerator DoAct() {
+        if(mTakeActInd != -1) {
+            while(animator.isPlaying)
+                yield return null;
+        }
+        else
+            yield return null;
+
+        if(mTargetUnit) {
+            if(CanWorkOnUnit(mTargetUnit))
+                mTargetUnit.hitpointsCurrent = mTargetUnit.hitpointsMax;
+
+            mTargetUnit = null;
+        }
+
+        mRout = null;
+
+        MoveToOwnerStructure(false);
     }
 
     private bool CanWorkOnUnit(Unit unit) {

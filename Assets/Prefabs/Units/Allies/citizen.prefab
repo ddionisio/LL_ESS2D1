@@ -101,7 +101,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7795229481006386859
 Transform:
   m_ObjectHideFlags: 0
@@ -157,7 +157,7 @@ SpriteRenderer:
   m_SortingLayer: 14
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f82f4b9a03d6afd479e2d8949f3cb8b4, type: 3}
-  m_Color: {r: 1, g: 0.8431373, b: 0.6, a: 0}
+  m_Color: {r: 0.9921569, g: 0.38823533, b: 0.3803922, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -5554,12 +5554,12 @@ MonoBehaviour:
     numLoop: -1
     loopMode: 0
     loopBackToFrame: 0
-    trackCounter: 6
+    trackCounter: 7
     groupCounter: 0
     rootGroup:
       group_name: Group0
       group_id: 0
-      elements: 020000000300000006000000
+      elements: 02000000030000000700000006000000
       foldout: 1
     groupValues: []
   - name: dying
@@ -5696,8 +5696,23 @@ MonoBehaviour:
       parameters: []
       methodName: Play
       componentType: ParticleSystem
-    _goSetActiveTracks: []
-    _goSetActiveKeys: []
+    _goSetActiveTracks:
+    - _version: 1
+      id: 7
+      name: Track4
+      foldout: 1
+      _targetPath: 
+      obj: {fileID: 2946337777191788901}
+      startActive: 0
+    _goSetActiveKeys:
+    - interp: 0
+      frame: 1
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      setActive: 1
+      endFrame: -1
     _materialTracks: []
     _materialKeys: []
     _orientationTracks: []
@@ -6177,7 +6192,7 @@ MonoBehaviour:
       amplitude: 0
       period: 0
       customEase: []
-      endFrame: 3
+      endFrame: 4
       isConstSpeed: 0
       _paths: []
       val: 0
@@ -6185,7 +6200,20 @@ MonoBehaviour:
       valObj: {fileID: 21300000, guid: 82a46a1f521993145bd70c049304c9d0, type: 3}
       vect4: {x: 0, y: 0, z: 0, w: 0}
     - interp: 2
-      frame: 3
+      frame: 4
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: 7
+      isConstSpeed: 0
+      _paths: []
+      val: 0
+      valString: 
+      valObj: {fileID: 21300000, guid: 54d83079f71b6f84eb079605fbb4f412, type: 3}
+      vect4: {x: 0, y: 0, z: 0, w: 0}
+    - interp: 2
+      frame: 7
       easeType: 1
       amplitude: 0
       period: 0
@@ -6251,6 +6279,19 @@ MonoBehaviour:
       vect4: {x: 0, y: 0, z: 0, w: 0}
     - interp: 2
       frame: 1
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: 5
+      isConstSpeed: 0
+      _paths: []
+      val: 0
+      valString: 
+      valObj: {fileID: 21300000, guid: 54d83079f71b6f84eb079605fbb4f412, type: 3}
+      vect4: {x: 0, y: 0, z: 0, w: 0}
+    - interp: 2
+      frame: 5
       easeType: 1
       amplitude: 0
       period: 0
@@ -7840,7 +7881,7 @@ MonoBehaviour:
       keyIndices: 0700000008000000090000000a0000000b0000000c0000000d0000000e000000
     - type: 7
       index: 4
-      keyIndices: 0f000000100000001100000012000000
+      keyIndices: 0f00000010000000110000001200000013000000
     - type: 8
       index: 0
       keyIndices: 00000000010000000200000003000000
@@ -7849,7 +7890,7 @@ MonoBehaviour:
       keyIndices: 000000000100000002000000
     - type: 7
       index: 5
-      keyIndices: 1300000014000000
+      keyIndices: 1400000015000000
     - type: 8
       index: 1
       keyIndices: 0400000005000000
@@ -7858,22 +7899,25 @@ MonoBehaviour:
       keyIndices: 030000000400000005000000
     - type: 7
       index: 6
-      keyIndices: 1500000016000000
+      keyIndices: 160000001700000018000000
     - type: 7
       index: 7
-      keyIndices: 1700000018000000190000001a0000001b000000
+      keyIndices: 190000001a0000001b0000001c0000001d000000
     - type: 7
       index: 8
-      keyIndices: 1c0000001d0000001e000000
+      keyIndices: 1e0000001f00000020000000
     - type: 7
       index: 9
-      keyIndices: 1f0000002000000021000000
+      keyIndices: 210000002200000023000000
+    - type: 4
+      index: 0
+      keyIndices: 00000000
     - type: 7
       index: 10
-      keyIndices: 220000002300000024000000
+      keyIndices: 240000002500000026000000
     - type: 7
       index: 11
-      keyIndices: 25000000260000002700000028000000
+      keyIndices: 2700000028000000290000002a000000
     - type: 8
       index: 2
       keyIndices: 0600000007000000
@@ -7882,16 +7926,16 @@ MonoBehaviour:
       keyIndices: 060000000700000008000000
     - type: 7
       index: 12
-      keyIndices: 29000000
+      keyIndices: 2b000000
     - type: 7
       index: 13
-      keyIndices: 2a0000002b000000
+      keyIndices: 2c0000002d000000
     - type: 8
       index: 3
       keyIndices: 08000000
     - type: 7
       index: 14
-      keyIndices: 2c0000002d0000002e000000
+      keyIndices: 2e0000002f00000030000000
     - type: 3
       index: 1
       keyIndices: 01000000
@@ -7900,35 +7944,35 @@ MonoBehaviour:
       keyIndices: 09000000
     - type: 7
       index: 15
-      keyIndices: 2f000000
+      keyIndices: 31000000
     - type: 7
       index: 16
-      keyIndices: 3000000031000000
+      keyIndices: 3200000033000000
     - type: 7
       index: 17
-      keyIndices: 320000003300000034000000
+      keyIndices: 340000003500000036000000
     - type: 11
       index: 1
       keyIndices: 020000000300000004000000
     - type: 7
       index: 18
-      keyIndices: 3500000036000000370000003800000039000000
+      keyIndices: 3700000038000000390000003a0000003b000000
     - type: 10
       index: 4
       keyIndices: 0a0000000b0000000c0000000d000000
     - type: 7
       index: 19
-      keyIndices: 3a0000003b0000003c000000
+      keyIndices: 3c0000003d0000003e000000
     - type: 10
       index: 5
       keyIndices: 0e0000000f00000010000000
     - type: 7
       index: 20
-      keyIndices: 3d0000003e0000003f00000040000000
+      keyIndices: 3f000000400000004100000042000000
     - type: 10
       index: 6
       keyIndices: 11000000120000001300000014000000
-    _takeTrackCounts: 050000000100000003000000030000000100000003000000040000000600000004000000020000000200000002000000
+    _takeTrackCounts: 050000000100000003000000030000000100000004000000040000000600000004000000020000000200000002000000
 --- !u!114 &3838182837196035996
 MonoBehaviour:
   m_ObjectHideFlags: 0
