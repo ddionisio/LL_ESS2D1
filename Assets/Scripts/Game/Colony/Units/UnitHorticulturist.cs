@@ -110,7 +110,7 @@ public class UnitHorticulturist : Unit {
                         return;
 
                     //refill water?
-                    if(resourceCount < resourceCapacity) {
+                    if(resourceCount <= 0) {
                         if(RefreshAndMoveToNewResource())
                             return;
                     }
@@ -323,7 +323,7 @@ public class UnitHorticulturist : Unit {
         var structureCtrl = ColonyController.instance.structurePaletteController;
                 
         //check if we need water
-        if(resourceCount < resourceCapacity) {
+        if(resourceCount <= 0) {
             //find nearest water generator with available gather
             StructureResourceGenerateContainer waterGen = null;
             for(int i = 0; i < GameData.instance.structureWaterSources.Length; i++) {
