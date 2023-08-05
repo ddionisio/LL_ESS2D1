@@ -5,6 +5,7 @@ using UnityEngine;
 public class UnitHunter : Unit {
     [Header("Hunter Attack Info")]
     public float attackRange = 3f;
+    public float attackJumpOffMinRange = 2f;
     public float attackJumpDelay = 0.5f;
     public float attackJumpHeight = 1.5f;
 
@@ -112,23 +113,26 @@ public class UnitHunter : Unit {
     }
 
     IEnumerator DoAttack() {
-        yield return null;
+        var attackDat = data as UnitAttackData;
+        if(!attackDat) {
+            mRout = null;
+            yield break;
+        }
 
         //face enemy
         facing = mTargetUnit.position.x - position.x < 0f ? MovableBase.Facing.Left : MovableBase.Facing.Right;
 
-        //wait 'charge up' animation
-        if(mTakeActInd != -1) {
-            while(animator.isPlaying)
-                yield return null;
-        }
-
+        while((stateTimeElapsed < attackDat.attackIdleDelay || !mTargetUnit.isDamageable) && mTargetUnit.hitpointsCurrent > 0)
+            yield return null;
+    
+        yield return null;
+                
         var lastPosition = position;
 
         up = Vector2.up;
 
         //check if target is still valid
-        if(mTargetUnit.hitpointsCurrent > 0 && IsUnitInAttackRange(mTargetUnit)) {
+        if(mTargetUnit.hitpointsCurrent > 0) {// && IsUnitInAttackRange(mTargetUnit)) {            
             RestartStateTime();
                         
             //face enemy
@@ -153,17 +157,17 @@ public class UnitHunter : Unit {
 
                 position = new Vector2(Mathf.Lerp(lastPosition.x, targetPos.x, t), Mathf.Lerp(lastPosition.y, targetPos.y, t) + attackJumpHeight * Mathf.Sin(t * Mathf.PI));
             }
+
+            //check again if still valid
+            if(mTargetUnit.hitpointsCurrent > 0) {
+                //do actual attack
+                mTargetUnit.hitpointsCurrent--;
+
+                if(mTakeAttackHitInd != -1)
+                    yield return animator.PlayWait(mTakeAttackHitInd);
+            }
         }
-
-        //check again if still valid
-        if(mTargetUnit.hitpointsCurrent > 0) {
-            //do actual attack
-            mTargetUnit.hitpointsCurrent--;
-
-            if(mTakeAttackHitInd != -1)
-                yield return animator.PlayWait(mTakeAttackHitInd);
-        }
-
+                
         //drop back down
         if(lastPosition != position) {
             RestartStateTime();
@@ -174,7 +178,9 @@ public class UnitHunter : Unit {
                 animator.Play(mTakeAttackJumpInd);
                                 
             var dist = Mathf.Abs(lastPosition.x - position.x);
-                                
+            if(dist < attackJumpOffMinRange)
+                dist = attackJumpOffMinRange;
+
             GroundPoint toGroundPt;
             switch(facing) {
                 case MovableBase.Facing.Left:
