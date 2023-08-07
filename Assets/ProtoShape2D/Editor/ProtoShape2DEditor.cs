@@ -137,7 +137,7 @@ public class PS2DEditor:Editor{
 				//If setting changed to single color or to no-fill, we use Unity's built-in sprite material
 				if(fillType==PS2DFillType.Color || fillType==PS2DFillType.None) script.SetSpriteMaterial(); 
 				//If setting changed to custom material, we use a material provided by user
-				else if(fillType==PS2DFillType.CustomMaterial) script.SetCustomMaterial();
+				else if(fillType==PS2DFillType.CustomMaterial || fillType==PS2DFillType.CustomMaterialWithColor) script.SetCustomMaterial(); //MODIFY: allow vertex color for specific custom material
 				//Otherwise we use our own shader that supports gradient and texture
 				else script.SetDefaultMaterial(); 
 				//Update the object
@@ -186,7 +186,8 @@ public class PS2DEditor:Editor{
 
 			}
 			//Single color setup
-			if(script.fillType==PS2DFillType.Color || script.fillType==PS2DFillType.TextureWithColor){
+			//MODIFY: allow vertex color for specific custom material
+			if(script.fillType==PS2DFillType.Color || script.fillType==PS2DFillType.TextureWithColor || script.fillType==PS2DFillType.CustomMaterialWithColor) {
 				#if UNITY_2018_1_OR_NEWER
 				Color color1=EditorGUILayout.ColorField(new GUIContent("Color","Color to fill the object with"),script.color1,true,true,script.HDRColors);
 				#else
@@ -246,7 +247,7 @@ public class PS2DEditor:Editor{
 				}
 			}
 			//Custom material setup
-			if(script.fillType==PS2DFillType.CustomMaterial){
+			if(script.fillType==PS2DFillType.CustomMaterial || fillType == PS2DFillType.CustomMaterialWithColor) { //MODIFY: allow vertex color for specific custom material
 				Material material=(Material)EditorGUILayout.ObjectField(new GUIContent("Custom material","If you provide same material for multiple objects, it will lower the number of DrawCalls therefor optimizing the rendering process."),script.customMaterial,typeof(Material),false);
 				if(script.customMaterial!=material){
 					Undo.RecordObject(script,"Change custom material");
@@ -352,6 +353,27 @@ public class PS2DEditor:Editor{
 				}
 			}  
 			*/
+
+			//MODIFIED: allow certain types of normals, including not generating it
+			var normalType = (PS2DNormalType)EditorGUILayout.EnumPopup(new GUIContent("Normal type", "What type of normals to generate, or not at all."), script.normalType);
+			if(normalType != script.normalType) {
+				Undo.RecordObject(script, "Change normal type");
+				//Update the object
+				script.normalType = normalType;
+				EditorUtility.SetDirty(script);
+			}
+
+			//MODIFIED: allow not generating UVs for custom material
+			if(script.fillType == PS2DFillType.CustomMaterial || script.fillType == PS2DFillType.CustomMaterialWithColor) {
+				var generateUVs = EditorGUILayout.Toggle(new GUIContent("Generate UVs", "Uncheck this if you don't need UVs for your material."), script.generateUVs);
+				if(generateUVs != script.generateUVs) {
+					Undo.RecordObject(script, "Change generateUVs");
+					//Update the object
+					script.generateUVs = generateUVs;
+					script.UpdateMesh();
+					EditorUtility.SetDirty(script);
+				}
+			}
 		}
 
 		//Snap settings

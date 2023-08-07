@@ -28,6 +28,7 @@ public enum PS2DFillType{
 	TextureWithColor,
 	TextureWithGradient,
 	CustomMaterial,
+	CustomMaterialWithColor, //MODIFY: allow vertex color for specific custom material
 	None
 }
 
@@ -62,4 +63,12 @@ public enum PS2DSnapType{
 	Points,
 	WorldGrid,
 	LocalGrid
+}
+
+//MODIFY: allow certain generation of normals
+[System.Serializable]
+public enum PS2DNormalType {
+	None,
+	Back,
+	//TODO: add outer
 }

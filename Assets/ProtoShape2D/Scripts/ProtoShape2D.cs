@@ -94,6 +94,21 @@ public class ProtoShape2D:MonoBehaviour{
 	[SerializeField]
 	private int _selectedMaskOption;
 
+	//MODIFIED: allow not generating normals
+	public PS2DNormalType normalType {
+		get { return _normalType; }
+		set {
+			if(_normalType != value) {
+				_normalType = value;
+				UpdateMesh();
+            }
+        }
+    }
+	[SerializeField]
+	private PS2DNormalType _normalType;
+
+	//MODIFIED: don't generate UVs if it's not needed (can be toggled with custom material), ignored for filltypes with texture
+	public bool generateUVs;
 	#endregion
 
 	#region Internal parameters
@@ -117,18 +132,9 @@ public class ProtoShape2D:MonoBehaviour{
 	private MeshRenderer mr;
 	[SerializeField]
 	private MeshFilter mf;
-	[SerializeField]
-	private List<Vector3> vertices=new List<Vector3>();
-	[SerializeField]
-	private List<Color> colors=new List<Color>();
-	[SerializeField]
-	private List<Vector2> uvs=new List<Vector2>();
-	[SerializeField]
-	private int[] tris;
-	[SerializeField]
-	private int[] trisOutline;
-	[SerializeField]
-	private int[] trisAntialiasing;
+	
+	//MODIFIED: no need to serialize mesh data
+
 	//Just for displaying the number of triangles
 	public int triangleCount=0;
 	//Collider management
@@ -196,7 +202,7 @@ public class ProtoShape2D:MonoBehaviour{
 					uniqueName=Random.Range(1000,999999).ToString();
 					if(fillType==PS2DFillType.Color || fillType==PS2DFillType.None){
 						SetSpriteMaterial();
-					}else if(fillType==PS2DFillType.CustomMaterial){
+					}else if(fillType==PS2DFillType.CustomMaterial || fillType==PS2DFillType.CustomMaterialWithColor) { //MODIFY: allow vertex color for specific custom material
 						SetCustomMaterial();
 					}else{
 						//Since it's a copy of an object, we unset the references to original object's materials
@@ -223,7 +229,7 @@ public class ProtoShape2D:MonoBehaviour{
 	}
 
 	void Update(){
-		if(mr.sharedMaterial!=null && fillType!=PS2DFillType.CustomMaterial && fillType!=PS2DFillType.Color && fillType!=PS2DFillType.None){
+		if(mr.sharedMaterial!=null && fillType!=PS2DFillType.CustomMaterial && fillType!=PS2DFillType.CustomMaterialWithColor && fillType!=PS2DFillType.Color && fillType!=PS2DFillType.None) { //MODIFY: allow vertex color for specific custom material
 			if(!lastPos.Equals(transform.position)){
 				lastPos=transform.position;
 				mr.sharedMaterial.SetVector("_WPos",transform.position);
@@ -361,11 +367,11 @@ public class ProtoShape2D:MonoBehaviour{
 			//If no material is set, we set one based on selected fill type
 			if(mr.sharedMaterials[0]==null){
 				if(fillType==PS2DFillType.Color || fillType==PS2DFillType.None) SetSpriteMaterial(); 
-				else if(fillType==PS2DFillType.CustomMaterial) SetCustomMaterial();
+				else if(fillType==PS2DFillType.CustomMaterial || fillType==PS2DFillType.CustomMaterialWithColor) SetCustomMaterial(); //MODIFY: allow vertex color for specific custom material
 				else SetDefaultMaterial(); 
 			}
 			//In case we're using the gradient/texture material
-			if(mr.sharedMaterials[0]!=null && fillType!=PS2DFillType.CustomMaterial && fillType!=PS2DFillType.Color && fillType!=PS2DFillType.None){
+			if(mr.sharedMaterials[0]!=null && fillType!=PS2DFillType.CustomMaterial && fillType!=PS2DFillType.CustomMaterialWithColor && fillType!=PS2DFillType.Color && fillType!=PS2DFillType.None) { //MODIFY: allow vertex color for specific custom material
 				if(fillType==PS2DFillType.Texture){
 					mr.sharedMaterials[0].SetVector("_Color1",Color.white);
 					mr.sharedMaterials[0].SetVector("_Color2",Color.white);
@@ -410,7 +416,10 @@ public class ProtoShape2D:MonoBehaviour{
 
 	public void UpdateMesh(){
 		if(mf!=null && mr!=null && mr.sharedMaterial!=null){
-			
+
+			//MODIFIED: only generate UVs if necessary or for custom material if elected
+			var _generateUV = (generateUVs && !(fillType == PS2DFillType.Color || fillType == PS2DFillType.Gradient)) || fillType == PS2DFillType.Texture || fillType == PS2DFillType.TextureWithColor || fillType == PS2DFillType.TextureWithGradient;
+
 			//Find if polygon is drawn clockwise or counterclockwise
 			float edgeSum=0;
 			for(int i=0;i<points.Count;i++){
@@ -421,17 +430,27 @@ public class ProtoShape2D:MonoBehaviour{
 			//Generate bezier handles
 			if(type==PS2DType.Simple) GenerateHandles();
 
+			//MODIFIED: no need to cache/serialize mesh data
+			List<Vector3> vertices = new List<Vector3>();
+			List<Color> colors = new List<Color>();
+			List<Vector2> uvs = new List<Vector2>();
+			int[] tris;
+			int[] trisOutline;
+			int[] trisAntialiasing;
+
 			//Clear mesh properties
-			vertices.Clear();
-			colors.Clear();
-			uvs.Clear();
-			minPoint=Vector2.one*9999f;
+			//vertices.Clear();
+			//colors.Clear();
+			//uvs.Clear();
+
+			minPoint =Vector2.one*9999f;
 			maxPoint=-Vector2.one*9999f;
 
 			//Counting how many outline points we want to connenct
 			outlineConnect=0;
 			//Decide vertex color
-			Color vcolor=(fillType==PS2DFillType.Color?color1:Color.white);
+			//MODIFY: allow vertex color for specific custom material
+			Color vcolor=(fillType==PS2DFillType.Color|| fillType==PS2DFillType.CustomMaterialWithColor ? color1:Color.white);
 			//Generate vertices and colors, get bounds
 			for(int i=0;i<points.Count;i++){
 				if(
@@ -468,12 +487,14 @@ public class ProtoShape2D:MonoBehaviour{
 				}
 			}
 			//Generate UVs based on bounds
-			for(int i=0;i<vertices.Count;i++){
-				//Preventing x or y from being equal to 1 because 1 is used to tell shader to use vertex color
-				uvs.Add(new Vector2(
-					Mathf.Min(0.99f,Mathf.InverseLerp(minPoint.x,maxPoint.x,vertices[i].x)),
-					Mathf.Min(0.99f,Mathf.InverseLerp(minPoint.y,maxPoint.y,vertices[i].y))
-				));
+			if(_generateUV) {
+				for(int i = 0; i < vertices.Count; i++) {
+					//Preventing x or y from being equal to 1 because 1 is used to tell shader to use vertex color
+					uvs.Add(new Vector2(
+						Mathf.Min(0.99f, Mathf.InverseLerp(minPoint.x, maxPoint.x, vertices[i].x)),
+						Mathf.Min(0.99f, Mathf.InverseLerp(minPoint.y, maxPoint.y, vertices[i].y))
+					));
+				}
 			}
 			//Save shape's outline
 			pointsFinal=new List<Vector3>(vertices);
@@ -525,7 +546,8 @@ public class ProtoShape2D:MonoBehaviour{
 				for(int i=0;i<outlineVertices.Count;i++){
 					vertices.Add(outlineVertices[i]);
 					colors.Add(outlineColor);
-					uvs.Add(Vector2.one);
+					if(_generateUV)
+						uvs.Add(Vector2.one);
 				}
 				//Create triangles for all outline segments. If not looped, don't add the last segment
 				trisOutline=new int[outlineVertices.Count*3];
@@ -544,6 +566,8 @@ public class ProtoShape2D:MonoBehaviour{
 					System.Array.Copy(trisOutline,0,tris,originalTrisLength,trisOutline.Length);
 				}
 			}
+			else
+				trisOutline = new int[0];
 
 			//Anti-aliasing
 			if(antialias && tris.Length==(vertices.Count-2)*3){
@@ -571,7 +595,8 @@ public class ProtoShape2D:MonoBehaviour{
 				for(int i=0;i<aaridgeVertices.Count;i++){
 					vertices.Add(aaridgeVertices[i]);
 					colors.Add(clear);
-					uvs.Add(Vector2.zero);
+					if(_generateUV)
+						uvs.Add(Vector2.zero);
 				}
 				trisAntialiasing=new int[tris.Length+(aaridgeVertices.Count*2*3)];
 				for(int i=0;i<tris.Length;i++){
@@ -600,11 +625,17 @@ public class ProtoShape2D:MonoBehaviour{
 			mf.sharedMesh.SetTriangles(tris,0);
 			if(outlineUseCustomMaterial && outlineWidth>0) mf.sharedMesh.SetTriangles(trisOutline,1);
 
-			List<Vector3> normals=new List<Vector3>(vertices.Count);
-			for(int i=0;i<vertices.Count;i++){ 
-				normals.Add(Vector3.back);
+			//MODIFIED: allow not generating normals
+			if(_normalType == PS2DNormalType.Back) {
+				List<Vector3> normals = new List<Vector3>(vertices.Count);
+				for(int i = 0; i < vertices.Count; i++) {
+					normals.Add(Vector3.back);
+				}
+				mf.sharedMesh.SetNormals(normals);
 			}
-			mf.sharedMesh.SetNormals(normals);
+			else
+				mf.sharedMesh.SetNormals(new Vector3[0]);
+
 			mf.sharedMesh.RecalculateBounds();
 
 			//Update triangle count
