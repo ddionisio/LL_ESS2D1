@@ -189,6 +189,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: cab6e39b6be1a774a9eb631d86996fed, type: 3}
   - {fileID: 21300000, guid: fca3f89b8a6088446bc50d475653bbc3, type: 3}
   - {fileID: 21300000, guid: 99e93adbbabc425449da1859e71561a5, type: 3}
+  - {fileID: 21300000, guid: feb0bddb753a35b4a8e2b42459cb9ed3, type: 3}
   - {fileID: 21300000, guid: 56db9deb20ed2d443a43cd2a4dcde8d4, type: 3}
   - {fileID: 21300000, guid: b6f95f1cee1c6e54888765b88d1efa85, type: 3}
   - {fileID: 21300000, guid: ac322e4ced41f4841b529682e5f886cd, type: 3}
@@ -214,6 +215,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 62596d0e14b6bc3459ecb28947df2ffb, type: 3}
   - {fileID: 21300000, guid: e1a6002e45d9ce84eaf5692bf2143be7, type: 3}
   - {fileID: 21300000, guid: 8616314e1dcd3944a8d38eb5198fbb79, type: 3}
+  - {fileID: 21300000, guid: 08f5874e4b811d94e91f35031252bacd, type: 3}
   - {fileID: 21300000, guid: e28ef94eaccb62e4b87a59e7259c1735, type: 3}
   - {fileID: 21300000, guid: c5a54a7e88b59e547a8905c1ad93d892, type: 3}
   - {fileID: 21300000, guid: 43e59bbef6bc7f6408c10b46f3509103, type: 3}
@@ -379,6 +381,7 @@ SpriteAtlas:
   - frogGardener_move_3
   - frogHorticulturist_idle_1
   - frogEngineer_move_0
+  - wind_map_winter
   - frogGardener_hurt_0
   - starGlow
   - frogHorticulturist_act_1
@@ -404,6 +407,7 @@ SpriteAtlas:
   - fancyRect
   - frogHunter_move_1
   - frogMedic_hurt_0
+  - windFX
   - frogCivilian_dying_0
   - edge_shade
   - frogGardener_idle_1
