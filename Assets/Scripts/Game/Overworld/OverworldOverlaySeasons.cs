@@ -7,6 +7,7 @@ public class OverworldOverlaySeasons : MonoBehaviour {
     public class SeasonInfo {
         public SeasonData data;
         public GameObject activeGO;
+        public bool isSpritesAvailable = true;
 
         private SpriteRenderer[] mSpriteRenders;
         private float[] mSpriteDefaultAlphas;
@@ -22,27 +23,29 @@ public class OverworldOverlaySeasons : MonoBehaviour {
         public bool isBusy { get { return mRout != null; } }
 
         public void Init() {
-            if(mSpriteRenders == null) {
-                mSpriteRenders = activeGO.GetComponentsInChildren<SpriteRenderer>(true);
-                mSpriteDefaultAlphas = new float[mSpriteRenders.Length];
-                mSpriteStartAlphas = new float[mSpriteRenders.Length];
+            if(isSpritesAvailable) {
+                if(mSpriteRenders == null) {
+                    mSpriteRenders = activeGO.GetComponentsInChildren<SpriteRenderer>(true);
+                    mSpriteDefaultAlphas = new float[mSpriteRenders.Length];
+                    mSpriteStartAlphas = new float[mSpriteRenders.Length];
 
-                for(int i = 0; i < mSpriteRenders.Length; i++) {
-                    var c = mSpriteRenders[i].color;
+                    for(int i = 0; i < mSpriteRenders.Length; i++) {
+                        var c = mSpriteRenders[i].color;
 
-                    mSpriteDefaultAlphas[i] = c.a;
+                        mSpriteDefaultAlphas[i] = c.a;
 
-                    c.a = 0f; //start as fade out completely
+                        c.a = 0f; //start as fade out completely
 
-                    mSpriteRenders[i].color = c;
+                        mSpriteRenders[i].color = c;
+                    }
                 }
-            }
-            else {
-                for(int i = 0; i < mSpriteRenders.Length; i++) {
-                    var c = mSpriteRenders[i].color;
-                    c.a = 0f; //start as fade out completely
+                else {
+                    for(int i = 0; i < mSpriteRenders.Length; i++) {
+                        var c = mSpriteRenders[i].color;
+                        c.a = 0f; //start as fade out completely
 
-                    mSpriteRenders[i].color = c;
+                        mSpriteRenders[i].color = c;
+                    }
                 }
             }
 
@@ -50,7 +53,7 @@ public class OverworldOverlaySeasons : MonoBehaviour {
         }
 
         public void FadeIn(MonoBehaviour behaviour, DG.Tweening.EaseFunction easeFunc, float delay) {
-            if(delay <= 0f || mSpriteRenders.Length == 0) {
+            if(delay <= 0f || !isSpritesAvailable) {
                 active = true;
                 return;
             }
@@ -65,7 +68,7 @@ public class OverworldOverlaySeasons : MonoBehaviour {
         }
 
         public void FadeOut(MonoBehaviour behaviour, DG.Tweening.EaseFunction easeFunc, float delay) {
-            if(delay <= 0f || mSpriteRenders.Length == 0) {
+            if(delay <= 0f || !isSpritesAvailable) {
                 active = false;
                 return;
             }
