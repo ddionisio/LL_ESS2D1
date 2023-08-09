@@ -3,17 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class OverworldOverlayAtmosphere : MonoBehaviour {
-    [System.Serializable]
-    public class SeasonInfo {
-        public SeasonData season;
-        public GameObject activeGO;
-
-        public bool active {
-            get { return activeGO ? activeGO.activeSelf : false; }
-            set { if(activeGO) activeGO.SetActive(value); }
-        }
-    }
-
     [Header("Data")]
     public AtmosphereAttributeBase data;
 
