@@ -140,7 +140,7 @@ public class OverworldController : GameModeController<OverworldController> {
         int hotspotIndex = -1;
 
         if(!debugOverrideHotspotGroup) {
-
+            hotspotIndex = GameData.instance.hotspotGroupIndex;
         }
         else {
             if(!string.IsNullOrEmpty(debugHotspotGroup))

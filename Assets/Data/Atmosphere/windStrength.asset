@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: windStrength
   m_EditorClassIdentifier: 
   nameRef: atmosphere_windStrength
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: dab0a8032cfc2034bb1f5218c2894692, type: 3}
   isMinLimit: 1
   isMaxLimit: 0
   rangeLimit:

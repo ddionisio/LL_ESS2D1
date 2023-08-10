@@ -13,4 +13,9 @@ MonoBehaviour:
   m_Name: none
   m_EditorClassIdentifier: 
   nameRef: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 6d7eb498f773dea469dea2251018a56d, type: 3}
+  isMinLimit: 0
+  isMaxLimit: 0
+  rangeLimit:
+    min: 0
+    max: 0
