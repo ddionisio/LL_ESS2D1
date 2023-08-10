@@ -8,6 +8,9 @@ public abstract class AtmosphereAttributeBase : ScriptableObject {
     public string nameRef;
 
     public Sprite icon;
+    public Sprite legendRange;
+    public Color legendRangeMinColor = Color.black;
+    public Color legendRangeMaxColor = Color.black;
 
     [Header("Range Limit")]
     public bool isMinLimit;
@@ -15,6 +18,8 @@ public abstract class AtmosphereAttributeBase : ScriptableObject {
     public M8.RangeFloat rangeLimit;
 
     public abstract string symbolString { get; }
+
+    public virtual string legendRangeString { get { return ""; } }
 
     public float ClampValue(float val) {
         if(isMinLimit && val < rangeLimit.min)

@@ -8,17 +8,6 @@ public class ModalOverworld : M8.ModalController, M8.IModalPush, M8.IModalPop {
     public const string parmSeason = "overworldSeason"; //SeasonData
     public const string parmCriteria = "overworldCriteria"; //CriteriaData
 
-    [System.Serializable]
-    public class AtmosphereOverlayInfo {
-        public AtmosphereAttributeBase data;
-        public GameObject activeGO;
-
-        public void SetActive(AtmosphereAttributeBase atmosphere) {
-            if(activeGO)
-                activeGO.SetActive(data == atmosphere);
-        }
-    }
-
     [Header("Controls")]
     public AtmosphereAttributeSelectWidget atmosphereToggle;
 
@@ -26,7 +15,7 @@ public class ModalOverworld : M8.ModalController, M8.IModalPush, M8.IModalPop {
 
     [Header("Display")]
     public CriteriaWidget criteriaDisplay;
-    public AtmosphereOverlayInfo[] atmosphereOverlays; //used for measurement legend    
+    public AtmosphereAttributeWidget atmosphereLegend; //used for measurement legend    
 
     [Header("Signal Listen")]
     public SignalAtmosphereAttribute signalListenAtmosphereToggle;
@@ -66,14 +55,19 @@ public class ModalOverworld : M8.ModalController, M8.IModalPush, M8.IModalPop {
             }
         }
 
-        for(int i = 0; i < atmosphereOverlays.Length; i++)
-            atmosphereOverlays[i].SetActive(atmosphereSelected);
+        if(atmosphereLegend) {
+            atmosphereLegend.gameObject.SetActive(false);
 
-        if(signalListenAtmosphereToggle) signalListenAtmosphereToggle.callback += OnAtmosphereToggle;
+            if(signalListenAtmosphereToggle) signalListenAtmosphereToggle.callback += OnAtmosphereToggle;
+        }
     }
 
     void OnAtmosphereToggle(AtmosphereAttributeBase atmosphereAttribute) {
-        for(int i = 0; i < atmosphereOverlays.Length; i++)
-            atmosphereOverlays[i].SetActive(atmosphereAttribute);
+        if(atmosphereAttribute.legendRange) {
+            atmosphereLegend.data = atmosphereAttribute;
+            atmosphereLegend.gameObject.SetActive(true);
+        }
+        else
+            atmosphereLegend.gameObject.SetActive(false);
     }
 }

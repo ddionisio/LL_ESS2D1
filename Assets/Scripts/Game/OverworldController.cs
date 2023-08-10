@@ -11,7 +11,6 @@ public class OverworldController : GameModeController<OverworldController> {
 
     [Header("Overworld")]
     public OverworldView overworldView;
-    public OverworldBounds overworldBounds;
 
     [Header("Hotspots")]
     public Transform hotspotRoot;
@@ -164,17 +163,10 @@ public class OverworldController : GameModeController<OverworldController> {
         //turn off overlays
         if(signalInvokeAtmosphereOverlayDefault) signalInvokeAtmosphereOverlayDefault.Invoke(atmosphereDefault);
 
-        //hide hotspot
-        hotspot.Hide();
-
         //pop overworld modal
         M8.ModalManager.main.CloseUpTo(GameData.instance.modalOverworld, true);
 
         while(M8.ModalManager.main.isBusy || M8.ModalManager.main.IsInStack(GameData.instance.modalOverworld))
-            yield return null;
-
-        //wait for hotspot to hide completely
-        while(hotspot.isBusy)
             yield return null;
 
         hotspotGroupCurrent.active = false;
@@ -254,7 +246,7 @@ public class OverworldController : GameModeController<OverworldController> {
         //go to colony scene
         var hotspotData = hotspotCurrent.data;
 
-        int seasonIndex = hotspotData.climate.GetSeasonIndex(mCurSeasonData);
+        int seasonIndex = hotspotData.GetAtmosphereInfoIndex(mCurSeasonData);
 
         if(hotspotData.colonyScene.isValid) {
             GameData.instance.ProgressNextToColony(hotspotData.colonyScene, regionIndex, seasonIndex);

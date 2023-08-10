@@ -6,4 +6,6 @@ using UnityEngine;
 public class WindStrengthAttribute : AtmosphereAttributeBase {
 
     public override string symbolString { get { return "mph"; } }
+
+    public override string legendRangeString { get { return "0 6 10 20 35 45 70"; } }
 }

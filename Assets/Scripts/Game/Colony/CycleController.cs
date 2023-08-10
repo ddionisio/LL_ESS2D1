@@ -32,7 +32,6 @@ public class CycleController : MonoBehaviour {
     public bool isHazzard { get { return cycleCurWeather ? cycleCurWeather.isHazzard : false; } }
 
     private AtmosphereStat[] mAtmosphereStatsDefault;
-    private AtmosphereModifier[] mSeasonAtmosphereMods;
     private AtmosphereModifier[] mRegionAtmosphereMods;
 
     private Coroutine mRout;
@@ -65,11 +64,9 @@ public class CycleController : MonoBehaviour {
             }
         }
 
-        mSeasonAtmosphereMods = hotspotData.climate.GetModifiers(season);
-
         mRegionAtmosphereMods = hotspotData.GetRegionAtmosphereModifiers(regionIndex);
 
-        mAtmosphereStatsDefault = hotspotData.atmosphereStats;
+        mAtmosphereStatsDefault = hotspotData.GetAtmosphereStats(season);
 
         atmosphereStats = new AtmosphereStat[mAtmosphereStatsDefault.Length];
 
@@ -138,9 +135,6 @@ public class CycleController : MonoBehaviour {
 
         //apply mods to stats
         System.Array.Copy(mAtmosphereStatsDefault, atmosphereStats, atmosphereStats.Length);
-
-        if(mSeasonAtmosphereMods != null)
-            AtmosphereModifier.Apply(atmosphereStats, mSeasonAtmosphereMods);
 
         if(mRegionAtmosphereMods != null)
             AtmosphereModifier.Apply(atmosphereStats, mRegionAtmosphereMods);

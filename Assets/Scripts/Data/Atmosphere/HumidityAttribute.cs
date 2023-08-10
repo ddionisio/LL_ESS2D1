@@ -6,4 +6,6 @@ using UnityEngine;
 public class HumidityAttribute : AtmosphereAttributeBase {
 
     public override string symbolString { get { return "%"; } }
+
+    public override string legendRangeString { get { return "0 30 50 80 100"; } }
 }

@@ -14,7 +14,13 @@ public class AtmosphereAttributeWidget : MonoBehaviour {
     public Image iconImage;
     public bool iconUseNativeSize;
 
+    public Image legendRangeImage;
+    public Image legendRangeMinImage;
+    public Image legendRangeMaxImage;
+
     public TMP_Text nameLabel;
+    public TMP_Text symbolLabel;
+    public TMP_Text legendRangeLabel;
 
     public GameObject selectGO;
 
@@ -48,8 +54,23 @@ public class AtmosphereAttributeWidget : MonoBehaviour {
                     iconImage.SetNativeSize();
             }
 
+            if(_data.legendRange && legendRangeImage)
+                legendRangeImage.sprite = _data.legendRange;
+
             if(nameLabel)
                 nameLabel.text = M8.Localize.Get(_data.nameRef);
+
+            if(symbolLabel)
+                symbolLabel.text = _data.symbolString;
+
+            if(legendRangeLabel)
+                legendRangeLabel.text = _data.legendRangeString;
+
+            if(legendRangeMinImage)
+                legendRangeMinImage.color = _data.legendRangeMinColor;
+
+            if(legendRangeMaxImage)
+                legendRangeMaxImage.color = _data.legendRangeMaxColor;
         }
     }
 }
