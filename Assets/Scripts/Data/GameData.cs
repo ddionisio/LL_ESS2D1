@@ -24,7 +24,8 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     [Header("Modals")]
     public string modalOverworld = "overworld";
     public string modalHotspotInvestigate = "hotspotInvestigate";
-        
+    public string modalHotspotAnalyze = "hotspotAnalyze";
+
     [Header("Overworld")]
     public int overworldLaunchCriticGoodCount = 3; //determines how many must be satisfied to launch colony
 

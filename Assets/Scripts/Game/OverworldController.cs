@@ -23,6 +23,7 @@ public class OverworldController : GameModeController<OverworldController> {
     [Header("Signal Listen")]
     public SignalSeasonData signalListenSeasonToggle;
     public SignalHotspot signalListenHotspotClick;
+    public SignalHotspot signalListenHotspotInvestigate;
     public M8.Signal signalListenHotspotInvestigateBack;
     public M8.SignalInteger signalListenHotspotInvestigateLaunch;
 
@@ -47,6 +48,7 @@ public class OverworldController : GameModeController<OverworldController> {
     private Coroutine mRout;
 
     private M8.GenericParams mModalOverworldParms = new M8.GenericParams();
+    private M8.GenericParams mModalHotspotAnalyzeParms = new M8.GenericParams();
     private M8.GenericParams mModalHotspotInvestigateParms = new M8.GenericParams();
 
     public int GetHotspotGroup(string groupName) {
@@ -84,6 +86,7 @@ public class OverworldController : GameModeController<OverworldController> {
     protected override void OnInstanceDeinit() {
         if(signalListenSeasonToggle) signalListenSeasonToggle.callback -= OnSeasonToggle;
         if(signalListenHotspotClick) signalListenHotspotClick.callback -= OnHotspotClick;
+        if(signalListenHotspotInvestigate) signalListenHotspotInvestigate.callback -= OnHotspotInvestigate;
         if(signalListenHotspotInvestigateBack) signalListenHotspotInvestigateBack.callback -= OnHotspotInvestigateBack;
         if(signalListenHotspotInvestigateLaunch) signalListenHotspotInvestigateLaunch.callback -= OnHotspotInvestigateLaunch;
 
@@ -124,6 +127,7 @@ public class OverworldController : GameModeController<OverworldController> {
         //setup signals
         if(signalListenSeasonToggle) signalListenSeasonToggle.callback += OnSeasonToggle;
         if(signalListenHotspotClick) signalListenHotspotClick.callback += OnHotspotClick;
+        if(signalListenHotspotInvestigate) signalListenHotspotInvestigate.callback += OnHotspotInvestigate;
         if(signalListenHotspotInvestigateBack) signalListenHotspotInvestigateBack.callback += OnHotspotInvestigateBack;
         if(signalListenHotspotInvestigateLaunch) signalListenHotspotInvestigateLaunch.callback += OnHotspotInvestigateLaunch;
     }
@@ -261,6 +265,18 @@ public class OverworldController : GameModeController<OverworldController> {
     }
 
     void OnHotspotClick(Hotspot hotspot) {
+        if(isBusy)
+            return;
+
+        //show analysis
+        mModalHotspotAnalyzeParms[ModalHotspotAnalyze.parmHotspot] = hotspot;
+        mModalHotspotAnalyzeParms[ModalHotspotAnalyze.parmSeason] = mCurSeasonData;
+        mModalHotspotAnalyzeParms[ModalHotspotAnalyze.parmCriteria] = hotspotGroupCurrent.criteria;
+
+        M8.ModalManager.main.Open(GameData.instance.modalHotspotAnalyze, mModalHotspotAnalyzeParms);
+    }
+
+    void OnHotspotInvestigate(Hotspot hotspot) {
         if(isBusy)
             return;
 

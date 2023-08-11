@@ -20,6 +20,7 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
 
     [Header("Hotspot Info Display")]
     public Image hotspotIconImage;
+    public bool hotspotIconUseNativeSize;
 
     public TMP_Text hotspotRegionNameLabel;
     [M8.Localize]
@@ -130,7 +131,11 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
         //setup hotspot info display
         var hotspotData = mLandscapePreview.hotspotData;
 
-        if(hotspotIconImage) hotspotIconImage.sprite = hotspotData.climate.icon;
+        if(hotspotIconImage) {
+            hotspotIconImage.sprite = hotspotData.climate.icon;
+            if(hotspotIconUseNativeSize)
+                hotspotIconImage.SetNativeSize();
+        }
 
         if(hotspotRegionNameLabel) hotspotRegionNameLabel.text = string.Format(hotspotRegionNameFormat, M8.Localize.Get(hotspotRegionTitleRef), M8.Localize.Get(hotspotData.nameRef));
 

@@ -44,6 +44,17 @@ public class CriteriaData : ScriptableObject {
         }
     }
 
+    public AtmosphereStat[] GenerateAtmosphereStats() {
+        var stats = new AtmosphereStat[attributes.Length];
+
+        for(int i = 0; i < stats.Length; i++) {
+            var attr = attributes[i];
+            stats[i] = new AtmosphereStat { atmosphere = attr.atmosphere, range = attr.rangeBounds };
+        }
+
+        return stats;
+    }
+
     /// <summary>
     /// 0 = neutral (intersects)
     /// -1 = bad (out of bounds)
@@ -68,7 +79,7 @@ public class CriteriaData : ScriptableObject {
                     int result;
 
                     if(j < attr.criticRange.Length)
-                        result = stat.Compare(attr.criticRange[j]);
+                        result = stat.CheckBounds(attr.criticRange[j]);
                     else
                         result = 1;
 
