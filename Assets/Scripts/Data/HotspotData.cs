@@ -5,11 +5,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "hotspot", menuName = "Game/Hotspot")]
 public class HotspotData : ScriptableObject {
     [System.Serializable]
-    public struct AtmosphereInfo {
-        public SeasonData season;
-        public AtmosphereStat[] stats;
-        [Tooltip("Length of daylight relative to cycle duration (e.g. vernal equinox: 0.5)")]
-        public float daylightScale;
+    public struct SeasonAtmosphereStat {
+        public AtmosphereAttributeBase atmosphere;
+        
+        public M8.RangeFloat winterRange;
+        public M8.RangeFloat springRange;
+        public M8.RangeFloat summerRange;
+        public M8.RangeFloat autumnRange;
     }
 
     [Header("Info")]
@@ -18,26 +20,60 @@ public class HotspotData : ScriptableObject {
 
     public ClimateData climate;
 
-    public AtmosphereInfo[] atmosphereInfos;
+    [SerializeField]
+    SeasonAtmosphereStat[] _atmosphereInfos;
+
+    public float winterDaylightScale = 0.5f;
+    public float springDaylightScale = 0.5f;
+    public float summerDaylightScale = 0.5f;
+    public float autumnDaylightScale = 0.5f;
 
     [Header("Inspection")]
     public LandscapePreviewTelemetry landscapePrefab;
         
     public M8.SceneAssetPath colonyScene; //if viable, this is the scene to load when launching
 
-    public int GetAtmosphereInfoIndex(SeasonData season) {
-        for(int i = 0; i < atmosphereInfos.Length; i++) {
-            if(atmosphereInfos[i].season == season)
-                return i;
-        }
-
-        return -1;
-    }
+    private AtmosphereStat[][] mAtmosphereStats;
 
     public AtmosphereStat[] GetAtmosphereStats(SeasonData season) {
-        for(int i = 0; i < atmosphereInfos.Length; i++) {
-            if(atmosphereInfos[i].season == season)
-                return atmosphereInfos[i].stats;
+        var seasonInd = GameData.instance.GetSeasonIndex(season);
+        if(seasonInd != -1) {
+            AtmosphereStat[] stats = null;
+
+            if(mAtmosphereStats == null)
+                mAtmosphereStats = new AtmosphereStat[GameData.instance.seasons.Length][];
+            else
+                stats = mAtmosphereStats[seasonInd];
+
+            if(stats == null) {
+                stats = new AtmosphereStat[_atmosphereInfos.Length];
+
+                switch(seasonInd) {
+                    case GameData.seasonWinterIndex:
+                        for(int i = 0; i < _atmosphereInfos.Length; i++)
+                            stats[i] = new AtmosphereStat { atmosphere = _atmosphereInfos[i].atmosphere, range = _atmosphereInfos[i].winterRange };
+                        break;
+
+                    case GameData.seasonSpringIndex:
+                        for(int i = 0; i < _atmosphereInfos.Length; i++)
+                            stats[i] = new AtmosphereStat { atmosphere = _atmosphereInfos[i].atmosphere, range = _atmosphereInfos[i].springRange };
+                        break;
+
+                    case GameData.seasonSummerIndex:
+                        for(int i = 0; i < _atmosphereInfos.Length; i++)
+                            stats[i] = new AtmosphereStat { atmosphere = _atmosphereInfos[i].atmosphere, range = _atmosphereInfos[i].summerRange };
+                        break;
+
+                    case GameData.seasonAutumnIndex:
+                        for(int i = 0; i < _atmosphereInfos.Length; i++)
+                            stats[i] = new AtmosphereStat { atmosphere = _atmosphereInfos[i].atmosphere, range = _atmosphereInfos[i].autumnRange };
+                        break;
+                }
+
+                mAtmosphereStats[seasonInd] = stats;
+            }
+
+            return stats;
         }
 
         return null;
@@ -48,42 +84,43 @@ public class HotspotData : ScriptableObject {
     }
 
     public float GetDaylightScale(SeasonData season) {
-        for(int i = 0; i < atmosphereInfos.Length; i++) {
-            var info = atmosphereInfos[i];
-            if(info.season == season)
-                return info.daylightScale;
-        }
+        var seasonInd = GameData.instance.GetSeasonIndex(season);
+        switch(seasonInd) {
+            case GameData.seasonWinterIndex:
+                return winterDaylightScale;
 
-        return GameData.instance.cycleDaylightScaleDefault;
+            case GameData.seasonSpringIndex:
+                return springDaylightScale;
+
+            case GameData.seasonSummerIndex:
+                return summerDaylightScale;
+
+            case GameData.seasonAutumnIndex:
+                return autumnDaylightScale;
+
+            default:
+                return GameData.instance.cycleDaylightScaleDefault;
+        }
     }
 
     public AtmosphereStat[] GenerateModifiedStats(SeasonData season, int regionIndex) {
-        var infoInd = GetAtmosphereInfoIndex(season);
-        if(infoInd == -1)
-            return null;
-
-        var atmosphereInfo = atmosphereInfos[infoInd];
-
-        var stats = new AtmosphereStat[atmosphereInfo.stats.Length];
-
-        var regionMods = GetRegionAtmosphereModifiers(regionIndex);
-        if(regionMods != null)
-            AtmosphereModifier.Apply(stats, regionMods);
+        var stats = GetAtmosphereStats(season);
+        if(stats != null) {
+            var regionMods = GetRegionAtmosphereModifiers(regionIndex);
+            if(regionMods != null)
+                AtmosphereModifier.Apply(stats, regionMods);
+        }
 
         return stats;
     }
 
     public void ApplyModifiedStats(AtmosphereStat[] stats, SeasonData season, int regionIndex) {
-        var infoInd = GetAtmosphereInfoIndex(season);
-        if(infoInd == -1)
-            return;
-
-        var atmosphereInfo = atmosphereInfos[infoInd];
+        var seasonStats = GetAtmosphereStats(season);
 
         var regionMods = GetRegionAtmosphereModifiers(regionIndex);
 
         //override stats with base
-        System.Array.Copy(atmosphereInfo.stats, stats, stats.Length);
+        System.Array.Copy(seasonStats, stats, stats.Length);
 
         AtmosphereModifier.Apply(stats, regionMods);
     }

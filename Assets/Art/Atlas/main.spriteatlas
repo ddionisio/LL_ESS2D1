@@ -126,6 +126,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: eaf6e9257f1e8244487fcab012717adc, type: 3}
   - {fileID: 21300000, guid: ed79a335ee2165948b42d286a6586751, type: 3}
   - {fileID: 21300000, guid: 327d0a3576859c044b14908637bed8c3, type: 3}
+  - {fileID: 21300000, guid: 7428624581668694ca5e5ec7e287bb0d, type: 3}
   - {fileID: 21300000, guid: a3964a45da2548540b7da4460fad109b, type: 3}
   - {fileID: 21300000, guid: 1135005533164664e9b8401c7d8d9849, type: 3}
   - {fileID: 21300000, guid: f9a26365967a31a44aa4e06f49aa0a23, type: 3}
@@ -166,9 +167,11 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 4680785870fc6254494bdaa67d7c44f4, type: 3}
   - {fileID: 21300000, guid: c5c02b6820484214eb61adf9c47962e4, type: 3}
   - {fileID: 21300000, guid: e246508856f195341a02a8463ce91244, type: 3}
+  - {fileID: 21300000, guid: 98dcbc88df1944742b74d24843f65c75, type: 3}
   - {fileID: 21300000, guid: 6d7eb498f773dea469dea2251018a56d, type: 3}
   - {fileID: 21300000, guid: 212d9d98502b263429d7769a4744d31c, type: 3}
   - {fileID: 21300000, guid: 82cc82a82f3a2934e83d16916f9688ba, type: 3}
+  - {fileID: 21300000, guid: d9cbc8b8fecb4854c9bcf7b8bfe7c15b, type: 3}
   - {fileID: 21300000, guid: cf8190e899f6bcd429e77b075e9602aa, type: 3}
   - {fileID: 21300010, guid: 02cb7109eec577d45a27167e2308de23, type: 3}
   - {fileID: 21300006, guid: 02cb7109eec577d45a27167e2308de23, type: 3}
@@ -348,6 +351,7 @@ SpriteAtlas:
   - frogGardener_idle_2
   - frogEngineer_run_1
   - frogEngineer_idle_0
+  - wrongX
   - frogGardener_swim_0
   - frogMedic_idle_3
   - humidity_map_winter
@@ -388,9 +392,11 @@ SpriteAtlas:
   - frogEngineer_attack_0
   - fancyRect_outline_1
   - frogEngineer_hurt_0
+  - correctCheck
   - atmosphere_none
   - frogHorticulturist_idle_2
   - season_icon_summer
+  - climateTemperate
   - frogHorticulturist_run_1
   - blank4x4_top
   - blank4x4_bottomLeft

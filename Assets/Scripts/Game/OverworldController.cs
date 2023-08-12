@@ -250,7 +250,7 @@ public class OverworldController : GameModeController<OverworldController> {
         //go to colony scene
         var hotspotData = hotspotCurrent.data;
 
-        int seasonIndex = hotspotData.GetAtmosphereInfoIndex(mCurSeasonData);
+        int seasonIndex = GameData.instance.GetSeasonIndex(mCurSeasonData);
 
         if(hotspotData.colonyScene.isValid) {
             GameData.instance.ProgressNextToColony(hotspotData.colonyScene, regionIndex, seasonIndex);

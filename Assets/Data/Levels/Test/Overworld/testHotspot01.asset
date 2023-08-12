@@ -14,16 +14,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameRef: region_NA
   climate: {fileID: 11400000, guid: 13eb6e3c01328d640944f6c54217865b, type: 2}
-  atmosphereStats:
+  _atmosphereInfos:
   - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
-    range:
-      min: 60
-      max: 85
+    winterRange:
+      min: 31
+      max: 31
+    springRange:
+      min: 62
+      max: 62
+    summerRange:
+      min: 79
+      max: 79
+    autumnRange:
+      min: 65
+      max: 65
+  - atmosphere: {fileID: 11400000, guid: a1acb9bb17afa9e47bd265ddc249f905, type: 2}
+    winterRange:
+      min: 57
+      max: 57
+    springRange:
+      min: 44
+      max: 44
+    summerRange:
+      min: 66
+      max: 66
+    autumnRange:
+      min: 48
+      max: 48
   - atmosphere: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
-    range:
-      min: 5
-      max: 10
-  daylightInfos: []
+    winterRange:
+      min: 11
+      max: 11
+    springRange:
+      min: 20
+      max: 20
+    summerRange:
+      min: 8
+      max: 8
+    autumnRange:
+      min: 12
+      max: 12
+  winterDaylightScale: 0.5
+  springDaylightScale: 0.5
+  summerDaylightScale: 0.5
+  autumnDaylightScale: 0.5
   landscapePrefab: {fileID: 1356387101706006881, guid: 9e0010180e916814fa69750b5e0c1b02, type: 3}
   colonyScene:
     name: testColony

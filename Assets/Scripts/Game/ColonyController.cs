@@ -167,8 +167,8 @@ public class ColonyController : GameModeController<ColonyController> {
         if(gameDat.isProceed && !debugEnabled) {
             var seasonInd = gameDat.savedSeasonIndex;
 
-            if(seasonInd >= 0 && seasonInd < hotspotData.atmosphereInfos.Length)
-                season = hotspotData.atmosphereInfos[seasonInd].season;
+            if(seasonInd >= 0 && seasonInd < GameData.instance.seasons.Length)
+                season = GameData.instance.seasons[seasonInd];
             else
                 season = debugSeason;
 

@@ -54,11 +54,11 @@ public class Hotspot : MonoBehaviour {
             return false;
 
         if(mIsSeasonAnalyzed == null) {
-            mIsSeasonAnalyzed = new bool[data.atmosphereInfos.Length];
+            mIsSeasonAnalyzed = new bool[GameData.instance.seasons.Length];
             return false; //we know it hasn't been analyzed
         }
 
-        var seasonInd = data.GetAtmosphereInfoIndex(season);
+        var seasonInd = GameData.instance.GetSeasonIndex(season);
         if(seasonInd == -1)
             return false;
 
@@ -70,9 +70,9 @@ public class Hotspot : MonoBehaviour {
             return;
 
         if(mIsSeasonAnalyzed == null)
-            mIsSeasonAnalyzed = new bool[data.atmosphereInfos.Length];
+            mIsSeasonAnalyzed = new bool[GameData.instance.seasons.Length];
 
-        var seasonInd = data.GetAtmosphereInfoIndex(season);
+        var seasonInd = GameData.instance.GetSeasonIndex(season);
         if(seasonInd != -1)
             mIsSeasonAnalyzed[seasonInd] = isAnalyzed;
     }

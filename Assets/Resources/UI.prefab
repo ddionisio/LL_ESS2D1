@@ -17677,8 +17677,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 461f68762dac4954fb1518bbb60f1fa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scrambleDefaultCount: 12
-  _scrambleDelay: 0.1
+  _scrambleDefaultCount: 6
+  _scrambleDelay: 0.04
   _fixedStringPerCharDelay: 0.1
   _isRealtime: 0
   _target: {fileID: 708165783446368615}

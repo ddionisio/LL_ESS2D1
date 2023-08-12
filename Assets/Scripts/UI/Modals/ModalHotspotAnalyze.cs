@@ -198,6 +198,8 @@ public class ModalHotspotAnalyze : M8.ModalController, M8.IModalActive, M8.IModa
                 if(!analyzeItm) //fail-safe
                     break;
 
+                analyzeItm.transform.SetAsLastSibling();
+
                 analyzeItm.Setup(criteriaStat.atmosphere, regionStats[regionStatInd].range, criteriaStat.range);
 
                 mAnalyzeActives.Add(analyzeItm);
@@ -231,7 +233,7 @@ public class ModalHotspotAnalyze : M8.ModalController, M8.IModalActive, M8.IModa
             }
         }
 
-        if(analyzingRootGO) analyzingRootGO.SetActive(true);
+        if(analyzingRootGO) analyzingRootGO.SetActive(false);
 
         if(matchCount == mAnalyzeActives.Count) {
             if(investigateRootGO) investigateRootGO.SetActive(true);

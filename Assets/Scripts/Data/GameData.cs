@@ -21,10 +21,19 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public const string structureWaypointIdle = "idle"; //use for any units that has no work to do and need to move somewhere
     public const string structureWaypointRoam = "roam"; //use for fly when roaming around target, or for hunter patrol
 
+    public const int seasonWinterIndex = 0;
+    public const int seasonSpringIndex = 1;
+    public const int seasonSummerIndex = 2;
+    public const int seasonAutumnIndex = 3;
+
     [Header("Modals")]
     public string modalOverworld = "overworld";
     public string modalHotspotInvestigate = "hotspotInvestigate";
     public string modalHotspotAnalyze = "hotspotAnalyze";
+
+    [Header("Atmosphere Data")]
+    [Tooltip("Ensure the array is of the following: winter, spring, summer, autumn.")]
+    public SeasonData[] seasons;
 
     [Header("Overworld")]
     public int overworldLaunchCriticGoodCount = 3; //determines how many must be satisfied to launch colony
@@ -167,6 +176,15 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
         get {
             return LoLManager.instance.userData.GetInt(saveKeySeasonIndex);
         }
+    }
+
+    public int GetSeasonIndex(SeasonData season) {
+        for(int i = 0; i < seasons.Length; i++) {
+            if(seasons[i] == season)
+                return i;
+        }
+
+        return -1;
     }
 
     public void ProgressReset() {
