@@ -23,8 +23,9 @@ public class LandscapePreview : MonoBehaviour {
     public int curRegionIndex {
         get { return mCurRegionInd; }
         set {
-            if(mCurRegionInd != value) {
-                mCurRegionInd = value;
+            var val = Mathf.Clamp(value, 0, regionCount - 1);
+            if(mCurRegionInd != val) {
+                mCurRegionInd = val;
 
                 //move towards region view                
                 mMoveEnd = -landscapePreviewTelemetry.regions[mCurRegionInd].center;
@@ -40,6 +41,8 @@ public class LandscapePreview : MonoBehaviour {
             }
         }
     }
+
+    public int regionCount { get { return landscapePreviewTelemetry.regions.Length; } }
 
     public float altitude { get; private set; }
 

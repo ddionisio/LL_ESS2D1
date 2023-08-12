@@ -57,6 +57,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: c8f3cf706fbb5ff4d9aa66ed9b7abd51, type: 3}
   - {fileID: 21300000, guid: 72588b80af603ca41b8a1ecd8f2f1f67, type: 3}
   - {fileID: 21300000, guid: f35f7290f9c9be34b959d059e163304a, type: 3}
+  - {fileID: 21300000, guid: eea0f69074e454a468923772b73d02af, type: 3}
   - {fileID: 21300000, guid: 55a8c2a0f7951764c8ebf552791679c4, type: 3}
   - {fileID: 21300000, guid: 95d88ba0687e14242b780bd15827dc1d, type: 3}
   - {fileID: 21300000, guid: 7dc9bcd0b392e064aa53c3051e519056, type: 3}
@@ -82,6 +83,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: bf8c0222be72dfd48a68e5cf2a7ed5c1, type: 3}
   - {fileID: 21300000, guid: 00ad2322aa24a914482be475dd628c72, type: 3}
   - {fileID: 21300000, guid: e99ae7226d3c0cf49a25aa517a2eed46, type: 3}
+  - {fileID: -7105913188517789750, guid: d7f0645221846754b8d8411111612c99, type: 3}
   - {fileID: 21300000, guid: aa76d6526984e864789ccaba3033d175, type: 3}
   - {fileID: 21300000, guid: 50b27e52a4cbefc4592d6ea31210117a, type: 3}
   - {fileID: 21300000, guid: 956ad5d2f3c9d6d46b3881ff42fd7a8d, type: 3}
@@ -236,6 +238,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 483ea70d300044f45aae4857adab4672, type: 3}
   - {fileID: 21300000, guid: da9d4f2dc181be64aab678b91c6edd4b, type: 3}
   - {fileID: 21300000, guid: 7338c94df729f494099a8ab21a4b41f6, type: 3}
+  - {fileID: 21300000, guid: fba64e4d913c49b42819f7e8b8b1a436, type: 3}
   - {fileID: 21300000, guid: 3cb8e07d42442594db4d310e61772300, type: 3}
   - {fileID: 21300000, guid: 628fac9d629a5a943ba00873d3a83348, type: 3}
   - {fileID: 21300000, guid: 491590bdd3f0af440aa40459445aa8c9, type: 3}
@@ -282,6 +285,7 @@ SpriteAtlas:
   - frogMedic_move_1
   - frogEngineer_idle_4
   - frogGardener_idle_0
+  - frogCivilian_sad_1
   - heartGlow
   - frogCivilian_idle_1
   - frogCivilian_swim_0
@@ -307,6 +311,7 @@ SpriteAtlas:
   - shadeWhite
   - frogMedic_swim_1
   - frogMedic_move_2
+  - triangle
   - frogCivilian_victory_1
   - circle_64
   - frogHunter_act_1
@@ -461,6 +466,7 @@ SpriteAtlas:
   - frogHorticulturist_move_2
   - frogEngineer_swim_1
   - frogHorticulturist_move_3
+  - thumbsUp
   - frogGardener_move_2
   - frogCivilian_idle_4
   - frogHorticulturist_idle_3

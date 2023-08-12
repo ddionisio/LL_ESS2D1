@@ -7,6 +7,12 @@ public class CriteriaGroup : MonoBehaviour {
     public GameObject itemsRootGO; //place all CriteriaItem here
 
     //animation
+    [Header("Animation")]
+    public M8.Animator.Animate animator;
+    [M8.Animator.TakeSelector]
+    public int takeShow = -1;
+    [M8.Animator.TakeSelector]
+    public int takeHide = -1;
 
     public bool active { get { return gameObject.activeSelf; } set { gameObject.SetActive(value); } }
 
@@ -66,7 +72,7 @@ public class CriteriaGroup : MonoBehaviour {
     private int[] mCriticResults;
     private int mItemActiveCount;
 
-    public void Setup(CriteriaData criteriaData) {
+    public void ApplyCriteria(CriteriaData criteriaData) {
         if(!mIsInit)
             Init();
         else
@@ -109,9 +115,20 @@ public class CriteriaGroup : MonoBehaviour {
         }
     }
 
+    public void Show() {
+        if(takeShow != -1)
+            animator.Play(takeShow);
+    }
+
+    public void Hide() {
+        if(takeHide != -1)
+            animator.Play(takeHide);
+    }
+
     private void Init() {
+        //initialize criteria items
         mItems = itemsRootGO.GetComponentsInChildren<CriteriaItem>(true);
-                
+
         for(int i = 0; i < mItems.Length; i++) {
             //TODO: initialize palette here
             mItems[i].Init();

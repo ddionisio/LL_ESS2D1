@@ -80,6 +80,8 @@ public class OverworldController : GameModeController<OverworldController> {
             }
         }
 
+        criteriaGroup.ApplyCriteria(hotspotGroupCurrent.criteria);
+
         hotspotCurrent = null;
     }
 
@@ -140,7 +142,7 @@ public class OverworldController : GameModeController<OverworldController> {
         //some intros
 
         //show hotspots
-        int hotspotIndex = -1;
+        int hotspotIndex;
 
         if(!debugOverrideHotspotGroup) {
             hotspotIndex = GameData.instance.hotspotGroupIndex;
@@ -189,9 +191,8 @@ public class OverworldController : GameModeController<OverworldController> {
         //anim
 
         //show critic group
-        criteriaGroup.Setup(hotspotGroupCurrent.criteria);
         criteriaGroup.active = true;
-        //anim
+        criteriaGroup.Show();
 
         //push investigate modal
         mModalHotspotInvestigateParms[ModalHotspotInvestigate.parmSeason] = mCurSeasonData;
@@ -212,9 +213,8 @@ public class OverworldController : GameModeController<OverworldController> {
         landscapePreview.active = false;
 
         //hide critic group
-        //anim
-        criteriaGroup.active = false;
-
+        criteriaGroup.Hide();
+        
         //zoom-out
         overworldView.ZoomOut();
 
@@ -223,6 +223,8 @@ public class OverworldController : GameModeController<OverworldController> {
             yield return null;
 
         hotspotGroupCurrent.active = true;
+
+        criteriaGroup.active = false;
 
         ModalShowOverworld();
 

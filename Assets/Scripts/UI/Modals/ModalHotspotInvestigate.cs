@@ -12,29 +12,26 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
 
     public struct AtmosphereStatWidgetItem {
         public AtmosphereAttributeRangeWidget widget;
-        public int statIndex;
 
         public bool active { get { return widget.gameObject.activeSelf; } set { widget.gameObject.SetActive(value); } }
         public Transform transform { get { return widget.transform; } }
     }
 
-    [Header("Hotspot Info Display")]
+    [Header("Hotspot Display")]
     public Image hotspotIconImage;
     public bool hotspotIconUseNativeSize;
 
     public TMP_Text hotspotRegionNameLabel;
-    [M8.Localize]
-    public string hotspotRegionTitleRef;
-    public string hotspotRegionNameFormat = "{0}: {1}";
-
     public TMP_Text hotspotClimateNameLabel;
-    [M8.Localize]
-    public string hotspotClimateTitleRef;
-    public string hotspotClimateNameFormat = "{0}: {1}";
+
+    [Header("Season Display")]
+    public Image seasonIconImage;
+    public bool seasonIconUseNativeSize;
+    public TMP_Text seasonNameLabel;
 
     [Header("Atmosphere Attributes Display")]
-    public AtmosphereAttributeBase[] atmosphereStatDisplays; //which attributes to display, in order
     public AtmosphereAttributeRangeWidget atmosphereStatTemplate; //not a prefab
+    public int atmosphereStatCapacity = 8;
     public Transform atmosphereStatRoot;
 
     [Header("Altitude Display")]
@@ -89,6 +86,18 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
         }
     }
 
+    public void RegionPrevious() {
+        var val = Mathf.RoundToInt(landscapeRegionSlider.value);
+        if(val > 0)
+            landscapeRegionSlider.value = val - 1;
+    }
+
+    public void RegionNext() {
+        var val = Mathf.RoundToInt(landscapeRegionSlider.value);
+        if(val < mLandscapePreview.regionCount - 1)
+            landscapeRegionSlider.value = val + 1;
+    }
+
     void M8.IModalPop.Pop() {
         if(mAltitudeChangeRout != null) {
             StopCoroutine(mAltitudeChangeRout);
@@ -130,16 +139,29 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
 
         //setup hotspot info display
         var hotspotData = mLandscapePreview.hotspotData;
+        if(hotspotData) {
+            if(hotspotIconImage) {
+                hotspotIconImage.sprite = hotspotData.climate.icon;
+                if(hotspotIconUseNativeSize)
+                    hotspotIconImage.SetNativeSize();
+            }
 
-        if(hotspotIconImage) {
-            hotspotIconImage.sprite = hotspotData.climate.icon;
-            if(hotspotIconUseNativeSize)
-                hotspotIconImage.SetNativeSize();
+            if(hotspotRegionNameLabel) hotspotRegionNameLabel.text = M8.Localize.Get(hotspotData.nameRef);
+
+            if(hotspotClimateNameLabel) hotspotClimateNameLabel.text = M8.Localize.Get(hotspotData.climate.nameRef);
         }
 
-        if(hotspotRegionNameLabel) hotspotRegionNameLabel.text = string.Format(hotspotRegionNameFormat, M8.Localize.Get(hotspotRegionTitleRef), M8.Localize.Get(hotspotData.nameRef));
+        //setup season info display
+        if(mCurSeason) {
+            if(seasonIconImage) {
+                seasonIconImage.sprite = mCurSeason.icon;
+                if(seasonIconUseNativeSize)
+                    seasonIconImage.SetNativeSize();
+            }
 
-        if(hotspotClimateNameLabel) hotspotClimateNameLabel.text = string.Format(hotspotClimateNameFormat, M8.Localize.Get(hotspotClimateTitleRef), M8.Localize.Get(hotspotData.climate.nameRef));
+            if(seasonNameLabel)
+                seasonNameLabel.text = M8.Localize.Get(mCurSeason.nameRef);
+        }
 
         //setup landscape slider
         var landscapePreviewTelemetry = mLandscapePreview.landscapePreviewTelemetry;
@@ -213,33 +235,22 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
             mCurStats = hotspotData.GenerateModifiedStats(mCurSeason, mRegionIndex);
 
             //setup active items
-            for(int i = 0; i < atmosphereStatDisplays.Length; i++) {
-                int statIndex = -1;
-                for(int j = 0; j < mCurStats.Length; j++) {
-                    if(mCurStats[j].atmosphere == atmosphereStatDisplays[i]) {
-                        statIndex = j;
-                        break;
-                    }
+            for(int i = 0; i < mCurStats.Length; i++) {
+                var stat = mCurStats[i];
+
+                if(mAtmosphereStatWidgetCache.Count == 0) {
+                    Debug.LogWarning("Ran out of atmosphere widget for: " + hotspotData.name);
+                    break;
                 }
 
-                if(statIndex != -1) {
-                    var stat = mCurStats[statIndex];
+                var newItm = mAtmosphereStatWidgetCache.RemoveLast();
 
-                    if(mAtmosphereStatWidgetCache.Count == 0) {
-                        Debug.LogWarning("Ran out of atmosphere widget for: " + hotspotData.name);
-                        break;
-                    }
+                newItm.widget.Setup(stat.atmosphere, stat.range);
 
-                    var newItm = mAtmosphereStatWidgetCache.RemoveLast();
+                newItm.transform.SetAsLastSibling();
+                newItm.active = true;
 
-                    newItm.widget.Setup(stat.atmosphere, stat.range);
-                    newItm.statIndex = statIndex;
-
-                    newItm.transform.SetAsLastSibling();
-                    newItm.active = true;
-
-                    mAtmosphereStatWidgetActives.Add(newItm);
-                }
+                mAtmosphereStatWidgetActives.Add(newItm);
             }
         }
         else { //update values
@@ -248,7 +259,7 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
             for(int i = 0; i < mAtmosphereStatWidgetActives.Count; i++) {
                 var itm = mAtmosphereStatWidgetActives[i];
 
-                itm.widget.SetRange(mCurStats[itm.statIndex].range);
+                itm.widget.SetRange(mCurStats[i].range);
             }
         }
 
@@ -262,18 +273,16 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
     }
 
     private void InitAttributeWidgets() {
-        var capacity = atmosphereStatDisplays.Length;
+        mAtmosphereStatWidgetActives = new M8.CacheList<AtmosphereStatWidgetItem>(atmosphereStatCapacity);
+        mAtmosphereStatWidgetCache = new M8.CacheList<AtmosphereStatWidgetItem>(atmosphereStatCapacity);
 
-        mAtmosphereStatWidgetActives = new M8.CacheList<AtmosphereStatWidgetItem>(capacity);
-        mAtmosphereStatWidgetCache = new M8.CacheList<AtmosphereStatWidgetItem>(capacity);
-
-        for(int i = 0; i < capacity; i++) {
+        for(int i = 0; i < atmosphereStatCapacity; i++) {
             var newItm = Instantiate(atmosphereStatTemplate);
 
             newItm.transform.SetParent(atmosphereStatRoot, false);
             newItm.gameObject.SetActive(false);
 
-            mAtmosphereStatWidgetCache.Add(new AtmosphereStatWidgetItem { widget = newItm, statIndex = -1 });
+            mAtmosphereStatWidgetCache.Add(new AtmosphereStatWidgetItem { widget = newItm });
         }
 
         atmosphereStatTemplate.gameObject.SetActive(false);
