@@ -30,6 +30,9 @@ public class PS2DEditor:Editor{
 	private Vector3 pivotStart;
 	private Tool rememberTool;
 
+	private static string exportFolderPath = "Assets";
+	private bool applyMeshOnExport = true; //MODIFIED: set this object's mesh to the exported one
+
 	#region Adding and setting up new object
 
 	[MenuItem("GameObject/2D Object/ProtoShape 2D")]
@@ -530,15 +533,41 @@ public class PS2DEditor:Editor{
 			}
 #endif
 			//Export
+			EditorGUILayout.BeginVertical(GUI.skin.box);
+
+			//MODIFIED: set this object's mesh to the exported one
+			EditorGUILayout.BeginHorizontal();
+
+			EditorGUILayout.LabelField(exportFolderPath);
+
+			if(GUILayout.Button("...")) {
+				var path = exportFolderPath;
+				if(string.IsNullOrEmpty(path))
+					path = Application.dataPath;
+
+				exportFolderPath = EditorUtility.SaveFolderPanel("Export Path", path, "");
+				var sInd = exportFolderPath.IndexOf("Assets");
+				if(sInd != -1)
+					exportFolderPath = exportFolderPath.Substring(sInd);
+				else
+					exportFolderPath = "Assets";
+			}
+
+			EditorGUILayout.EndHorizontal();
+			
+			applyMeshOnExport = EditorGUILayout.Toggle("Apply Mesh On Export", applyMeshOnExport);
+
 			EditorGUILayout.BeginHorizontal();
 			EditorGUILayout.PrefixLabel(new GUIContent("Export","Export the shape to enother form of object"));
 			if(GUILayout.Button(new GUIContent("Mesh","Save current object as a Mesh asset in the root of your project"))){
-				ExportMesh();
+				ExportMesh(exportFolderPath, applyMeshOnExport);
 			}
 			if(GUILayout.Button(new GUIContent("PNG","Save current object as a PNG file in the root of your project"))){
 				ExportPNG();
 			}
 			EditorGUILayout.EndHorizontal();
+
+			EditorGUILayout.EndVertical();
 
 			/*
 			//Extrude
@@ -1716,14 +1745,27 @@ public class PS2DEditor:Editor{
 	}
 	*/
 
-	void ExportMesh(){
+	void ExportMesh(string folder, bool applyMesh){
 		script.UpdateMesh();
 		Mesh mesh=script.GetMesh();
-		if(System.IO.File.Exists("Assets/"+mesh.name.ToString()+".asset") && !EditorUtility.DisplayDialog("Warning","Asset with this name already exists in root of your project.","Overwrite","Cancel")){
+		if(System.IO.File.Exists(folder + "/" + mesh.name.ToString()+".asset") && !EditorUtility.DisplayDialog("Warning","Asset with this name already exists in root of your project.","Overwrite","Cancel")){
 			return;
 		}
-		AssetDatabase.CreateAsset(UnityEngine.Object.Instantiate(mesh),"Assets/"+mesh.name.ToString()+".asset");
+
+		var path = folder + "/" + mesh.name.ToString() + ".asset";
+
+		AssetDatabase.CreateAsset(Instantiate(mesh), path);
 		AssetDatabase.SaveAssets();
+
+		if(applyMesh) {
+			var meshFilter = script.GetComponent<MeshFilter>();
+			if(meshFilter) {
+				Undo.RecordObject(meshFilter, "Apply Saved Mesh");
+				var meshLoaded = AssetDatabase.LoadAssetAtPath<Mesh>(path);
+				meshFilter.sharedMesh = meshLoaded;
+				EditorUtility.SetDirty(meshFilter);
+			}
+		}
 	}
 
 	void ExportPNG(){

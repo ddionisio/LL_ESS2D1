@@ -89,7 +89,7 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
 
     [Header("Scenes")]
     //intro sets progress to 1
-    public M8.SceneAssetPath overworldScene;
+    public M8.SceneAssetPath[] overworldScenes;
     public M8.SceneAssetPath endScene;
 
     [Header("Signals")]
@@ -210,8 +210,9 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
         //end?
         if(LoLManager.instance.curProgress >= LoLManager.instance.progressMax)
             endScene.Load();
-        else
-            overworldScene.Load();
+        else {
+            LoadOverworldScene(LoLManager.instance.curProgress);
+        }
     }
 
     public void ProgressNextToColony(M8.SceneAssetPath colonyScene, int regionIndex, int seasonIndex) {
@@ -250,7 +251,7 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
             endScene.Load();
         }
         else if(curProgress % 2 == 1) { //overworld
-            overworldScene.Load();
+            LoadOverworldScene(curProgress);
         }
         else { //continue to colony scene
             var userDat = LoLManager.instance.userData;
@@ -261,7 +262,7 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
                 M8.SceneManager.instance.LoadScene(sceneName);
             else { //fail-safe, go back to previous progress
                 LoLManager.instance.ApplyProgress(curProgress - 1);
-                overworldScene.Load();
+                LoadOverworldScene(LoLManager.instance.curProgress);
             }
         }
     }
@@ -269,5 +270,10 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     protected override void OnInstanceInit() {
         isProceed = false;
         mIsPaused = false;
+    }
+
+    private void LoadOverworldScene(int progress) {
+        int overworldSceneInd = Mathf.Clamp(progress >> 1, 0, overworldScenes.Length - 1);
+        overworldScenes[overworldSceneInd].Load();
     }
 }

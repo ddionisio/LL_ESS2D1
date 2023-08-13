@@ -11,9 +11,11 @@ public class OverworldController : GameModeController<OverworldController> {
 
     [Header("Overworld")]
     public OverworldView overworldView;
+    public ParticleSystem overworldWindFX;
+    public bool overworldWindFXPlayOnStart = true;
 
     [Header("Hotspots")]
-    public Transform hotspotRoot;
+    public HotspotGroup hotspotGroup;
     public float hotspotZoom;
 
     [Header("Investigate")]
@@ -31,17 +33,9 @@ public class OverworldController : GameModeController<OverworldController> {
     public SignalAtmosphereAttribute signalInvokeAtmosphereOverlayDefault;
     public SignalSeasonData signalInvokeSeasonDefault;
 
-    [Header("Debug")]
-    public bool debugOverrideHotspotGroup;
-    public string debugHotspotGroup;
-    public int debugHotspotIndex; //if group is empty
-
-    public HotspotGroup hotspotGroupCurrent { get; private set; }
     public Hotspot hotspotCurrent { get; private set; }
 
     public bool isBusy { get { return mRout != null; } }
-
-    private HotspotGroup[] mHotspotGroups;
 
     private SeasonData mCurSeasonData;
 
@@ -50,40 +44,6 @@ public class OverworldController : GameModeController<OverworldController> {
     private M8.GenericParams mModalOverworldParms = new M8.GenericParams();
     private M8.GenericParams mModalHotspotAnalyzeParms = new M8.GenericParams();
     private M8.GenericParams mModalHotspotInvestigateParms = new M8.GenericParams();
-
-    public int GetHotspotGroup(string groupName) {
-        for(int i = 0; i < mHotspotGroups.Length; i++) {
-            if(mHotspotGroups[i].name == groupName)
-                return i;
-        }
-
-        return -1;
-    }
-
-    public void SetHotspotGroupCurrent(int groupIndex) {
-        if(hotspotGroupCurrent != null) {
-            hotspotGroupCurrent.active = false;
-            hotspotGroupCurrent = null;
-
-            landscapePreview.DestroyHotspotPreviews();
-        }
-
-        if(groupIndex >= 0 && groupIndex < mHotspotGroups.Length) {
-            hotspotGroupCurrent = mHotspotGroups[groupIndex];
-            hotspotGroupCurrent.active = true;
-
-            //prep landscape prefabs for preview
-            for(int i = 0; i < hotspotGroupCurrent.hotspots.Length; i++) {
-                var hotspot = hotspotGroupCurrent.hotspots[i];
-
-                landscapePreview.AddHotspotPreview(hotspot.hotspot.data);
-            }
-        }
-
-        criteriaGroup.ApplyCriteria(hotspotGroupCurrent.criteria);
-
-        hotspotCurrent = null;
-    }
 
     protected override void OnInstanceDeinit() {
         if(signalListenSeasonToggle) signalListenSeasonToggle.callback -= OnSeasonToggle;
@@ -102,23 +62,11 @@ public class OverworldController : GameModeController<OverworldController> {
 
     protected override void OnInstanceInit() {
         base.OnInstanceInit();
-
-        if(hotspotRoot) {
-            mHotspotGroups = new HotspotGroup[hotspotRoot.childCount];
-
-            for(int i = 0; i < hotspotRoot.childCount; i++) {
-                var t = hotspotRoot.GetChild(i);
-                var grp = t.GetComponent<HotspotGroup>();
-                if(grp)
-                    grp.active = false; //hide initially
-
-                mHotspotGroups[i] = grp;
-            }
-        }
-        else
-            mHotspotGroups = new HotspotGroup[0];
-
+                
         mCurSeasonData = seasonDefault;
+
+        if(hotspotGroup)
+            hotspotGroup.active = false;
 
         if(landscapePreview)
             landscapePreview.active = false;
@@ -139,22 +87,24 @@ public class OverworldController : GameModeController<OverworldController> {
 
         //show overworld
 
+        //wind FX
+        if(overworldWindFX && overworldWindFXPlayOnStart)
+            overworldWindFX.Play();
+
         //some intros
 
-        //show hotspots
-        int hotspotIndex;
+        //setup hotspot
+        if(hotspotGroup) {
+            //prep landscape prefabs for preview
+            for(int i = 0; i < hotspotGroup.hotspots.Length; i++) {
+                var hotspot = hotspotGroup.hotspots[i];
 
-        if(!debugOverrideHotspotGroup) {
-            hotspotIndex = GameData.instance.hotspotGroupIndex;
-        }
-        else {
-            if(!string.IsNullOrEmpty(debugHotspotGroup))
-                hotspotIndex = GetHotspotGroup(debugHotspotGroup);
-            else
-                hotspotIndex = debugHotspotIndex;
-        }
+                landscapePreview.AddHotspotPreview(hotspot.hotspot.data);
+            }
 
-        SetHotspotGroupCurrent(hotspotIndex);
+            //show
+            hotspotGroup.active = true;
+        }
 
         yield return null;
 
@@ -175,7 +125,7 @@ public class OverworldController : GameModeController<OverworldController> {
         while(M8.ModalManager.main.isBusy || M8.ModalManager.main.IsInStack(GameData.instance.modalOverworld))
             yield return null;
 
-        hotspotGroupCurrent.active = false;
+        hotspotGroup.active = false;
 
         //zoom-in
         overworldView.ZoomIn(hotspot.position, hotspotZoom);
@@ -222,7 +172,7 @@ public class OverworldController : GameModeController<OverworldController> {
         while(overworldView.isBusy || M8.ModalManager.main.isBusy || M8.ModalManager.main.IsInStack(GameData.instance.modalHotspotInvestigate))
             yield return null;
 
-        hotspotGroupCurrent.active = true;
+        hotspotGroup.active = true;
 
         criteriaGroup.active = false;
 
@@ -273,7 +223,7 @@ public class OverworldController : GameModeController<OverworldController> {
         //show analysis
         mModalHotspotAnalyzeParms[ModalHotspotAnalyze.parmHotspot] = hotspot;
         mModalHotspotAnalyzeParms[ModalHotspotAnalyze.parmSeason] = mCurSeasonData;
-        mModalHotspotAnalyzeParms[ModalHotspotAnalyze.parmCriteria] = hotspotGroupCurrent.criteria;
+        mModalHotspotAnalyzeParms[ModalHotspotAnalyze.parmCriteria] = hotspotGroup.criteria;
 
         M8.ModalManager.main.Open(GameData.instance.modalHotspotAnalyze, mModalHotspotAnalyzeParms);
     }
@@ -307,7 +257,7 @@ public class OverworldController : GameModeController<OverworldController> {
         mModalOverworldParms[ModalOverworld.parmAtmosphereActives] = atmosphereActiveOverlays;
         mModalOverworldParms[ModalOverworld.parmAtmosphere] = atmosphereDefault;
         mModalOverworldParms[ModalOverworld.parmSeason] = mCurSeasonData;
-        mModalOverworldParms[ModalOverworld.parmCriteria] = hotspotGroupCurrent ? hotspotGroupCurrent.criteria : null;
+        mModalOverworldParms[ModalOverworld.parmCriteria] = hotspotGroup ? hotspotGroup.criteria : null;
 
         M8.ModalManager.main.Open(GameData.instance.modalOverworld, mModalOverworldParms);
     }

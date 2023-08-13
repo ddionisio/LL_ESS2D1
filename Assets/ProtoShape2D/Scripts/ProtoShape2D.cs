@@ -215,8 +215,8 @@ public class ProtoShape2D:MonoBehaviour{
 			}
 		}
 
-		//MODIFY: only really need to generate mesh if we are creating a new instance, cloning, etc. in edit mode
-		if((Application.isPlaying && !mf.sharedMesh) || !mf.sharedMesh || mf.sharedMesh.name != uniqueName) {
+		//MODIFY: allow fixed mesh when exporting
+		if(!mf.sharedMesh) {
 			Mesh mesh = new Mesh { name = uniqueName };
 			mf.sharedMesh = mesh;
 			UpdateMaterialSettings();

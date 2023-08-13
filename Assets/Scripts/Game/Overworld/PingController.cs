@@ -128,7 +128,7 @@ public class PingController : MonoBehaviour, IPointerClickHandler {
         Vector2 pos = hit.worldPosition;
 
         //check hotspots
-        var hotspotGrp = OverworldController.instance.hotspotGroupCurrent;
+        var hotspotGrp = OverworldController.instance.hotspotGroup;
         if(!hotspotGrp)
             return;
 
