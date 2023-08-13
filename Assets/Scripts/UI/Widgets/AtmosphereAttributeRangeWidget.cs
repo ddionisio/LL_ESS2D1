@@ -14,6 +14,7 @@ public class AtmosphereAttributeRangeWidget : MonoBehaviour {
     public string nameFormat = "{0}:";
 
     public TMP_Text rangeLabel;
+    public bool rangeUseSingleValue;
 
     [Header("Range Change")]
     public float rangeChangeDelay = 0.5f;
@@ -43,7 +44,11 @@ public class AtmosphereAttributeRangeWidget : MonoBehaviour {
 
     public void Setup(AtmosphereAttributeBase atmosphereAttribute, M8.RangeFloat range) {
         mAtmosphereAttr = atmosphereAttribute;
-        mCurRange = range;
+
+        if(rangeUseSingleValue)
+            mCurRange = new M8.RangeFloat(range.Lerp(0.5f));
+        else
+            mCurRange = range;
 
         if(iconImage) {
             iconImage.sprite = mAtmosphereAttr.icon;
@@ -61,7 +66,11 @@ public class AtmosphereAttributeRangeWidget : MonoBehaviour {
     public void SetRange(M8.RangeFloat range) {
         if(mRout == null) {
             mFromRange = mCurRange;
-            mToRange = range;
+
+            if(rangeUseSingleValue)
+                mToRange = new M8.RangeFloat(range.Lerp(0.5f));
+            else
+                mToRange = range;
 
             mRout = StartCoroutine(DoRangeChange());
         }
@@ -80,7 +89,10 @@ public class AtmosphereAttributeRangeWidget : MonoBehaviour {
 
             var t = mRangeChangeEaseFunc(curTime, rangeChangeDelay, 0f, 0f);
 
-            mCurRange = new M8.RangeFloat { min=Mathf.LerpUnclamped(mFromRange.min, mToRange.min, t), max = Mathf.LerpUnclamped(mFromRange.max, mToRange.max, t) };
+            if(rangeUseSingleValue)
+                mCurRange = new M8.RangeFloat(Mathf.LerpUnclamped(mFromRange.min, mToRange.min, t));
+            else
+                mCurRange = new M8.RangeFloat(Mathf.LerpUnclamped(mFromRange.min, mToRange.min, t), Mathf.LerpUnclamped(mFromRange.max, mToRange.max, t));
 
             ApplyCurRangeText();
         }
