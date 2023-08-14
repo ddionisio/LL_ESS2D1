@@ -20,6 +20,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ac5f6108cc5374647a455ba1ad6db09d, type: 2}
   - {fileID: 11400000, guid: 78dd022e7c535a540a62a7bed510d39a, type: 2}
   - {fileID: 11400000, guid: b553b8f311ac39848a8fb444db305054, type: 2}
+  cycleDayNameRefs:
+  - day_monday
+  - day_tuesday
+  - day_wednesday
+  - day_thursday
+  - day_friday
+  - day_saturday
+  - day_sunday
+  cycleDayNameCurrentRef: day_today
   overworldLaunchCriticGoodCount: 3
   groundLayerMask:
     serializedVersion: 2

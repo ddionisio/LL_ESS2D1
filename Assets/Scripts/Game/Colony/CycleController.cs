@@ -92,6 +92,24 @@ public class CycleController : MonoBehaviour {
         mRout = StartCoroutine(DoProcess());
     }
 
+    /// <summary>
+    /// Ensure Setup has already been called
+    /// </summary>
+    public AtmosphereStat[] GenerateAtmosphereStats(int aCycleInd) {
+        var cycleDat = cycleData.cycles[aCycleInd];
+
+        var stats = new AtmosphereStat[mAtmosphereStatsDefault.Length];
+        System.Array.Copy(mAtmosphereStatsDefault, stats, stats.Length);
+
+        if(mRegionAtmosphereMods != null)
+            AtmosphereModifier.Apply(stats, mRegionAtmosphereMods);
+
+        if(cycleDat.atmosphereMods != null)
+            AtmosphereModifier.Apply(stats, cycleDat.atmosphereMods);
+
+        return stats;
+    }
+
     IEnumerator DoProcess() {
         var gameDat = GameData.instance;
 

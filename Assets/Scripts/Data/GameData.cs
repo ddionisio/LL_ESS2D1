@@ -35,6 +35,12 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     [Tooltip("Ensure the array is of the following: winter, spring, summer, autumn.")]
     public SeasonData[] seasons;
 
+    [Header("Cycle Data")]
+    [M8.Localize]
+    public string[] cycleDayNameRefs;
+    [M8.Localize]
+    public string cycleDayNameCurrentRef;
+
     [Header("Overworld")]
     public int overworldLaunchCriticGoodCount = 3; //determines how many must be satisfied to launch colony
 
@@ -185,6 +191,12 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
         }
 
         return -1;
+    }
+
+    public string GetCycleName(int cycleIndex) {
+        if(cycleDayNameRefs == null || cycleDayNameRefs.Length == 0) return ""; //fail-safe
+
+        return M8.Localize.Get(cycleDayNameRefs[cycleIndex % cycleDayNameRefs.Length]);
     }
 
     public void ProgressReset() {
