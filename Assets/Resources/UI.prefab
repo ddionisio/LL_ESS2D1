@@ -1282,7 +1282,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 281531690}
-  - component: {fileID: 281531692}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -1310,32 +1309,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: -0}
   m_Pivot: {x: 0, y: 0.5}
---- !u!114 &281531692
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 281531689}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 4
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 3
-  m_Spacing: 8
-  m_ChildForceExpandWidth: 0
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
-  m_ChildScaleWidth: 1
-  m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
 --- !u!1 &292762925
 GameObject:
   m_ObjectHideFlags: 0
@@ -4671,11 +4644,11 @@ RectTransform:
   m_Father: {fileID: 281531690}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 140, y: -88}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 4, y: 0}
   m_SizeDelta: {x: 272, y: 132}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &711279513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8192,9 +8165,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ModalHotspotInvestigate, Assembly-CSharp
-        m_MethodName: 
+      - m_Target: {fileID: 1436978347}
+        m_TargetAssemblyTypeName: ModalWeatherForecast, Assembly-CSharp
+        m_MethodName: PageNext
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8993,9 +8966,11 @@ MonoBehaviour:
   forecastItemTemplate: {fileID: 711279513}
   forecastItemCapacity: 7
   forecastItemRoot: {fileID: 281531690}
+  layoutPadding: 4
+  layoutItemSpace: 8
   scrollRoot: {fileID: 281531690}
   scrollItemPerPage: 3
-  scrollMoveDelay: 0.5
+  scrollMoveDelay: 0.3
 --- !u!114 &1542852476046237593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9058,9 +9033,9 @@ MonoBehaviour:
   sequenceKillWhenDone: 0
   playOnEnable: 0
   isGlobal: 0
-  onDisableAction: 1
+  onDisableAction: 3
   updateType: 0
-  updateTimeIndependent: 0
+  updateTimeIndependent: 1
   serializeData:
     _audioTracks: []
     _audioKeys: []
@@ -9792,9 +9767,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ModalHotspotInvestigate, Assembly-CSharp
-        m_MethodName: 
+      - m_Target: {fileID: 1436978347}
+        m_TargetAssemblyTypeName: ModalWeatherForecast, Assembly-CSharp
+        m_MethodName: PagePrevious
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class CycleUnitSpawnerBase : CycleControl {
+public abstract class CycleUnitSpawnerBase : CycleControlBase {
     [System.Serializable]
     public struct SpawnInfo {
         public float delay;

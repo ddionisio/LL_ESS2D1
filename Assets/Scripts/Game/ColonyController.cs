@@ -5,6 +5,12 @@ using UnityEngine;
 using LoLExt;
 
 public class ColonyController : GameModeController<ColonyController> {
+    public enum FastForwardState {
+        None, //disabled
+        Normal, //time scale = 1
+        FastForward, //time scale > 1
+    }
+
     public struct ResourceInfo {
         public float amount {
             get { return mAmount; }
@@ -90,10 +96,40 @@ public class ColonyController : GameModeController<ColonyController> {
         }
     }
 
+    public FastForwardState fastforwardState {
+        get { return mFastForwardState; }
+        set {
+            if(mFastForwardState != value) {
+                mFastForwardState = value;
+
+                if(M8.SceneManager.isInstantiated) {
+                    var sceneMgr = M8.SceneManager.instance;
+
+                    switch(mFastForwardState) {
+                        case FastForwardState.FastForward:
+                            sceneMgr.timeScale = GameData.instance.fastForwardScale;
+                            break;
+                        default:
+                            sceneMgr.timeScale = 1f;
+                            break;
+                    }
+
+                    fastforwardChangedCallback?.Invoke(mFastForwardState);
+                }
+            }
+        }
+    }
+
+    public event System.Action<FastForwardState> fastforwardChangedCallback;
+
     private ResourceInfo[] mResources;
 
     private int mPopulation;
     private int mPopulationCapacity;
+
+    private FastForwardState mFastForwardState = FastForwardState.None;
+
+    private M8.GenericParams mWeatherForecastParms = new M8.GenericParams();
 
     public float GetResourceAmount(StructureResourceData.ResourceType resourceType) {
         return mResources[(int)resourceType].amount;
@@ -132,7 +168,25 @@ public class ColonyController : GameModeController<ColonyController> {
         return mResources[(int)resourceType].isFull;
     }
 
+    public void ShowWeatherForecast(bool initialCycle, bool pause) {
+        if(initialCycle)
+            mWeatherForecastParms[ModalWeatherForecast.parmCycleController] = cycleController;
+        else
+            mWeatherForecastParms[ModalWeatherForecast.parmCycleController] = null;
+
+        mWeatherForecastParms[ModalWeatherForecast.parmCycleCurrentIndex] = cycleController.cycleCurIndex;
+
+        mWeatherForecastParms[ModalWeatherForecast.parmPause] = pause;
+
+        M8.ModalManager.main.Open(GameData.instance.modalWeatherForecast, mWeatherForecastParms);
+    }
+
     protected override void OnInstanceDeinit() {
+        var gameDat = GameData.instance;
+
+        if(gameDat.signalCycleNext) gameDat.signalCycleNext.callback -= OnCycleNext;
+
+        fastforwardState = FastForwardState.None;
 
         base.OnInstanceDeinit();
     }
@@ -219,34 +273,59 @@ public class ColonyController : GameModeController<ColonyController> {
         colonyShip.Init(this);
 
         //setup signals
+        if(gameDat.signalCycleNext) gameDat.signalCycleNext.callback += OnCycleNext;
     }
 
     protected override IEnumerator Start() {
         yield return base.Start();
 
-        //weather forecast
+        ColonyHUD.instance.active = true;
 
+        GameData.instance.signalColonyStart?.Invoke();
+
+        //dialog, etc.
+
+        //weather forecast
+        ShowWeatherForecast(true, false);
+                
         //dialog, etc.
 
         StartCoroutine(DoCycle());
     }
 
     IEnumerator DoCycle() {
+        //wait for forecast to close
+        while(M8.ModalManager.main.IsInStack(GameData.instance.modalWeatherForecast) || M8.ModalManager.main.isBusy) {
+            yield return null;
+        }
+
         //colony ship enter
         colonyShip.Spawn();
-
-        //show hud
 
         cycleController.Begin();
 
         while(cycleController.isRunning)
             yield return null;
 
+        fastforwardState = FastForwardState.None;
+
         //determine population count, reset cycle if player needs more population
 
-        //hide hud
+        ColonyHUD.instance.active = false;
 
         //victory
+    }
+
+    void OnCycleNext() {
+        //stop any interaction during hazzard event
+        if(cycleController.isHazzard) {
+            structurePaletteController.PlacementCancel();
+
+            fastforwardState = FastForwardState.None;
+        }
+        else {
+            fastforwardState = FastForwardState.Normal;
+        }
     }
 
     private void OnDrawGizmos() {

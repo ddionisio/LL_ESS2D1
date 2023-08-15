@@ -48,6 +48,17 @@ public class WeatherForecastItemWidget : MonoBehaviour, IPointerClickHandler {
 
     public bool active { get { return gameObject.activeSelf; } set { gameObject.SetActive(value); } }
 
+    public float positionX { 
+        get { return rectTransform.anchoredPosition.x; }
+        set {
+            var pos = rectTransform.anchoredPosition;
+            pos.x = value;
+            rectTransform.anchoredPosition = pos;
+        }
+    }
+
+    public float width { get { return mIsExpand ? expandWidth : simpleWidth; } }
+
     public event System.Action<WeatherForecastItemWidget> clickCallback;
 
     public bool isExpand {
@@ -55,6 +66,7 @@ public class WeatherForecastItemWidget : MonoBehaviour, IPointerClickHandler {
         set {
             if(mIsExpand != value) {
                 mIsExpand = value;
+                ApplyExpand();
             }
         }
     }

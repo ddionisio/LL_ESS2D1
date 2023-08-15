@@ -45,6 +45,22 @@ MonoBehaviour:
       water: 0
       growth: 0
     windDirAngle: 0
+  - weather: {fileID: 11400000, guid: 17368d584a51685429cbcf06bf9b5557, type: 2}
+    atmosphereMods: []
+    resourceRateMod:
+      sun: 0
+      wind: 0
+      water: 0
+      growth: 0
+    windDirAngle: 0
+  - weather: {fileID: 11400000, guid: 17368d584a51685429cbcf06bf9b5557, type: 2}
+    atmosphereMods: []
+    resourceRateMod:
+      sun: 0
+      wind: 0
+      water: 0
+      growth: 0
+    windDirAngle: 0
   resourceRate:
     sun: 0
     wind: 0.3

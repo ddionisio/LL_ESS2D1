@@ -5,11 +5,16 @@ using UnityEngine;
 public class ModalWeatherForecast : M8.ModalController, M8.IModalPush, M8.IModalPop {
     public const string parmCycleController = "cycleCtrl"; //CycleController (optional. if null, forecast is not generated)
     public const string parmCycleCurrentIndex = "cycleInd"; //int (optional. set this to determine which cycles are currently active)
+    public const string parmPause = "pause"; //bool
 
     [Header("Item Info")]
     public WeatherForecastItemWidget forecastItemTemplate;
     public int forecastItemCapacity = 7;
     public Transform forecastItemRoot;
+
+    [Header("Layout Info")]
+    public float layoutPadding = 4f;
+    public float layoutItemSpace = 8f;
 
     [Header("Scroll Info")]
     public RectTransform scrollRoot;
@@ -31,11 +36,20 @@ public class ModalWeatherForecast : M8.ModalController, M8.IModalPush, M8.IModal
     private float mScrollCurPositionX;
     private float mScrollVelX;
 
+    private float mLayoutTotalWidth;
+
+    private float mLastTime;
+    private float mDeltaTime;
+
+    private bool mIsPause;
+
     public void PagePrevious() {
         if(mScrollCurPageIndex > 0) {
             mScrollCurPageIndex--;
 
-            mScrollVelX = -mScrollPageWidth * mScrollCurPageIndex;
+            mScrollCurPositionX = -mScrollPageWidth * mScrollCurPageIndex;
+
+            mLastTime = GetTime();
         }
     }
 
@@ -43,12 +57,23 @@ public class ModalWeatherForecast : M8.ModalController, M8.IModalPush, M8.IModal
         if(mScrollCurPageIndex < mScrollPageCount - 1) {
             mScrollCurPageIndex++;
 
-            mScrollVelX = -mScrollPageWidth * mScrollCurPageIndex;
+            mScrollCurPositionX = -mScrollPageWidth * mScrollCurPageIndex;
+
+            if(mScrollCurPositionX + mLayoutTotalWidth < mScrollPageWidth) {
+                mScrollCurPositionX += mScrollPageWidth - (mScrollCurPositionX + mLayoutTotalWidth);
+            }
+
+            mLastTime = GetTime();
         }
     }
 
     void M8.IModalPop.Pop() {
         mItemExpanded = null;
+
+        if(mIsPause) {
+            M8.SceneManager.instance.Resume();
+            mIsPause = false;
+        }
     }
 
     void M8.IModalPush.Push(M8.GenericParams parms) {
@@ -60,11 +85,15 @@ public class ModalWeatherForecast : M8.ModalController, M8.IModalPush, M8.IModal
 
         mItemExpanded = null;
 
+        mIsPause = false;
+
         if(parms != null) {
             if(parms.ContainsKey(parmCycleController))
                 cycleCtrl = parms.GetValue<CycleController>(parmCycleController);
             if(parms.ContainsKey(parmCycleCurrentIndex))
                 mCycleIndex = parms.GetValue<int>(parmCycleCurrentIndex);
+            if(parms.ContainsKey(parmPause))
+                mIsPause = parms.GetValue<bool>(parmPause);
         }
 
         if(cycleCtrl) {
@@ -124,12 +153,25 @@ public class ModalWeatherForecast : M8.ModalController, M8.IModalPush, M8.IModal
 
         mScrollCurPositionX = 0f;
         mScrollVelX = 0f;
+
+        RefreshLayout();
+
+        if(mIsPause)
+            M8.SceneManager.instance.Pause();
+    }
+
+    private float GetTime() {
+        return mIsPause ? Time.realtimeSinceStartup : Time.time;
     }
 
     void Update() {
         var scrollPos = scrollRoot.anchoredPosition;
         if(scrollPos.x != mScrollCurPositionX) {
-            scrollPos.x = Mathf.SmoothDamp(scrollPos.x, mScrollCurPositionX, ref mScrollVelX, scrollMoveDelay);
+            var t = GetTime();
+            var dt = t - mLastTime;
+            mLastTime = t;
+
+            scrollPos.x = Mathf.SmoothDamp(scrollPos.x, mScrollCurPositionX, ref mScrollVelX, scrollMoveDelay, float.MaxValue, dt);
 
             scrollRoot.anchoredPosition = scrollPos;
         }
@@ -142,6 +184,8 @@ public class ModalWeatherForecast : M8.ModalController, M8.IModalPush, M8.IModal
             itm.isExpand = true;
 
             mItemExpanded = itm;
+
+            RefreshLayout();
         }
     }
 
@@ -176,5 +220,21 @@ public class ModalWeatherForecast : M8.ModalController, M8.IModalPush, M8.IModal
         }
 
         mItemActives.Clear();
+    }
+
+    private void RefreshLayout() {
+        var curX = layoutPadding;
+
+        for(int i = 0; i < mItemActives.Count; i++) {
+            var itm = mItemActives[i];
+
+            if(itm.active) {
+                itm.positionX = curX;
+
+                curX += itm.width + layoutItemSpace;
+            }
+        }
+
+        mLayoutTotalWidth = curX - layoutItemSpace + layoutPadding;
     }
 }

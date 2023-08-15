@@ -9,7 +9,7 @@ public class CycleController : MonoBehaviour {
         public CycleData data;
     }
 
-    [Header("Info")]    
+    [Header("Info")]
     public int regionIndex; //which region this is used for    
     public CycleItemInfo[] cycleSeasons;
     public CycleData cycleDataDefault; //if no season match, or we just don't want to deal with season specifics
@@ -52,6 +52,8 @@ public class CycleController : MonoBehaviour {
     }
 
     public void Setup(HotspotData hotspotData, SeasonData season) {
+        cycleCurIndex = 0;
+        cycleCurElapsed = 0f;
         cycleTimeScale = 1f;
 
         //grab cycle data based on season
@@ -75,16 +77,11 @@ public class CycleController : MonoBehaviour {
         cycleDuration = GameData.instance.cycleDuration / cycleData.cycles.Length;
 
         cycleResourceRate = cycleData.resourceRate;
-
-        var cycleControls = GetComponentsInChildren<CycleControl>(false);
-        for(int i = 0; i < cycleControls.Length; i++)
-            cycleControls[i].Init();
     }
 
     public void Begin() {
         if(mRout != null) {
-            var signalCycleEnd = GameData.instance.signalCycleEnd;
-            if(signalCycleEnd) signalCycleEnd.Invoke();
+            GameData.instance.signalCycleEnd?.Invoke();
 
             StopCoroutine(mRout);
         }
@@ -112,17 +109,23 @@ public class CycleController : MonoBehaviour {
 
     IEnumerator DoProcess() {
         var gameDat = GameData.instance;
-
-        cycleCurIndex = 0;
-        cycleCurElapsed = 0f;
-
+                
         ApplyCurrentCycleInfo();
 
         var signalCycleBegin = gameDat.signalCycleBegin;
         var signalCycleNext = gameDat.signalCycleNext;
         var signalCycleEnd = gameDat.signalCycleEnd;
 
-        if(signalCycleBegin) signalCycleBegin.Invoke();
+        signalCycleBegin?.Invoke();
+
+        //slight delay at progress at the beginning
+        if(gameDat.cycleBeginDelay > 0f) {
+            var curTime = 0f;
+            while(curTime < gameDat.cycleBeginDelay) {
+                yield return null;
+                curTime += Time.deltaTime * cycleTimeScale;
+            }
+        }
 
         while(true) {
             //time pass
@@ -140,10 +143,10 @@ public class CycleController : MonoBehaviour {
 
             ApplyCurrentCycleInfo();
 
-            if(signalCycleNext) signalCycleNext.Invoke();
+            signalCycleNext?.Invoke();
         }
 
-        if(signalCycleEnd) signalCycleEnd.Invoke();
+        signalCycleEnd?.Invoke();
 
         mRout = null;
     }

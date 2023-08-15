@@ -49,12 +49,10 @@ public class UnitItemWidget : MonoBehaviour, IPointerClickHandler, IPointerEnter
 
     public int counter {
         get { return mCounter; }
-        set {
-            if(mCounter != value) {
-                mCounter = value;
-                ApplyCounter();
-            }
-        }
+    }
+
+    public int counterQueue {
+        get { return mCounterQueue; }
     }
 
     public bool active { get { return gameObject.activeSelf; } set { gameObject.SetActive(value); } }
@@ -69,9 +67,18 @@ public class UnitItemWidget : MonoBehaviour, IPointerClickHandler, IPointerEnter
     private Action mAction;
     private bool mInteractable;
     private int mCounter;
+    private int mCounterQueue;
 
     private bool mIsInit;
     private PointerEventData mEnterPointerEventData;
+
+    private System.Text.StringBuilder mCounterSB = new System.Text.StringBuilder(10);
+
+    public void SetCounter(int aCounter, int aCounterQueue) {
+        mCounter = aCounter;
+        mCounterQueue = aCounterQueue;
+        ApplyCounter();
+    }
 
     public void Setup(UnitData aUnitData) {
         if(!mIsInit) Init();
@@ -131,8 +138,23 @@ public class UnitItemWidget : MonoBehaviour, IPointerClickHandler, IPointerEnter
     }
 
     private void ApplyCounter() {
-        if(counterLabel)
-            counterLabel.text = mCounter.ToString();
+        if(counterLabel) {
+            mCounterSB.Clear();
+
+            if(mCounterQueue == 0)
+                mCounterSB.Append(mCounter);
+            else if(mCounter == 0 && mCounterQueue > 0) {
+                mCounterSB.Append("+");
+                mCounterSB.Append(mCounterQueue);
+            }
+            else {
+                mCounterSB.Append(mCounter);
+                mCounterSB.Append(" + ");
+                mCounterSB.Append(mCounterQueue);
+            }
+
+            counterLabel.text = mCounterSB.ToString();
+        }
     }
 
     private void ApplyAction() {
@@ -167,6 +189,7 @@ public class UnitItemWidget : MonoBehaviour, IPointerClickHandler, IPointerEnter
         ApplyAction();
 
         mCounter = 0;
+        mCounterQueue = 0;
         ApplyCounter();
 
         mIsInit = true;

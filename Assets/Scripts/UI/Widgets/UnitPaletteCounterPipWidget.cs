@@ -9,16 +9,15 @@ public class UnitPaletteCounterPipWidget : MonoBehaviour {
     public GameObject baseGO;
     public Graphic baseGraphic;
     public Color baseActionNoneColor = Color.white;
+    public Color baseActionNoneQueueColor = Color.yellow;
     public Color baseActionIncreaseColor = Color.green;
-    public Color baseActionDecreaseColor = Color.red;
+    public Color baseActionDecreaseColor = Color.red;    
 
     public UnitItemWidget.Action action {
         get { return mAction; }
         set {
-            if(mAction != value) {
-                mAction = value;
-                ApplyActionDisplay();
-            }
+            mAction = value;
+            ApplyActionDisplay();
         }
     }
 
@@ -37,6 +36,8 @@ public class UnitPaletteCounterPipWidget : MonoBehaviour {
         set { if(lineGO) lineGO.SetActive(value); }
     }
 
+    public bool isQueue { get; set; }
+
     private UnitItemWidget.Action mAction;
 
     void Awake() {
@@ -47,7 +48,7 @@ public class UnitPaletteCounterPipWidget : MonoBehaviour {
     private void ApplyActionDisplay() {
         switch(mAction) {
             case UnitItemWidget.Action.None:
-                if(baseGraphic) baseGraphic.color = baseActionNoneColor;
+                if(baseGraphic) baseGraphic.color = isQueue ? baseActionNoneQueueColor : baseActionNoneColor;
                 break;
             case UnitItemWidget.Action.Increase:
                 if(baseGraphic) baseGraphic.color = baseActionIncreaseColor;

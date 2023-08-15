@@ -103,15 +103,15 @@ public class UnitPaletteWidget : MonoBehaviour {
                 unitWidget.active = false;
             else {
                 unitWidget.active = true;
+                unitWidget.interactable = true;
 
-                unitWidget.interactable = !unitPaletteCtrl.IsBusy(i);
-
-                unitWidget.counter = unitPaletteCtrl.GetActiveCountByType(unitWidget.unitData);
+                unitWidget.SetCounter(unitPaletteCtrl.GetActiveCountByType(unitWidget.unitData), unitPaletteCtrl.GetSpawnQueueCountByType(unitWidget.unitData));
             }
         }
 
         //refresh counter
-        mCounterPip = unitPaletteCtrl.activeCount;
+        var activeCount = unitPaletteCtrl.activeCount;
+        mCounterPip = activeCount + unitPaletteCtrl.queueCount;
 
         var isCountChanged = mCounterPipCount != capacity;
 
@@ -124,6 +124,7 @@ public class UnitPaletteWidget : MonoBehaviour {
 
                 if(i < mCounterPip) {
                     counterPip.baseActive = true;
+                    counterPip.isQueue = i >= activeCount;
                     counterPip.action = UnitItemWidget.Action.None;
                 }
                 else
@@ -150,13 +151,10 @@ public class UnitPaletteWidget : MonoBehaviour {
 
         var unitData = unitWidget.unitData;
 
-        if(unitPaletteCtrl.IsBusy(unitData)) //just in case
-            return;
-
         switch(unitWidget.action) {
             case UnitItemWidget.Action.Increase:
                 if(!unitPaletteCtrl.isFull) {
-                    unitPaletteCtrl.Spawn(unitData);
+                    unitPaletteCtrl.SpawnQueue(unitData);
                 }
                 else {
                     //TODO: error display
@@ -165,7 +163,7 @@ public class UnitPaletteWidget : MonoBehaviour {
                 break;
 
             case UnitItemWidget.Action.Decrease:
-                if(unitWidget.counter > 0) {
+                if(unitWidget.counter + unitWidget.counterQueue > 0) {
                     unitPaletteCtrl.Despawn(unitData);
                 }
                 break;

@@ -30,6 +30,7 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public string modalOverworld = "overworld";
     public string modalHotspotInvestigate = "hotspotInvestigate";
     public string modalHotspotAnalyze = "hotspotAnalyze";
+    public string modalWeatherForecast = "weatherForecast";
 
     [Header("Atmosphere Data")]
     [Tooltip("Ensure the array is of the following: winter, spring, summer, autumn.")]
@@ -40,6 +41,7 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public string[] cycleDayNameRefs;
     [M8.Localize]
     public string cycleDayNameCurrentRef;
+    public float cycleBeginDelay = 0.3f;
 
     [Header("Overworld")]
     public int overworldLaunchCriticGoodCount = 3; //determines how many must be satisfied to launch colony
@@ -81,6 +83,8 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
 
     public LayerMask unitLayerMask;
 
+    public float unitPaletteSpawnDelay = 2f;
+
     public float unitFallSpeed = 10f;
     public float unitUpdateAIDelay = 0.3f;
     public float unitHurtDelay = 0.5f; //how long to stay in hurt state
@@ -101,9 +105,10 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     [Header("Signals")]
     public M8.SignalBoolean signalPause;
 
-    [Header("Signals | Colony")]    
+    [Header("Signals | Colony")]
+    public M8.Signal signalColonyStart;
     public M8.SignalInteger signalClickCategory;
-
+        
     public M8.Signal signalCycleBegin;
     public M8.Signal signalCycleNext;
     public M8.Signal signalCycleEnd;

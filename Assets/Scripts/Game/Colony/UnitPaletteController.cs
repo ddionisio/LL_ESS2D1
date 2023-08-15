@@ -6,7 +6,6 @@ public class UnitPaletteController : MonoBehaviour {
     public struct UnitInfo {
         public UnitData data;
         public bool isHidden;
-        public Coroutine rout;
     }
 
     [Header("Signal Invoke")]
@@ -28,9 +27,11 @@ public class UnitPaletteController : MonoBehaviour {
 
     public int activeCount { get; private set; }
 
+    public int queueCount { get { return mUnitSpawnQueue.Count; } }
+
     public bool isFull {
         get {
-            return activeCount >= mCapacity;
+            return activeCount + mUnitSpawnQueue.Count >= mCapacity;
         }
     }
 
@@ -40,22 +41,39 @@ public class UnitPaletteController : MonoBehaviour {
 
     private UnitDespawnComparer mUnitDespawnComparer = new UnitDespawnComparer();
 
+    private List<UnitData> mUnitSpawnQueue = new List<UnitData>(32);
+
     private int mCapacity;
+
+    private Coroutine mSpawnQueueRout;
 
     public int GetUnitIndex(UnitData unitData) {
         return unitPalette.GetIndex(unitData);
     }
         
     public int GetActiveCountByType(UnitData unitData) {
+        int count = 0;
+
         var activeUnits = mUnitCtrl.GetUnitActivesByData(unitData);
-        return activeUnits != null ? activeUnits.Count : 0;
+        if(activeUnits != null) {
+            //don't count ones that are despawning
+            for(int i = 0; i < activeUnits.Count; i++) {
+                var unit = activeUnits[i];
+                if(!(unit.state == UnitState.None || unit.state == UnitState.Despawning))
+                    count++;
+            }
+        }
+
+        return count;
     }
 
-    public int GetActiveCountByType(int unitIndex) {
-        if(unitIndex < 0 || unitIndex >= mUnitInfos.Length) return 0;
-
-        var activeUnits = mUnitCtrl.GetUnitActivesByData(mUnitInfos[unitIndex].data);
-        return activeUnits != null ? activeUnits.Count : 0;
+    public int GetSpawnQueueCountByType(UnitData unitData) {
+        int count = 0;
+        for(int i = 0; i < mUnitSpawnQueue.Count; i++) {
+            if(mUnitSpawnQueue[i] == unitData)
+                count++;
+        }
+        return count;
     }
 
     public bool IsHidden(UnitData unitData) {
@@ -66,68 +84,65 @@ public class UnitPaletteController : MonoBehaviour {
         return unitIndex >= 0 && unitIndex < mUnitInfos.Length ? mUnitInfos[unitIndex].isHidden : true;
     }
 
-    /// <summary>
-    /// Check if this unit type is waiting for spawn/despawn
-    /// </summary>
-    public bool IsBusy(UnitData unitData) {
-        return IsBusy(unitPalette.GetIndex(unitData));
+    public void ClearSpawnQueue() {
+        if(mSpawnQueueRout != null) {
+            StopCoroutine(mSpawnQueueRout);
+            mSpawnQueueRout = null;
+        }
+
+        mUnitSpawnQueue.Clear();
     }
 
-    /// <summary>
-    /// Check if this unit type is waiting for spawn/despawn
-    /// </summary>
-    public bool IsBusy(int unitIndex) {
-        return unitIndex >= 0 && unitIndex < mUnitInfos.Length ? mUnitInfos[unitIndex].rout != null : false;
-    }
-
-    public void Spawn(UnitData unitData) {
+    public void SpawnQueue(UnitData unitData) {
         int ind = unitPalette.GetIndex(unitData);
         if(ind == -1) {
             Debug.LogWarning("Unit not found in palette: " + unitData.name);
             return;
         }
 
-        var structureOwner = ColonyController.instance.colonyShip;
-        if(!structureOwner) {
-            Debug.LogWarning("Colony ship not found!");
-            return;
-        }
+        mUnitSpawnQueue.Add(unitData);
 
-        Vector2 spawnPt;
+        if(mSpawnQueueRout == null)
+            mSpawnQueueRout = StartCoroutine(DoSpawnQueue());
 
-        var wp = structureOwner.GetWaypointRandom(GameData.structureWaypointSpawn, false);
-        if(wp != null)
-            spawnPt = wp.groundPoint.position;
-        else //fail-safe
-            spawnPt = structureOwner.position;
-
-        var unit = mUnitCtrl.Spawn(unitData, structureOwner, spawnPt);
-
-        mUnitInfos[ind].rout = StartCoroutine(WaitSpawn(ind, unit));
+        signalInvokeRefresh?.Invoke();
     }
 
     public void Despawn(UnitData unitData) {
-        int ind = unitPalette.GetIndex(unitData);
-        if(ind == -1) {
-            Debug.LogWarning("Unit not found in palette: " + unitData.name);
-            return;
+        //remove from queue first
+        if(mUnitSpawnQueue.Count > 0) {
+            for(int i = mUnitSpawnQueue.Count - 1; i >= 0; i--) {
+                var queue = mUnitSpawnQueue[i];
+                if(queue == unitData) {
+                    mUnitSpawnQueue.RemoveAt(i);
+                    break;
+                }
+            }
+        }
+        else {
+            int ind = unitPalette.GetIndex(unitData);
+            if(ind == -1) {
+                Debug.LogWarning("Unit not found in palette: " + unitData.name);
+                return;
+            }
+
+            var activeUnits = mUnitCtrl.GetUnitActivesByData(unitData);
+            if(activeUnits == null) {
+                Debug.LogWarning("Unit not found in palette: " + unitData.name);
+                return;
+            }
+
+            if(activeUnits.Count > 0) {
+                activeUnits.Sort(mUnitDespawnComparer); //grab the unit we most likely would want to despawn
+
+                var unit = activeUnits[0];
+                unit.Despawn();
+
+                activeCount--;
+            }
         }
 
-        var activeUnits = mUnitCtrl.GetUnitActivesByData(unitData);
-        if(activeUnits == null) {
-            Debug.LogWarning("Unit not found in palette: " + unitData.name);
-            return;
-        }
-
-        if(activeUnits.Count > 0) {
-            activeUnits.Sort(mUnitDespawnComparer); //grab the unit we most likely would want to despawn
-
-            var unit = activeUnits[0];
-
-            unit.Despawn();
-
-            mUnitInfos[ind].rout = StartCoroutine(WaitDespawn(ind, unit));
-        }
+        signalInvokeRefresh?.Invoke();
     }
 
     public void Setup(ColonyController colonyCtrl) {
@@ -148,7 +163,7 @@ public class UnitPaletteController : MonoBehaviour {
             mUnitCtrl.AddUnitData(paletteItm.data, unitCapacity, true);
             paletteItm.data.Setup(colonyCtrl);
 
-            mUnitInfos[i] = new UnitInfo { data = paletteItm.data, isHidden = paletteItm.isHidden, rout = null };
+            mUnitInfos[i] = new UnitInfo { data = paletteItm.data, isHidden = paletteItm.isHidden };
         }
 
         mCapacity = unitPalette.capacityStart;
@@ -157,58 +172,47 @@ public class UnitPaletteController : MonoBehaviour {
     }
 
     void OnDisable() {
-        var gameDat = GameData.instance;
-        if(gameDat.signalUnitSpawned) gameDat.signalUnitSpawned.callback -= OnSignalUnitSpawned;
-        if(gameDat.signalUnitDespawned) gameDat.signalUnitDespawned.callback -= OnSignalUnitDespawned;
+        ClearSpawnQueue();
+    }
 
-        for(int i = 0; i < mUnitInfos.Length; i++) {
-            if(mUnitInfos[i].rout != null) {
-                StopCoroutine(mUnitInfos[i].rout);
-                mUnitInfos[i].rout = null;
+    IEnumerator DoSpawnQueue() {
+        var spawnDelay = GameData.instance.unitPaletteSpawnDelay;
+
+        while(true) {
+            var curTime = 0f;
+            while(curTime < spawnDelay) {                
+                yield return null;
+                curTime += Time.deltaTime;
             }
+
+            if(mUnitSpawnQueue.Count > 0) {
+                var unitData = mUnitSpawnQueue[0];
+                mUnitSpawnQueue.RemoveAt(0);
+
+                var structureOwner = ColonyController.instance.colonyShip;
+                if(!structureOwner) {
+                    Debug.LogWarning("Colony ship not found!");
+                    continue;
+                }
+
+                Vector2 spawnPt;
+
+                var wp = structureOwner.GetWaypointRandom(GameData.structureWaypointSpawn, false);
+                if(wp != null)
+                    spawnPt = wp.groundPoint.position;
+                else //fail-safe
+                    spawnPt = structureOwner.position;
+
+                mUnitCtrl.Spawn(unitData, structureOwner, spawnPt);
+
+                activeCount++;
+                signalInvokeRefresh?.Invoke();
+            }
+            else
+                break;
         }
-    }
 
-    void OnEnable() {
-        var gameDat = GameData.instance;
-        if(gameDat.signalUnitSpawned) gameDat.signalUnitSpawned.callback += OnSignalUnitSpawned;
-        if(gameDat.signalUnitDespawned) gameDat.signalUnitDespawned.callback += OnSignalUnitDespawned;
-    }
-
-    void OnSignalUnitSpawned(Unit unit) {
-        int ind = unitPalette.GetIndex(unit.data);
-        if(ind != -1) {
-            activeCount++;
-            signalInvokeRefresh?.Invoke();
-        }
-    }
-
-    void OnSignalUnitDespawned(Unit unit) {
-        int ind = unitPalette.GetIndex(unit.data);
-        if(ind != -1) {
-            activeCount--;
-            signalInvokeRefresh?.Invoke();
-        }
-    }
-
-    IEnumerator WaitSpawn(int ind, Unit unit) {
-        do {
-            yield return null;
-        } while(unit.state == UnitState.Spawning);
-
-        mUnitInfos[ind].rout = null;
-
-        signalInvokeRefresh?.Invoke();
-    }
-
-    IEnumerator WaitDespawn(int ind, Unit unit) {
-        do {
-            yield return null;
-        } while(unit.state != UnitState.None);
-
-        mUnitInfos[ind].rout = null;
-
-        signalInvokeRefresh?.Invoke();
+        mSpawnQueueRout = null;
     }
 
     private class UnitDespawnComparer : IComparer<Unit> {

@@ -15,6 +15,7 @@ MonoBehaviour:
   modalOverworld: overworld
   modalHotspotInvestigate: hotspotInvestigate
   modalHotspotAnalyze: hotspotAnalyze
+  modalWeatherForecast: weatherForecast
   seasons:
   - {fileID: 11400000, guid: ed63ca993a99fc846aae09147cbb7b26, type: 2}
   - {fileID: 11400000, guid: ac5f6108cc5374647a455ba1ad6db09d, type: 2}
@@ -29,6 +30,7 @@ MonoBehaviour:
   - day_saturday
   - day_sunday
   cycleDayNameCurrentRef: day_today
+  cycleBeginDelay: 0.3
   overworldLaunchCriticGoodCount: 3
   groundLayerMask:
     serializedVersion: 2
@@ -61,6 +63,7 @@ MonoBehaviour:
   unitLayerMask:
     serializedVersion: 2
     m_Bits: 512
+  unitPaletteSpawnDelay: 1
   unitFallSpeed: 10
   unitUpdateAIDelay: 0.3
   unitHurtDelay: 0.5
@@ -87,6 +90,7 @@ MonoBehaviour:
     name: 
     path: 
   signalPause: {fileID: 11400000, guid: 2ebb4ac199a087f4583043627e0db5f6, type: 2}
+  signalColonyStart: {fileID: 11400000, guid: 3edf050b350006a4b94870b2f1de9233, type: 2}
   signalClickCategory: {fileID: 11400000, guid: 821168db214a9e24fa0ee2b13a8e3d31, type: 2}
   signalCycleBegin: {fileID: 11400000, guid: d4036c4cb45ad164fb7af0cfe7bbe2a4, type: 2}
   signalCycleNext: {fileID: 11400000, guid: afd17a7934cd42140b72612cd8d7f699, type: 2}
