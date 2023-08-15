@@ -7,6 +7,7 @@ public class FastForwardWidget : MonoBehaviour {
     [Header("Data")]
     public GameObject normalGO;
     public GameObject fastForwardGO;
+    public GameObject pauseGO;
 
     [Header("Display")]
     public Selectable selectable;
@@ -15,12 +16,12 @@ public class FastForwardWidget : MonoBehaviour {
         if(ColonyController.isInstantiated) {
             var colonyCtrl = ColonyController.instance;
 
-            switch(colonyCtrl.fastforwardState) {
-                case ColonyController.FastForwardState.Normal:
-                    colonyCtrl.fastforwardState = ColonyController.FastForwardState.FastForward;
+            switch(colonyCtrl.timeState) {
+                case ColonyController.TimeState.Normal:
+                    colonyCtrl.timeState = ColonyController.TimeState.FastForward;
                     break;
-                case ColonyController.FastForwardState.FastForward:
-                    colonyCtrl.fastforwardState = ColonyController.FastForwardState.Normal;
+                case ColonyController.TimeState.FastForward:
+                    colonyCtrl.timeState = ColonyController.TimeState.Normal;
                     break;
             }
         }
@@ -38,31 +39,43 @@ public class FastForwardWidget : MonoBehaviour {
             var colonyCtrl = ColonyController.instance;
 
             colonyCtrl.fastforwardChangedCallback += OnFastForwardChanged;
-            OnFastForwardChanged(colonyCtrl.fastforwardState);
+            OnFastForwardChanged(colonyCtrl.timeState);
         }
     }
 
-    void OnFastForwardChanged(ColonyController.FastForwardState state) {
+    void OnFastForwardChanged(ColonyController.TimeState state) {
         switch(state) {
-            case ColonyController.FastForwardState.None:
+            case ColonyController.TimeState.None:
                 if(selectable) selectable.interactable = false;
 
                 if(normalGO) normalGO.SetActive(true);
                 if(fastForwardGO) fastForwardGO.SetActive(false);
+                if(pauseGO) pauseGO.SetActive(false);
                 break;
 
-            case ColonyController.FastForwardState.Normal:
+            case ColonyController.TimeState.Normal:
                 if(selectable) selectable.interactable = true;
 
                 if(normalGO) normalGO.SetActive(true);
                 if(fastForwardGO) fastForwardGO.SetActive(false);
+                if(pauseGO) pauseGO.SetActive(false);
                 break;
 
-            case ColonyController.FastForwardState.FastForward:
+            case ColonyController.TimeState.FastForward:
                 if(selectable) selectable.interactable = true;
 
                 if(normalGO) normalGO.SetActive(false);
                 if(fastForwardGO) fastForwardGO.SetActive(true);
+                if(pauseGO) pauseGO.SetActive(false);
+                break;
+
+            case ColonyController.TimeState.Pause:
+            case ColonyController.TimeState.CyclePause:
+                if(selectable) selectable.interactable = false;
+
+                if(normalGO) normalGO.SetActive(false);
+                if(fastForwardGO) fastForwardGO.SetActive(false);
+                if(pauseGO) pauseGO.SetActive(true);
                 break;
         }
     }

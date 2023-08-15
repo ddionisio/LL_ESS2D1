@@ -43,6 +43,23 @@ public class WeatherForecastProgressWidget : MonoBehaviour {
     public int forecastWeatherIconPaletteIndexCurrent;
     public int forecastWeatherIconPaletteIndexNext;
 
+    public bool isPlay {
+        get { return mIsPlay; }
+        set {
+            if(mIsPlay != value) {
+                mIsPlay = value;
+
+                if(mRout != null)
+                    StopCoroutine(mRout);
+
+                if(mIsPlay)
+                    mRout = StartCoroutine(DoPlay());
+                else
+                    mRout = null;
+            }
+        }
+    }
+
     private float mForecastWeatherIconWidth;
     private float mForecastTotalWidth;
 
@@ -51,6 +68,7 @@ public class WeatherForecastProgressWidget : MonoBehaviour {
     private M8.CacheList<IconItem> mForecastIconActives;
     private M8.CacheList<IconItem> mForecastIconCache;
 
+    private bool mIsPlay;
     private bool mIsInit;
 
     public void Setup(CycleData cycleData) {
@@ -95,20 +113,20 @@ public class WeatherForecastProgressWidget : MonoBehaviour {
         progressSlider.value = 0f;
 
         forecastRoot.anchoredPosition = Vector2.zero;
+
+        mIsPlay = false;
     }
 
-    public void Stop() {
+    void OnDisable() {
         if(mRout != null) {
             StopCoroutine(mRout);
             mRout = null;
         }
     }
 
-    public void Play() {
-        if(mRout != null)
-            StopCoroutine(mRout);
-
-        mRout = StartCoroutine(DoPlay());
+    void OnEnable() {
+        if(mIsPlay)
+            mRout = StartCoroutine(DoPlay());
     }
 
     IEnumerator DoPlay() {

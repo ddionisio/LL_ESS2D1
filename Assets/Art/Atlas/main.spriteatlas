@@ -99,6 +99,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 3fc9154332b16d744aed7a116dce7a81, type: 3}
   - {fileID: 21300000, guid: e199e05379129b44fbb965bf670fc10d, type: 3}
   - {fileID: 21300000, guid: 6365d063b104ede43a6f2866a82d29fe, type: 3}
+  - {fileID: 21300000, guid: 7a4077635c059a8469ee86414b4615e9, type: 3}
   - {fileID: 21300000, guid: e5dc777390553e4499a405c82af83aef, type: 3}
   - {fileID: 21300000, guid: 651213832b1ec7a4289e14fa81b2c679, type: 3}
   - {fileID: 21300000, guid: d5798383d6439354ca1e96484fca7b1b, type: 3}
@@ -327,6 +328,7 @@ SpriteAtlas:
   - circle_64_outline_4
   - humidity_map_autumn
   - ringGlowLarge
+  - frogIcon
   - explodePixel4
   - frogHunter_act_2
   - frogHorticulturist_victory_0

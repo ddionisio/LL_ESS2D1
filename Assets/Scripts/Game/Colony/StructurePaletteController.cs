@@ -434,7 +434,7 @@ public class StructurePaletteController : MonoBehaviour  {
         if(!placementInput.Activate(mPlacementCurStuctureData))
             return; //shouldn't happen
 
-        GameData.instance.isPaused = true;
+        ColonyController.instance.timeState = ColonyController.TimeState.Pause;
         GameData.instance.signalPlacementActive?.Invoke(true);
     }
 
@@ -445,7 +445,7 @@ public class StructurePaletteController : MonoBehaviour  {
 
         placementInput.Deactivate();
 
-        GameData.instance.isPaused = false;
+        ColonyController.instance.timeState = ColonyController.TimeState.Normal;
         GameData.instance.signalPlacementActive?.Invoke(false);
     }
 }

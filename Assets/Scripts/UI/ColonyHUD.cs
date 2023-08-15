@@ -164,7 +164,7 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
         var cycleCtrl = ColonyController.instance.cycleController;
 
         if(weatherForecastProgress)
-            weatherForecastProgress.Play();
+            weatherForecastProgress.isPlay = true;
 
         if(weatherForecastOverlay)
             weatherForecastOverlay.SetCycleInfo(cycleCtrl.cycleCurWeather, cycleCtrl.atmosphereStats);
@@ -186,6 +186,12 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
     }
 
     void OnCycleEnd() {
+        if(weatherForecastProgress)
+            weatherForecastProgress.isPlay = false;
+
+        if(weatherForecastOverlay)
+            weatherForecastOverlay.Clear();
+
         if(mIsPlacementActive) {
             if(placementRootGO) placementRootGO.SetActive(false);
 

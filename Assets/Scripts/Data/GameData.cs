@@ -102,9 +102,6 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public M8.SceneAssetPath[] overworldScenes;
     public M8.SceneAssetPath endScene;
 
-    [Header("Signals")]
-    public M8.SignalBoolean signalPause;
-
     [Header("Signals | Colony")]
     public M8.Signal signalColonyStart;
     public M8.SignalInteger signalClickCategory;
@@ -145,26 +142,6 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public float unitSpawnerWaypointHandleSnap = 0.25f;
 
     public bool isProceed { get; private set; }
-
-    public bool isPaused {
-        get { return mIsPaused; }
-        set {
-            if(mIsPaused != value) {
-                mIsPaused = value;
-
-                if(M8.SceneManager.isInstantiated) {
-                    if(mIsPaused)
-                        M8.SceneManager.instance.Pause();
-                    else
-                        M8.SceneManager.instance.Resume();
-                }
-
-                signalPause?.Invoke(mIsPaused);
-            }
-        }
-    }
-
-    private bool mIsPaused;
 
     /// <summary>
     /// Uses current progress to determine index = (curProgress - 1) / 2
@@ -286,7 +263,6 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
 
     protected override void OnInstanceInit() {
         isProceed = false;
-        mIsPaused = false;
     }
 
     private void LoadOverworldScene(int progress) {

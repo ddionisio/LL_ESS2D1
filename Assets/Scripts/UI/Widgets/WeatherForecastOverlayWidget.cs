@@ -41,6 +41,16 @@ public class WeatherForecastOverlayWidget : MonoBehaviour, IPointerClickHandler 
 
     private Coroutine mChangeRout;
 
+    public void Clear() {
+        mWeather = null;
+        mWeatherStats = null;
+
+        if(mChangeRout != null) {
+            StopCoroutine(mChangeRout);
+            mChangeRout = null;
+        }
+    }
+
     public void CancelChange() {
         if(mChangeRout != null) {
             StopCoroutine(mChangeRout);
@@ -61,16 +71,25 @@ public class WeatherForecastOverlayWidget : MonoBehaviour, IPointerClickHandler 
     }
 
     void OnDisable() {
-        mWeather = null;
-        mWeatherStats = null;
+        if(mChangeRout != null) {
+            StopCoroutine(mChangeRout);
+            mChangeRout = null;
+        }
     }
 
     void OnEnable() {
+        if(takeDetailEnter != -1)
+            animator.ResetTake(takeDetailEnter);
+
+        //resume?
+        var toWeather = mWeather;
+        var toStats = mWeatherStats;
+
         mWeather = null;
         mWeatherStats = null;
 
-        if(takeDetailEnter != -1)
-            animator.ResetTake(takeDetailEnter);
+        if(toWeather && toStats != null)
+            mChangeRout = StartCoroutine(DoChange(toWeather, toStats));
     }
 
     void IPointerClickHandler.OnPointerClick(PointerEventData eventData) {

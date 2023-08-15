@@ -5,10 +5,12 @@ using UnityEngine;
 using LoLExt;
 
 public class ColonyController : GameModeController<ColonyController> {
-    public enum FastForwardState {
+    public enum TimeState {
         None, //disabled
         Normal, //time scale = 1
         FastForward, //time scale > 1
+        Pause,
+        CyclePause
     }
 
     public struct ResourceInfo {
@@ -96,38 +98,58 @@ public class ColonyController : GameModeController<ColonyController> {
         }
     }
 
-    public FastForwardState fastforwardState {
-        get { return mFastForwardState; }
+    public TimeState timeState {
+        get { return mTimeState; }
         set {
-            if(mFastForwardState != value) {
-                mFastForwardState = value;
+            if(mTimeState != value) {
+                var prevState = mTimeState;
+                mTimeState = value;
 
                 if(M8.SceneManager.isInstantiated) {
                     var sceneMgr = M8.SceneManager.instance;
 
-                    switch(mFastForwardState) {
-                        case FastForwardState.FastForward:
-                            sceneMgr.timeScale = GameData.instance.fastForwardScale;
-                            break;
-                        default:
+                    switch(prevState) {
+                        case TimeState.FastForward:
                             sceneMgr.timeScale = 1f;
+                            break;
+
+                        case TimeState.Pause:
+                            sceneMgr.Resume();
+                            break;
+
+                        case TimeState.CyclePause:
+                            cycleController.cycleTimeScale = 1f;
                             break;
                     }
 
-                    fastforwardChangedCallback?.Invoke(mFastForwardState);
+                    switch(mTimeState) {
+                        case TimeState.FastForward:
+                            sceneMgr.timeScale = GameData.instance.fastForwardScale;
+                            break;
+
+                        case TimeState.Pause:
+                            sceneMgr.Pause();
+                            break;
+
+                        case TimeState.CyclePause:
+                            cycleController.cycleTimeScale = 0f;
+                            break;
+                    }
+
+                    fastforwardChangedCallback?.Invoke(mTimeState);
                 }
             }
         }
     }
 
-    public event System.Action<FastForwardState> fastforwardChangedCallback;
+    public event System.Action<TimeState> fastforwardChangedCallback;
 
     private ResourceInfo[] mResources;
 
     private int mPopulation;
     private int mPopulationCapacity;
 
-    private FastForwardState mFastForwardState = FastForwardState.None;
+    private TimeState mTimeState = TimeState.None;
 
     private M8.GenericParams mWeatherForecastParms = new M8.GenericParams();
 
@@ -186,7 +208,7 @@ public class ColonyController : GameModeController<ColonyController> {
 
         if(gameDat.signalCycleNext) gameDat.signalCycleNext.callback -= OnCycleNext;
 
-        fastforwardState = FastForwardState.None;
+        timeState = TimeState.None;
 
         base.OnInstanceDeinit();
     }
@@ -307,7 +329,7 @@ public class ColonyController : GameModeController<ColonyController> {
         while(cycleController.isRunning)
             yield return null;
 
-        fastforwardState = FastForwardState.None;
+        timeState = TimeState.None;
 
         //determine population count, reset cycle if player needs more population
 
@@ -321,10 +343,10 @@ public class ColonyController : GameModeController<ColonyController> {
         if(cycleController.isHazzard) {
             structurePaletteController.PlacementCancel();
 
-            fastforwardState = FastForwardState.None;
+            timeState = TimeState.None;
         }
         else {
-            fastforwardState = FastForwardState.Normal;
+            timeState = TimeState.Normal;
         }
     }
 
