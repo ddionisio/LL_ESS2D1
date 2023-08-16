@@ -52,8 +52,10 @@ public class WeatherForecastProgressWidget : MonoBehaviour {
                 if(mRout != null)
                     StopCoroutine(mRout);
 
-                if(mIsPlay)
-                    mRout = StartCoroutine(DoPlay());
+                if(mIsPlay) {
+                    if(gameObject.activeInHierarchy)
+                        mRout = StartCoroutine(DoPlay());
+                }
                 else
                     mRout = null;
             }

@@ -1,13 +1,7 @@
 fileFormatVersion: 2
-guid: d7f0645221846754b8d8411111612c99
+guid: 981a568e8c0363943aca63e1c3cdb369
 TextureImporter:
-  internalIDToNameTable:
-  - first:
-      213: -7105913188517789750
-    second: triangle
-  - first:
-      213: 7086606104257924489
-    second: octagon
+  internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -47,14 +41,14 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 1
+  spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -108,60 +102,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: triangle
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 4
-        height: 4
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -2, y: -2}
-        - {x: 2, y: -2}
-        - {x: 0, y: 2}
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: acf32a19a99b26d90800000000000000
-      internalID: -7105913188517789750
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: octagon
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 4
-        height: 4
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 1, y: 1, z: 1, w: 1}
-      outline:
-      - - {x: -1, y: 2}
-        - {x: -2, y: 1}
-        - {x: -2, y: -1}
-        - {x: -1, y: -2}
-        - {x: 1, y: -2}
-        - {x: 2, y: -1}
-        - {x: 2, y: 1}
-        - {x: 1, y: 2}
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 98d886394bea85260800000000000000
-      internalID: 7086606104257924489
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []

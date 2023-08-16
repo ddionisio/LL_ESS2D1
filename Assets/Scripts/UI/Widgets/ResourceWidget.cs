@@ -11,6 +11,7 @@ public class ResourceWidget : MonoBehaviour {
     [Header("Config")]
     public Color[] percentColors; //0 - 100
     public float percentLowThreshold = 0.1f;
+    public float hideOnFullDelay = 5f; //hide at 100% delay
 
     [Header("Display")]
     public GameObject rootDisplayGO;
@@ -21,6 +22,9 @@ public class ResourceWidget : MonoBehaviour {
     public GameObject percentLowActiveGO;
 
     public TMP_Text valueLabel;
+
+    private bool mIsFull;
+    private float mLastTimeOnFull;
 
     void OnDisable() {
         if(ColonyController.isInstantiated) {
@@ -37,17 +41,30 @@ public class ResourceWidget : MonoBehaviour {
         if(colonyCtrl.signalInvokeResourceUpdate)
             colonyCtrl.signalInvokeResourceUpdate.callback += OnResourceUpdate;
 
+        mIsFull = false;
         OnResourceUpdate();
+    }
+
+    void Update() {
+        if(mIsFull && rootDisplayGO.activeSelf) {
+            var colonyCtrl = ColonyController.instance;
+
+            var amt = colonyCtrl.GetResourceAmount(resourceType);
+            var capacity = colonyCtrl.GetResourceCapacity(resourceType);
+            if(amt >= capacity) {
+                if(Time.time - mLastTimeOnFull >= hideOnFullDelay) {
+                    rootDisplayGO.SetActive(false);
+                }
+            }
+        }
     }
 
     void OnResourceUpdate() {
         var colonyCtrl = ColonyController.instance;
-                
+
         var capacity = colonyCtrl.GetResourceCapacity(resourceType);
 
         if(capacity > 0f) {
-            rootDisplayGO.SetActive(true);
-
             var amt = colonyCtrl.GetResourceAmount(resourceType);
 
             var t = Mathf.Clamp01(amt / capacity);
@@ -67,6 +84,19 @@ public class ResourceWidget : MonoBehaviour {
 
             if(valueLabel)
                 valueLabel.text = Mathf.RoundToInt(amt).ToString();
+
+            var rootShow = true;
+
+            var isFull = amt >= capacity;
+            if(mIsFull != isFull) {
+                mIsFull = isFull;
+                if(mIsFull)
+                    mLastTimeOnFull = Time.time;
+            }
+            else if(mIsFull)
+                rootShow = Time.time - mLastTimeOnFull < hideOnFullDelay;
+
+            rootDisplayGO.SetActive(rootShow);
         }
         else {
             rootDisplayGO.SetActive(false);

@@ -164,54 +164,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &6040392245781703252
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2040338412167754382}
-  - component: {fileID: 796086905953704685}
-  m_Layer: 0
-  m_Name: overlayAnchor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2040338412167754382
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6040392245781703252}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.46, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 6819044348375123017}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &796086905953704685
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6040392245781703252}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdec5f3ea2f9859429e69b1f03e027b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  offset: {x: 0, y: 0, z: 0}
-  color: {r: 0.8753945, g: 0.9245283, b: 0.18752226, a: 1}
-  radius: 0.1
-  solid: 1
-  useCollider: 0
 --- !u!1 &6407082339046839974
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,7 +279,6 @@ Transform:
   - {fileID: 6819044348691206329}
   - {fileID: 3596913463170999862}
   - {fileID: 8132460764735508866}
-  - {fileID: 2040338412167754382}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -347,7 +298,6 @@ MonoBehaviour:
   constructionGO: {fileID: 7705595348682377682}
   damagedGO: {fileID: 0}
   repairGO: {fileID: 0}
-  overlayActionAnchor: {fileID: 2040338412167754382}
   animator: {fileID: 0}
   takeSpawn: 
   takeIdle: 

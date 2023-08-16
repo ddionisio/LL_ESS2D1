@@ -11,9 +11,6 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     public GameObject damagedGO; //when hp < hp max
     public GameObject repairGO; //when there are workers actively repairing (workCount > 0)
 
-    [Header("Overlay Display")]
-    public Transform overlayActionAnchor; //set actions widget position here
-
     [Header("Animations")]
     public M8.Animator.Animate animator;
 
@@ -142,18 +139,7 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     /// <summary>
     /// In world position
     /// </summary>
-    public Vector2 overlayAnchorPosition {
-        get {
-            Vector2 ret;
-
-            if(overlayActionAnchor)
-                ret = overlayActionAnchor.position;
-            else //fail-safe, just use top of collider bounds
-                ret = new Vector2(position.x + boxCollider.offset.x, position.y + boxCollider.offset.y + boxCollider.size.y*0.5f);
-
-            return ret;
-        }
-    }
+    public Vector2 clickPosition { get { return mClickPosition; } }
 
     public BoxCollider2D boxCollider { get; private set; }
 
@@ -197,6 +183,8 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     protected int mTakeDemolishInd = -1;
 
     private int mMark;
+
+    private Vector2 mClickPosition;
 
     public void AddMark() {
         mMark++;
@@ -657,6 +645,19 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
 
     void IPointerClickHandler.OnPointerClick(PointerEventData eventData) {
         GameData.instance.signalClickCategory?.Invoke(GameData.clickCategoryStructure);
+
+        /*Vector2 ret;
+
+            if(overlayActionAnchor)
+                ret = overlayActionAnchor.position;
+            else //fail-safe, just use top of collider bounds
+                ret = new Vector2(position.x + boxCollider.offset.x, position.y + boxCollider.offset.y + boxCollider.size.y*0.5f);
+
+            return ret;*/
+        var boxBounds = boxCollider.bounds;
+
+        mClickPosition.x = boxBounds.center.x;
+        mClickPosition.y = Mathf.Clamp(eventData.pointerCurrentRaycast.worldPosition.y, boxBounds.min.y, boxBounds.max.y);
 
         isClicked = true;
         GameData.instance.signalStructureClick?.Invoke(this);

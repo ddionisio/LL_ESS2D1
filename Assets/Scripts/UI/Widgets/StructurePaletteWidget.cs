@@ -10,8 +10,10 @@ public class StructurePaletteWidget : MonoBehaviour {
     [Header("Item Info")]
     public StructureItemWidget itemWidgetTemplate;
     public Transform itemWidgetContainer;
+    public int itemWidgetCapacity = 4;
 
     private StructureGroupWidget[] mGroupWidgets; //corresponds to group arrays in structure controller
+    private int mGroupWidgetCount;
 
     private StructureGroupWidget mGroupWidgetActive;
 
@@ -19,52 +21,59 @@ public class StructurePaletteWidget : MonoBehaviour {
     private M8.CacheList<StructureItemWidget> mStructureItemWidgetCache;
 
     public void Setup(StructurePaletteData palette) {
-        int itemMaxCapacity = 0;
-
         //generate group items
         if(groupWidgetRoot && groupWidgetTemplate) {
-            mGroupWidgets = new StructureGroupWidget[palette.groups.Length];
+            mGroupWidgetCount = palette.groups.Length;
 
-            for(int i = 0; i < palette.groups.Length; i++) {
-                var grp = palette.groups[i];
+            //allocate widgets if new or larger
+            if(mGroupWidgets == null) {
+                mGroupWidgets = new StructureGroupWidget[mGroupWidgetCount];
+                for(int i = 0; i < mGroupWidgetCount; i++) {
+                    var newWidget = Instantiate(groupWidgetTemplate, groupWidgetRoot);
+                    newWidget.clickCallback += OnGroupClick;
+                    mGroupWidgets[i] = newWidget;
+                }
+            }
+            else if(mGroupWidgets.Length < mGroupWidgetCount) {
+                var lastSize = mGroupWidgets.Length;
+                System.Array.Resize(ref mGroupWidgets, mGroupWidgetCount);
 
-                var itmCount = grp.structures.Length;
-
-                if(itemMaxCapacity < itmCount)
-                    itemMaxCapacity = itmCount;
-
-                var newGroupWidget = Instantiate(groupWidgetTemplate);
-
-                newGroupWidget.Setup(i, grp);
-
-                newGroupWidget.clickCallback += OnGroupClick;
-
-                newGroupWidget.transform.SetParent(groupWidgetRoot, false);
-                newGroupWidget.gameObject.SetActive(true);
-
-                mGroupWidgets[i] = newGroupWidget;
+                for(int i = lastSize; i < mGroupWidgetCount; i++) {
+                    var newWidget = Instantiate(groupWidgetTemplate, groupWidgetRoot);
+                    newWidget.clickCallback += OnGroupClick;
+                    mGroupWidgets[i] = newWidget;
+                }
             }
 
-            groupWidgetTemplate.gameObject.SetActive(false);
+            //setup widgets
+            for(int i = 0; i < mGroupWidgetCount; i++) {
+                var grp = palette.groups[i];
+
+                var groupWidget = mGroupWidgets[i];
+
+                groupWidget.Setup(i, grp);
+                                
+                groupWidget.active = true;
+            }
+
+            for(int i = mGroupWidgetCount; i < mGroupWidgets.Length; i++)
+                mGroupWidgets[i].active = false;
         }
 
         //generate item cache
-        if(itemWidgetContainer && itemWidgetTemplate) {
-            mStructureItemWidgetActives = new M8.CacheList<StructureItemWidget>(itemMaxCapacity);
-            mStructureItemWidgetCache = new M8.CacheList<StructureItemWidget>(itemMaxCapacity);
-                        
-            for(int i = 0; i < itemMaxCapacity; i++) {
-                var newItm = Instantiate(itemWidgetTemplate);
+        if(mStructureItemWidgetActives == null && itemWidgetContainer && itemWidgetTemplate) {
+            mStructureItemWidgetActives = new M8.CacheList<StructureItemWidget>(itemWidgetCapacity);
+            mStructureItemWidgetCache = new M8.CacheList<StructureItemWidget>(itemWidgetCapacity);
+
+            for(int i = 0; i < itemWidgetCapacity; i++) {
+                var newItm = Instantiate(itemWidgetTemplate, itemWidgetContainer);
 
                 newItm.clickCallback += OnItemClick;
-
-                newItm.transform.SetParent(itemWidgetContainer, false);
 
                 mStructureItemWidgetCache.Add(newItm);
             }
 
             itemWidgetContainer.gameObject.SetActive(false);
-            itemWidgetTemplate.gameObject.SetActive(false);
         }
     }
 
@@ -73,7 +82,7 @@ public class StructurePaletteWidget : MonoBehaviour {
 
         var structureCtrl = ColonyController.instance.structurePaletteController;
 
-        for(int i = 0; i < mGroupWidgets.Length; i++) {
+        for(int i = 0; i < mGroupWidgetCount; i++) {
             var groupWidget = mGroupWidgets[i];
             if(!groupWidget) //fail-safe
                 continue;
@@ -97,7 +106,7 @@ public class StructurePaletteWidget : MonoBehaviour {
     }
 
     public void RefreshGroup(int groupIndex) {
-        if(mGroupWidgets == null || groupIndex < 0 || groupIndex >= mGroupWidgets.Length) return; //fail-safe
+        if(mGroupWidgets == null || groupIndex < 0 || groupIndex >= mGroupWidgetCount) return; //fail-safe
 
         var structureCtrl = ColonyController.instance.structurePaletteController;
 
@@ -120,24 +129,33 @@ public class StructurePaletteWidget : MonoBehaviour {
             mGroupWidgetActive = null;
         }
 
-        for(int i = 0; i < mStructureItemWidgetActives.Count; i++) {
-            var itm = mStructureItemWidgetActives[i];
+        if(mStructureItemWidgetActives != null) {
+            for(int i = 0; i < mStructureItemWidgetActives.Count; i++) {
+                var itm = mStructureItemWidgetActives[i];
+                if(itm) {
+                    itm.transform.SetParent(itemWidgetContainer, false);
 
-            itm.transform.SetParent(itemWidgetContainer, false);
+                    mStructureItemWidgetCache.Add(itm);
+                }
+            }
 
-            mStructureItemWidgetCache.Add(itm);
+            mStructureItemWidgetActives.Clear();
         }
-
-        mStructureItemWidgetActives.Clear();
     }
 
     void OnDisable() {
         if(GameData.isInstantiated)
             GameData.instance.signalClickCategory.callback -= OnClickCategory;
+
+        ClearGroupActive();
     }
 
     void OnEnable() {
         GameData.instance.signalClickCategory.callback += OnClickCategory;
+    }
+
+    void Awake() {
+        if(groupWidgetTemplate) groupWidgetTemplate.active = false;
     }
 
     void OnGroupClick(StructureGroupWidget groupWidget) {

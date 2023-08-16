@@ -22,6 +22,7 @@ public class UnitPaletteWidget : MonoBehaviour {
     public Transform counterPipRoot;
 
     private UnitItemWidget[] mUnitWidgets;
+    private int mUnitWidgetCount;
 
     private UnitPaletteCounterPipWidget[] mCounterPips;
 
@@ -30,27 +31,52 @@ public class UnitPaletteWidget : MonoBehaviour {
     private int mCounterPip;
     private int mCounterPipCount;
 
+    private bool mIsQueueActive;
+
     public void Setup(UnitPaletteData unitPalette) {
         //setup units
-        mUnitWidgets = new UnitItemWidget[unitPalette.units.Length];
+        mUnitWidgetCount = unitPalette.units.Length;
 
-        for(int i = 0; i < unitPalette.units.Length; i++) {
-            var unitInfo = unitPalette.units[i];
+        if(mUnitWidgets == null) {
+            mUnitWidgets = new UnitItemWidget[mUnitWidgetCount];
+            for(int i = 0; i < mUnitWidgetCount; i++) {
+                var newUnitWidget = Instantiate(unitWidgetTemplate, unitWidgetRoot);
 
-            var newUnitWidget = Instantiate(unitWidgetTemplate, unitWidgetRoot);
+                newUnitWidget.clickCallback += OnClickUnit;
+                newUnitWidget.actionChangeCallback += OnActionChanged;
 
-            newUnitWidget.Setup(unitInfo.data);
+                mUnitWidgets[i] = newUnitWidget;
+            }
+        }
+        else if(mUnitWidgetCount > mUnitWidgets.Length) {
+            var lastSize = mUnitWidgets.Length;
+            System.Array.Resize(ref mUnitWidgets, mUnitWidgetCount);
 
-            newUnitWidget.clickCallback += OnClickUnit;
-            newUnitWidget.actionChangeCallback += OnActionChanged;
+            for(int i = lastSize; i < mUnitWidgetCount; i++) {
+                var newUnitWidget = Instantiate(unitWidgetTemplate, unitWidgetRoot);
 
-            newUnitWidget.active = !unitInfo.isHidden;
+                newUnitWidget.clickCallback += OnClickUnit;
+                newUnitWidget.actionChangeCallback += OnActionChanged;
 
-            mUnitWidgets[i] = newUnitWidget;
+                mUnitWidgets[i] = newUnitWidget;
+            }
         }
 
-        unitWidgetTemplate.gameObject.SetActive(false);
+        for(int i = 0; i < mUnitWidgetCount; i++) {
+            var unitInfo = unitPalette.units[i];
 
+            var unitWidget = mUnitWidgets[i];
+
+            unitWidget.Setup(unitInfo.data);
+
+            unitWidget.active = !unitInfo.isHidden;
+
+            mUnitWidgets[i] = unitWidget;
+        }
+
+        for(int i = mUnitWidgetCount; i < mUnitWidgets.Length; i++)
+            mUnitWidgets[i].active = false;
+                
         //setup counter
         mCounterPip = 0;
         mCounterPipCount = unitPalette.capacityStart > 0 ? unitPalette.capacityStart : 0;
@@ -79,6 +105,8 @@ public class UnitPaletteWidget : MonoBehaviour {
 
         mActionHighlight = UnitItemWidget.Action.None;
 
+        mIsQueueActive = false;
+
         if(activeGO) activeGO.SetActive(unitPalette.capacityStart > 0);
 
         if(isFullGO) isFullGO.SetActive(false);
@@ -95,7 +123,9 @@ public class UnitPaletteWidget : MonoBehaviour {
             return;
 
         //refresh unit items
-        for(int i = 0; i < mUnitWidgets.Length; i++) {
+        int queueTotalCount = 0;
+
+        for(int i = 0; i < mUnitWidgetCount; i++) {
             var unitWidget = mUnitWidgets[i];
 
             var isHidden = unitPaletteCtrl.IsHidden(i);
@@ -105,13 +135,22 @@ public class UnitPaletteWidget : MonoBehaviour {
                 unitWidget.active = true;
                 unitWidget.interactable = true;
 
-                unitWidget.SetCounter(unitPaletteCtrl.GetActiveCountByType(unitWidget.unitData), unitPaletteCtrl.GetSpawnQueueCountByType(unitWidget.unitData));
+                unitWidget.cooldownScale = 0f;
+
+                var activeCount = unitPaletteCtrl.GetActiveCountByType(unitWidget.unitData);
+                var queueCount = unitPaletteCtrl.GetSpawnQueueCountByType(unitWidget.unitData);
+
+                queueTotalCount += queueCount;
+
+                unitWidget.SetCounter(activeCount, queueCount);
             }
         }
 
+        mIsQueueActive = queueTotalCount > 0;
+
         //refresh counter
-        var activeCount = unitPaletteCtrl.activeCount;
-        mCounterPip = activeCount + unitPaletteCtrl.queueCount;
+        var activeTotalCount = unitPaletteCtrl.activeCount;
+        mCounterPip = activeTotalCount + queueTotalCount;
 
         var isCountChanged = mCounterPipCount != capacity;
 
@@ -124,7 +163,7 @@ public class UnitPaletteWidget : MonoBehaviour {
 
                 if(i < mCounterPip) {
                     counterPip.baseActive = true;
-                    counterPip.isQueue = i >= activeCount;
+                    counterPip.isQueue = i >= activeTotalCount;
                     counterPip.action = UnitItemWidget.Action.None;
                 }
                 else
@@ -144,6 +183,32 @@ public class UnitPaletteWidget : MonoBehaviour {
         //update pip highlight
         if(mActionHighlight != UnitItemWidget.Action.None)
             ApplyActionHighlight(mActionHighlight);
+    }
+
+    void Awake() {
+        unitWidgetTemplate.active = false;
+    }
+
+    void Update() {
+        if(mIsQueueActive) {
+            var unitPaletteCtrl = ColonyController.instance.unitPaletteController;
+
+            int queueActiveCount = 0;
+            for(int i = 0; i < unitPaletteCtrl.unitPalette.units.Length; i++) {
+                var unitWidget = mUnitWidgets[i];
+
+                var queueCount = unitPaletteCtrl.GetSpawnQueueCount(i);
+                if(queueCount > 0) {
+                    unitWidget.cooldownScale = 1.0f - unitPaletteCtrl.GetSpawnQueueTimeScale(i);
+
+                    queueActiveCount++;
+                }
+                else
+                    unitWidget.cooldownScale = 0f;
+            }
+
+            mIsQueueActive = queueActiveCount > 0;
+        }
     }
 
     void OnClickUnit(UnitItemWidget unitWidget) {

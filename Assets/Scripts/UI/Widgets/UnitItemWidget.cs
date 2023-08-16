@@ -19,6 +19,8 @@ public class UnitItemWidget : MonoBehaviour, IPointerClickHandler, IPointerEnter
 
     public TMP_Text counterLabel;
 
+    public Image cooldownImage;
+
     public GameObject increaseGO;
     public GameObject decreaseGO;
 
@@ -61,6 +63,8 @@ public class UnitItemWidget : MonoBehaviour, IPointerClickHandler, IPointerEnter
 
     public RectTransform rectTransform { get; private set; }
 
+    public float cooldownScale { get { return cooldownImage ? cooldownImage.fillAmount : 0f; } set { if(cooldownImage) cooldownImage.fillAmount = value; } }
+
     public event System.Action<UnitItemWidget> clickCallback;
     public event System.Action<UnitItemWidget> actionChangeCallback;
 
@@ -87,6 +91,8 @@ public class UnitItemWidget : MonoBehaviour, IPointerClickHandler, IPointerEnter
 
         if(iconImage) iconImage.sprite = aUnitData.icon;
         if(nameLabel) nameLabel.text = M8.Localize.Get(aUnitData.nameRef);
+
+        cooldownScale = 0f;
     }
 
     void OnDisable() {
@@ -149,7 +155,7 @@ public class UnitItemWidget : MonoBehaviour, IPointerClickHandler, IPointerEnter
             }
             else {
                 mCounterSB.Append(mCounter);
-                mCounterSB.Append(" + ");
+                mCounterSB.Append("+");
                 mCounterSB.Append(mCounterQueue);
             }
 

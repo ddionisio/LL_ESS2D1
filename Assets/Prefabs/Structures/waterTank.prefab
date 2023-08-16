@@ -197,7 +197,6 @@ Transform:
   - {fileID: 690207414813286815}
   - {fileID: 6919616139224814438}
   - {fileID: 1402759396394158451}
-  - {fileID: 7839974737940332918}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -217,7 +216,6 @@ MonoBehaviour:
   constructionGO: {fileID: 3532695566812719139}
   damagedGO: {fileID: 0}
   repairGO: {fileID: 0}
-  overlayActionAnchor: {fileID: 7839974737940332918}
   animator: {fileID: 0}
   takeSpawn: 
   takeIdle: 
@@ -257,7 +255,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 2.5}
+  m_Offset: {x: 0, y: 3.1802623}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -268,7 +266,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 5}
+  m_Size: {x: 2, y: 6.3605247}
   m_EdgeRadius: 0
 --- !u!114 &4263943575012098763
 MonoBehaviour:
@@ -515,54 +513,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &8050540441582872008
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7839974737940332918}
-  - component: {fileID: 6051617486926777688}
-  m_Layer: 0
-  m_Name: overlayAnchor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7839974737940332918
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8050540441582872008}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 6.45, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4777932410267595924}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6051617486926777688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8050540441582872008}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdec5f3ea2f9859429e69b1f03e027b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  offset: {x: 0, y: 0, z: 0}
-  color: {r: 0.8753945, g: 0.9245283, b: 0.18752226, a: 1}
-  radius: 0.1
-  solid: 1
-  useCollider: 0
 --- !u!1001 &4382162499110005010
 PrefabInstance:
   m_ObjectHideFlags: 0

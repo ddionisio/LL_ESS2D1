@@ -82,54 +82,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1337283919304970947
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1283989482142257408}
-  - component: {fileID: 8638972856900165119}
-  m_Layer: 0
-  m_Name: overlayAnchor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1283989482142257408
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1337283919304970947}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.81, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 3674660599128121672}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8638972856900165119
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1337283919304970947}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdec5f3ea2f9859429e69b1f03e027b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  offset: {x: 0, y: 0, z: 0}
-  color: {r: 0.8753945, g: 0.9245283, b: 0.18752226, a: 1}
-  radius: 0.1
-  solid: 1
-  useCollider: 0
 --- !u!1 &3674660599128121678
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,7 +115,6 @@ Transform:
   m_Children:
   - {fileID: 8135151990274706446}
   - {fileID: 664777170184536003}
-  - {fileID: 1283989482142257408}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -183,7 +134,6 @@ MonoBehaviour:
   constructionGO: {fileID: 0}
   damagedGO: {fileID: 0}
   repairGO: {fileID: 0}
-  overlayActionAnchor: {fileID: 1283989482142257408}
   animator: {fileID: 0}
   takeSpawn: 
   takeIdle: 
@@ -209,8 +159,6 @@ MonoBehaviour:
     - _point: {x: -1.1, y: 0}
     - _point: {x: 0.55, y: 0}
     - _point: {x: 1.1, y: 0}
-  signalInvokePopulationDelta: {fileID: 11400000, guid: d8ed701d56d4ebd4b884270782a80317, type: 2}
-  signalListenUnitDespawned: {fileID: 11400000, guid: fdb8538ca225a5a4da2426cfd2c69d25, type: 2}
 --- !u!114 &2184511054322578209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,7 +189,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 1.05}
+  m_Offset: {x: 0, y: 1.8894434}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -252,7 +200,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.1875, y: 2.1875}
+  m_Size: {x: 2.1875, y: 3.866387}
   m_EdgeRadius: 0
 --- !u!114 &4948549129654343318
 MonoBehaviour:

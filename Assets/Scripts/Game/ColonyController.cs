@@ -210,6 +210,9 @@ public class ColonyController : GameModeController<ColonyController> {
 
         timeState = TimeState.None;
 
+        if(ColonyHUD.isInstantiated)
+            ColonyHUD.instance.active = false;
+
         base.OnInstanceDeinit();
     }
 
@@ -312,7 +315,9 @@ public class ColonyController : GameModeController<ColonyController> {
                 
         //dialog, etc.
 
-        StartCoroutine(DoCycle());
+        yield return DoCycle();
+                
+        //victory
     }
 
     IEnumerator DoCycle() {
@@ -332,10 +337,6 @@ public class ColonyController : GameModeController<ColonyController> {
         timeState = TimeState.None;
 
         //determine population count, reset cycle if player needs more population
-
-        ColonyHUD.instance.active = false;
-
-        //victory
     }
 
     void OnCycleNext() {

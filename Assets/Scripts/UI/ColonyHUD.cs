@@ -50,7 +50,9 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
 
                 var gameDat = GameData.instance;
 
-                if(value) {         
+                if(value) {
+                    if(playRootGO) playRootGO.SetActive(false);
+
                     if(placementRootGO) placementRootGO.SetActive(false);
                     mIsPlacementActive = false;
 
@@ -158,6 +160,7 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
     }
 
     IEnumerator DoEnter() {
+        if(playRootGO) playRootGO.SetActive(true);
         if(takePlayEnter != -1)
             yield return animator.PlayWait(takePlayEnter);
 
@@ -193,14 +196,14 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
             weatherForecastOverlay.Clear();
 
         if(mIsPlacementActive) {
-            if(placementRootGO) placementRootGO.SetActive(false);
-
             //hide placement
-
             mIsPlacementActive = false;
+
+            StartCoroutine(DoPlacementExit());
         }
         else {
             //hide palette
+            StartCoroutine(DoPlayExit());
         }
     }
 
@@ -209,26 +212,47 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
 
         if(active) {
             //main stuff
-            if(playRootGO) playRootGO.SetActive(false);
-
             if(structureActionsWidget) structureActionsWidget.active = false;
             mStructureClicked = null;
 
-            //placement stuff
-            if(placementRootGO) placementRootGO.SetActive(true);
-
-            //animation
+            StartCoroutine(DoPlayToPlacement());
         }
         else {
-            //main stuff
-            if(playRootGO) playRootGO.SetActive(true);
-
             //placement stuff
-            if(placementRootGO) placementRootGO.SetActive(false);
             if(placementConfirmRoot) placementConfirmRoot.gameObject.SetActive(false);
 
-            //animation
+            StartCoroutine(DoPlacementToPlay());
         }
+    }
+
+    IEnumerator DoPlayToPlacement() {
+        yield return DoPlayExit();
+
+        if(placementRootGO) placementRootGO.SetActive(true);
+        if(takePlacementEnter != -1)
+            animator.Play(takePlacementEnter);
+    }
+
+    IEnumerator DoPlacementToPlay() {
+        yield return DoPlacementExit();
+
+        if(playRootGO) playRootGO.SetActive(true);
+        if(takePlayEnter != -1)
+            animator.Play(takePlayEnter);
+    }
+
+    IEnumerator DoPlayExit() {
+        if(takePlayExit != -1)
+            yield return animator.PlayWait(takePlayExit);
+
+        if(playRootGO) playRootGO.SetActive(false);
+    }
+
+    IEnumerator DoPlacementExit() {
+        if(takePlacementExit != -1)
+            yield return animator.PlayWait(takePlacementExit);
+
+        if(placementRootGO) placementRootGO.SetActive(false);
     }
 
     void OnPlacementClick(bool isClick) {
@@ -282,7 +306,7 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
 
                 var colonyCtrl = ColonyController.instance;
 
-                var screenPos = RectTransformUtility.WorldToScreenPoint(colonyCtrl.mainCamera, structure.overlayAnchorPosition);
+                var screenPos = RectTransformUtility.WorldToScreenPoint(colonyCtrl.mainCamera, structure.clickPosition);
 
                 structureActionsWidget.transform.position = screenPos;
                 structureActionsWidget.active = true;

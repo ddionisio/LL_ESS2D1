@@ -67,7 +67,8 @@ public class WeatherForecastOverlayWidget : MonoBehaviour, IPointerClickHandler 
         if(mChangeRout != null)
             StopCoroutine(mChangeRout);
 
-        mChangeRout = StartCoroutine(DoChange(weather, stats));
+        if(gameObject.activeInHierarchy)
+            mChangeRout = StartCoroutine(DoChange(weather, stats));
     }
 
     void OnDisable() {
