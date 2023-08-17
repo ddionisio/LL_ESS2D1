@@ -150,6 +150,7 @@ public class ColonyController : GameModeController<ColonyController> {
     private int mPopulationCapacity;
 
     private TimeState mTimeState = TimeState.None;
+    private bool mIsHazzard;
 
     private M8.GenericParams mWeatherForecastParms = new M8.GenericParams();
 
@@ -312,8 +313,15 @@ public class ColonyController : GameModeController<ColonyController> {
 
         //weather forecast
         ShowWeatherForecast(true, false);
-                
+
+        //wait for forecast to close
+        while(M8.ModalManager.main.IsInStack(GameData.instance.modalWeatherForecast) || M8.ModalManager.main.isBusy)
+            yield return null;
+
         //dialog, etc.
+
+        //colony ship enter
+        colonyShip.Spawn();
 
         yield return DoCycle();
                 
@@ -321,15 +329,13 @@ public class ColonyController : GameModeController<ColonyController> {
     }
 
     IEnumerator DoCycle() {
-        //wait for forecast to close
-        while(M8.ModalManager.main.IsInStack(GameData.instance.modalWeatherForecast) || M8.ModalManager.main.isBusy) {
-            yield return null;
-        }
-
-        //colony ship enter
-        colonyShip.Spawn();
-
         cycleController.Begin();
+
+        mIsHazzard = cycleController.isHazzard; //shouldn't really have hazzard on first cycle...
+        if(mIsHazzard)
+            timeState = TimeState.None;
+        else
+            timeState = TimeState.Normal;
 
         while(cycleController.isRunning)
             yield return null;
@@ -341,13 +347,17 @@ public class ColonyController : GameModeController<ColonyController> {
 
     void OnCycleNext() {
         //stop any interaction during hazzard event
-        if(cycleController.isHazzard) {
-            structurePaletteController.PlacementCancel();
+        if(mIsHazzard != cycleController.isHazzard) {
+            mIsHazzard = cycleController.isHazzard;
 
-            timeState = TimeState.None;
-        }
-        else {
-            timeState = TimeState.Normal;
+            if(mIsHazzard) {
+                structurePaletteController.PlacementCancel();
+
+                timeState = TimeState.None;
+            }
+            else {
+                timeState = TimeState.Normal;
+            }
         }
     }
 

@@ -15,17 +15,17 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     public M8.Animator.Animate animator;
 
     [M8.Animator.TakeSelector]
-    public string takeSpawn;
+    public int takeSpawn = -1;
     [M8.Animator.TakeSelector]
-    public string takeIdle;
+    public int takeIdle = -1;
     [M8.Animator.TakeSelector]
-    public string takeDamage;
+    public int takeDamage = -1;
     [M8.Animator.TakeSelector]
-    public string takeMoving;
+    public int takeMoving = -1;
     [M8.Animator.TakeSelector]
-    public string takeDestroyed;
+    public int takeDestroyed = -1;
     [M8.Animator.TakeSelector]
-    public string takeDemolish;
+    public int takeDemolish = -1;
 
     [Header("Dimensions")]
     [SerializeField]
@@ -174,13 +174,6 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     private Dictionary<string, WaypointControl> mWorldWaypoints;
 
     private StructureStatusInfo[] mStatusInfos;
-
-    protected int mTakeSpawnInd = -1;
-    protected int mTakeIdleInd = -1;
-    protected int mTakeDamageInd = -1;
-    protected int mTakeMovingInd = -1;
-    protected int mTakeDestroyedInd = -1;
-    protected int mTakeDemolishInd = -1;
 
     private int mMark;
 
@@ -413,7 +406,7 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
             case StructureState.Spawning:
                 if(activeGO) activeGO.SetActive(true);
 
-                AnimateToState(mTakeSpawnInd, StructureState.Active);
+                AnimateToState(takeSpawn, StructureState.Active);
 
                 physicsActive = false;
                 addPlacementBlocker = true;
@@ -432,8 +425,8 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
                     if(damagedGO) damagedGO.SetActive(false);
                 }
 
-                if(mTakeIdleInd != -1)
-                    animator.Play(mTakeIdleInd);
+                if(takeIdle != -1)
+                    animator.Play(takeIdle);
                 break;
 
             case StructureState.Construction:
@@ -478,11 +471,11 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
                 if(isReparable) {
                     SetStatusState(StructureStatus.Construct, StructureStatusState.Require);
 
-                    if(mTakeDestroyedInd != -1)
-                        animator.Play(mTakeDestroyedInd);
+                    if(takeDestroyed != -1)
+                        animator.Play(takeDestroyed);
                 }
                 else //release after destroyed animation (NOTE: make sure that "takeDestroyed" is not a loop animation)
-                    AnimateToRelease(mTakeDestroyedInd);
+                    AnimateToRelease(takeDestroyed);
                 break;
 
             case StructureState.Demolish:
@@ -558,16 +551,6 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         boxCollider = GetComponent<BoxCollider2D>();
         if(boxCollider)
             boxCollider.enabled = false;
-
-        //initialize animation
-        if(animator) {
-            mTakeSpawnInd = animator.GetTakeIndex(takeSpawn);
-            mTakeIdleInd = animator.GetTakeIndex(takeIdle);
-            mTakeDamageInd = animator.GetTakeIndex(takeDamage);
-            mTakeMovingInd = animator.GetTakeIndex(takeMoving);
-            mTakeDestroyedInd = animator.GetTakeIndex(takeDestroyed);
-            mTakeDemolishInd = animator.GetTakeIndex(takeDemolish);
-        }
 
         //generate waypoints access
         mWorldWaypoints = new Dictionary<string, WaypointControl>(_waypointGroups.Length);
@@ -766,8 +749,8 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     }
 
     IEnumerator DoDamage() {
-        if(mTakeDamageInd != -1)
-            animator.Play(mTakeDamageInd);
+        if(takeDamage != -1)
+            animator.Play(takeDamage);
 
         var delay = GameData.instance.structureDamageDelay;
         if(delay > 0f) {
@@ -789,8 +772,8 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     IEnumerator DoMove() {
         yield return null;
 
-        if(mTakeMovingInd != -1)
-            animator.Play(mTakeMovingInd);
+        if(takeMoving != -1)
+            animator.Play(takeMoving);
 
         moveCtrl.Move();
 
@@ -830,8 +813,8 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
             boxCollider.enabled = false;
 
         //proceed to release
-        if(mTakeDemolishInd != -1)
-            yield return animator.PlayWait(mTakeDemolishInd);
+        if(takeDemolish != -1)
+            yield return animator.PlayWait(takeDemolish);
 
         mRout = null;
 

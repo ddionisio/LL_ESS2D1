@@ -110,6 +110,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 0a920793ecb8fba429f49dbffd8f9a55, type: 3}
   - {fileID: 21300000, guid: 0d1d9a93d253bfd408d8b4c88648d36a, type: 3}
   - {fileID: 21300000, guid: 74846ba37934d0642b01f1463c3d9f2c, type: 3}
+  - {fileID: 21300000, guid: c1d90da3a06a5984bbb5bc10c4315700, type: 3}
   - {fileID: 21300000, guid: 38bebab3fe07f2c429c8a354194ca0b0, type: 3}
   - {fileID: 21300000, guid: 86b940c3d59dd5b4f87d8fe39237b353, type: 3}
   - {fileID: 21300000, guid: 3bdad6d3584c7cd4280da25507fddbd4, type: 3}
@@ -139,6 +140,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 687bcc65bd3de1b4487033c06837478d, type: 3}
   - {fileID: 21300000, guid: 13acd275517e3964580e66dd35ff10a4, type: 3}
   - {fileID: 21300000, guid: 0358dd757e12e4849a4f1b8629ffcc56, type: 3}
+  - {fileID: 21300000, guid: 4e5f99955be3b514ea3b3003cbf917a1, type: 3}
   - {fileID: 21300000, guid: 09619be537e2ee440ba09ccceec1e24f, type: 3}
   - {fileID: 21300000, guid: 7881fd06e455ffc4c952103cb3721d91, type: 3}
   - {fileID: 21300000, guid: 123da516504ff764789809a1aa766499, type: 3}
@@ -277,6 +279,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: d100bf3fba8e48343b4f69fe5447d682, type: 3}
   - {fileID: 21300000, guid: f314294fe148af446a64b0a7d65f05b8, type: 3}
   - {fileID: 21300000, guid: 0774fa4f9c4f4c44088983f6fba9a131, type: 3}
+  - {fileID: 21300000, guid: a0d90d4fa5edd724faf85452ff11eba3, type: 3}
   - {fileID: 21300000, guid: 8866b95f55a45d940a1e63566526f82f, type: 3}
   - {fileID: 21300000, guid: 3969838f409a93e4ba72f92c0c0cfa91, type: 3}
   - {fileID: 21300000, guid: 8e0efb9f8740de94693edf4900de9570, type: 3}
@@ -347,6 +350,7 @@ SpriteAtlas:
   - frogGardener_swim_1
   - frogMedic_dying_0
   - frogGardener_move_1
+  - structureGroup_engineer
   - frogHunter_swim_1
   - frogHunter_victory_0
   - frogGardener_hurt_1
@@ -376,6 +380,7 @@ SpriteAtlas:
   - frogGardener_victory_0
   - frogGardener_idle_4
   - frogEngineer_act_2
+  - structureGroup_agriculture
   - statusIcon_demolish
   - frogHunter_move_3
   - frogHunter_hurt_1
@@ -514,6 +519,7 @@ SpriteAtlas:
   - tutorialHandPoint
   - frogHorticulturist_swim_0
   - temperature_map_spring
+  - structureGroup_house
   - frogEngineer_hurt_1
   - frogHorticulturist_idle_0
   - frogEngineer_act_1
