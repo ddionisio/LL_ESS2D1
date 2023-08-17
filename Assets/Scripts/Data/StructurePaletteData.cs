@@ -7,11 +7,21 @@ public class StructurePaletteData : ScriptableObject {
     [System.Serializable]
     public struct StructureInfo {
         public StructureData data;
-        public bool isHidden;
+        public int populationQuotaUnlock; //set to 0 to unlock right away
+
+        public bool IsHidden(int population) {
+            return population < populationQuotaUnlock;
+        }
     }
 
     [System.Serializable]
     public class GroupInfo {
+        [System.Serializable]
+        public struct CapacityUpgradeInfo {
+            public int populationQuota;
+            public int capacityIncrease;
+        }
+
         [Header("Info")]
         [M8.Localize]
         public string nameRef;
@@ -20,9 +30,24 @@ public class StructurePaletteData : ScriptableObject {
 
         [Header("Catalog")]
         public StructureInfo[] structures;
-
+        
+        [Header("Capacity Info")]
         public int capacityStart; //starting capacity
         public int capacity;
+
+        public CapacityUpgradeInfo[] capacityUpgrades;
+
+        public int GetCurrentCapacity(int population) {
+            int curCapacity = capacityStart;
+
+            for(int i = 0; i < capacityUpgrades.Length; i++) {
+                var upgradeInfo = capacityUpgrades[i];
+                if(upgradeInfo.populationQuota <= population)
+                    curCapacity += upgradeInfo.capacityIncrease;
+            }
+
+            return Mathf.Clamp(curCapacity, 0, capacity);
+        }
     }
 
     public GroupInfo[] groups;

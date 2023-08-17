@@ -69,6 +69,7 @@ public class StructurePaletteWidget : MonoBehaviour {
                 var newItm = Instantiate(itemWidgetTemplate, itemWidgetContainer);
 
                 newItm.clickCallback += OnItemClick;
+                newItm.hoverCallback += OnItemHover;
 
                 mStructureItemWidgetCache.Add(newItm);
             }
@@ -108,23 +109,57 @@ public class StructurePaletteWidget : MonoBehaviour {
     public void RefreshGroup(int groupIndex) {
         if(mGroupWidgets == null || groupIndex < 0 || groupIndex >= mGroupWidgetCount) return; //fail-safe
 
+        var groupWidget = mGroupWidgets[groupIndex];
+
         var structureCtrl = ColonyController.instance.structurePaletteController;
 
-        var groupWidget = mGroupWidgets[groupIndex];
+        
         if(groupWidget) { //fail-safe
             var groupInf = structureCtrl.GroupGetInfo(groupIndex);
 
             if(groupInf != null) {
                 groupWidget.count = groupInf.capacity - groupInf.count;
-                groupWidget.active = groupInf.visibleStructuresCount > 0;
+
+                //determine visibility and 'new' highlight
+                int newCount = 0, visibleCount = 0;
+                for(int i = 0; i < groupInf.structures.Length; i++) {
+                    var structInf = groupInf.structures[i];
+
+                    if(!structInf.isHidden) {
+                        visibleCount++;
+                        if(structInf.isNew)
+                            newCount++;
+                    }
+                }
+
+                if(visibleCount > 0) {
+                    groupWidget.active = true;
+                    groupWidget.newHighlightActive = newCount > 0;
+                }
+                else
+                    groupWidget.active = false;
             }
             else //fail-safe
                 groupWidget.active = false;
         }
     }
 
+    private void RefreshGroupWidgetNewHighlight(StructureGroupWidget groupWidget, StructurePaletteController.GroupInfo groupInfo) {
+        int newCount = 0;
+        for(int i = 0; i < groupInfo.structures.Length; i++) {
+            if(groupInfo.structures[i].isNew)
+                newCount++;
+        }
+
+        groupWidget.newHighlightActive = newCount > 0;
+    }
+
     public void ClearGroupActive() {
         if(mGroupWidgetActive) {
+            //refresh newHighlight status
+            var grpInf = ColonyController.instance.structurePaletteController.GroupGetInfo(mGroupWidgetActive.index);
+            RefreshGroupWidgetNewHighlight(mGroupWidgetActive, grpInf);
+
             mGroupWidgetActive.itemsActive = false;
             mGroupWidgetActive = null;
         }
@@ -183,6 +218,8 @@ public class StructurePaletteWidget : MonoBehaviour {
 
                 itm.Setup(structureInf.data);
 
+                itm.newHighlightActive = structureInf.isNew;
+
                 itm.transform.SetParent(mGroupWidgetActive.itemsContainerRoot, false);
 
                 mStructureItemWidgetActives.Add(itm);
@@ -196,9 +233,31 @@ public class StructurePaletteWidget : MonoBehaviour {
 
     void OnItemClick(StructureItemWidget itemWidget) {
         var structureCtrl = ColonyController.instance.structurePaletteController;
+
+        if(itemWidget.newHighlightActive)
+            structureCtrl.SetStructureSeen(itemWidget.data);
+        
         structureCtrl.PlacementStart(itemWidget.data);
 
         ClearGroupActive();
+    }
+
+    void OnItemHover(StructureItemWidget itemWidget, bool isHover) {
+        if(!isHover) {
+            //remove new highlight
+            if(itemWidget.newHighlightActive) {
+                itemWidget.newHighlightActive = false;
+
+                var structureCtrl = ColonyController.instance.structurePaletteController;
+
+                structureCtrl.SetStructureSeen(itemWidget.data);
+
+                if(mGroupWidgetActive) {
+                    var grpInf = ColonyController.instance.structurePaletteController.GroupGetInfo(mGroupWidgetActive.index);
+                    RefreshGroupWidgetNewHighlight(mGroupWidgetActive, grpInf);
+                }
+            }
+        }
     }
 
     void OnClickCategory(int category) {

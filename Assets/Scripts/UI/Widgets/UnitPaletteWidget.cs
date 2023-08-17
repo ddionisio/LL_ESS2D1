@@ -20,6 +20,12 @@ public class UnitPaletteWidget : MonoBehaviour {
 
     public UnitPaletteCounterPipWidget counterPipTemplate; //not prefab
     public Transform counterPipRoot;
+    public GameObject counterPipUpdatedGO;
+
+    [Header("Animation")]
+    public M8.Animator.Animate animator;
+    [M8.Animator.TakeSelector]
+    public int takeShow = -1;
 
     private UnitItemWidget[] mUnitWidgets;
     private int mUnitWidgetCount;
@@ -69,7 +75,7 @@ public class UnitPaletteWidget : MonoBehaviour {
 
             unitWidget.Setup(unitInfo.data);
 
-            unitWidget.active = !unitInfo.isHidden;
+            unitWidget.active = !unitInfo.IsHidden(0);
 
             mUnitWidgets[i] = unitWidget;
         }
@@ -79,30 +85,34 @@ public class UnitPaletteWidget : MonoBehaviour {
                 
         //setup counter
         mCounterPip = 0;
-        mCounterPipCount = unitPalette.capacityStart > 0 ? unitPalette.capacityStart : 0;
+        mCounterPipCount = unitPalette.capacityStart;
 
-        if(unitPalette.capacity > 0) {
-            mCounterPips = new UnitPaletteCounterPipWidget[unitPalette.capacity];
+        var maxCapacity = unitPalette.capacity;
+        if(maxCapacity > 0) {
+            if(mCounterPips == null)
+                mCounterPips = new UnitPaletteCounterPipWidget[maxCapacity];
+            else if(mCounterPips.Length < maxCapacity)
+                System.Array.Resize(ref mCounterPips, maxCapacity);
 
             for(int i = 0; i < mCounterPips.Length; i++) {
-                var newCounterPip = Instantiate(counterPipTemplate, counterPipRoot);
+                var counterPip = mCounterPips[i];
+                if(!counterPip) {
+                    counterPip = Instantiate(counterPipTemplate, counterPipRoot);
+                    mCounterPips[i] = counterPip;
+                }
 
                 if(i < mCounterPipCount) {
-                    newCounterPip.active = true;
-                    newCounterPip.baseActive = false;
-                    newCounterPip.lineActive = i < mCounterPipCount - 1;
+                    counterPip.active = true;
+                    counterPip.baseActive = false;
+                    counterPip.lineActive = i < mCounterPipCount - 1;
                 }
                 else
-                    newCounterPip.active = false;
-
-                mCounterPips[i] = newCounterPip;
+                    counterPip.active = false;
             }
         }
-        else
+        else if(mCounterPips == null)
             mCounterPips = new UnitPaletteCounterPipWidget[0];
-
-        counterPipTemplate.active = false;
-
+                
         mActionHighlight = UnitItemWidget.Action.None;
 
         mIsQueueActive = false;
@@ -110,6 +120,7 @@ public class UnitPaletteWidget : MonoBehaviour {
         if(activeGO) activeGO.SetActive(unitPalette.capacityStart > 0);
 
         if(isFullGO) isFullGO.SetActive(false);
+        if(counterPipUpdatedGO) counterPipUpdatedGO.SetActive(false);
     }
 
     public void RefreshInfo() {
@@ -117,7 +128,16 @@ public class UnitPaletteWidget : MonoBehaviour {
 
         var capacity = unitPaletteCtrl.capacity;
 
-        if(activeGO) activeGO.SetActive(capacity > 0);
+        if(activeGO) {
+            var prevActive = activeGO.activeSelf;
+            activeGO.SetActive(capacity > 0);
+
+            //show palette
+            if(!prevActive && activeGO.activeSelf) {
+                if(takeShow != -1)
+                    animator.Play(takeShow);
+            }
+        }
 
         if(capacity == 0)
             return;
@@ -128,12 +148,18 @@ public class UnitPaletteWidget : MonoBehaviour {
         for(int i = 0; i < mUnitWidgetCount; i++) {
             var unitWidget = mUnitWidgets[i];
 
+            var prevActive = unitWidget.active;
+
             var isHidden = unitPaletteCtrl.IsHidden(i);
             if(isHidden)
                 unitWidget.active = false;
             else {
                 unitWidget.active = true;
                 unitWidget.interactable = true;
+
+                //newly unlocked?
+                if(!prevActive)
+                    unitWidget.newHighlightActive = true;
 
                 unitWidget.cooldownScale = 0f;
 
@@ -175,9 +201,9 @@ public class UnitPaletteWidget : MonoBehaviour {
                 counterPip.active = false;
         }
 
-        //TODO: play flashy fx
         if(isCountChanged) {
-
+            if(counterPipUpdatedGO)
+                counterPipUpdatedGO.SetActive(true);
         }
 
         //update pip highlight
@@ -187,6 +213,7 @@ public class UnitPaletteWidget : MonoBehaviour {
 
     void Awake() {
         unitWidgetTemplate.active = false;
+        counterPipTemplate.active = false;
     }
 
     void Update() {

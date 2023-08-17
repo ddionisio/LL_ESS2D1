@@ -8,6 +8,13 @@ public class StructurePaletteController : MonoBehaviour  {
     public struct StructureInfo {
         public StructureData data;
         public bool isHidden;
+        public bool isNew; //set to true if isHidden was set from true to false
+
+        public StructureInfo(StructureData aData, bool aIsHidden) {
+            data = aData;
+            isHidden = aIsHidden;
+            isNew = false;
+        }
     }
 
     public class GroupInfo {
@@ -35,27 +42,6 @@ public class StructurePaletteController : MonoBehaviour  {
                 return visibleCount;
             }
         }
-
-        public bool IsHidden(StructureData structureData) {
-            for(int i = 0; i < structures.Length; i++) {
-                var inf = structures[i];
-                if(inf.data == structureData)
-                    return inf.isHidden;
-            }
-
-            return true;
-        }
-
-        public void SetHidden(StructureData structureData, bool hidden) {
-            for(int i = 0; i < structures.Length; i++) {
-                var inf = structures[i];
-                if(inf.data == structureData) {
-                    inf.isHidden = hidden;
-                    structures[i] = inf;
-                    return;
-                }
-            }
-        }
                 
         public GroupInfo(StructurePaletteData.GroupInfo dataGrpInf) {
             capacity = dataGrpInf.capacityStart;
@@ -65,7 +51,7 @@ public class StructurePaletteController : MonoBehaviour  {
             for(int i = 0; i < structures.Length; i++) {
                 var structureInfo = dataGrpInf.structures[i];
 
-                structures[i] = new StructureInfo { data = structureInfo.data, isHidden = structureInfo.isHidden };
+                structures[i] = new StructureInfo(structureInfo.data, structureInfo.IsHidden(0));
             }
         }
     }
@@ -152,6 +138,24 @@ public class StructurePaletteController : MonoBehaviour  {
         return ret;
     }
 
+    /// <summary>
+    /// Set 'isNew' as false for given structureData
+    /// </summary>
+    public void SetStructureSeen(StructureData structureData) {
+        for(int i = 0; i < mGroupInfos.Length; i++) {
+            var grpInf = mGroupInfos[i];
+
+            for(int j = 0; j < grpInf.structures.Length; j++) {
+                var structInf = grpInf.structures[j];
+                if(structInf.data == structureData) {
+                    structInf.isNew = false;
+                    grpInf.structures[j] = structInf;
+                    return;
+                }
+            }
+        }
+    }
+
     public int GroupGetIndex(StructureData structureData) {
         return paletteData.GetGroupIndex(structureData);
     }
@@ -168,31 +172,43 @@ public class StructurePaletteController : MonoBehaviour  {
 
         return grpInf.count >= grpInf.capacity;
     }
+        
+    /// <summary>
+    /// This will refresh all the group's capacity and hidden state based on given population
+    /// </summary>
+    public void RefreshGroupInfos(int population) {
 
-    public void GroupSetStructureHidden(StructureData structureData, bool isHidden) {
-        var groupIndex = GroupGetIndex(structureData);
-        if(groupIndex == -1)
-            return;
+        for(int groupInd = 0; groupInd < mGroupInfos.Length; groupInd++) {
+            var isUpdated = false;
 
-        var grpInf = mGroupInfos[groupIndex];
-        grpInf.SetHidden(structureData, isHidden);
+            var grpInf = mGroupInfos[groupInd];
 
-        signalInvokeGroupInfoRefresh?.Invoke(groupIndex);
-    }
+            //only update if we are increasing capacity
+            var updateCapacity = paletteData.groups[groupInd].GetCurrentCapacity(population);
+            if(grpInf.capacity < updateCapacity) {
+                grpInf.capacity = updateCapacity;
+                isUpdated = true;
+            }
 
-    public void GroupAddCapacity(StructureData structureData, int amount) {
-        GroupAddCapacity(GroupGetIndex(structureData), amount);
-    }
+            //check structures for group
+            for(int structureInd = 0; structureInd < grpInf.structures.Length; structureInd++) {
+                var structureInf = grpInf.structures[structureInd];
 
-    public void GroupAddCapacity(int groupIndex, int amount) {
-        if(groupIndex < 0 || groupIndex >= mGroupInfos.Length)
-            return;
+                //only update if structure is unlocked
+                var updateHidden = paletteData.groups[groupInd].structures[structureInd].IsHidden(population);
+                if(structureInf.isHidden && !updateHidden) {
+                    structureInf.isHidden = false;
+                    structureInf.isNew = true;
 
-        var grpInf = mGroupInfos[groupIndex];
+                    grpInf.structures[structureInd] = structureInf;
 
-        grpInf.capacity = Mathf.Clamp(grpInf.capacity + amount, 0, paletteData.groups[groupIndex].capacity);
+                    isUpdated = true;
+                }
+            }
 
-        signalInvokeGroupInfoRefresh?.Invoke(groupIndex);
+            if(isUpdated)
+                signalInvokeGroupInfoRefresh?.Invoke(groupInd);
+        }
     }
 
     public GroupInfo GroupGetInfo(int groupIndex) {

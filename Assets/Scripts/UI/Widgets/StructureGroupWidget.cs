@@ -15,15 +15,27 @@ public class StructureGroupWidget : MonoBehaviour {
 
     public Selectable interactWidget; //set interactable to true/false based on counter
 
+    public GameObject newHighlightGO;
+
     [Header("Items Info")]
     public GameObject itemsRootGO;
     public Transform itemsContainerRoot;
+
+    [Header("Animation")]
+    public M8.Animator.Animate animator;
+    [M8.Animator.TakeSelector]
+    public int takeCounterUpdate = -1;
 
     public int index { get; private set; }
 
     public bool active {
         get { return gameObject.activeSelf; }
         set { gameObject.SetActive(value); }
+    }
+
+    public bool newHighlightActive {
+        get { return newHighlightGO ? newHighlightGO.activeSelf : false; }
+        set { if(newHighlightGO) newHighlightGO.SetActive(value); }
     }
 
     public bool itemsActive { 
@@ -37,6 +49,9 @@ public class StructureGroupWidget : MonoBehaviour {
             if(mCount != value) {
                 mCount = value;
                 RefreshCount();
+
+                if(takeCounterUpdate != -1)
+                    animator.Play(takeCounterUpdate);
             }
         }
     }

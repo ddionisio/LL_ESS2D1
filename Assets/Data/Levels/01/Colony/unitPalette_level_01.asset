@@ -14,12 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   units:
   - data: {fileID: 11400000, guid: 72dee7ea53ab7104f881194bc990908f, type: 2}
-    isHidden: 0
+    populationQuotaUnlock: 1
   - data: {fileID: 11400000, guid: 912d03d196362454ca1452c28cec3c4b, type: 2}
-    isHidden: 0
+    populationQuotaUnlock: 2
   - data: {fileID: 11400000, guid: 8ceb0a537697a6340b410e8c809edb59, type: 2}
-    isHidden: 0
-  - data: {fileID: 11400000, guid: a9e86df1bfb9a704db18855bf5c5a378, type: 2}
-    isHidden: 0
-  capacityStart: 3
+    populationQuotaUnlock: 4
+  capacityStart: 0
   capacity: 12
+  capacityUpgrades:
+  - populationQuota: 1
+    capacityIncrease: 1
+  - populationQuota: 2
+    capacityIncrease: 2
+  - populationQuota: 4
+    capacityIncrease: 1

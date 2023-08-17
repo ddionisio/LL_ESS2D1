@@ -299,12 +299,12 @@ MonoBehaviour:
   damagedGO: {fileID: 0}
   repairGO: {fileID: 0}
   animator: {fileID: 0}
-  takeSpawn: 
-  takeIdle: 
-  takeDamage: 
-  takeMoving: 
-  takeDestroyed: 
-  takeDemolish: 
+  takeSpawn: -1
+  takeIdle: -1
+  takeDamage: -1
+  takeMoving: -1
+  takeDestroyed: -1
+  takeDemolish: -1
   _waypointGroups:
   - name: work
     waypoints:

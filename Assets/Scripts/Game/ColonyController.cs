@@ -77,7 +77,14 @@ public class ColonyController : GameModeController<ColonyController> {
         set {
             var _val = Mathf.Clamp(value, 0, mPopulationCapacity);
             if(mPopulation != _val) {
+                var prevPopulation = mPopulation;
                 mPopulation = _val;
+
+                //update palettes
+                if(mPopulation > prevPopulation) {
+                    structurePaletteController.RefreshGroupInfos(mPopulation);
+                    unitPaletteController.RefreshUnitInfos(mPopulation);
+                }
 
                 signalInvokePopulationUpdate?.Invoke();
             }

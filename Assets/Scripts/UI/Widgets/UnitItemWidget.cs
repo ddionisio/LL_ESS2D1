@@ -27,6 +27,8 @@ public class UnitItemWidget : MonoBehaviour, IPointerClickHandler, IPointerEnter
     public GameObject activeGO;
     public GameObject inactiveGO;
 
+    public GameObject newHighlightGO;
+
     public bool interactable {
         get { return mInteractable; }
         set {
@@ -58,6 +60,8 @@ public class UnitItemWidget : MonoBehaviour, IPointerClickHandler, IPointerEnter
     }
 
     public bool active { get { return gameObject.activeSelf; } set { gameObject.SetActive(value); } }
+
+    public bool newHighlightActive { get { return newHighlightGO ? newHighlightGO.activeSelf : false; } set { if(newHighlightGO) newHighlightGO.SetActive(value); } }
 
     public UnitData unitData { get; private set; }
 
@@ -126,6 +130,9 @@ public class UnitItemWidget : MonoBehaviour, IPointerClickHandler, IPointerEnter
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData) {
         mEnterPointerEventData = null;
         action = Action.None;
+
+        if(newHighlightGO)
+            newHighlightGO.SetActive(false);
     }
 
     private void UpdateAction(PointerEventData eventData) {

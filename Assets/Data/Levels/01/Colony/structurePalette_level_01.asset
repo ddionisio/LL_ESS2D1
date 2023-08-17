@@ -17,22 +17,41 @@ MonoBehaviour:
     icon: {fileID: 21300000, guid: a0d90d4fa5edd724faf85452ff11eba3, type: 3}
     structures:
     - data: {fileID: 11400000, guid: 918b5d6b53bd90f44ad2cc28f374bf18, type: 2}
-      isHidden: 0
+      populationQuotaUnlock: 0
     capacityStart: 1
-    capacity: 4
+    capacity: 3
+    capacityUpgrades:
+    - populationQuota: 2
+      capacityIncrease: 1
+    - populationQuota: 6
+      capacityIncrease: 1
   - nameRef: 
     icon: {fileID: 21300000, guid: 4e5f99955be3b514ea3b3003cbf917a1, type: 3}
     structures:
     - data: {fileID: 11400000, guid: 00c13b5caec751f4cac6d8ab4a682fc4, type: 2}
-      isHidden: 0
-    capacityStart: 4
-    capacity: 4
+      populationQuotaUnlock: 1
+    capacityStart: 0
+    capacity: 3
+    capacityUpgrades:
+    - populationQuota: 1
+      capacityIncrease: 1
+    - populationQuota: 4
+      capacityIncrease: 1
+    - populationQuota: 6
+      capacityIncrease: 1
   - nameRef: 
     icon: {fileID: 21300000, guid: c1d90da3a06a5984bbb5bc10c4315700, type: 3}
     structures:
     - data: {fileID: 11400000, guid: e6518c7cb5a58f34d8950afde470f478, type: 2}
-      isHidden: 0
+      populationQuotaUnlock: 2
     - data: {fileID: 11400000, guid: 2ecd68efbe929a241888a40e78c941a1, type: 2}
-      isHidden: 0
-    capacityStart: 4
-    capacity: 4
+      populationQuotaUnlock: 2
+    capacityStart: 0
+    capacity: 5
+    capacityUpgrades:
+    - populationQuota: 2
+      capacityIncrease: 2
+    - populationQuota: 4
+      capacityIncrease: 2
+    - populationQuota: 6
+      capacityIncrease: 1

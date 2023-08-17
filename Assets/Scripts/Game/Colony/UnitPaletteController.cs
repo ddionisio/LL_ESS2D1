@@ -32,7 +32,7 @@ public class UnitPaletteController : MonoBehaviour {
 
         public UnitInfo(UnitPaletteData.UnitInfo inf) {
             data = inf.data;
-            isHidden = inf.isHidden;
+            isHidden = inf.IsHidden(0);
             mQueueCount = 0;
             mSpawnQueueLastTime = 0f;
         }
@@ -43,17 +43,7 @@ public class UnitPaletteController : MonoBehaviour {
 
     public UnitPaletteData unitPalette { get; private set; }
 
-    public int capacity {
-        get { return mCapacity; }
-        set {
-            var newCapacity = Mathf.Clamp(value, 0, unitPalette.capacity);
-            if(mCapacity != newCapacity) {                
-                mCapacity = newCapacity;
-
-                signalInvokeRefresh?.Invoke();
-            }
-        }
-    }
+    public int capacity { get { return mCapacity; } }
 
     public int activeCount { get; private set; }
 
@@ -184,6 +174,34 @@ public class UnitPaletteController : MonoBehaviour {
         signalInvokeRefresh?.Invoke();
     }
 
+    public void RefreshUnitInfos(int population) {
+        var isUpdated = false;
+
+        //update capacity if it's increased
+        var newCapacity = unitPalette.GetCurrentCapacity(population);
+        if(mCapacity < newCapacity) {
+            mCapacity = newCapacity;
+            isUpdated = true;
+        }
+
+        for(int i = 0; i < mUnitInfos.Length; i++) {
+            var inf = mUnitInfos[i];
+
+            //update if unit is now unlocked
+            var isHiddenUpdate = unitPalette.units[i].IsHidden(population);
+            if(inf.isHidden && !isHiddenUpdate) {
+                inf.isHidden = isHiddenUpdate;
+
+                mUnitInfos[i] = inf;
+
+                isUpdated = true;
+            }
+        }
+
+        if(isUpdated)
+            signalInvokeRefresh?.Invoke();
+    }
+
     public void Setup(ColonyController colonyCtrl) {
         mUnitCtrl = colonyCtrl.unitController;
 
@@ -205,7 +223,7 @@ public class UnitPaletteController : MonoBehaviour {
             mUnitInfos[i] = new UnitInfo(paletteItm);
         }
 
-        mCapacity = unitPalette.capacityStart;
+        mCapacity = unitPalette.GetCurrentCapacity(0);
 
         activeCount = 0;
     }
