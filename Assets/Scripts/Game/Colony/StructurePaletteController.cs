@@ -8,11 +8,13 @@ public class StructurePaletteController : MonoBehaviour  {
     public struct StructureInfo {
         public StructureData data;
         public bool isHidden;
+        public bool isForcedShown;
         public bool isNew; //set to true if isHidden was set from true to false
 
         public StructureInfo(StructureData aData, bool aIsHidden) {
             data = aData;
             isHidden = aIsHidden;
+            isForcedShown = false;
             isNew = false;
         }
     }
@@ -42,7 +44,9 @@ public class StructurePaletteController : MonoBehaviour  {
                 return visibleCount;
             }
         }
-                
+
+        public bool highlightOnAvailable { get; private set; }
+
         public GroupInfo(StructurePaletteData.GroupInfo dataGrpInf) {
             capacity = dataGrpInf.capacityStart;
             count = 0;
@@ -53,6 +57,8 @@ public class StructurePaletteController : MonoBehaviour  {
 
                 structures[i] = new StructureInfo(structureInfo.data, structureInfo.IsHidden(0));
             }
+
+            highlightOnAvailable = dataGrpInf.highlightOnAvailable;
         }
     }
 
@@ -156,6 +162,29 @@ public class StructurePaletteController : MonoBehaviour  {
         }
     }
 
+    public void ForceShowStructure(StructureData structureData) {
+        for(int i = 0; i < mGroupInfos.Length; i++) {
+            var grpInf = mGroupInfos[i];
+
+            for(int j = 0; j < grpInf.structures.Length; j++) {
+                var structInf = grpInf.structures[j];
+                if(structInf.data == structureData) {
+                    structInf.isForcedShown = true;
+
+                    if(structInf.isHidden)
+                        structInf.isNew = true;
+
+                    structInf.isHidden = false;
+
+                    grpInf.structures[j] = structInf;
+
+                    signalInvokeGroupInfoRefresh?.Invoke(i);
+                    return;
+                }
+            }
+        }
+    }
+
     public int GroupGetIndex(StructureData structureData) {
         return paletteData.GetGroupIndex(structureData);
     }
@@ -195,7 +224,7 @@ public class StructurePaletteController : MonoBehaviour  {
                 var structureInf = grpInf.structures[structureInd];
 
                 //only update if structure is unlocked
-                var updateHidden = paletteData.groups[groupInd].structures[structureInd].IsHidden(population);
+                var updateHidden = !structureInf.isForcedShown && paletteData.groups[groupInd].structures[structureInd].IsHidden(population);
                 if(structureInf.isHidden && !updateHidden) {
                     structureInf.isHidden = false;
                     structureInf.isNew = true;

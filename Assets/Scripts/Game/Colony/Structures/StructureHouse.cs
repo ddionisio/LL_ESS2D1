@@ -44,16 +44,9 @@ public class StructureHouse : Structure {
 
     public int waterMax { get { return houseData.GetPopulationLevelInfo(populationLevelIndex).waterMax; } }
 
-    /// <summary>
-    /// [0, 1] gets filled gradually via (populationPowerConsumeDelay)
-    /// </summary>
-    public float power { get { return houseData.populationPowerConsumeDelay > 0f ? Mathf.Clamp01(mCurPowerConsumeTime / houseData.populationPowerConsumeDelay) : 1f; } }
-
-    public float powerConsumptionRate { get { return houseData.GetPopulationLevelInfo(populationLevelIndex).powerConsumptionRate; } }
-
     //AI purpose for citizens to gather resources
-    public bool isFoodGatherAvailable { get { return foodCount < foodMax && mFoodGatherCount < (foodMax - foodCount); } }
-    public bool isWaterGatherAvailable { get { return waterCount < waterMax && mWaterGatherCount < (waterMax - waterCount); } }
+    public bool isFoodGatherAvailable { get { return population < populationMax && foodCount < foodMax && mFoodGatherCount < (foodMax - foodCount); } }
+    public bool isWaterGatherAvailable { get { return population < populationMax && waterCount < waterMax && mWaterGatherCount < (waterMax - waterCount); } }
 
     private M8.CacheList<Unit> mCitizensActive;
 
@@ -63,7 +56,7 @@ public class StructureHouse : Structure {
     private int mFoodGatherCount;
     private int mWaterGatherCount;
 
-    private float mCurPowerConsumeTime;
+    private ColonyController.ResourceQuota mPowerQuota;
 
     public void AddFoodGather() {
         if(foodCount < foodMax)
@@ -103,7 +96,6 @@ public class StructureHouse : Structure {
                 break;
 
             case StructureState.Destroyed:
-                mCurPowerConsumeTime = 0f;
                 break;
 
             case StructureState.None:
@@ -112,6 +104,14 @@ public class StructureHouse : Structure {
 
                     colonyCtrl.population -= population;
                     colonyCtrl.populationCapacity -= populationMax;
+
+                    if(mPowerQuota != null) {
+                        colonyCtrl.RemoveResourceQuota(StructureResourceData.ResourceType.Power, mPowerQuota);
+                        mPowerQuota = null;
+                    }
+                }
+                else {
+                    mPowerQuota = null;
                 }
 
                 populationLevelIndex = 0;
@@ -120,7 +120,6 @@ public class StructureHouse : Structure {
                 mWaterCount = 0;
                 mFoodGatherCount = 0;
                 mWaterGatherCount = 0;
-                mCurPowerConsumeTime = 0f;
                 break;
         }
     }
@@ -192,6 +191,8 @@ public class StructureHouse : Structure {
                         //clamp values
                         if(mFoodCount > foodMax) mFoodCount = foodMax;
                         if(mWaterCount > waterMax) mWaterCount = waterMax;
+
+                        UpdatePowerQuota();
                     }
 
                     if(state == StructureState.Active)
@@ -219,8 +220,8 @@ public class StructureHouse : Structure {
         var curSpawnTime = 0f;
 
         while(true) {
-            //can't do anything during hazzard weather
-            while(colonyCtrl.cycleController.isHazzard)
+            //can't do anything during hazzard weather or when cycle is paused
+            while(colonyCtrl.cycleController.isHazzard || colonyCtrl.cycleController.cycleTimeScale <= 0f)
                 yield return null;
 
             //check if we need to spawn
@@ -244,26 +245,17 @@ public class StructureHouse : Structure {
                 }
             }
             else if(hitpointsCurrent == hitpointsMax) {
-                if(population < populationMax) {
-                    //update power consumption
-                    if(powerConsumptionRate > 0f && power < 1f) {
-                        var dt = Time.deltaTime;
+                if(population < populationMax)
+                    UpdatePopulation();
+            }
 
-                        var consumeAmt = powerConsumptionRate * dt;
-
-                        var colonyPower = colonyCtrl.GetResourceAmount(StructureResourceData.ResourceType.Power);
-
-                        if(colonyPower > consumeAmt) {
-                            colonyPower -= consumeAmt;
-                            colonyCtrl.SetResourceAmount(StructureResourceData.ResourceType.Power, colonyPower);
-
-                            mCurPowerConsumeTime += dt;
-
-                            SetStatusStateAndProgress(StructureStatus.Power, StructureStatusState.Progress, colonyPower);
-                        }
-                    }
-                    else
-                        UpdatePopulation();
+            //update power consumption
+            if(mPowerQuota != null) {
+                if(!mPowerQuota.isFulfilled) {
+                    SetStatusStateAndProgress(StructureStatus.Power, StructureStatusState.Require, Mathf.Clamp01(mPowerQuota.amountFulfilled / mPowerQuota.amount));
+                }
+                else {
+                    SetStatusState(StructureStatus.Power, StructureStatusState.None);
                 }
             }
 
@@ -274,18 +266,20 @@ public class StructureHouse : Structure {
     private void UpdatePopulation() {
         bool isWaterComplete = waterMax == 0 || waterCount == waterMax, 
              isFoodComplete  = foodMax == 0 || foodCount == foodMax, 
-             isPowerComplete = powerConsumptionRate == 0 || power == 1f;
+             isPowerComplete = mPowerQuota == null || mPowerQuota.isFulfilled;
 
         if(isWaterComplete && isFoodComplete && isPowerComplete) {
             if(population < populationMax) {
                 population++;
 
-                if(populationLevelIndex < houseData.populationLevelCount - 1)
+                if(populationLevelIndex < houseData.populationLevelCount - 1) {
                     populationLevelIndex++;
+
+                    UpdatePowerQuota();
+                }
 
                 mFoodCount = 0;
                 mWaterCount = 0;
-                mCurPowerConsumeTime = 0f;
 
                 ColonyController.instance.population++;
             }
@@ -311,20 +305,27 @@ public class StructureHouse : Structure {
             }
             else
                 SetStatusState(StructureStatus.Water, StructureStatusState.None);
-
-            //check if there's any power left for the colony
-            if(powerConsumptionRate > 0f && power < 1f) {
-                var colonyPowerCapacity = colonyCtrl.GetResourceCapacity(StructureResourceData.ResourceType.Power);
-
-                SetStatusStateAndProgress(StructureStatus.Power, colonyPowerCapacity > 0f ? StructureStatusState.Progress : StructureStatusState.Require, power);
-            }
-            else
-                SetStatusState(StructureStatus.Power, StructureStatusState.None);
         }
         else {
             SetStatusState(StructureStatus.Food, StructureStatusState.None);
             SetStatusState(StructureStatus.Water, StructureStatusState.None);
-            SetStatusState(StructureStatus.Power, StructureStatusState.None);
+        }
+    }
+
+    private void UpdatePowerQuota() {
+        var popInf = houseData.GetPopulationLevelInfo(populationLevelIndex);
+
+        if(popInf.powerConsumption > 0f) {
+            if(mPowerQuota == null)
+                mPowerQuota = ColonyController.instance.AddResourceQuota(StructureResourceData.ResourceType.Power, popInf.powerConsumption);
+            else {
+                mPowerQuota.SetAmount(popInf.powerConsumption);
+                ColonyController.instance.RefreshResources(StructureResourceData.ResourceType.Power);
+            }
+        }
+        else if(mPowerQuota != null) {
+            ColonyController.instance.RemoveResourceQuota(StructureResourceData.ResourceType.Power, mPowerQuota);
+            mPowerQuota = null;
         }
     }
 }

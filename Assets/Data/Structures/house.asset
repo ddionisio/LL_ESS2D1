@@ -27,15 +27,14 @@ MonoBehaviour:
     m_Bits: 64
   citizenData: {fileID: 11400000, guid: 497eb44adfc8b984c8cb4b395de39cec, type: 2}
   citizenStartCount: 1
-  citizenCapacity: 4
+  citizenCapacity: 3
   _populationLevels:
   - foodMax: 1
     waterMax: 0
-    powerConsumptionRate: 0
-  - foodMax: 2
-    waterMax: 1
-    powerConsumptionRate: 0.25
+    powerConsumption: 0
   - foodMax: 3
-    waterMax: 3
-    powerConsumptionRate: 0.5
-  populationPowerConsumeDelay: 2
+    waterMax: 2
+    powerConsumption: 10
+  - foodMax: 1
+    waterMax: 1
+    powerConsumption: 20

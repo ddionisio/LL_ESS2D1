@@ -10,11 +10,14 @@ public class CycleData : ScriptableObject {
         public WeatherTypeData weather;
         public AtmosphereModifier[] atmosphereMods;
 
-        public CycleResource resourceRateMod;
+        public CycleResourceScale resourceScaleMod;
         public float windDirAngle; //0 is at top
     }
 
     public WeatherInfo[] cycles;
+    public float cycleTotalDuration = 150f;
 
-    public CycleResource resourceRate;
+    public CycleResourceScale resourceScale;
+
+    public float cycleDuration { get { return cycles.Length > 0 ? cycleTotalDuration / cycles.Length : 0f; } }
 }

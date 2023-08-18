@@ -134,7 +134,7 @@ public class StructurePaletteWidget : MonoBehaviour {
 
                 if(visibleCount > 0) {
                     groupWidget.active = true;
-                    groupWidget.newHighlightActive = newCount > 0;
+                    groupWidget.newHighlightActive = (groupInf.highlightOnAvailable && groupInf.count < groupInf.capacity) || newCount > 0;
                 }
                 else
                     groupWidget.active = false;
@@ -151,7 +151,7 @@ public class StructurePaletteWidget : MonoBehaviour {
                 newCount++;
         }
 
-        groupWidget.newHighlightActive = newCount > 0;
+        groupWidget.newHighlightActive = (groupInfo.highlightOnAvailable && groupInfo.count < groupInfo.capacity) || newCount > 0;
     }
 
     public void ClearGroupActive() {

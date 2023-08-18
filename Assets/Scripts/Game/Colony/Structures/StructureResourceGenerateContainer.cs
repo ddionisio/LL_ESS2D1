@@ -52,6 +52,8 @@ public class StructureResourceGenerateContainer : Structure {
     protected override void Spawned() {
         resourceData = data as StructureResourceData;
 
+        mResource = resourceData.resourceFixedValue;
+
         RefreshDisplay();
     }
 
@@ -90,8 +92,8 @@ public class StructureResourceGenerateContainer : Structure {
         while(true) {
             yield return null;
 
-            if(resource < resourceCapacity) {
-                var rate = resourceData.resourceGenerateRate + cycleCtrl.GetResourceRate(resourceData.resourceInputType);
+            if(cycleCtrl.cycleTimeScale > 0f && resource < resourceCapacity) {
+                var rate = resourceData.resourceGenerateRate * cycleCtrl.GetResourceScale(resourceData.resourceInputType);
 
                 resource += rate * Time.deltaTime;
             }

@@ -27,5 +27,6 @@ MonoBehaviour:
     m_Bits: 2048
   resourceInputType: 3
   resourceType: 2
-  resourceGenerateRate: 0
+  resourceFixedValue: 0
+  resourceGenerateRate: 0.25
   resourceCapacity: 4

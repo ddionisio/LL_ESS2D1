@@ -7,10 +7,10 @@ public class StructurePaletteData : ScriptableObject {
     [System.Serializable]
     public struct StructureInfo {
         public StructureData data;
-        public int populationQuotaUnlock; //set to 0 to unlock right away
+        public int populationQuotaUnlock; //set to 0 to unlock right away, -1 to always lock (manually lock via controller)
 
         public bool IsHidden(int population) {
-            return population < populationQuotaUnlock;
+            return populationQuotaUnlock < 0 || population < populationQuotaUnlock;
         }
     }
 
@@ -34,6 +34,7 @@ public class StructurePaletteData : ScriptableObject {
         [Header("Capacity Info")]
         public int capacityStart; //starting capacity
         public int capacity;
+        public bool highlightOnAvailable; //always highlight if available to build
 
         public CapacityUpgradeInfo[] capacityUpgrades;
 

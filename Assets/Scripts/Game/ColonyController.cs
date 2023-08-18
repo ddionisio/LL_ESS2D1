@@ -13,28 +13,138 @@ public class ColonyController : GameModeController<ColonyController> {
         CyclePause
     }
 
-    public struct ResourceInfo {
-        public float amount {
-            get { return mAmount; }
-            set { mAmount = Mathf.Clamp(value, 0f, mCapacity); }
+    public class ResourceQuota {
+        public bool isFulfilled { get { return amount <= amountFulfilled; } }
+
+        public float amount { get; private set; }
+        public float amountFulfilled { get; private set; }
+
+        public ResourceQuota(float aAmount) {
+            amount = aAmount;
         }
 
-        public float capacity {
-            get { return mCapacity; }
-            set {
-                mCapacity = value;
+        public void SetAmount(float aAmount) {
+            amount = aAmount;
+            if(amountFulfilled > amount)
+                amountFulfilled = amount;
+        }
 
-                if(mAmount > mCapacity)
-                    mAmount = mCapacity;
+        public void ClearFulfillment() {
+            amountFulfilled = 0f;
+        }
+
+        public float UpdateFulfillment(float curTotalAmount) {
+            var totalAmount = curTotalAmount;
+
+            if(amount <= totalAmount) {
+                amountFulfilled = amount;
+                totalAmount -= amount;
+            }
+            else {
+                amountFulfilled = amount - totalAmount;
+                totalAmount = 0f;
+            }
+
+            return totalAmount;
+        }
+    }
+
+    public class ResourceFixedAmount {
+        public CycleResourceType inputType { get; private set; }
+        public float amount { get { return mAmountBase * mAmountScale; } }
+
+        private float mAmountBase;
+        private float mAmountScale;
+
+        public ResourceFixedAmount(float aAmount, CycleResourceType aInputType, float initialScale) {
+            inputType = aInputType;
+            mAmountBase = aAmount;
+            mAmountScale = initialScale;
+        }
+
+        public void UpdateScale(float scale) {
+            mAmountScale = scale;
+        }
+    }
+
+    public class ResourceInfo {
+        public float amount { 
+            get { return mAmountUpdated; }
+            set {
+                var amt = Mathf.Clamp(value, 0f, capacity);
+                if(mAmount != amt) {
+                    mAmount = amt;
+                    Refresh();
+                }
             }
         }
 
-        public float scale { get { return Mathf.Clamp01(mAmount / mCapacity); } }
+        public float capacity { 
+            get { return mCapacity; } 
+            set {
+                if(mCapacity != value) {
+                    mCapacity = value;
 
-        public bool isFull { get { return mAmount >= mCapacity; } }
+                    if(mAmount > mCapacity)
+                        mAmount = mCapacity;
+
+                    Refresh();
+                }
+            }
+        }
+
+        public float scale { get { return Mathf.Clamp01(amount / capacity); } }
+
+        public bool isFull { get { return amount >= capacity; } }
+
+        public List<ResourceFixedAmount> resourceFixed { get { return mResourceFixed; } }
+        public List<ResourceQuota> resourceQuotas { get { return mResourceQuotas; } }
 
         private float mAmount;
+        private float mAmountUpdated;
         private float mCapacity;
+
+        private List<ResourceFixedAmount> mResourceFixed = new List<ResourceFixedAmount>(16);
+        private List<ResourceQuota> mResourceQuotas = new List<ResourceQuota>(16);
+
+        public ResourceFixedAmount AddFixed(float amt, CycleResourceType inputType, float initialScale) {
+            var newFixed = new ResourceFixedAmount(amt, inputType, initialScale);
+            mResourceFixed.Add(newFixed);
+            Refresh();
+            return newFixed;
+        }
+
+        public void RemoveFixed(ResourceFixedAmount fixedAmount) {
+            if(mResourceFixed.Remove(fixedAmount))
+                Refresh();
+        }
+
+        public ResourceQuota AddQuota(float quotaAmount) {
+            var newQuota = new ResourceQuota(quotaAmount);
+            mResourceQuotas.Add(newQuota);
+            Refresh();
+            return newQuota;
+        }
+
+        public void RemoveQuota(ResourceQuota quota) {
+            if(mResourceQuotas.Remove(quota))
+                Refresh();
+        }
+
+        public void Refresh() {
+            mAmountUpdated = mAmount;
+
+            for(int i = 0; i < mResourceFixed.Count; i++)
+                mAmountUpdated += mResourceFixed[i].amount;
+
+            for(int i = 0; i < mResourceQuotas.Count; i++) {
+                var quota = mResourceQuotas[i];
+                if(mAmountUpdated > 0f)
+                    mAmountUpdated = quota.UpdateFulfillment(mAmountUpdated);
+                else
+                    quota.ClearFulfillment();
+            }
+        }
     }
 
     [Header("Setup")]
@@ -165,15 +275,13 @@ public class ColonyController : GameModeController<ColonyController> {
         return mResources[(int)resourceType].amount;
     }
 
-    public void SetResourceAmount(StructureResourceData.ResourceType resourceType, float amount) {
+    public void AddResourceAmount(StructureResourceData.ResourceType resourceType, float amount) {
         var resInd = (int)resourceType;
 
-        if(mResources[resInd].amount != amount) {
-            mResources[resInd].amount = amount;
+        mResources[resInd].amount += amount;
 
-            //signal
-            signalInvokeResourceUpdate?.Invoke();
-        }
+        //signal
+        signalInvokeResourceUpdate?.Invoke();
     }
 
     public float GetResourceScale(StructureResourceData.ResourceType resourceType) {
@@ -196,6 +304,27 @@ public class ColonyController : GameModeController<ColonyController> {
 
     public bool IsResourceFull(StructureResourceData.ResourceType resourceType) {
         return mResources[(int)resourceType].isFull;
+    }
+
+    public ResourceFixedAmount AddResourceFixedAmount(StructureResourceData.ResourceType resourceType, CycleResourceType inputType, float amt) {
+        var scale = cycleController.GetResourceScale(inputType);
+        return mResources[(int)resourceType].AddFixed(amt, inputType, scale);
+    }
+
+    public void RemoveResourceFixedAmount(StructureResourceData.ResourceType resourceType, ResourceFixedAmount resourceFixedAmount) {
+        mResources[(int)resourceType].RemoveFixed(resourceFixedAmount);
+    }
+
+    public ResourceQuota AddResourceQuota(StructureResourceData.ResourceType resourceType, float amt) {
+        return mResources[(int)resourceType].AddQuota(amt);
+    }
+
+    public void RemoveResourceQuota(StructureResourceData.ResourceType resourceType, ResourceQuota resourceQuota) {
+        mResources[(int)resourceType].RemoveQuota(resourceQuota);
+    }
+
+    public void RefreshResources(StructureResourceData.ResourceType resourceType) {
+        mResources[(int)resourceType].Refresh();
     }
 
     public void ShowWeatherForecast(bool initialCycle, bool pause) {
@@ -344,8 +473,34 @@ public class ColonyController : GameModeController<ColonyController> {
         else
             timeState = TimeState.Normal;
 
-        while(cycleController.isRunning)
+        int curCycleInd = cycleController.cycleCurIndex;
+        bool curCycleIsDay = cycleController.cycleIsDay;
+
+        while(cycleController.isRunning) {
             yield return null;
+
+            //refresh resources if we are at next cycle or changing from day to night
+            var updateResources = false;
+            if(curCycleInd != cycleController.cycleCurIndex) {
+                curCycleInd = cycleController.cycleCurIndex;
+                updateResources = true;
+            }
+            if(curCycleIsDay != cycleController.cycleIsDay) {
+                curCycleIsDay = cycleController.cycleIsDay;
+                updateResources = true;
+            }
+
+            if(updateResources) {
+                for(int i = 0; i < mResources.Length; i++) {
+                    var res = mResources[i];
+                    for(int j = 0; j < res.resourceFixed.Count; j++) {
+                        var fixedRes = res.resourceFixed[j];
+                        fixedRes.UpdateScale(cycleController.GetResourceScale(fixedRes.inputType));
+                    }
+                    res.Refresh();
+                }
+            }
+        }
 
         timeState = TimeState.None;
 

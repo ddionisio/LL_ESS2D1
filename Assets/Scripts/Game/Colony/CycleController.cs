@@ -21,11 +21,33 @@ public class CycleController : MonoBehaviour {
     public int cycleCurIndex { get; private set; }
     public WeatherTypeData cycleCurWeather { get { return cycleData.cycles[cycleCurIndex].weather; } }
     public float cycleCurElapsed { get; private set; }
+    public float cycleCurElapsedNormalized { get { return Mathf.Clamp01(cycleCurElapsed / cycleDuration); } }
     public float cycleTimeScale { get; set; }
     public float cycleDuration { get; private set; }
+    public float cycleDayDuration { get { return cycleDuration * daylightScale; } }
+    
     public int cycleCount { get { return cycleData.cycles.Length; } }
 
-    public CycleResource cycleResourceRate { get; private set; }
+    public bool cycleIsDay {
+        get {
+            return cycleCurElapsed < cycleDayDuration;
+        }
+    }
+
+    public float cycleDayElapsedNormalized {
+        get {
+            return Mathf.Clamp01(cycleCurElapsed / cycleDayDuration);
+        }
+    }
+
+    public float cycleNightElapsedNormalized {
+        get {
+            var dayDuration = cycleDayDuration;
+            return Mathf.Clamp01((cycleCurElapsed - dayDuration) / (cycleDuration - dayDuration));
+        }
+    }
+
+    public CycleResourceScale cycleResourceScale { get; private set; }
 
     public bool isRunning { get { return mRout != null; } }
 
@@ -36,16 +58,16 @@ public class CycleController : MonoBehaviour {
 
     private Coroutine mRout;
 
-    public float GetResourceRate(CycleResourceType cycleResourceType) {
+    public float GetResourceScale(CycleResourceType cycleResourceType) {
         switch(cycleResourceType) {
             case CycleResourceType.Sun:
-                return cycleResourceRate.sun;
+                return cycleIsDay ? cycleResourceScale.sunDay : cycleResourceScale.sunNight;
             case CycleResourceType.Wind:
-                return cycleResourceRate.wind;
+                return cycleResourceScale.wind;
             case CycleResourceType.Water:
-                return cycleResourceRate.water;
+                return cycleResourceScale.water;
             case CycleResourceType.Growth:
-                return cycleResourceRate.growth;
+                return cycleResourceScale.growth;
             default:
                 return 0f;
         }
@@ -74,9 +96,9 @@ public class CycleController : MonoBehaviour {
 
         //setup some fixed cycle info
         daylightScale = hotspotData.GetDaylightScale(season);
-        cycleDuration = GameData.instance.cycleDuration / cycleData.cycles.Length;
+        cycleDuration = cycleData.cycleDuration;
 
-        cycleResourceRate = cycleData.resourceRate;
+        cycleResourceScale = cycleData.resourceScale;
     }
 
     public void Begin() {
@@ -163,6 +185,6 @@ public class CycleController : MonoBehaviour {
         if(curCycle.atmosphereMods != null)
             AtmosphereModifier.Apply(atmosphereStats, curCycle.atmosphereMods);
 
-        cycleResourceRate = cycleData.resourceRate + curCycle.resourceRateMod;
+        cycleResourceScale = cycleData.resourceScale + curCycle.resourceScaleMod;
     }
 }

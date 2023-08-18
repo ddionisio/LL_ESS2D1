@@ -51,7 +51,6 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public LayerMask waterLayerMask;
     public LayerMask placementCheckLayerMask;
 
-    public float cycleDuration = 120f; //entire duration of the colony game
     public float cycleDaylightScaleDefault = 0.5f;
 
     public float fastForwardScale = 2.0f;

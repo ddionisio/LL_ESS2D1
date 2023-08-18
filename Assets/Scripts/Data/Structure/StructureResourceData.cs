@@ -13,6 +13,7 @@ public class StructureResourceData : StructureData {
     [Header("Resource Info")]
     public CycleResourceType resourceInputType;
     public ResourceType resourceType;
+    public float resourceFixedValue;
     public float resourceGenerateRate;
     public float resourceCapacity;
 }

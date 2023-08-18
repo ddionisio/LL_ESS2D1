@@ -19,7 +19,7 @@ public class StructureHouseData : StructureData {
         /// <summary>
         /// Amount of power to consume, set to 0 disregard this requirement.
         /// </summary>
-        public float powerConsumptionRate;
+        public float powerConsumption;
     }
 
     [Header("Citizen Info")]
@@ -30,7 +30,6 @@ public class StructureHouseData : StructureData {
     [Header("Population Info")]
     [SerializeField]
     PopulationLevelInfo[] _populationLevels;
-    public float populationPowerConsumeDelay; //how long to consume power before increasing population (if powerConsumptionRate > 0)
 
     public int populationLevelCount { get { return _populationLevels.Length; } }
 

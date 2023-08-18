@@ -18,6 +18,7 @@ public class StructureResourceGenerateGlobal : Structure {
     }
 
     private bool mIsResourceGlobalCapacityApplied;
+    private ColonyController.ResourceFixedAmount mResourceFixed;
 
     protected override void Despawned() {
         resourceData = null;
@@ -38,19 +39,19 @@ public class StructureResourceGenerateGlobal : Structure {
 
         switch(state) {
             case StructureState.Active:
-                ApplyGlobalResourceCapacity(true);
+                ApplyGlobalResource(true);
 
                 mRout = StartCoroutine(DoActive());
                 break;
 
             case StructureState.Destroyed:
             case StructureState.None:
-                ApplyGlobalResourceCapacity(false);
+                ApplyGlobalResource(false);
                 break;
         }
     }
 
-    private void ApplyGlobalResourceCapacity(bool apply) {
+    private void ApplyGlobalResource(bool apply) {
         if(mIsResourceGlobalCapacityApplied != apply) {
             mIsResourceGlobalCapacityApplied = apply;
 
@@ -58,10 +59,20 @@ public class StructureResourceGenerateGlobal : Structure {
 
             var resGlobalCapacity = colonyCtrl.GetResourceCapacity(resourceType);
 
-            if(apply)
+            if(apply) {
+                if(resourceData.resourceFixedValue > 0f)
+                    mResourceFixed = colonyCtrl.AddResourceFixedAmount(resourceType, resourceData.resourceInputType, resourceData.resourceFixedValue);
+
                 colonyCtrl.SetResourceCapacity(resourceType, resGlobalCapacity + resourceCapacity);
-            else
+            }
+            else {
+                if(mResourceFixed != null) {
+                    colonyCtrl.RemoveResourceFixedAmount(resourceType, mResourceFixed);
+                    mResourceFixed = null;
+                }
+
                 colonyCtrl.SetResourceCapacity(resourceType, resGlobalCapacity - resourceCapacity);
+            }
         }
     }
 
@@ -80,12 +91,10 @@ public class StructureResourceGenerateGlobal : Structure {
             var resGlobal = colonyCtrl.GetResourceAmount(resourceType);
             var resCapacityGlobal = colonyCtrl.GetResourceCapacity(resourceType);
 
-            if(resGlobal < resCapacityGlobal) {
-                var rate = resourceData.resourceGenerateRate + cycleCtrl.GetResourceRate(resourceData.resourceInputType);
+            if(cycleCtrl.cycleTimeScale > 0f && resGlobal < resCapacityGlobal) {
+                var rate = resourceData.resourceGenerateRate * cycleCtrl.GetResourceScale(resourceData.resourceInputType);
 
-                resGlobal += rate * Time.deltaTime;
-
-                colonyCtrl.SetResourceAmount(resourceType, resGlobal);
+                colonyCtrl.AddResourceAmount(resourceType, rate * Time.deltaTime);
             }
         }
     }

@@ -7,10 +7,10 @@ public class UnitPaletteData : ScriptableObject {
     [System.Serializable]
     public struct UnitInfo {
         public UnitData data;
-        public int populationQuotaUnlock; //set to 0 to unlock right away
+        public int populationQuotaUnlock; //set to 0 to unlock right away, -1 to always lock (manually lock via controller)
 
         public bool IsHidden(int population) {
-            return population < populationQuotaUnlock;
+            return populationQuotaUnlock < 0 || population < populationQuotaUnlock;
         }
     }
 

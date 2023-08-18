@@ -76,6 +76,8 @@ public class StructureGroupWidget : MonoBehaviour {
 
         itemsActive = false;
 
+        newHighlightActive = info.highlightOnAvailable && info.capacityStart > 0;
+
         mCount = 0;
         RefreshCount();
     }

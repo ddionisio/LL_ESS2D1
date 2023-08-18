@@ -6,6 +6,7 @@ public class UnitPaletteController : MonoBehaviour {
     public struct UnitInfo {
         public UnitData data;
         public bool isHidden;
+        public bool isForcedShown;
 
         public int queueCount { get { return mQueueCount; } }
 
@@ -33,6 +34,7 @@ public class UnitPaletteController : MonoBehaviour {
         public UnitInfo(UnitPaletteData.UnitInfo inf) {
             data = inf.data;
             isHidden = inf.IsHidden(0);
+            isForcedShown = false;
             mQueueCount = 0;
             mSpawnQueueLastTime = 0f;
         }
@@ -174,6 +176,19 @@ public class UnitPaletteController : MonoBehaviour {
         signalInvokeRefresh?.Invoke();
     }
 
+    public void ForceShowUnit(UnitData unitData) {
+        var ind = GetUnitIndex(unitData);
+        if(ind != -1) {
+            var inf = mUnitInfos[ind];
+            inf.isForcedShown = true;
+            inf.isHidden = false;
+
+            mUnitInfos[ind] = inf;
+
+            signalInvokeRefresh?.Invoke();
+        }   
+    }
+
     public void RefreshUnitInfos(int population) {
         var isUpdated = false;
 
@@ -188,7 +203,7 @@ public class UnitPaletteController : MonoBehaviour {
             var inf = mUnitInfos[i];
 
             //update if unit is now unlocked
-            var isHiddenUpdate = unitPalette.units[i].IsHidden(population);
+            var isHiddenUpdate = !inf.isForcedShown && unitPalette.units[i].IsHidden(population);
             if(inf.isHidden && !isHiddenUpdate) {
                 inf.isHidden = isHiddenUpdate;
 
