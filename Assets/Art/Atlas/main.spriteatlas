@@ -39,7 +39,7 @@ SpriteAtlas:
       blockOffset: 1
       allowAlphaSplitting: 0
       enableRotation: 1
-      enableTightPacking: 1
+      enableTightPacking: 0
     secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
@@ -66,6 +66,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: f4683e31b11d8c249ac19e37611319cd, type: 3}
   - {fileID: 21300000, guid: 1170e241a10ad234784438f863f071cb, type: 3}
   - {fileID: 21300000, guid: 29e5f361712e4c24e83a07794679518e, type: 3}
+  - {fileID: 21300000, guid: cf8f16614f12d6a4f85df03439b9bc45, type: 3}
   - {fileID: 21300000, guid: a9e6aa6125e21a243a912312e6006749, type: 3}
   - {fileID: 21300000, guid: f5bcbe71f076c0e4ab6fed424450ebc7, type: 3}
   - {fileID: 21300000, guid: 4d64228173436454cafac14a1566b287, type: 3}
@@ -125,8 +126,10 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 76eb39849147fda4f89af6b7e21b18d6, type: 3}
   - {fileID: 21300000, guid: 88ba21a4f8f7003428f0fb2ab3747661, type: 3}
   - {fileID: 21300000, guid: 0dcc4ca4a407f4b47b76fd2730144ba6, type: 3}
+  - {fileID: 21300000, guid: 69b9a3e4a51d75e4e8a23efcae4f019f, type: 3}
   - {fileID: 21300000, guid: 21c769e4040edd24e83c0830fb109b60, type: 3}
   - {fileID: 21300000, guid: 08d122f41cb4d294d9f5112304b14505, type: 3}
+  - {fileID: 21300000, guid: 19c3e2f4beed38e45af9d28dafcd2474, type: 3}
   - {fileID: 21300000, guid: 205407f42d722314ba6b1180bc92c375, type: 3}
   - {fileID: 21300000, guid: 0ad0510562576584684556f66ac5ad31, type: 3}
   - {fileID: 21300000, guid: 4b630a15ca4efef4daa3d79c0930b178, type: 3}
@@ -141,6 +144,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 13acd275517e3964580e66dd35ff10a4, type: 3}
   - {fileID: 21300000, guid: 0358dd757e12e4849a4f1b8629ffcc56, type: 3}
   - {fileID: 21300000, guid: 4e5f99955be3b514ea3b3003cbf917a1, type: 3}
+  - {fileID: 21300000, guid: ed04c3c50dec78a4b81e776f0cdae67d, type: 3}
   - {fileID: 21300000, guid: 09619be537e2ee440ba09ccceec1e24f, type: 3}
   - {fileID: 21300000, guid: 7881fd06e455ffc4c952103cb3721d91, type: 3}
   - {fileID: 21300000, guid: 123da516504ff764789809a1aa766499, type: 3}
@@ -190,10 +194,12 @@ SpriteAtlas:
   - {fileID: 21300002, guid: 02cb7109eec577d45a27167e2308de23, type: 3}
   - {fileID: 5754809440454667916, guid: 02cb7109eec577d45a27167e2308de23, type: 3}
   - {fileID: 21300004, guid: 02cb7109eec577d45a27167e2308de23, type: 3}
+  - {fileID: 21300000, guid: e335a309394698a4d87f369404d9cd12, type: 3}
   - {fileID: 21300000, guid: 67a891199e93f844593f1777dffa4fe2, type: 3}
   - {fileID: 21300000, guid: 54d83079f71b6f84eb079605fbb4f412, type: 3}
   - {fileID: 21300000, guid: bb8a087995e8ab149b0f5c36c07f3d96, type: 3}
   - {fileID: 21300000, guid: fd0b3d7974e8fe74194550f3fd0cafea, type: 3}
+  - {fileID: 21300000, guid: 0648caa9e99959b4a9af0f526f3f4c55, type: 3}
   - {fileID: 21300000, guid: d46a6ca99e0220a43842851dd5346db7, type: 3}
   - {fileID: 21300000, guid: f979c0b9f37d4364eb3309f41342e319, type: 3}
   - {fileID: 21300000, guid: 1936bac986127cb4bad904bfad92c266, type: 3}
@@ -214,7 +220,9 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 5952baaa48d611842a22716276cee699, type: 3}
   - {fileID: 21300000, guid: 2dbf8caa8122d674599b550d52ad6da0, type: 3}
   - {fileID: 21300000, guid: f9c23eaad5c141347b76c36e05e04abe, type: 3}
+  - {fileID: 21300000, guid: 0b672bba72e7f1d49bd0439a487d075d, type: 3}
   - {fileID: 21300000, guid: 027317da021880b4192b8ed5a6598e52, type: 3}
+  - {fileID: 21300000, guid: 61897feab3ef304458258a7f28651a37, type: 3}
   - {fileID: 21300000, guid: cb537bfaf8bd74e48aa79857c230c57f, type: 3}
   - {fileID: 21300000, guid: 55f99f0ba3b46f64686680435ae89361, type: 3}
   - {fileID: 21300000, guid: dd09c62bb6f83c349b3980bab348e3b4, type: 3}
@@ -306,6 +314,7 @@ SpriteAtlas:
   - downArrow
   - season_icon_autumn
   - atmosphere_symbol_temperature
+  - colonyShip_leg
   - frogEngineer_swim_0
   - bomb
   - frogGardener_run_0
@@ -365,8 +374,10 @@ SpriteAtlas:
   - frogEngineer_attack_2
   - frogMedic_act_0
   - frogMedic_hurt_2
+  - frogShipCrew_1
   - explodePixel5
   - devicerBody
+  - frogShipCrew_2
   - frogCivilian_move_2
   - frogGardener_victory_1
   - fancyRect_sm_outline_1
@@ -381,6 +392,7 @@ SpriteAtlas:
   - frogGardener_idle_4
   - frogEngineer_act_2
   - structureGroup_agriculture
+  - colonyShip_body
   - statusIcon_demolish
   - frogHunter_move_3
   - frogHunter_hurt_1
@@ -430,10 +442,12 @@ SpriteAtlas:
   - blank4x4
   - blank4x4_border2
   - blank4x4_topLeft
+  - colonyShip_foot
   - frogMedic_victory_2
   - frogCivilian_move_1
   - optionButton
   - frogGardener_attack_1
+  - house
   - frogGardener_victory_2
   - atmosphere_legend_temperature
   - shade
@@ -454,7 +468,9 @@ SpriteAtlas:
   - ringGlow
   - frogGardener_act_2
   - frogHorticulturist_hurt_1
+  - colonyShip_joint
   - frogMedic_move_3
+  - colonyShip_thruster
   - fancyRect_outline_2
   - temperature_map_summer
   - frogGardener_hurt_2

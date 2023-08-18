@@ -459,6 +459,10 @@ public class ColonyController : GameModeController<ColonyController> {
         //colony ship enter
         colonyShip.Spawn();
 
+        //wait for colony to be active
+        while(colonyShip.state != StructureState.Active)
+            yield return null;
+
         yield return DoCycle();
                 
         //victory
