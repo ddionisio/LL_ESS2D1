@@ -23,6 +23,8 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     [M8.Animator.TakeSelector]
     public int takeMoving = -1;
     [M8.Animator.TakeSelector]
+    public int takeMoveFinish = -1;
+    [M8.Animator.TakeSelector]
     public int takeDestroyed = -1;
     [M8.Animator.TakeSelector]
     public int takeDemolish = -1;
@@ -507,6 +509,10 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         if(boxCollider)
             boxCollider.enabled = physicsActive;
 
+        SetPlacementBlocker(addPlacementBlocker);
+    }
+
+    protected void SetPlacementBlocker(bool addPlacementBlocker) {
         var structureCtrl = ColonyController.instance.structurePaletteController;
 
         if(addPlacementBlocker) {
@@ -779,6 +785,9 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
 
         while(moveCtrl.isMoving)
             yield return null;
+
+        if(takeMoveFinish != -1)
+            yield return animator.PlayWait(takeMoveFinish);
 
         mRout = null;
 

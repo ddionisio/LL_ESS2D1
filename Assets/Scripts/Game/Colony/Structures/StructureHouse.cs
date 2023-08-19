@@ -3,6 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class StructureHouse : Structure {
+    [Header("Landing Info")]
+    public GameObject landingActiveGO; //disable upon touchdown
+    public float landingDelay = 1.0f;
+    public DG.Tweening.Ease landingEase = DG.Tweening.Ease.OutSine;
+
+    [Header("Colony Ship Animation")]
+    [M8.Animator.TakeSelector]
+    public int takeLanding = -1;
+
     public StructureHouseData houseData { get; private set; }
 
     /// <summary>
@@ -82,23 +91,45 @@ public class StructureHouse : Structure {
         base.ClearCurrentState();
 
         switch(state) {
+            case StructureState.Moving:
+                if(landingActiveGO) landingActiveGO.SetActive(false);
+                break;
+
             case StructureState.Active:
                 break;
         }
     }
 
     protected override void ApplyCurrentState() {
-        base.ApplyCurrentState();
-
         switch(state) {
+            case StructureState.Spawning:
+                if(activeGO) activeGO.SetActive(true);
+
+                if(boxCollider) boxCollider.enabled = false;
+                SetPlacementBlocker(true);
+
+                mRout = StartCoroutine(DoSpawn());
+                break;
+
+            case StructureState.Moving:
+                base.ApplyCurrentState();
+
+                if(landingActiveGO) landingActiveGO.SetActive(true);
+                break;
+
             case StructureState.Active:
+                base.ApplyCurrentState();
+
                 mRout = StartCoroutine(DoActive());
                 break;
 
             case StructureState.Destroyed:
+                base.ApplyCurrentState();
                 break;
 
             case StructureState.None:
+                base.ApplyCurrentState();
+
                 if(ColonyController.isInstantiated) {
                     var colonyCtrl = ColonyController.instance;
 
@@ -120,6 +151,10 @@ public class StructureHouse : Structure {
                 mWaterCount = 0;
                 mFoodGatherCount = 0;
                 mWaterGatherCount = 0;
+                break;
+
+            default:
+                base.ApplyCurrentState();
                 break;
         }
     }
@@ -261,6 +296,42 @@ public class StructureHouse : Structure {
 
             yield return null;
         }
+    }
+
+    IEnumerator DoSpawn() {
+        var easeFunc = DG.Tweening.Core.Easing.EaseManager.ToEaseFunction(landingEase);
+
+        var screenExt = ColonyController.instance.mainCamera2D.screenExtent;
+
+        var startPos = new Vector2(position.x, screenExt.yMax);
+        var endPos = position;
+
+        position = startPos;
+
+        if(takeLanding != -1)
+            animator.ResetTake(takeLanding);
+
+        if(landingActiveGO) landingActiveGO.SetActive(true);
+
+        var curTime = 0f;
+        while(curTime < landingDelay) {
+            yield return null;
+
+            curTime += Time.deltaTime;
+
+            var t = easeFunc(curTime, landingDelay, 0f, 0f);
+
+            position = Vector2.Lerp(startPos, endPos, t);
+        }
+
+        if(landingActiveGO) landingActiveGO.SetActive(false);
+
+        if(takeLanding != -1)
+            yield return animator.PlayWait(takeLanding);
+
+        mRout = null;
+
+        state = StructureState.Active;
     }
 
     private void UpdatePopulation() {
