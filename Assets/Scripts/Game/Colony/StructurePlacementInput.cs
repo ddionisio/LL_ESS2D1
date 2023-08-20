@@ -174,10 +174,14 @@ public class StructurePlacementInput : MonoBehaviour, IPointerEnterHandler, IPoi
 
             //check if valid placement
             cursor.isValid = mCurGhostItem.structure.IsPlacementValid(pos, itemBounds.size);
+
+            if(currentGhost) currentGhost.isInvalid = !cursor.isValid;
         }
         else {
             cursor.isValid = false;
             cursor.active = false;
+
+            if(currentGhost) currentGhost.isInvalid = !cursor.isValid;
         }
     }
 

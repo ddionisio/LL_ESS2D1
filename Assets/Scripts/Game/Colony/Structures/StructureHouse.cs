@@ -8,6 +8,10 @@ public class StructureHouse : Structure {
     public float landingDelay = 1.0f;
     public DG.Tweening.Ease landingEase = DG.Tweening.Ease.OutSine;
 
+    [Header("Population FX")]
+    public ParticleSystem popIncreaseFX;
+    public ParticleSystem popDecreaseFX;
+
     [Header("Colony Ship Animation")]
     [M8.Animator.TakeSelector]
     public int takeLanding = -1;
@@ -219,6 +223,8 @@ public class StructureHouse : Structure {
 
                     ColonyController.instance.population--;
 
+                    if(popDecreaseFX) popDecreaseFX.Play();
+
                     //also go back one level for requirements
                     if(populationLevelIndex > population - 1) {
                         populationLevelIndex = population - 1;
@@ -353,6 +359,8 @@ public class StructureHouse : Structure {
                 mWaterCount = 0;
 
                 ColonyController.instance.population++;
+
+                if(popIncreaseFX) popIncreaseFX.Play();
             }
         }
 

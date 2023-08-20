@@ -11,36 +11,26 @@ public class StructurePlant : Structure {
     }
 
     public class BloomItem {
-        public Transform transform { get; private set; }
-
-        public bool isActive { get { return mGO ? mGO.activeSelf : false; } }
+        public bool isActive { get { return mGrowth.isBlossomed; } }
         public bool isBusy { get { return mRout != null; } }
 
-        private GameObject mGO;
-        private Vector2 mDefaultLocalPos;
+        public Vector2 topPosition { get { return mGrowth.topPosition; } }
+
+        private StructurePlantGrowth mGrowth;
+        private Transform mBlossomTrans;
+        private Vector2 mBlossomDefaultPos;
         private Coroutine mRout;
 
-        public BloomItem(Transform t) {
-            transform = t;
+        public BloomItem(StructurePlantGrowth growth) {
+            mGrowth = growth;
 
-            if(t) {
-                mGO = t.gameObject;
-                mGO.SetActive(false);
-
-                mDefaultLocalPos = t.localPosition;
-            }
-        }
-
-        public void Active() {
-            if(transform)
-                transform.localPosition = mDefaultLocalPos;
-
-            if(mGO)
-                mGO.SetActive(true);
+            mBlossomTrans = mGrowth.blossomTransform;
+            if(mBlossomTrans)
+                mBlossomDefaultPos = mBlossomTrans.localPosition;
         }
 
         public void Grab(MonoBehaviour root, Transform destTrans, float height, float delay) {
-            if(transform)
+            if(mBlossomTrans)
                 mRout = root.StartCoroutine(DoGrab(destTrans, height, delay));
         }
 
@@ -50,19 +40,17 @@ public class StructurePlant : Structure {
                 mRout = null;
             }
 
-            if(transform)
-                transform.localPosition = mDefaultLocalPos;
+            if(mBlossomTrans) mBlossomTrans.localPosition = mBlossomDefaultPos;
         }
 
         public void Clear(MonoBehaviour root) {
             GrabCancel(root);
 
-            if(mGO)
-                mGO.SetActive(false);
+            mGrowth.HideBlossom();
         }
 
         IEnumerator DoGrab(Transform destTrans, float height, float delay) {
-            Vector2 from = transform.position, to = destTrans.position;
+            Vector2 from = mBlossomTrans.position, to = destTrans.position;
 
             var topY = Mathf.Max(from.y, to.y);
 
@@ -76,18 +64,17 @@ public class StructurePlant : Structure {
 
                 var t = Mathf.Clamp01(curTime / delay);
 
-                transform.position = M8.MathUtil.Bezier(from, midPoint, to, t);
+                mBlossomTrans.position = M8.MathUtil.Bezier(from, midPoint, to, t);
             }
 
-            if(mGO)
-                mGO.SetActive(false);
+            mGrowth.HideBlossom();
 
             mRout = null;
         }
     }
 
     [Header("Bloom Info")]
-    public Transform[] bloomRoots; //determines number of resources that can be collected
+    public StructurePlantGrowth[] blooms; //determines number of resources that can be collected
     public float bloomGrabDelay;
     public M8.RangeFloat bloomGrabHeightRange;
 
@@ -97,24 +84,17 @@ public class StructurePlant : Structure {
     [Header("Growth Animation")]
     public M8.Animator.Animate growthAnimator;
     [M8.Animator.TakeSelector(animatorField = "growthAnimator")]
-    public string growthReadyTake;
+    public int growthReadyTake = -1;
     [M8.Animator.TakeSelector(animatorField = "growthAnimator")]
-    public string growthTake;
-    [M8.Animator.TakeSelector(animatorField = "growthAnimator")]
-    public string growthDecayTake;
+    public int growthDecayTake = -1;
 
     public GrowthState growthState { get; private set; }
 
-    public int bloomCount { get { return bloomRoots.Length; } }
+    public int bloomCount { get { return blooms.Length; } }
 
     private float mReadyTime; //time before ready to grow
-
-    private float mGrowthAnimScaleBase; //base growth animation
-    private float mGrowthAnimTotalTime;
-
-    private int mGrowthReadyTakeInd = -1;
-    private int mGrowthTakeInd = -1;
-    private int mGrowthDecayTakeInd = -1;
+    private float mBloomTime;
+    private float mBloomTimeScale;
 
     private BloomItem[] mBloomItems;
 
@@ -190,7 +170,7 @@ public class StructurePlant : Structure {
     public Vector2 BloomPosition(int bloomIndex) {
         if(bloomIndex >= 0 && bloomIndex < mBloomItems.Length) {
             var itm = mBloomItems[bloomIndex];
-            return itm.transform.position;
+            return itm.topPosition;
         }
 
         return position;
@@ -201,7 +181,7 @@ public class StructurePlant : Structure {
 
         //refresh growth scale
         if(growthState == GrowthState.Growing)
-            ApplyGrowthAnimScale();
+            ApplyGrowthScale();
     }
 
     public override void WorkRemove() {
@@ -209,7 +189,7 @@ public class StructurePlant : Structure {
 
         //refresh growth scale
         if(growthState == GrowthState.Growing)
-            ApplyGrowthAnimScale();
+            ApplyGrowthScale();
     }
 
     protected override void Init() {
@@ -217,31 +197,19 @@ public class StructurePlant : Structure {
         growthState = GrowthState.None;
 
         if(growthRootGO) growthRootGO.SetActive(false);
-
-        mReadyTime = 0f;
-
-        //setup anim
-        if(growthAnimator) {
-            mGrowthReadyTakeInd = growthAnimator.GetTakeIndex(growthReadyTake);
-            mGrowthTakeInd = growthAnimator.GetTakeIndex(growthTake);
-            mGrowthDecayTakeInd = growthAnimator.GetTakeIndex(growthDecayTake);
-        }
                 
         //setup blooms
-        mBloomItems = new BloomItem[bloomRoots.Length];
-        for(int i = 0; i < bloomRoots.Length; i++)
-            mBloomItems[i] = new BloomItem(bloomRoots[i]);
+        mBloomItems = new BloomItem[blooms.Length];
+        for(int i = 0; i < blooms.Length; i++) {
+            var bloom = blooms[i];
+            bloom.Init();
+
+            mBloomItems[i] = new BloomItem(bloom);
+        }
     }
 
     protected override void Spawned() {
         var plantDat = data as StructurePlantData;
-
-        //setup base growth scale
-        if(mGrowthTakeInd != -1) {
-            mGrowthAnimTotalTime = growthAnimator.GetTakeTotalTime(mGrowthTakeInd);
-
-            mGrowthAnimScaleBase = plantDat.growthDelay > 0f ? mGrowthAnimTotalTime / plantDat.growthDelay : 1f;
-        }
 
         GameData.instance.signalCycleNext.callback += OnCycleNext;
     }
@@ -253,16 +221,6 @@ public class StructurePlant : Structure {
     protected override void ClearCurrentState() {
         base.ClearCurrentState();
 
-        switch(state) {
-            case StructureState.Active:
-                switch(growthState) {
-                    case GrowthState.Growing:
-                        if(mGrowthTakeInd != -1)
-                            growthAnimator.Pause();
-                        break;
-                }
-                break;
-        }
     }
 
     protected override void ApplyCurrentState() {
@@ -293,12 +251,13 @@ public class StructurePlant : Structure {
     void OnCycleNext() {
         //refresh growth scale
         if(growthState == GrowthState.Growing)
-            ApplyGrowthAnimScale();
+            ApplyGrowthScale();
     }
 
     IEnumerator DoActive() {
         var plantDat = data as StructurePlantData;
 
+        var growthDelay = plantDat.growthDelay;
         var readyDelay = plantDat.readyDelay;
 
         while(true) {
@@ -313,24 +272,23 @@ public class StructurePlant : Structure {
 
                     if(growthRootGO) growthRootGO.SetActive(true);
 
-                    if(mGrowthReadyTakeInd != -1)
-                        yield return growthAnimator.PlayWait(mGrowthReadyTakeInd);
+                    if(growthReadyTake != -1)
+                        yield return growthAnimator.PlayWait(growthReadyTake);
 
                     growthState = GrowthState.Growing;
                     ApplyCurrentGrowthState();
                     break;
 
                 case GrowthState.Growing:
-                    if(mGrowthTakeInd != -1) {
-                        while(growthAnimator.isPlaying) {
-                            SetStatusProgress(StructureStatus.Growth, Mathf.Clamp01(growthAnimator.runningTime / mGrowthAnimTotalTime));
-                            yield return null;
-                        }
+                    if(mBloomTime < growthDelay) {
+                        mBloomTime += Time.deltaTime * mBloomTimeScale;
 
-                        growthState = GrowthState.Bloom;
-                        ApplyCurrentGrowthState();
+                        var t = Mathf.Clamp01(mBloomTime / growthDelay);
+
+                        for(int i = 0; i < blooms.Length; i++)
+                            blooms[i].ApplyGrowth(t);
                     }
-                    else { //fail-safe
+                    else {
                         growthState = GrowthState.Bloom;
                         ApplyCurrentGrowthState();
                     }
@@ -355,8 +313,8 @@ public class StructurePlant : Structure {
                     break;
 
                 case GrowthState.Decay:
-                    if(mGrowthDecayTakeInd != -1)
-                        yield return growthAnimator.PlayWait(mGrowthDecayTakeInd);
+                    if(growthDecayTake != -1)
+                        yield return growthAnimator.PlayWait(growthDecayTake);
 
                     //regrow
                     growthState = GrowthState.None;
@@ -370,38 +328,30 @@ public class StructurePlant : Structure {
         switch(growthState) {
             case GrowthState.None:
                 mReadyTime = 0f;
+                mBloomTime = 0f;
+                mBloomTimeScale = 0f;
 
                 //hide blooms
                 for(int i = 0; i < mBloomItems.Length; i++)
                     mBloomItems[i].Clear(this);
 
                 //reset growth
-                if(growthRootGO) growthRootGO.SetActive(false);
+                for(int i = 0; i < blooms.Length; i++)
+                    blooms[i].ApplyGrowth(0f);
 
-                if(growthAnimator) {
+                if(growthRootGO) growthRootGO.SetActive(false);
+                                
+                if(growthAnimator)
                     growthAnimator.Stop();
-                    growthAnimator.animScale = 1f;
-                }
 
                 SetStatusState(StructureStatus.Growth, StructureStatusState.None);
                 break;
 
             case GrowthState.Growing:
-                if(mGrowthTakeInd != -1) {
-                    ApplyGrowthAnimScale();
-
-                    if(growthAnimator.currentPlayingTakeIndex == mGrowthTakeInd)
-                        growthAnimator.Resume();
-                    else
-                        growthAnimator.Play(mGrowthTakeInd);
-                }
+                ApplyGrowthScale();
                 break;
 
             case GrowthState.Bloom:
-                //show blooms
-                for(int i = 0; i < mBloomItems.Length; i++)
-                    mBloomItems[i].Active();
-
                 //choose sprite?
 
                 SetStatusState(StructureStatus.Growth, StructureStatusState.None);
@@ -415,24 +365,22 @@ public class StructurePlant : Structure {
         }
     }
 
-    private void ApplyGrowthAnimScale() {
+    private void ApplyGrowthScale() {
         if(!growthAnimator) return;
 
-        var scale = 0f;
+        mBloomTimeScale = 0f;
 
         //add atmosphere attribute
         var resScale = ColonyController.instance.cycleController.GetResourceScale(CycleResourceType.Growth);
-        scale += resScale;
+        mBloomTimeScale += resScale;
 
         //add worker attribute
-        scale += workCount * GameData.instance.growthScalePerWork;
+        mBloomTimeScale += workCount * GameData.instance.growthScalePerWork;
 
-        if(scale < 0f)
-            scale = 0f;
+        if(mBloomTimeScale < 0f)
+            mBloomTimeScale = 0f;
 
-        growthAnimator.animScale = mGrowthAnimScaleBase * scale;
-
-        if(scale > 0f)
+        if(mBloomTimeScale > 0f)
             SetStatusState(StructureStatus.Growth, StructureStatusState.Progress);
         else
             SetStatusState(StructureStatus.Growth, StructureStatusState.Require);
