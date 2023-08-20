@@ -14,6 +14,8 @@ public class StructureColonyShip : Structure {
     [Header("Colony Ship Animation")]
     [M8.Animator.TakeSelector]
     public int takeLanding = -1;
+    [M8.Animator.TakeSelector]
+    public int takeBump = -1;
 
     public StructureColonyShipData colonyShipData { get { return _data; } }
 
@@ -27,6 +29,11 @@ public class StructureColonyShip : Structure {
     private M8.CacheList<UnitMedic> mMedicActives;
 
     private bool mIsInit;
+
+    public void Bump() {
+        if(takeBump != -1)
+            animator.Play(takeBump);
+    }
 
     public void Init(ColonyController colonyController) {
         if(mIsInit) return;

@@ -19,6 +19,7 @@ public class StructurePlantGrowth : MonoBehaviour {
 
     [Header("Stem")]
     public StructurePlantStem stemTemplate;
+    public float stemGrowth = 1f;
     public int stemMaxCount = 3;
 
     public bool isBlossomed { get { return blossomGO ? blossomGO.activeSelf : false; } }
@@ -54,13 +55,14 @@ public class StructurePlantGrowth : MonoBehaviour {
             for(int i = 0; i < stemMaxCount; i++) {
                 var stem = Instantiate(stemTemplate, curStemRoot);
 
+                stem.maxGrowth = stemGrowth;
                 stem.Init(leafCount, leafFlip, i < stemMaxCount - 1);
 
                 stem.transform.localPosition = curStemPos;
                 stem.active = false;
 
                 curStemRoot = stem.transform;
-                curStemPos = mStems[i].topLocalMaxPosition;
+                curStemPos = stem.topLocalMaxPosition;
 
                 if(leafCount % 2 != 0)
                     leafFlip = !leafFlip;
@@ -71,8 +73,8 @@ public class StructurePlantGrowth : MonoBehaviour {
             if(budGO) budGO.SetActive(false);
             if(blossomGO) blossomGO.SetActive(false);
 
-            topRoot.SetParent(mStems[0].transform);
-            topRoot.localPosition = mStems[0].topLocalPosition;
+            topRoot.SetParent(mStems[0].transform, false);
+            topRoot.localPosition = Vector3.zero;
 
             mCurStemIndex = 0;
 
@@ -88,21 +90,30 @@ public class StructurePlantGrowth : MonoBehaviour {
         var curStem = mStems[mCurStemIndex];
 
         if(topRoot.parent != curStem.transform) {
-            topRoot.SetParent(curStem.transform);
+            topRoot.SetParent(curStem.transform, false);
+            topRoot.localRotation = Quaternion.identity;
         }
 
-        topRoot.localPosition = curStem.topLocalPosition;
+        topRoot.position = curStem.topWorldPosition;
     }
 
     public void ApplyGrowth(float t) {
         t = Mathf.Clamp01(t); //just in case
 
-        float fIndex = t * mStems.Length;
-        float fIndexFloor = Mathf.Floor(fIndex);
+        float totalLen = t * mStems.Length;
+        float totalLenFloor = Mathf.Floor(totalLen);
 
-        mCurStemIndex = (int)fIndexFloor;
+        mCurStemIndex = Mathf.Clamp((int)totalLenFloor, 0, mStems.Length - 1);
 
-        float curStemT = Mathf.Clamp01(fIndex - fIndexFloor);
+        float curStemT;
+        if(totalLen == totalLenFloor) {
+            if(mCurStemIndex == mStems.Length - 1)
+                curStemT = 1f;
+            else
+                curStemT = 0f;
+        }
+        else
+            curStemT = Mathf.Clamp01(totalLen - totalLenFloor);
 
         for(int i = 0; i < mStems.Length; i++) {
             var stem = mStems[i];
@@ -127,7 +138,7 @@ public class StructurePlantGrowth : MonoBehaviour {
         }
         else {
             if(budGO) budGO.SetActive(false);
-            if(blossomGO) blossomGO.SetActive(false);
+            if(blossomGO) blossomGO.SetActive(true);
         }
     }
 

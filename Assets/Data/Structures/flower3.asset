@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1dcc3271fb5d8014087589dff5ae74b3, type: 3}
-  m_Name: flower
+  m_Name: flower3
   m_EditorClassIdentifier: 
   nameRef: 
   descRef: 
-  icon: {fileID: 21300000, guid: aac5ab2a0e77d4841aa32bfbacb9e455, type: 3}
-  hitpoints: 2
+  icon: {fileID: 21300000, guid: ea03225e080279843bbcd004cf6701b1, type: 3}
+  hitpoints: 4
   buildTime: 0
   workCapacity: 2
   isReparable: 0
   isDemolishable: 1
-  ghostPrefab: {fileID: 4893859085613387567, guid: a01fa77e249ee5340b481a4ee5204c9e, type: 3}
-  spawnPrefab: {fileID: 5495939874067813186, guid: 2e1f839d5d080a54b9d0a3be54266bb0, type: 3}
+  ghostPrefab: {fileID: 704564863036703504, guid: da9dcca275321804084ba25c33f97423, type: 3}
+  spawnPrefab: {fileID: 5495939874067813186, guid: 4358cb11f0ca8ee4ab0cf62f5e7b84e8, type: 3}
   placementValidLayerMask:
     serializedVersion: 2
     m_Bits: 1024
   readyDelay: 1
-  growthDelay: 2
+  growthDelay: 4

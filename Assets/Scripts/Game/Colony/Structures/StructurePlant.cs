@@ -80,6 +80,11 @@ public class StructurePlant : Structure {
 
     [Header("Growth Display")]
     public GameObject growthRootGO;
+    
+    [Header("Spawn Display")]
+    public Transform seedlingRoot;
+    public M8.RangeFloat seedlingThrowHeightRange;
+    public float seedlingThrowDelay;
 
     [Header("Growth Animation")]
     public M8.Animator.Animate growthAnimator;
@@ -206,6 +211,8 @@ public class StructurePlant : Structure {
 
             mBloomItems[i] = new BloomItem(bloom);
         }
+
+        if(seedlingRoot) seedlingRoot.gameObject.SetActive(false);
     }
 
     protected override void Spawned() {
@@ -224,14 +231,19 @@ public class StructurePlant : Structure {
     }
 
     protected override void ApplyCurrentState() {
-        base.ApplyCurrentState();
-
         switch(state) {
             case StructureState.Spawning:
                 //do seed toss from colony ship to our location
+                if(boxCollider) boxCollider.enabled = false;
+
+                SetPlacementBlocker(true);
+
+                mRout = StartCoroutine(DoSpawn());
                 break;
 
             case StructureState.Active:
+                base.ApplyCurrentState();
+
                 if(growthState == GrowthState.Growing) //resume growth
                     ApplyCurrentGrowthState();
 
@@ -242,8 +254,16 @@ public class StructurePlant : Structure {
             case StructureState.Destroyed:
             case StructureState.Demolish:
             case StructureState.None:
+                base.ApplyCurrentState();
+
                 growthState = GrowthState.None;
                 ApplyCurrentGrowthState();
+
+                if(seedlingRoot) seedlingRoot.gameObject.SetActive(false);
+                break;
+
+            default:
+                base.ApplyCurrentState();
                 break;
         }
     }
@@ -252,6 +272,40 @@ public class StructurePlant : Structure {
         //refresh growth scale
         if(growthState == GrowthState.Growing)
             ApplyGrowthScale();
+    }
+
+    IEnumerator DoSpawn() {
+        if(seedlingRoot) seedlingRoot.gameObject.SetActive(true);
+
+        var colonyShip = ColonyController.instance.colonyShip;
+
+        colonyShip.Bump();
+
+        var launchPt = colonyShip.GetWaypointRandom(GameData.structureWaypointLaunch, false);
+        var startPt = launchPt.point;
+        var midPt = Vector2.Lerp(startPt, position, 0.5f); midPt.y += seedlingThrowHeightRange.random;
+
+        seedlingRoot.position = startPt;
+
+        var curTime = 0f;
+        while(curTime < seedlingThrowDelay) {
+            yield return null;
+
+            curTime += Time.deltaTime;
+
+            seedlingRoot.position = M8.MathUtil.Bezier(startPt, midPt, position, Mathf.Clamp01(curTime / seedlingThrowDelay));
+        }
+
+        if(seedlingRoot) seedlingRoot.gameObject.SetActive(false);
+
+        if(activeGO) activeGO.SetActive(true);
+
+        if(takeSpawn != -1)
+            yield return animator.PlayWait(takeSpawn);
+
+        mRout = null;
+
+        state = StructureState.Active;
     }
 
     IEnumerator DoActive() {
@@ -287,6 +341,8 @@ public class StructurePlant : Structure {
 
                         for(int i = 0; i < blooms.Length; i++)
                             blooms[i].ApplyGrowth(t);
+
+                        SetStatusProgress(StructureStatus.Growth, t);
                     }
                     else {
                         growthState = GrowthState.Bloom;

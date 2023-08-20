@@ -24,10 +24,10 @@ public class StructurePlantStem : MonoBehaviour {
 
             var stemSize = stemSpriteRenderer.size;
             if(stemSize.y != newVal) {
-                stemSize.y = value;
+                stemSize.y = newVal;
                 stemSpriteRenderer.size = stemSize;
 
-                float curY = stemSpriteRenderer.transform.localPosition.y + newVal;
+                float curY = newVal;// stemSpriteRenderer.transform.localPosition.y + newVal;
 
                 for(int i = 0; i < mLeafGOs.Length; i++) {
                     var leafGO = mLeafGOs[i];
@@ -52,29 +52,33 @@ public class StructurePlantStem : MonoBehaviour {
     public Vector2 topLocalPosition {
         get {
             if(!stemSpriteRenderer)
-                return transform.localPosition;
+                //return transform.localPosition;
+                return Vector2.zero;
 
-            var pos = stemSpriteRenderer.transform.localPosition;
-            pos.y += stemSpriteRenderer.size.y;
-            return pos;
+            //var pos = stemSpriteRenderer.transform.localPosition;
+            //pos.y += stemSpriteRenderer.size.y;
+            return new Vector2(0f, stemSpriteRenderer.size.y);
         }
     }
 
     public Vector2 topLocalMaxPosition {
         get {
-            if(!stemSpriteRenderer)
-                return transform.position;
+            //if(!stemSpriteRenderer)
+                //return transform.localPosition;
 
-            var pos = stemSpriteRenderer.transform.localPosition;
-            pos.y += maxGrowth;
-            return pos;
+            //var pos = stemSpriteRenderer.transform.localPosition;
+            //pos.y += maxGrowth;
+            return new Vector2(0f, maxGrowth);
         }
     }
 
     public Vector2 topWorldPosition {
         get {
-            var parent = stemSpriteRenderer.transform.parent;
-            return parent ? (Vector2)parent.localToWorldMatrix.MultiplyPoint3x4(topLocalPosition) : topLocalPosition;
+            if(!stemSpriteRenderer)
+                return transform.position;
+
+            var lpos = new Vector3(0f, stemSpriteRenderer.size.y, 0f);
+            return transform.localToWorldMatrix.MultiplyPoint3x4(lpos);
         }
     }
 

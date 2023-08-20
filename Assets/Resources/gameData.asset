@@ -41,7 +41,6 @@ MonoBehaviour:
   placementCheckLayerMask:
     serializedVersion: 2
     m_Bits: 448
-  cycleDuration: 150
   cycleDaylightScaleDefault: 0.5
   fastForwardScale: 3
   structureLayerMask:
@@ -53,6 +52,7 @@ MonoBehaviour:
   structureDamageDelay: 0.5
   structureDemolishDelay: 1
   structureFoodSources:
+  - {fileID: 11400000, guid: 8208dd7fc10f033418395759cf155bf5, type: 2}
   - {fileID: 11400000, guid: 00c13b5caec751f4cac6d8ab4a682fc4, type: 2}
   structureWaterSources:
   - {fileID: 11400000, guid: e6518c7cb5a58f34d8950afde470f478, type: 2}

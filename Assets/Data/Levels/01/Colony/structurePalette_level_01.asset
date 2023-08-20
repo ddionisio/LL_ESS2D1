@@ -22,24 +22,26 @@ MonoBehaviour:
     capacity: 3
     highlightOnAvailable: 1
     capacityUpgrades:
-    - populationQuota: 2
+    - populationQuota: 3
       capacityIncrease: 1
-    - populationQuota: 6
+    - populationQuota: 5
       capacityIncrease: 1
   - nameRef: 
     icon: {fileID: 21300000, guid: 4e5f99955be3b514ea3b3003cbf917a1, type: 3}
     structures:
     - data: {fileID: 11400000, guid: 00c13b5caec751f4cac6d8ab4a682fc4, type: 2}
       populationQuotaUnlock: 1
+    - data: {fileID: 11400000, guid: 8208dd7fc10f033418395759cf155bf5, type: 2}
+      populationQuotaUnlock: 4
     capacityStart: 0
     capacity: 3
     highlightOnAvailable: 0
     capacityUpgrades:
     - populationQuota: 1
       capacityIncrease: 1
-    - populationQuota: 3
+    - populationQuota: 2
       capacityIncrease: 1
-    - populationQuota: 5
+    - populationQuota: 4
       capacityIncrease: 1
   - nameRef: 
     icon: {fileID: 21300000, guid: c1d90da3a06a5984bbb5bc10c4315700, type: 3}

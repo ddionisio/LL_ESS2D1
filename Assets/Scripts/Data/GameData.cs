@@ -20,6 +20,7 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public const string structureWaypointCollect = "collect";
     public const string structureWaypointIdle = "idle"; //use for any units that has no work to do and need to move somewhere
     public const string structureWaypointRoam = "roam"; //use for fly when roaming around target, or for hunter patrol
+    public const string structureWaypointLaunch = "launch";
 
     public const int seasonWinterIndex = 0;
     public const int seasonSpringIndex = 1;

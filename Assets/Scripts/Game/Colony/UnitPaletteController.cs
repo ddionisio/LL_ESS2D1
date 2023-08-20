@@ -126,8 +126,10 @@ public class UnitPaletteController : MonoBehaviour {
             mSpawnQueueRout = null;
         }
 
-        for(int i = 0; i < mUnitInfos.Length; i++)
-            mUnitInfos[i].ClearQueue();
+        if(mUnitInfos != null) {
+            for(int i = 0; i < mUnitInfos.Length; i++)
+                mUnitInfos[i].ClearQueue();
+        }
     }
 
     public void SpawnQueue(UnitData unitData) {

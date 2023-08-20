@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 365297283040378854}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.53, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4593152011694459057}
@@ -43,6 +43,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6925968695883299148}
   - component: {fileID: 3070659406826672790}
+  - component: {fileID: 4453075184781956447}
   m_Layer: 0
   m_Name: bloom01
   m_TagString: Untagged
@@ -64,7 +65,7 @@ Transform:
   - {fileID: 5086600219149240469}
   - {fileID: 1380281138260865767}
   m_Father: {fileID: 2563352377923285229}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3070659406826672790
 MonoBehaviour:
@@ -80,20 +81,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leafCount: 3
   swayAngleRange:
-    min: 5
-    max: 10
+    min: 4
+    max: 7
   swayDelayRange:
-    min: 1
-    max: 2
+    min: 2
+    max: 3
   swayWaitDelayRange:
-    min: 0.3
+    min: 0.5
     max: 1
   stemRoot: {fileID: 6925968695883299148}
   topRoot: {fileID: 1380281138260865767}
   budGO: {fileID: 7056309445224169025}
   blossomGO: {fileID: 8201177353652406928}
   stemTemplate: {fileID: 258729138202807179, guid: d93b054de6c012741b38472d7bf87fe5, type: 3}
+  stemGrowth: 1
   stemMaxCount: 2
+--- !u!114 &4453075184781956447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309277405462930192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a35ca283318625e4997cdc9b5a47f2e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
+  initOnAwake: 0
+  spriteRenders: []
 --- !u!1 &3301426957625477564
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,6 +193,308 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &4537474736643955515
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7858933643139729878}
+  - component: {fileID: 7816115328603210957}
+  m_Layer: 0
+  m_Name: growthAnim
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7858933643139729878
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4537474736643955515}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2563352377923285229}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7816115328603210957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4537474736643955515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 189a50e0ddb1421498ef25dcd885c95b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  takeData:
+  - name: growShow
+    frameRate: 30
+    endFramePadding: 0
+    numLoop: 1
+    loopMode: 0
+    loopBackToFrame: 0
+    trackCounter: 4
+    groupCounter: 0
+    rootGroup:
+      group_name: Group0
+      group_id: 0
+      elements: 040000000200000003000000
+      foldout: 1
+    groupValues: []
+  - name: growDecay
+    frameRate: 30
+    endFramePadding: 0
+    numLoop: 1
+    loopMode: 0
+    loopBackToFrame: 0
+    trackCounter: 3
+    groupCounter: 0
+    rootGroup:
+      group_name: Group0
+      group_id: 0
+      elements: 0200000003000000
+      foldout: 1
+    groupValues: []
+  _defaultTakeName: 
+  _meta: {fileID: 0}
+  sequenceLoadAll: 1
+  sequenceKillWhenDone: 0
+  playOnEnable: 0
+  isGlobal: 0
+  onDisableAction: 3
+  updateType: 0
+  updateTimeIndependent: 0
+  serializeData:
+    _audioTracks: []
+    _audioKeys: []
+    _cameraSwitcherTracks: []
+    _cameraSwitcherKeys: []
+    _eventTracks:
+    - _version: 1
+      id: 3
+      name: Track2
+      foldout: 1
+      _targetPath: 
+      obj: {fileID: 1309277405462930192}
+      componentName: 
+    _eventKeys:
+    - interp: 0
+      frame: 1
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      useSendMessage: 0
+      parameters: []
+      methodName: Revert
+      componentType: SpriteColorGroup
+    _goSetActiveTracks: []
+    _goSetActiveKeys: []
+    _materialTracks: []
+    _materialKeys: []
+    _orientationTracks: []
+    _orientationKeys: []
+    _propertyTracks:
+    - _version: 4
+      id: 3
+      name: Track2
+      foldout: 1
+      _targetPath: 
+      valueType: 6
+      obj: {fileID: 1309277405462930192}
+      component: {fileID: 4453075184781956447}
+      componentName: SpriteColorGroup
+      fieldName: 
+      propertyName: color
+    _propertyKeys:
+    - interp: 1
+      frame: 1
+      easeType: 2
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: 10
+      isConstSpeed: 0
+      _paths: []
+      val: 0
+      valString: 
+      valObj: {fileID: 0}
+      vect4: {x: 1, y: 1, z: 1, w: 1}
+    - interp: 1
+      frame: 10
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      val: 0
+      valString: 
+      valObj: {fileID: 0}
+      vect4: {x: 0, y: 0, z: 0, w: 0}
+    _rotationEulerTracks: []
+    _rotationEulerKeys: []
+    _rotationTracks: []
+    _rotationKeys: []
+    _translationTracks:
+    - _version: 3
+      id: 4
+      name: Track3
+      foldout: 1
+      _targetPath: 
+      _obj: {fileID: 6925968695883299148}
+      pixelSnap: 0
+      pixelPerUnit: 100
+    - _version: 3
+      id: 2
+      name: Track1
+      foldout: 1
+      _targetPath: 
+      _obj: {fileID: 6925968695883299148}
+      pixelSnap: 0
+      pixelPerUnit: 100
+    _translationKeys:
+    - interp: 2
+      frame: 1
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: 1
+      isConstSpeed: 0
+      _paths: []
+      position: {x: 0, y: 0, z: 0}
+      orientMode: 0
+      orientLockAxis: 0
+    - interp: 1
+      frame: 1
+      easeType: 2
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: 10
+      isConstSpeed: 0
+      _paths: []
+      position: {x: 0, y: 0, z: 0}
+      orientMode: 0
+      orientLockAxis: 0
+    - interp: 1
+      frame: 10
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      position: {x: 0, y: -0.81, z: 0}
+      orientMode: 0
+      orientLockAxis: 0
+    _unityAnimationTracks: []
+    _unityAnimationKeys: []
+    _scaleTracks:
+    - _version: 3
+      id: 2
+      name: Track1
+      foldout: 1
+      _targetPath: 
+      axis: -5
+      _obj: {fileID: 6925968695883299148}
+    _scaleKeys:
+    - interp: 0
+      frame: 1
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: 10
+      isConstSpeed: 0
+      _paths:
+      - type: 1
+        subdivisionsXSegment: 10
+        wps:
+        - vals:
+          - 0
+          - 0
+          - 1
+        - vals:
+          - 0.1
+          - 1.2
+          - 1
+        - vals:
+          - 1
+          - 1
+          - 1
+        wpsTimeTable:
+        - 0.44444445
+        controlPoints:
+        - a:
+            vals:
+            - 0.1
+            - 1.2
+            - 1
+          b:
+            vals: []
+        - a:
+            vals:
+            - 1.9
+            - 0.79999995
+            - 1
+          b:
+            vals: []
+        length: 2.173995
+        timesTable: []
+        lengthsTable: []
+        _isConstantSpeed: 0
+      scale: {x: 0, y: 0, z: 1}
+    - interp: 0
+      frame: 5
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      scale: {x: 0.1, y: 1.2, z: 1}
+    - interp: 0
+      frame: 10
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      scale: {x: 1, y: 1, z: 1}
+    _trackLookups:
+    - type: 11
+      index: 0
+      keyIndices: 000000000100000002000000
+    - type: 3
+      index: 0
+      keyIndices: 00000000
+    - type: 10
+      index: 0
+      keyIndices: 00000000
+    - type: 7
+      index: 0
+      keyIndices: 0000000001000000
+    - type: 10
+      index: 1
+      keyIndices: 0100000002000000
+    _takeTrackCounts: 0300000002000000
 --- !u!1 &6048585347137558404
 GameObject:
   m_ObjectHideFlags: 0
@@ -569,6 +888,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1004859529839916043, guid: e04185c517674f946a4f7ddba48a7367, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 2.751
+      objectReference: {fileID: 0}
     - target: {fileID: 1363444100143403063, guid: e04185c517674f946a4f7ddba48a7367, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -632,6 +955,18 @@ PrefabInstance:
     - target: {fileID: 2474430875812109765, guid: e04185c517674f946a4f7ddba48a7367, type: 3}
       propertyPath: m_Name
       value: flower
+      objectReference: {fileID: 0}
+    - target: {fileID: 2474430875812109766, guid: e04185c517674f946a4f7ddba48a7367, type: 3}
+      propertyPath: growthAnimator
+      value: 
+      objectReference: {fileID: 7816115328603210957}
+    - target: {fileID: 2474430875812109766, guid: e04185c517674f946a4f7ddba48a7367, type: 3}
+      propertyPath: growthDecayTake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2474430875812109766, guid: e04185c517674f946a4f7ddba48a7367, type: 3}
+      propertyPath: growthReadyTake
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2474430875812109766, guid: e04185c517674f946a4f7ddba48a7367, type: 3}
       propertyPath: blooms.Array.size

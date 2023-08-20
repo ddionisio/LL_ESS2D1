@@ -218,6 +218,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 27a0f2f951dc6b442aedae4927a53d2f, type: 3}
   - {fileID: 21300000, guid: f2ec231a4c53b244c84d0de1f770ebf5, type: 3}
   - {fileID: 21300000, guid: 8491822aaa5f41c40ad5ee149497d806, type: 3}
+  - {fileID: 21300000, guid: aac5ab2a0e77d4841aa32bfbacb9e455, type: 3}
   - {fileID: 21300000, guid: 195e473a4ea262b4ca46464702fc2eff, type: 3}
   - {fileID: 21300000, guid: f6b2824a59518234fbb8648d4a7d7456, type: 3}
   - {fileID: 21300000, guid: ae834a5a7bfe0634291b832ffcdd5716, type: 3}
@@ -246,6 +247,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 88f3c09be5b104b4d8c29542249d18f2, type: 3}
   - {fileID: 21300000, guid: cab6e39b6be1a774a9eb631d86996fed, type: 3}
   - {fileID: 21300000, guid: fca3f89b8a6088446bc50d475653bbc3, type: 3}
+  - {fileID: 21300000, guid: ed6ccbcbcb89c714cb8d81ed2633bcea, type: 3}
   - {fileID: 21300000, guid: 99e93adbbabc425449da1859e71561a5, type: 3}
   - {fileID: 21300000, guid: 0d8d8adbcb62abd4991edd2cd23c01b1, type: 3}
   - {fileID: 21300000, guid: feb0bddb753a35b4a8e2b42459cb9ed3, type: 3}
@@ -284,6 +286,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 8616314e1dcd3944a8d38eb5198fbb79, type: 3}
   - {fileID: 21300000, guid: 08f5874e4b811d94e91f35031252bacd, type: 3}
   - {fileID: 21300000, guid: e28ef94eaccb62e4b87a59e7259c1735, type: 3}
+  - {fileID: 21300000, guid: ea03225e080279843bbcd004cf6701b1, type: 3}
   - {fileID: 21300000, guid: 207d7a6e294b27b4e9d906f4cf453bf6, type: 3}
   - {fileID: 21300000, guid: c5a54a7e88b59e547a8905c1ad93d892, type: 3}
   - {fileID: 21300000, guid: 981a568e8c0363943aca63e1c3cdb369, type: 3}
@@ -485,6 +488,7 @@ SpriteAtlas:
   - frogHunter_swim_0
   - frogHunter_move_2
   - plant_leaf01
+  - structureIcon_plant
   - atmosphere_legend_windStrength
   - frogCivilian_run_0
   - frogHunter_run_0
@@ -513,6 +517,7 @@ SpriteAtlas:
   - frogEngineer_move_3
   - frogGardener_move_3
   - frogHorticulturist_idle_1
+  - plant_baseSmall
   - frogEngineer_move_0
   - atmosphere_symbol_humidity
   - wind_map_winter
@@ -551,6 +556,7 @@ SpriteAtlas:
   - frogMedic_hurt_0
   - windFX
   - frogCivilian_dying_0
+  - structureIcon_plant3
   - plant_leaf04
   - edge_shade
   - statusIcon_power
