@@ -13,5 +13,6 @@ public class WeatherTypeData : ScriptableObject {
     public Sprite icon;
     public Sprite image; //higher quality for forecast and description
 
+    public bool isSunVisible;
     public bool isHazzard;
 }

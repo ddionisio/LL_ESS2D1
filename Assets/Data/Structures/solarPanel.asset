@@ -10,23 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a693eee692904343a9732d6d3af849a, type: 3}
-  m_Name: waterTank
+  m_Name: solarPanel
   m_EditorClassIdentifier: 
   nameRef: 
   descRef: 
-  icon: {fileID: 21300000, guid: 0b4bfccb6b6176c408261ee04e00771d, type: 3}
-  hitpoints: 4
+  icon: {fileID: 21300000, guid: e882d6f9c4224534986d3ddf0e4f5c74, type: 3}
+  hitpoints: 2
   buildTime: 3
   workCapacity: 2
   isReparable: 1
   isDemolishable: 1
-  ghostPrefab: {fileID: 8913103262921130422, guid: aece5595cb3ee4847ba187eb30e10e17, type: 3}
-  spawnPrefab: {fileID: 5952087537744532748, guid: af16d2b944ebae94d81eafe8d56ae02f, type: 3}
+  ghostPrefab: {fileID: 7354810541706640773, guid: 0dc82ea0ea524904fb455a56c41a6b0c, type: 3}
+  spawnPrefab: {fileID: 289052354372139613, guid: 4d0cdc263f355fb4c879776144442fca, type: 3}
   placementValidLayerMask:
     serializedVersion: 2
-    m_Bits: 2048
-  resourceInputType: 3
-  resourceType: 2
-  resourceFixedValue: 0
-  resourceGenerateRate: 0.25
-  resourceCapacity: 4
+    m_Bits: 64
+  resourceInputType: 1
+  resourceType: 1
+  resourceFixedValue: 20
+  resourceGenerateRate: 0
+  resourceCapacity: 20

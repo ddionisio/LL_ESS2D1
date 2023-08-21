@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 443116954}
   - component: {fileID: 443116953}
   - component: {fileID: 443116952}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: landingFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4983,7 +4983,7 @@ GameObject:
   - component: {fileID: 6119534621906762489}
   - component: {fileID: 7132758919111530219}
   - component: {fileID: 1862635970361092987}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: popIncreaseFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10127,7 +10127,7 @@ GameObject:
   - component: {fileID: 1411781929314902872}
   - component: {fileID: 2957168267014045356}
   - component: {fileID: 3320833386765383015}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: repairFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22982,7 +22982,7 @@ GameObject:
   - component: {fileID: 4642461922314601266}
   - component: {fileID: 941791494470170510}
   - component: {fileID: 8219996729134078298}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: damageFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27943,7 +27943,7 @@ GameObject:
   - component: {fileID: 1504929660879442294}
   - component: {fileID: 8354146774839905970}
   - component: {fileID: 4863999451450113052}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: destroyedFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32961,7 +32961,7 @@ GameObject:
   - component: {fileID: 191457499024946569}
   - component: {fileID: 4770738924225005620}
   - component: {fileID: 3271918870804448249}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: popDecreaseFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -34,6 +34,14 @@ public class CycleController : MonoBehaviour {
         }
     }
 
+    public bool cycleIsSunVisible {
+        get {
+            if(!cycleCurWeather) return false;
+
+            return cycleIsDay && cycleCurWeather.isSunVisible;
+        }
+    }
+
     public float cycleDayElapsedNormalized {
         get {
             return Mathf.Clamp01(cycleCurElapsed / cycleDayDuration);

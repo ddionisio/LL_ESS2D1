@@ -48,6 +48,8 @@ MonoBehaviour:
     structures:
     - data: {fileID: 11400000, guid: e6518c7cb5a58f34d8950afde470f478, type: 2}
       populationQuotaUnlock: 2
+    - data: {fileID: 11400000, guid: 055a6f0de3afd324eac0f3cd1ac87593, type: 2}
+      populationQuotaUnlock: 2
     - data: {fileID: 11400000, guid: 2ecd68efbe929a241888a40e78c941a1, type: 2}
       populationQuotaUnlock: 2
     capacityStart: 0
