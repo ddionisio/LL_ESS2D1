@@ -29086,11 +29086,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 412180981835247607, guid: 4ea29f0f3ee34e7419c73c7c88065c8c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.03
+      value: 8.28
       objectReference: {fileID: 0}
     - target: {fileID: 412180981835247607, guid: 4ea29f0f3ee34e7419c73c7c88065c8c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.73
+      value: -3.4
       objectReference: {fileID: 0}
     - target: {fileID: 412180981835247607, guid: 4ea29f0f3ee34e7419c73c7c88065c8c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -29127,10 +29127,6 @@ PrefabInstance:
     - target: {fileID: 6508526242294910738, guid: 4ea29f0f3ee34e7419c73c7c88065c8c, type: 3}
       propertyPath: m_Name
       value: enemyMole
-      objectReference: {fileID: 0}
-    - target: {fileID: 6508526242294910738, guid: 4ea29f0f3ee34e7419c73c7c88065c8c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ea29f0f3ee34e7419c73c7c88065c8c, type: 3}
@@ -29432,21 +29428,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: enemySpawnerBurrow
       objectReference: {fileID: 0}
-    - target: {fileID: 2089967845010393020, guid: 32c3d01c9c4760c4087d68d2e947b503, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7555441857156379272, guid: 32c3d01c9c4760c4087d68d2e947b503, type: 3}
       propertyPath: m_RootOrder
       value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 7555441857156379272, guid: 32c3d01c9c4760c4087d68d2e947b503, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.44
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7555441857156379272, guid: 32c3d01c9c4760c4087d68d2e947b503, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.74
+      value: -3.75
       objectReference: {fileID: 0}
     - target: {fileID: 7555441857156379272, guid: 32c3d01c9c4760c4087d68d2e947b503, type: 3}
       propertyPath: m_LocalPosition.z

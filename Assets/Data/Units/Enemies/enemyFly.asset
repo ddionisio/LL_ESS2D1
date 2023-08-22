@@ -18,11 +18,12 @@ MonoBehaviour:
   hitpointStartApply: 0
   hitpointStart: 0
   hitpoints: 1
-  _moveSpeed: 2
+  _moveSpeed: 3
   _moveSpeedDeviation: 0.5
-  _runSpeed: 2
+  _runSpeed: 3
   canRevive: 0
   damageImmunity: 2
+  courageLevel: 0
   spawnPrefab: {fileID: 1926875938908409004, guid: 33c7efd43a1bff24bbbc28874057d7d6, type: 3}
   flyWaitRadius: 1.5
   flyWaitDelay: 1

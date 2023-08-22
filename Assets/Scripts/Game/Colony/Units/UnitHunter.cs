@@ -11,12 +11,9 @@ public class UnitHunter : Unit {
 
     [Header("Hunter Animations")]
     [M8.Animator.TakeSelector]
-    public string takeAttackJump;
+    public int takeAttackJump = -1;
     [M8.Animator.TakeSelector]
-    public string takeAttackHit;
-
-    private int mTakeAttackJumpInd = -1;
-    private int mTakeAttackHitInd = -1;
+    public int takeAttackHit = -1;
 
     private bool mIsMovingLeft;
 
@@ -105,13 +102,6 @@ public class UnitHunter : Unit {
         base.MoveToComplete();
     }
 
-    protected override void Init() {
-        if(animator) {
-            mTakeAttackJumpInd = animator.GetTakeIndex(takeAttackJump);
-            mTakeAttackHitInd = animator.GetTakeIndex(takeAttackHit);
-        }
-    }
-
     IEnumerator DoAttack() {
         var attackDat = data as UnitAttackData;
         if(!attackDat) {
@@ -139,8 +129,8 @@ public class UnitHunter : Unit {
             facing = mTargetUnit.position.x - position.x < 0f ? MovableBase.Facing.Left : MovableBase.Facing.Right;
 
             //do jump
-            if(mTakeAttackJumpInd != -1)
-                animator.Play(mTakeAttackJumpInd);
+            if(takeAttackJump != -1)
+                animator.Play(takeAttackJump);
 
             while(stateTimeElapsed < attackJumpDelay) {
                 yield return null;
@@ -163,8 +153,8 @@ public class UnitHunter : Unit {
                 //do actual attack
                 mTargetUnit.hitpointsCurrent--;
 
-                if(mTakeAttackHitInd != -1)
-                    yield return animator.PlayWait(mTakeAttackHitInd);
+                if(takeAttackHit != -1)
+                    yield return animator.PlayWait(takeAttackHit);
             }
         }
                 
@@ -172,10 +162,10 @@ public class UnitHunter : Unit {
         if(lastPosition != position) {
             RestartStateTime();
 
-            if(mTakeMidAirInd != -1)
-                animator.Play(mTakeMidAirInd);
-            else if(mTakeAttackJumpInd != -1)
-                animator.Play(mTakeAttackJumpInd);
+            if(takeMidAir != -1)
+                animator.Play(takeMidAir);
+            else if(takeAttackJump != -1)
+                animator.Play(takeAttackJump);
                                 
             var dist = Mathf.Abs(lastPosition.x - position.x);
             if(dist < attackJumpOffMinRange)

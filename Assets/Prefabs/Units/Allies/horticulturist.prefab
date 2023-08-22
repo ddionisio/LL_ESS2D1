@@ -9946,23 +9946,23 @@ MonoBehaviour:
   spriteRender: {fileID: 2569449672441164287}
   spriteOverlayRender: {fileID: 6533519382664504992}
   animator: {fileID: 783580581303154572}
-  takeSpawn: spawn
-  takeIdle: idle
-  takeMove: move
-  takeRun: run
-  takeMidAir: midAir
-  takeSwim: swim
-  takeAct: 
-  takeHurt: hurt
-  takeDying: dying
-  takeDeath: death
-  takeDespawn: despawn
-  takeVictory: victory
+  takeSpawn: 0
+  takeIdle: 1
+  takeMove: 2
+  takeRun: 3
+  takeMidAir: 4
+  takeSwim: 10
+  takeAct: -1
+  takeHurt: 5
+  takeDying: 6
+  takeDeath: 7
+  takeDespawn: 8
+  takeVictory: 9
   resourceCapacity: 3
   arableFieldCultivateDelay: 1
   carryRoot: {fileID: 8290593361629811009}
-  takeGather: gather
-  takeCultivate: cultivate
+  takeGather: 11
+  takeCultivate: 12
 --- !u!114 &6496328890462275602
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,14 +6,12 @@ public class UnitEngineer : Unit {
     [Header("Engineer Animations")]
     [Tooltip("Ensure this is not in loop.")]
     [M8.Animator.TakeSelector]
-    public string takeAttack;
+    public int takeAttack = -1;
 
     private Unit mTargetEnemySpawner;
 
     private Structure mTargetStructure;
     private bool mTargetIsWorkAdded;
-
-    private int mTakeAttackInd = -1;
 
     protected override void ClearCurrentState() {
         base.ClearCurrentState();
@@ -128,18 +126,13 @@ public class UnitEngineer : Unit {
         base.MoveToComplete();
     }
 
-    protected override void Init() {
-        if(animator)
-            mTakeAttackInd = animator.GetTakeIndex(takeAttack);
-    }
-
     IEnumerator DoAct() {
         if(mTargetEnemySpawner) {
             yield return null;
 
             while(mTargetEnemySpawner.hitpointsCurrent > 0) {
-                if(mTakeAttackInd != -1)
-                    yield return animator.PlayWait(mTakeAttackInd);
+                if(takeAttack != -1)
+                    yield return animator.PlayWait(takeAttack);
 
                 mTargetEnemySpawner.hitpointsCurrent--;
 

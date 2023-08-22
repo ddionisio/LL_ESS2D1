@@ -106,7 +106,7 @@ public class UnitStructureEater : UnitTargetStructure {
     }
 
     IEnumerator DoAttack() {
-        if(mTakeActInd != -1) {
+        if(takeAct != -1) {
             while(animator.isPlaying)
                 yield return null;
         }

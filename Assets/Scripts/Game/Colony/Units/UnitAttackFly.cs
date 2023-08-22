@@ -237,8 +237,8 @@ public class UnitAttackFly : Unit {
     IEnumerator DoDespawn() {
         yield return null;
 
-        if(mTakeMoveInd != -1)
-            animator.Play(mTakeMoveInd);
+        if(takeMove != -1)
+            animator.Play(takeMove);
 
         if(mFlyDespawnMoveEaseFunc == null) mFlyDespawnMoveEaseFunc = DG.Tweening.Core.Easing.EaseManager.ToEaseFunction(despawnMoveEase);
 

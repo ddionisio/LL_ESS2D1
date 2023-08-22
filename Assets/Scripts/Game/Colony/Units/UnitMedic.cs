@@ -85,7 +85,7 @@ public class UnitMedic : Unit {
     }
 
     IEnumerator DoAct() {
-        if(mTakeActInd != -1) {
+        if(takeAct != -1) {
             while(animator.isPlaying)
                 yield return null;
         }

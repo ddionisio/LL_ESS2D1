@@ -56,7 +56,7 @@ public class UnitAttackStationary : Unit {
         yield return null;
 
         //wait for attack animation to end
-        if(mTakeActInd != -1) {
+        if(takeAct != -1) {
             while(animator.isPlaying)
                 yield return null;
         }

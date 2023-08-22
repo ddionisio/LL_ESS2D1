@@ -370,12 +370,6 @@ public class ColonyController : GameModeController<ColonyController> {
         for(int i = 0; i < mResources.Length; i++)
             mResources[i] = new ResourceInfo();
 
-        //setup structure control
-        structurePaletteController.Setup(structurePalette);
-
-        //setup unit control
-        unitPaletteController.Setup(this);
-
         //grab season and region info
         SeasonData season;
         int regionInd;
@@ -419,6 +413,13 @@ public class ColonyController : GameModeController<ColonyController> {
         cycleController.gameObject.SetActive(true);
 
         cycleController.Setup(hotspotData, season);
+        //
+
+        //setup structure control
+        structurePaletteController.Setup(structurePalette);
+
+        //setup unit control
+        unitPaletteController.Setup(this);
 
         //setup structures (unit spawning, etc)
         for(int i = 0; i < structurePalette.groups.Length; i++) {

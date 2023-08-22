@@ -12,29 +12,29 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     public M8.Animator.Animate animator;
 
     [M8.Animator.TakeSelector]
-    public string takeSpawn;
+    public int takeSpawn = -1;
     [M8.Animator.TakeSelector]
-    public string takeIdle;
+    public int takeIdle = -1;
     [M8.Animator.TakeSelector]
-    public string takeMove;
+    public int takeMove = -1;
     [M8.Animator.TakeSelector]
-    public string takeRun;
+    public int takeRun = -1;
     [M8.Animator.TakeSelector]
-    public string takeMidAir;
+    public int takeMidAir = -1;
     [M8.Animator.TakeSelector]
-    public string takeSwim;
+    public int takeSwim = -1;
     [M8.Animator.TakeSelector]
-    public string takeAct;
+    public int takeAct = -1;
     [M8.Animator.TakeSelector]
-    public string takeHurt;
+    public int takeHurt = -1;
     [M8.Animator.TakeSelector]
-    public string takeDying;
+    public int takeDying = -1;
     [M8.Animator.TakeSelector]
-    public string takeDeath;
+    public int takeDeath = -1;
     [M8.Animator.TakeSelector]
-    public string takeDespawn;
+    public int takeDespawn = -1;
     [M8.Animator.TakeSelector]
-    public string takeVictory;
+    public int takeVictory = -1;
 
     public UnitData data { get; private set; }
 
@@ -167,19 +167,6 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     private UnitState mState;
 
     private int mCurHitpoints;
-
-    protected int mTakeSpawnInd = -1;
-    protected int mTakeIdleInd = -1;
-    protected int mTakeMoveInd = -1;    
-    protected int mTakeRunInd = -1;
-    protected int mTakeMidAirInd = -1;
-    protected int mTakeSwimInd = -1;
-    protected int mTakeActInd = -1;
-    protected int mTakeHurtInd = -1;
-    protected int mTakeDyingInd = -1;
-    protected int mTakeDeathInd = -1;
-    protected int mTakeDespawnInd = -1;
-    protected int mTakeVictoryInd = -1;
 
     private int mTakeCurMoveInd;
 
@@ -379,8 +366,8 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
                 break;
 
             case UnitState.Idle:
-                if(mTakeIdleInd != -1)
-                    animator.Play(mTakeIdleInd);
+                if(takeIdle != -1)
+                    animator.Play(takeIdle);
 
                 ApplyTelemetryState(true, true);
                 break;
@@ -420,7 +407,7 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
 
                 mCurHitpoints = 0; //just in case
 
-                AnimateToRelease(mTakeDeathInd);
+                AnimateToRelease(takeDeath);
                 break;
 
             case UnitState.Despawning:
@@ -428,7 +415,7 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
 
                 mCurHitpoints = 0;
 
-                AnimateToRelease(mTakeDespawnInd);
+                AnimateToRelease(takeDespawn);
                 break;
 
             case UnitState.Retreat:
@@ -474,7 +461,7 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     }
 
     protected virtual int GetActTakeIndex() {
-        return mTakeActInd;
+        return takeAct;
     }
 
     protected virtual bool CanUpdateAI() {
@@ -574,22 +561,6 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
         if(boxCollider)
             boxCollider.enabled = false;
 
-        //initialize animations
-        if(animator) {
-            mTakeSpawnInd = animator.GetTakeIndex(takeSpawn);
-            mTakeIdleInd = animator.GetTakeIndex(takeIdle);
-            mTakeMoveInd = animator.GetTakeIndex(takeMove);
-            mTakeRunInd = animator.GetTakeIndex(takeRun);
-            mTakeMidAirInd = animator.GetTakeIndex(takeMidAir);
-            mTakeSwimInd = animator.GetTakeIndex(takeSwim);
-            mTakeActInd = animator.GetTakeIndex(takeAct);
-            mTakeHurtInd = animator.GetTakeIndex(takeHurt);
-            mTakeDyingInd = animator.GetTakeIndex(takeDying);
-            mTakeDeathInd = animator.GetTakeIndex(takeDeath);
-            mTakeDespawnInd = animator.GetTakeIndex(takeDespawn);
-            mTakeVictoryInd = animator.GetTakeIndex(takeVictory);
-        }
-
         //initial states
         mState = UnitState.None;
 
@@ -629,8 +600,8 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     }
 
     IEnumerator _DoSpawn() {
-        if(mTakeSpawnInd != -1)
-            yield return animator.PlayWait(mTakeSpawnInd);
+        if(takeSpawn != -1)
+            yield return animator.PlayWait(takeSpawn);
         else
             yield return null;
 
@@ -664,8 +635,8 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
 
         up = Vector2.up;
 
-        if(mTakeMidAirInd != -1)
-            animator.Play(mTakeMidAirInd);
+        if(takeMidAir != -1)
+            animator.Play(takeMidAir);
 
         var dposX = ownerStructure.position.x - position.x;
 
@@ -697,8 +668,8 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     }
 
     IEnumerator DoHurt() {
-        if(mTakeHurtInd != -1)
-            animator.Play(mTakeHurtInd);
+        if(takeHurt != -1)
+            animator.Play(takeHurt);
 
         var delay = GameData.instance.unitHurtDelay;
         if(delay > 0f) {
@@ -718,8 +689,8 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     }
 
     IEnumerator DoDying() {
-        if(mTakeDyingInd != -1)
-            animator.Play(mTakeDyingInd);
+        if(takeDying != -1)
+            animator.Play(takeDying);
 
         var delay = GameData.instance.unitDyingDelay;
         if(delay > 0f) {
@@ -762,12 +733,12 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
 
     private void MoveApply(Vector2 toPos, bool isRun) {
         if(isRun) {
-            mTakeCurMoveInd = mTakeRunInd;
+            mTakeCurMoveInd = takeRun;
 
             moveCtrl.moveSpeed = data.runSpeed;
         }
         else {
-            mTakeCurMoveInd = mTakeMoveInd;
+            mTakeCurMoveInd = takeMove;
 
             moveCtrl.moveSpeed = data.moveSpeed;
         }

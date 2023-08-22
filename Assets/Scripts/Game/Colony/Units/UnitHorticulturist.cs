@@ -14,9 +14,9 @@ public class UnitHorticulturist : Unit {
 
     [Header("UnitHorticulturist Animation")]
     [M8.Animator.TakeSelector]
-    public string takeGather;
+    public int takeGather = -1;
     [M8.Animator.TakeSelector]
-    public string takeCultivate;
+    public int takeCultivate = -1;
 
     public int resourceCount {
         get { return mResourceCount; }
@@ -55,9 +55,6 @@ public class UnitHorticulturist : Unit {
 
     private Transform mCarryRootParentDefault;
     private Vector3 mCarryRootPositionLocalDefault;
-
-    private int mTakeGatherInd = -1;
-    private int mTakeCultivateInd = -1;
 
     protected override int GetActTakeIndex() {
         return -1; //let our own act set the animation
@@ -194,19 +191,14 @@ public class UnitHorticulturist : Unit {
 
             carryRoot.gameObject.SetActive(false);
         }
-
-        if(animator) {
-            mTakeGatherInd = animator.GetTakeIndex(takeGather);
-            mTakeCultivateInd = animator.GetTakeIndex(takeCultivate);
-        }
     }
 
     IEnumerator DoAct() {
         yield return null;
 
         if(mGatherTarget) {
-            if(mTakeGatherInd != -1)
-                animator.Play(mTakeGatherInd);
+            if(takeGather != -1)
+                animator.Play(takeGather);
                         
             if(!(mGatherTarget.state == StructureState.Destroyed || mGatherTarget.state == StructureState.None)) { //got destroyed or something, can't collect
                 mGatherTarget.resource--;
@@ -222,8 +214,8 @@ public class UnitHorticulturist : Unit {
             }
         }
         else if(mArableFieldTarget) {
-            if(mTakeCultivateInd != -1)
-                animator.Play(mTakeCultivateInd);
+            if(takeCultivate != -1)
+                animator.Play(takeCultivate);
 
             while(!mArableFieldTarget.isHealthFull && resourceCount > 0) {
                 //add hitpoint
