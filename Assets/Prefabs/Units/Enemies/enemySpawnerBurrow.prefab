@@ -4782,7 +4782,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2043895669
   m_SortingLayer: 10
-  m_SortingOrder: 32
+  m_SortingOrder: 42
   m_RenderMode: 0
   m_SortMode: 0
   m_MinParticleSize: 0
@@ -9590,7 +9590,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2043895669
   m_SortingLayer: 10
-  m_SortingOrder: 32
+  m_SortingOrder: 42
   m_RenderMode: 0
   m_SortMode: 0
   m_MinParticleSize: 0
@@ -10556,7 +10556,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2043895669
   m_SortingLayer: 10
-  m_SortingOrder: 30
+  m_SortingOrder: 40
   m_Sprite: {fileID: 21300000, guid: a925c0c825cbed44ebb819f27d5a3307, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -10713,7 +10713,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2043895669
   m_SortingLayer: 10
-  m_SortingOrder: 31
+  m_SortingOrder: 41
   m_Sprite: {fileID: 21300000, guid: b6dbf0b088efa6a43a66f9aa7d84c243, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

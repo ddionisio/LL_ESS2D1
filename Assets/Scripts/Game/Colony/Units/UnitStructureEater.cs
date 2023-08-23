@@ -26,6 +26,16 @@ public class UnitStructureEater : UnitTargetStructure {
                 right.localPosition = pos;
             }
         }
+
+        public void GroundSides() {
+            GroundPoint grdPt;
+
+            if(GroundPoint.GetGroundPoint(left.position.x, out grdPt))
+                left.position = grdPt.position;
+
+            if(GroundPoint.GetGroundPoint(right.position.x, out grdPt))
+                right.position = grdPt.position;
+        }
     }
 
     [Header("Segments Display")]
@@ -142,7 +152,9 @@ public class UnitStructureEater : UnitTargetStructure {
             boxCollider.size = size;
         }
 
-        for(int i = 0; i < segments.Length; i++)
+        for(int i = 0; i < segments.Length; i++) {
             segments[i].ApplyWidth(width);
+            segments[i].GroundSides();
+        }
     }
 }

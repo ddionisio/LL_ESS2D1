@@ -146,6 +146,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 2a9196c44baef2b46825f228c6c888ee, type: 3}
   - {fileID: 21300000, guid: 69b9a3e4a51d75e4e8a23efcae4f019f, type: 3}
   - {fileID: 21300000, guid: 21c769e4040edd24e83c0830fb109b60, type: 3}
+  - {fileID: 21300000, guid: aeff4ee443109df4aa32b4458b58432d, type: 3}
   - {fileID: 21300000, guid: 08d122f41cb4d294d9f5112304b14505, type: 3}
   - {fileID: 21300000, guid: 19c3e2f4beed38e45af9d28dafcd2474, type: 3}
   - {fileID: 21300000, guid: 205407f42d722314ba6b1180bc92c375, type: 3}
@@ -198,6 +199,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 913e88f7565be4647a8c7d0f52a4198d, type: 3}
   - {fileID: 21300000, guid: e4282408634e82045ad966e907808897, type: 3}
   - {fileID: 21300000, guid: a0cf9408b144551468d68e257c0f963f, type: 3}
+  - {fileID: 21300000, guid: 042de41859e9e38429f076195e0656f5, type: 3}
   - {fileID: 21300000, guid: 4a970d1848549d049a9229eb5875adbb, type: 3}
   - {fileID: 21300000, guid: c92fc428139907a4799d9de42325017a, type: 3}
   - {fileID: 21300000, guid: cd9a633817a6b174aaee4446eba1557f, type: 3}
@@ -264,6 +266,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: cb537bfaf8bd74e48aa79857c230c57f, type: 3}
   - {fileID: 21300000, guid: 55f99f0ba3b46f64686680435ae89361, type: 3}
   - {fileID: 21300000, guid: dd09c62bb6f83c349b3980bab348e3b4, type: 3}
+  - {fileID: 21300000, guid: b992393bd948ecf4581be69c6b7b6c0b, type: 3}
   - {fileID: 21300000, guid: a550975b96592b24688f2a0dbbc6e12c, type: 3}
   - {fileID: 21300000, guid: 6ba87c5b39c0fd041aade2ab274928ae, type: 3}
   - {fileID: 21300000, guid: c1e8416bb4ac55248ba08b84af3322a7, type: 3}
@@ -293,10 +296,12 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 2521dc9c9d5c58c4f897cee3f691b70e, type: 3}
   - {fileID: 21300000, guid: f07d3fccc0308b6479e247b459e6ebdb, type: 3}
   - {fileID: 21300000, guid: a7a6c1dc7cdaa3947b1a969a0b3c2650, type: 3}
+  - {fileID: 21300000, guid: a7f62fdcc976085419fcd9b0eac9010b, type: 3}
   - {fileID: 21300000, guid: 36ce24ec9ae04524289ce0e80bf270be, type: 3}
   - {fileID: 21300000, guid: 39fe3eec6d497364b8444732a7108eea, type: 3}
   - {fileID: 21300000, guid: 7862f40db372ce84cb2b875b0d8cc61a, type: 3}
   - {fileID: 21300000, guid: 483ea70d300044f45aae4857adab4672, type: 3}
+  - {fileID: 21300000, guid: 4568b22d24d518b46b9dfc16286e68ec, type: 3}
   - {fileID: 21300000, guid: da9d4f2dc181be64aab678b91c6edd4b, type: 3}
   - {fileID: 21300000, guid: bd91624dbe47aed4794cca2ced3215cb, type: 3}
   - {fileID: 21300000, guid: 7338c94df729f494099a8ab21a4b41f6, type: 3}
@@ -343,6 +348,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 0774fa4f9c4f4c44088983f6fba9a131, type: 3}
   - {fileID: 21300000, guid: a0d90d4fa5edd724faf85452ff11eba3, type: 3}
   - {fileID: 21300000, guid: 8866b95f55a45d940a1e63566526f82f, type: 3}
+  - {fileID: 21300000, guid: 48b0847f778ffb24eb49832eca7a767d, type: 3}
   - {fileID: 21300000, guid: 3969838f409a93e4ba72f92c0c0cfa91, type: 3}
   - {fileID: 21300000, guid: 8e0efb9f8740de94693edf4900de9570, type: 3}
   - {fileID: 21300000, guid: a5b57e9fa465ca14c8b1706d2b8d7ee6, type: 3}
@@ -449,6 +455,7 @@ SpriteAtlas:
   - waterTank_base
   - frogShipCrew_1
   - explodePixel5
+  - vine_stem
   - devicerBody
   - frogShipCrew_2
   - frogCivilian_move_2
@@ -501,6 +508,7 @@ SpriteAtlas:
   - season_icon_winter
   - frogHorticulturist_victory_2
   - mole_hand_front
+  - vine_base_0
   - plant_flower01
   - frogEngineer_move_2
   - frogEngineer_dying_0
@@ -567,6 +575,7 @@ SpriteAtlas:
   - fancyRect_outline_2
   - temperature_map_summer
   - frogGardener_hurt_2
+  - vine_base_1
   - frogHorticulturist_move_0
   - frogMedic_idle_0
   - frogCivilian_idle_3
@@ -596,10 +605,12 @@ SpriteAtlas:
   - frogCivilian_run_1
   - windTurbine_bulb
   - frogGardener_move_0
+  - vine_tip_1
   - circleGlowTiny
   - frogHorticulturist_idle_4
   - frogHorticulturist_victory_1
   - frogHorticulturist_move_2
+  - vine_tip_0
   - frogEngineer_swim_1
   - pop_decrease
   - frogHorticulturist_move_3
@@ -646,6 +657,7 @@ SpriteAtlas:
   - temperature_map_spring
   - structureGroup_house
   - frogEngineer_hurt_1
+  - slash
   - frogHorticulturist_idle_0
   - frogEngineer_act_1
   - frogCivilian_neutral_0
