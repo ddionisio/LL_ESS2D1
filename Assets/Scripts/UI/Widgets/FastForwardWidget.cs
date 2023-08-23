@@ -18,10 +18,10 @@ public class FastForwardWidget : MonoBehaviour {
 
             switch(colonyCtrl.timeState) {
                 case ColonyController.TimeState.Normal:
-                    colonyCtrl.timeState = ColonyController.TimeState.FastForward;
+                    colonyCtrl.FastForward();
                     break;
                 case ColonyController.TimeState.FastForward:
-                    colonyCtrl.timeState = ColonyController.TimeState.Normal;
+                    colonyCtrl.Resume();
                     break;
             }
         }

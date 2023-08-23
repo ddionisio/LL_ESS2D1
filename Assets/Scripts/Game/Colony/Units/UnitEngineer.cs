@@ -13,6 +13,8 @@ public class UnitEngineer : Unit {
     private Structure mTargetStructure;
     private bool mTargetIsWorkAdded;
 
+    public bool canWork { get { return ColonyController.instance.cycleController.cycleTimeScale > 0f; } }
+
     protected override void ClearCurrentState() {
         base.ClearCurrentState();
 
@@ -148,7 +150,7 @@ public class UnitEngineer : Unit {
 
             yield return null;
 
-            while(CanWorkOnStructure(mTargetStructure)) {
+            while(canWork && mTargetStructure.canEngineer) {
                 if(mTargetStructure.state == StructureState.Destroyed) //it got destroyed while we're fixing it
                     mTargetStructure.state = StructureState.Repair;
 
@@ -201,6 +203,9 @@ public class UnitEngineer : Unit {
         }
 
         //check for structures to repair
+        if(!canWork)
+            return false;
+
         var structureCtrl = colonyCtrl.structurePaletteController;
 
         Structure construct = null;
@@ -257,7 +262,7 @@ public class UnitEngineer : Unit {
     }
 
     private bool CanWorkOnStructure(Structure structure) {
-        return structure.canEngineer && !structure.workIsFull;
+        return canWork && structure.canEngineer && !structure.workIsFull;
     }
 
     private bool CanGotoAndWorkOnStructure(Structure structure) {

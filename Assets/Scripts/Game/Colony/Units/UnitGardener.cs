@@ -13,6 +13,8 @@ public class UnitGardener : Unit {
     private StructurePlant mTargetPlant;
     private bool mTargetPlantIsWorkAdded;
 
+    public bool canWork { get { return ColonyController.instance.cycleController.cycleTimeScale > 0f; } }
+
     protected override void ClearCurrentState() {
         base.ClearCurrentState();
 
@@ -138,7 +140,7 @@ public class UnitGardener : Unit {
             mTargetPlant.WorkAdd();
             mTargetPlantIsWorkAdded = true;
 
-            while(mTargetPlant.growthState == StructurePlant.GrowthState.Growing) //wait for plant to stop growing
+            while(canWork && mTargetPlant.growthState == StructurePlant.GrowthState.Growing) //wait for plant to stop growing
                 yield return null;
 
             yield return null;
@@ -199,6 +201,9 @@ public class UnitGardener : Unit {
         }
 
         //check for plants
+        if(!canWork)
+            return false;
+
         var structureCtrl = colonyCtrl.structurePaletteController;
         
         var targetPlantStructures = GameData.instance.structureFoodSources;
@@ -220,7 +225,7 @@ public class UnitGardener : Unit {
     }
 
     private bool CanWorkOnPlant(StructurePlant plant) {
-        return plant.growthState == StructurePlant.GrowthState.Growing && !plant.workIsFull;
+        return canWork && plant.growthState == StructurePlant.GrowthState.Growing && !plant.workIsFull;
     }
 
     private bool CanGotoAndWorkOnPlant(StructurePlant plant) {

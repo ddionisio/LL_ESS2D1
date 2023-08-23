@@ -47,6 +47,17 @@ public class StructurePaletteController : MonoBehaviour  {
 
         public bool highlightOnAvailable { get; private set; }
 
+        public bool containsHouseStructure {
+            get {
+                for(int i = 0; i < structures.Length; i++) {
+                    if(structures[i].data is StructureHouseData)
+                        return true;
+                }
+
+                return false;
+            }
+        }
+
         public GroupInfo(StructurePaletteData.GroupInfo dataGrpInf) {
             capacity = dataGrpInf.capacityStart;
             count = 0;
@@ -83,6 +94,22 @@ public class StructurePaletteController : MonoBehaviour  {
 
     public StructureData placementCurrentStructureData { get { return mPlacementCurStuctureData; } }
 
+    public bool isPauseCycle {
+        get {
+            for(int i = 0; i < mGroupInfos.Length; i++) {
+                if(paletteData.groups[i].pauseCycleOnAvailable) {
+                    var grpInf = mGroupInfos[i];
+
+                    if(grpInf.capacity - grpInf.count > 0)
+                        return true;
+                }
+                
+            }
+
+            return false;
+        }
+    }
+
     private GroupInfo[] mGroupInfos; //correlates to paletteData's items
 
     private Dictionary<StructureData, M8.CacheList<Structure>> mStructureTypeActives; //categorized active structures
@@ -99,6 +126,26 @@ public class StructurePaletteController : MonoBehaviour  {
     private int mPlacementCurGroupIndex;
                 
     private M8.GenericParams mSpawnParms = new M8.GenericParams();
+
+    public bool IsHouseAvailable() {
+        for(int i = 0; i < mGroupInfos.Length; i++) {
+            var grpInfo = mGroupInfos[i];
+            if(grpInfo.containsHouseStructure && grpInfo.count < grpInfo.capacity)
+                return true;
+        }
+
+        return false;
+    }
+
+    public int GetHouseCapacity() {
+        for(int i = 0; i < mGroupInfos.Length; i++) {
+            var grpInfo = mGroupInfos[i];
+            if(grpInfo.containsHouseStructure)
+                return grpInfo.capacity;
+        }
+
+        return 0;
+    }
 
     public T GetStructureNearestActive<T>(float positionX, StructureData structureData, CheckStructureValid<T> checkValid) where T : Structure {
         T ret = null;
@@ -479,7 +526,7 @@ public class StructurePaletteController : MonoBehaviour  {
         if(!placementInput.Activate(mPlacementCurStuctureData))
             return; //shouldn't happen
 
-        ColonyController.instance.timeState = ColonyController.TimeState.Pause;
+        ColonyController.instance.Pause();
         GameData.instance.signalPlacementActive?.Invoke(true);
     }
 
@@ -490,7 +537,7 @@ public class StructurePaletteController : MonoBehaviour  {
 
         placementInput.Deactivate();
 
-        ColonyController.instance.timeState = ColonyController.TimeState.Normal;
+        ColonyController.instance.Resume();
         GameData.instance.signalPlacementActive?.Invoke(false);
     }
 }

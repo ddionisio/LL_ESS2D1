@@ -317,6 +317,8 @@ public class StructurePlant : Structure {
         while(true) {
             yield return null;
 
+            var cycleTimeScale = ColonyController.instance.cycleController.cycleTimeScale;
+
             switch(growthState) {
                 case GrowthState.None:
                     while(mReadyTime < readyDelay) {
@@ -335,7 +337,7 @@ public class StructurePlant : Structure {
 
                 case GrowthState.Growing:
                     if(mBloomTime < growthDelay) {
-                        mBloomTime += Time.deltaTime * mBloomTimeScale;
+                        mBloomTime += Time.deltaTime * mBloomTimeScale * cycleTimeScale;
 
                         var t = Mathf.Clamp01(mBloomTime / growthDelay);
 

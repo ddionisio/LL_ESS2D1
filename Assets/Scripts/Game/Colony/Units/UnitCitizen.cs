@@ -24,6 +24,8 @@ public class UnitCitizen : Unit {
     private Transform mCarryRootParentDefault;
     private Vector3 mCarryRootPositionLocalDefault;
 
+    public bool canGather { get { return ColonyController.instance.cycleController.cycleTimeScale > 0f; } }
+
     protected override void ClearCurrentState() {
         base.ClearCurrentState();
 
@@ -303,6 +305,10 @@ public class UnitCitizen : Unit {
         if(mGatherTarget) //fail-safe, shouldn't exist when calling this
             GatherCancel();
 
+        //can't gather if cycle is paused
+        if(!canGather)
+            return false;
+
         var house = ownerStructure as StructureHouse;
         if(!house)
             return false;
@@ -359,7 +365,7 @@ public class UnitCitizen : Unit {
     }
 
     private bool CanGatherPlant(StructurePlant plant) {
-        return plant.growthState == StructurePlant.GrowthState.Bloom && plant.BloomGrabAvailableIndex() != -1;
+        return canGather && plant.growthState == StructurePlant.GrowthState.Bloom && plant.BloomGrabAvailableIndex() != -1;
     }
 
     private bool CanGotoAndGatherPlant(StructurePlant plant) {
@@ -374,7 +380,7 @@ public class UnitCitizen : Unit {
     }
 
     private bool CanGatherWater(StructureResourceGenerateContainer waterGen) {
-        return waterGen.resourceWhole > 0;
+        return canGather && waterGen.resourceWhole > 0;
     }
 
     private bool CanGotoAndGatherWater(StructureResourceGenerateContainer waterGen) {

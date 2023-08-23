@@ -95,7 +95,7 @@ public class StructureResourceGenerateContainer : Structure {
             if(cycleCtrl.cycleTimeScale > 0f && resource < resourceCapacity) {
                 var rate = resourceData.resourceGenerateRate * cycleCtrl.GetResourceScale(resourceData.resourceInputType);
 
-                resource += rate * Time.deltaTime;
+                resource += rate * Time.deltaTime * cycleCtrl.cycleTimeScale;
             }
         }
     }

@@ -17,11 +17,11 @@ MonoBehaviour:
   icon: {fileID: 0}
   hitpointStartApply: 0
   hitpointStart: 0
-  hitpoints: 3
-  _moveSpeed: 2
+  hitpoints: 2
+  _moveSpeed: 3
   _moveSpeedDeviation: 0.15
   _runSpeed: 4
-  canRevive: 1
+  canRevive: 0
   damageImmunity: 0
   courageLevel: 0
   spawnPrefab: {fileID: 1597191800017414625, guid: bd2b29ec0d555954595b6b7bc25d2ecf, type: 3}

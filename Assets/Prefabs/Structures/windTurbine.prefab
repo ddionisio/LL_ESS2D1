@@ -807,7 +807,7 @@ GameObject:
   - component: {fileID: 8275657649524095867}
   - component: {fileID: 4012874725248349330}
   - component: {fileID: 1452407354253108823}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: demolishFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -825,8 +825,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 6819044348691206329}
-  m_RootOrder: 16
+  m_Father: {fileID: 6819044348375123017}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!198 &4012874725248349330
 ParticleSystem:
@@ -5576,9 +5576,9 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 2043895669
-  m_SortingLayer: 10
-  m_SortingOrder: 21
+  m_SortingLayerID: 2097231383
+  m_SortingLayer: 13
+  m_SortingOrder: 500
   m_RenderMode: 0
   m_SortMode: 0
   m_MinParticleSize: 0
@@ -11407,7 +11407,7 @@ GameObject:
   - component: {fileID: 7212049646878876918}
   - component: {fileID: 2594635212899464252}
   - component: {fileID: 8975850321596051199}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: destroyedFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16721,7 +16721,7 @@ GameObject:
   - component: {fileID: 3797527130410602697}
   - component: {fileID: 7578531384123413807}
   - component: {fileID: 3854559757757298131}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: damageFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23278,6 +23278,7 @@ Transform:
   m_Children:
   - {fileID: 6819044348691206329}
   - {fileID: 3596913463170999862}
+  - {fileID: 8275657649524095867}
   - {fileID: 8132460764735508866}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -24147,7 +24148,6 @@ Transform:
   - {fileID: 3797527130410602697}
   - {fileID: 3332495792463757949}
   - {fileID: 7212049646878876918}
-  - {fileID: 8275657649524095867}
   m_Father: {fileID: 6819044348375123017}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -30596,7 +30596,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3433726084524744801, guid: 321782ceb2fb9b145bfcc00cda0b3c7a, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3433726084524744801, guid: 321782ceb2fb9b145bfcc00cda0b3c7a, type: 3}
       propertyPath: m_AnchorMax.x

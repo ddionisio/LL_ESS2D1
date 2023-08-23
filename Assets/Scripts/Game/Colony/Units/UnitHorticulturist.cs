@@ -45,6 +45,8 @@ public class UnitHorticulturist : Unit {
         }
     }
 
+    public bool canWork { get { return ColonyController.instance.cycleController.cycleTimeScale > 0f; } }
+
     private StructureResourceGenerateContainer mGatherTarget;
     private bool mGatherInProcess;
     private Waypoint mGatherWaypoint;
@@ -275,6 +277,9 @@ public class UnitHorticulturist : Unit {
         if(mArableFieldTarget) //just in case
             ArableFieldCancel();
 
+        if(!canWork)
+            return false;
+
         if(resourceCount > 0) {
             var arableFields = ArableField.arableFieldAvailable;
 
@@ -311,6 +316,9 @@ public class UnitHorticulturist : Unit {
     private bool RefreshAndMoveToNewResource() {
         if(mGatherTarget) //fail-safe, shouldn't exist when calling this
             GatherCancel();
+
+        if(!canWork)
+            return false;
 
         var structureCtrl = ColonyController.instance.structurePaletteController;
                 
@@ -357,7 +365,7 @@ public class UnitHorticulturist : Unit {
     }
 
     private bool CanGatherWater(StructureResourceGenerateContainer waterGen) {
-        return waterGen.resourceWhole > 0;
+        return canWork && waterGen.resourceWhole > 0;
     }
 
     private bool CanGotoAndGatherWater(StructureResourceGenerateContainer waterGen) {

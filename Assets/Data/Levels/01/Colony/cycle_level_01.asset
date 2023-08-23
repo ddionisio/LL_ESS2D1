@@ -69,8 +69,8 @@ MonoBehaviour:
     windDirAngle: 0
   cycleTotalDuration: 150
   resourceScale:
-    sunDay: 0
-    sunNight: 0
+    sunDay: 1
+    sunNight: 0.5
     wind: 1
     water: 1
     growth: 0.05

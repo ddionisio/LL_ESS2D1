@@ -217,7 +217,7 @@ public class ColonyController : GameModeController<ColonyController> {
 
     public TimeState timeState {
         get { return mTimeState; }
-        set {
+        private set {
             if(mTimeState != value) {
                 var prevState = mTimeState;
                 mTimeState = value;
@@ -268,8 +268,27 @@ public class ColonyController : GameModeController<ColonyController> {
 
     private TimeState mTimeState = TimeState.None;
     private bool mIsHazzard;
+    private bool mIsCyclePause;
 
     private M8.GenericParams mWeatherForecastParms = new M8.GenericParams();
+
+    public void FastForward() {
+        if(!mIsHazzard && !mIsCyclePause)
+            timeState = TimeState.FastForward;
+    }
+
+    public void Pause() {
+        timeState = TimeState.Pause;
+    }
+
+    public void Resume() {
+        if(mIsHazzard)
+            timeState = TimeState.None;
+        else if(mIsCyclePause)
+            timeState = TimeState.CyclePause;
+        else
+            timeState = TimeState.Normal;
+    }
 
     public float GetResourceAmount(StructureResourceData.ResourceType resourceType) {
         return mResources[(int)resourceType].amount;
@@ -473,16 +492,27 @@ public class ColonyController : GameModeController<ColonyController> {
         cycleController.Begin();
 
         mIsHazzard = cycleController.isHazzard; //shouldn't really have hazzard on first cycle...
-        if(mIsHazzard)
+        if(mIsHazzard) {
+            mIsCyclePause = false;
             timeState = TimeState.None;
-        else
-            timeState = TimeState.Normal;
+        }
+        else {
+            mIsCyclePause = structurePaletteController.isPauseCycle;
+            timeState = mIsCyclePause ? TimeState.CyclePause : TimeState.Normal;
+        }
 
         int curCycleInd = cycleController.cycleCurIndex;
         bool curCycleIsDay = cycleController.cycleIsDay;
 
         while(cycleController.isRunning) {
             yield return null;
+
+            //check if we need to pause cycle
+            var isCyclePause = structurePaletteController.isPauseCycle;
+            if(mIsCyclePause != isCyclePause) {
+                mIsCyclePause = isCyclePause;
+                timeState = mIsCyclePause ? TimeState.CyclePause : TimeState.Normal;
+            }
 
             //refresh resources if we are at next cycle or changing from day to night
             var updateResources = false;
@@ -523,7 +553,7 @@ public class ColonyController : GameModeController<ColonyController> {
                 timeState = TimeState.None;
             }
             else {
-                timeState = TimeState.Normal;
+                timeState = mIsCyclePause ? TimeState.CyclePause : TimeState.Normal;
             }
         }
     }

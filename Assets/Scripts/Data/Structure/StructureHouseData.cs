@@ -26,6 +26,7 @@ public class StructureHouseData : StructureData {
     public UnitData citizenData;
     public int citizenStartCount = 1;
     public int citizenCapacity;
+    public int citizenWorkerCapacity = 1;
 
     [Header("Population Info")]
     [SerializeField]
@@ -38,7 +39,7 @@ public class StructureHouseData : StructureData {
     }
 
     public override void Setup(ColonyController colonyCtrl, int structureCount) {
-        colonyCtrl.unitController.AddUnitData(citizenData, citizenCapacity * structureCount, false);
+        colonyCtrl.unitController.AddUnitData(citizenData, citizenWorkerCapacity * structureCount, false);
         citizenData.Setup(colonyCtrl);
     }
 }

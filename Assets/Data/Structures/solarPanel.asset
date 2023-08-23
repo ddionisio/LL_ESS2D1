@@ -16,8 +16,8 @@ MonoBehaviour:
   descRef: 
   icon: {fileID: 21300000, guid: e882d6f9c4224534986d3ddf0e4f5c74, type: 3}
   hitpoints: 2
-  buildTime: 3
-  workCapacity: 2
+  buildTime: 2
+  workCapacity: 1
   isReparable: 1
   isDemolishable: 1
   ghostPrefab: {fileID: 7354810541706640773, guid: 0dc82ea0ea524904fb455a56c41a6b0c, type: 3}
@@ -27,6 +27,6 @@ MonoBehaviour:
     m_Bits: 64
   resourceInputType: 1
   resourceType: 1
-  resourceFixedValue: 20
+  resourceFixedValue: 30
   resourceGenerateRate: 0
-  resourceCapacity: 20
+  resourceCapacity: 30

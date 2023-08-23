@@ -258,6 +258,8 @@ public class StructureHouse : Structure {
 
         var colonyCtrl = ColonyController.instance;
 
+        var workerCount = Mathf.Min(houseData.citizenWorkerCapacity, population);
+
         var curSpawnTime = 0f;
 
         while(true) {
@@ -266,7 +268,7 @@ public class StructureHouse : Structure {
                 yield return null;
 
             //check if we need to spawn
-            if(population > mCitizensActive.Count) {
+            if(workerCount > mCitizensActive.Count) {
                 if(curSpawnTime < GameData.instance.structureUnitSpawnDelay) {
                     curSpawnTime += Time.deltaTime;
                 }

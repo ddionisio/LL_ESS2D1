@@ -50,7 +50,7 @@ MonoBehaviour:
   structureRepairScalePerWork: 1
   structureRepairPerHitDelay: 1
   structureDamageDelay: 0.5
-  structureDemolishDelay: 1
+  structureDemolishDelay: 0
   structureFoodSources:
   - {fileID: 11400000, guid: 8208dd7fc10f033418395759cf155bf5, type: 2}
   - {fileID: 11400000, guid: 00c13b5caec751f4cac6d8ab4a682fc4, type: 2}

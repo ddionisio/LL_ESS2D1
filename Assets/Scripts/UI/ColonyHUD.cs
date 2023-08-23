@@ -23,6 +23,9 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
     [Header("Structure Action Display")]
     public StructureActionsWidget structureActionsWidget;
 
+    [Header("New House Info Display")]
+    public GameObject newHouseInfoActiveGO;
+
     [Header("Animation")]
     public M8.Animator.Animate animator;
     [M8.Animator.TakeSelector]
@@ -106,6 +109,8 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
                         StopCoroutine(mSwitchModeRout);
                         mSwitchModeRout = null;
                     }
+
+                    CancelNewHouseInfo();
                 }
             }
         }
@@ -124,6 +129,8 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
 
     private Coroutine mSwitchModeRout;
 
+    private Coroutine mNewHouseInfoRout;
+
     public void PlacementAccept() {
         var colonyCtrl = ColonyController.instance;
 
@@ -138,6 +145,7 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
 
     void Awake() {
         if(mainRootGO) mainRootGO.SetActive(false);
+        if(newHouseInfoActiveGO) newHouseInfoActiveGO.SetActive(false);
     }
 
     void OnCycleBegin() {
@@ -216,12 +224,16 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
             mStructureClicked = null;
 
             StartCoroutine(DoPlayToPlacement());
+
+            CancelNewHouseInfo();
         }
         else {
             //placement stuff
             if(placementConfirmRoot) placementConfirmRoot.gameObject.SetActive(false);
 
             StartCoroutine(DoPlacementToPlay());
+
+            ShowNewHouseInfo();
         }
     }
 
@@ -288,7 +300,7 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
 
         paletteStructureWidget.ClearGroupActive();
 
-        //TODO: play flashy "update" to group in palette structure
+        ShowNewHouseInfo();
     }
 
     void OnStructureClick(Structure structure) {
@@ -358,5 +370,43 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
             if(structureActionsWidget)
                 structureActionsWidget.active = false;
         }
+    }
+
+    IEnumerator DoShowNewHouseInfo() {
+        while(M8.ModalManager.main.IsInStack(LoLExt.ModalDialog.modalNameGeneric) || M8.ModalManager.main.isBusy)
+            yield return null;
+
+        if(!mIsPlacementActive) {
+            if(newHouseInfoActiveGO) newHouseInfoActiveGO.SetActive(true);
+        }
+
+        mNewHouseInfoRout = null;
+    }
+
+    private void ShowNewHouseInfo() {
+        if(mIsPlacementActive)
+            return;
+
+        if(mNewHouseInfoRout != null)
+            return;
+
+        //only show if available
+        var structurePaletteCtrl = ColonyController.instance.structurePaletteController;
+
+        if(structurePaletteCtrl.GetHouseCapacity() == 1) //don't show in the beginning
+            return;
+
+        if(structurePaletteCtrl.IsHouseAvailable()) {
+            mNewHouseInfoRout = StartCoroutine(DoShowNewHouseInfo());
+        }
+    }
+
+    private void CancelNewHouseInfo() {
+        if(mNewHouseInfoRout != null) {
+            StopCoroutine(mNewHouseInfoRout);
+            mNewHouseInfoRout = null;
+        }
+
+        if(newHouseInfoActiveGO) newHouseInfoActiveGO.SetActive(false);
     }
 }
