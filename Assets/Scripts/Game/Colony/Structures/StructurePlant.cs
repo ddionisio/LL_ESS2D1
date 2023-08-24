@@ -250,6 +250,12 @@ public class StructurePlant : Structure {
                 mRout = StartCoroutine(DoActive());
                 break;
 
+            case StructureState.Damage:
+                base.ApplyCurrentState();
+
+                mBloomTime *= 0.5f;
+                break;
+
             case StructureState.Moving: //just in case we make this movable
             case StructureState.Destroyed:
             case StructureState.Demolish:

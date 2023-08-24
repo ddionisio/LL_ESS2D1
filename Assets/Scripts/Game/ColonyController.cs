@@ -149,7 +149,7 @@ public class ColonyController : GameModeController<ColonyController> {
 
     [Header("Setup")]
     public HotspotData hotspotData; //correlates to the hotspot we launched from the overworld
-    public CriteriaData criteriaData; //used to determine house req. params, correlates to hotspot group from the overworld
+    //public CriteriaData criteriaData; //used to determine house req. params, correlates to hotspot group from the overworld
 
     public StructurePaletteData structurePalette;
     public UnitPaletteData unitPalette;
@@ -271,6 +271,7 @@ public class ColonyController : GameModeController<ColonyController> {
     private bool mIsCyclePause;
 
     private M8.GenericParams mWeatherForecastParms = new M8.GenericParams();
+    private M8.GenericParams mVictoryParms = new M8.GenericParams();
 
     public void FastForward() {
         if(!mIsHazzard && !mIsCyclePause)
@@ -463,7 +464,9 @@ public class ColonyController : GameModeController<ColonyController> {
 
         ColonyHUD.instance.active = true;
 
-        GameData.instance.signalColonyStart?.Invoke();
+        var gameDat = GameData.instance;
+
+        gameDat.signalColonyStart?.Invoke();
 
         //dialog, etc.
 
@@ -471,7 +474,7 @@ public class ColonyController : GameModeController<ColonyController> {
         ShowWeatherForecast(true, false);
 
         //wait for forecast to close
-        while(M8.ModalManager.main.IsInStack(GameData.instance.modalWeatherForecast) || M8.ModalManager.main.isBusy)
+        while(M8.ModalManager.main.IsInStack(gameDat.modalWeatherForecast) || M8.ModalManager.main.isBusy)
             yield return null;
 
         //dialog, etc.
@@ -484,8 +487,27 @@ public class ColonyController : GameModeController<ColonyController> {
             yield return null;
 
         yield return DoCycle();
-                
+
         //victory
+        if(gameDat.signalVictory) gameDat.signalVictory.Invoke();
+
+        var houseCount = structurePaletteController.GetHouseCount();
+        var houseCapacity = structurePaletteController.GetHouseCapacity();
+
+        mVictoryParms[ModalVictory.parmPopulation] = population;
+        mVictoryParms[ModalVictory.parmPopulationMax] = populationCapacity;
+        mVictoryParms[ModalVictory.parmHouse] = houseCount;
+        mVictoryParms[ModalVictory.parmHouseMax] = houseCapacity;
+
+        M8.ModalManager.main.Open(gameDat.modalVictory, mVictoryParms);
+
+        //wait for victory to close
+        while(M8.ModalManager.main.IsInStack(gameDat.modalVictory) || M8.ModalManager.main.isBusy)
+            yield return null;
+
+        //other things
+
+        gameDat.ProgressNextToOverworld();
     }
 
     IEnumerator DoCycle() {

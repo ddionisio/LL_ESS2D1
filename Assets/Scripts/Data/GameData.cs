@@ -32,6 +32,7 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public string modalHotspotInvestigate = "hotspotInvestigate";
     public string modalHotspotAnalyze = "hotspotAnalyze";
     public string modalWeatherForecast = "weatherForecast";
+    public string modalVictory = "victory";
 
     [Header("Atmosphere Data")]
     [Tooltip("Ensure the array is of the following: winter, spring, summer, autumn.")]
@@ -97,6 +98,8 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public float unitBounceToBaseDelay = 1.5f;
     public M8.RangeFloat unitBounceToBaseHeightRange;
 
+    public M8.RangeFloat unitVictoryWaitDelayRange = new M8.RangeFloat(0.3f, 1f);
+
     [Header("Scenes")]
     //intro sets progress to 1
     public M8.SceneAssetPath[] overworldScenes;
@@ -105,6 +108,7 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     [Header("Signals | Colony")]
     public M8.Signal signalColonyStart;
     public M8.SignalInteger signalClickCategory;
+    public M8.Signal signalVictory;
         
     public M8.Signal signalCycleBegin;
     public M8.Signal signalCycleNext;

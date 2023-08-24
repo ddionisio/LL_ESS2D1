@@ -227,7 +227,7 @@ SpriteRenderer:
   m_SortingLayerID: 1328874929
   m_SortingLayer: 14
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 193860e3e5953104db43f4821aa64da1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6ba87c5b39c0fd041aade2ab274928ae, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5374,7 +5374,7 @@ MonoBehaviour:
   - name: victory
     frameRate: 30
     endFramePadding: 0
-    numLoop: -1
+    numLoop: 1
     loopMode: 0
     loopBackToFrame: 0
     trackCounter: 3

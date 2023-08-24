@@ -20,6 +20,8 @@ public enum UnitState {
 
     Dying, //for frogs, how long before death. Can be revived by medic at this point
     Death, //animate and despawn
+
+    Victory, //for allies
 }
 
 [System.Flags]

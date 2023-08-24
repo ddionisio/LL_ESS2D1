@@ -17,7 +17,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 8e82e4308846c6a419e3327bdca0faf4, type: 3}
   hitpoints: 2
   buildTime: 2
-  workCapacity: 1
+  workCapacity: 2
   isReparable: 1
   isDemolishable: 1
   ghostPrefab: {fileID: 8194963849733281067, guid: 2185edf2539cfc44aa3d279d0958cb1a, type: 3}

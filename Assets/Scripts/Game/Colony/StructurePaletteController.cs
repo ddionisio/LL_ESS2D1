@@ -127,14 +127,14 @@ public class StructurePaletteController : MonoBehaviour  {
                 
     private M8.GenericParams mSpawnParms = new M8.GenericParams();
 
-    public bool IsHouseAvailable() {
+    public int GetHouseCount() {
         for(int i = 0; i < mGroupInfos.Length; i++) {
             var grpInfo = mGroupInfos[i];
-            if(grpInfo.containsHouseStructure && grpInfo.count < grpInfo.capacity)
-                return true;
+            if(grpInfo.containsHouseStructure)
+                return grpInfo.count;
         }
 
-        return false;
+        return 0;
     }
 
     public int GetHouseCapacity() {

@@ -87,6 +87,8 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
         }
     }
 
+    public bool isVictoryEnabled { get { return takeVictory != -1; } }
+
     public Vector2 position {
         get { return transform.position; }
         set { transform.position = value; }
@@ -436,6 +438,12 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
                 mRout = StartCoroutine(DoBounceToBase());
                 break;
 
+            case UnitState.Victory:
+                ApplyTelemetryState(false, false);
+
+                mRout = StartCoroutine(DoVictory());
+                break;
+
             case UnitState.None:
                 if(animator)
                     animator.Stop();
@@ -583,6 +591,9 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
         mCurHitpoints = data.hitpointStartApply ? data.hitpointStart : data.hitpoints;
         stateTimeLastChanged = Time.time;
 
+        //setup signals
+        if(GameData.instance.signalVictory) GameData.instance.signalVictory.callback += OnVictory;
+
         Spawned(parms);
     }
 
@@ -591,12 +602,23 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     }
 
     void M8.IPoolDespawn.OnDespawned() {
+        if(GameData.instance.signalVictory) GameData.instance.signalVictory.callback -= OnVictory;
+
         state = UnitState.None;
         
         Despawned();
 
         data = null;
         ownerStructure = null;
+    }
+
+    void OnVictory() {
+        if(isVictoryEnabled) {
+            if(!(state == UnitState.Despawning || state == UnitState.Death || state == UnitState.None))
+                state = UnitState.Victory;
+        }
+        else
+            Despawn();
     }
 
     IEnumerator _DoSpawn() {
@@ -729,6 +751,35 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
         mRout = null;
 
         poolCtrl.Release();
+    }
+
+    IEnumerator DoVictory() {
+        //fail-safe
+        if(!FallDown()) {
+            if(takeMidAir != -1)
+                animator.Play(takeMidAir);
+
+            while(!FallDown())
+                yield return null;
+        }
+
+        if(takeIdle != -1)
+            animator.Play(takeIdle);
+
+        var gameDat = GameData.instance;
+
+        while(true) {
+            var curTime = 0f;
+            var delay = gameDat.unitVictoryWaitDelayRange.random;
+
+            while(curTime < delay) {
+                yield return null;
+                curTime += Time.deltaTime;
+            }
+
+            if(takeVictory != -1)
+                yield return animator.PlayWait(takeVictory);
+        }
     }
 
     private void MoveApply(Vector2 toPos, bool isRun) {

@@ -324,7 +324,7 @@ MonoBehaviour:
   - name: victory
     frameRate: 30
     endFramePadding: 0
-    numLoop: -1
+    numLoop: 1
     loopMode: 0
     loopBackToFrame: 0
     trackCounter: 3

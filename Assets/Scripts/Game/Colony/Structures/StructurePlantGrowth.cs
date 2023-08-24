@@ -103,17 +103,16 @@ public class StructurePlantGrowth : MonoBehaviour {
         float totalLen = t * mStems.Length;
         float totalLenFloor = Mathf.Floor(totalLen);
 
-        mCurStemIndex = Mathf.Clamp((int)totalLenFloor, 0, mStems.Length - 1);
-
         float curStemT;
-        if(totalLen == totalLenFloor) {
-            if(mCurStemIndex == mStems.Length - 1)
-                curStemT = 1f;
-            else
-                curStemT = 0f;
-        }
-        else
+
+        mCurStemIndex = (int)totalLenFloor;// Mathf.Clamp((int)totalLenFloor, 0, mStems.Length - 1);
+        if(mCurStemIndex < mStems.Length) {
             curStemT = Mathf.Clamp01(totalLen - totalLenFloor);
+        }
+        else {
+            mCurStemIndex = mStems.Length - 1;
+            curStemT = 1f;
+        }
 
         for(int i = 0; i < mStems.Length; i++) {
             var stem = mStems[i];

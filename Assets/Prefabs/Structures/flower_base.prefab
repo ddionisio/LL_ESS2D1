@@ -390,8 +390,8 @@ MonoBehaviour:
   growthRootGO: {fileID: 1593296187499338978}
   seedlingRoot: {fileID: 8537640335194977521}
   seedlingThrowHeightRange:
-    min: 5
-    max: 8
+    min: 10
+    max: 12
   seedlingThrowDelay: 0.5
   growthAnimator: {fileID: 0}
   growthReadyTake: -1

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &160531668217273927
+--- !u!1 &2508020391302548066
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,121 +8,36 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 654192431584538821}
+  - component: {fileID: 2508020391302548077}
+  - component: {fileID: 2508020391302548076}
   m_Layer: 0
-  m_Name: root
+  m_Name: colonyShip_thruster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &654192431584538821
+--- !u!4 &2508020391302548077
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 160531668217273927}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 7210280715007986180}
-  - {fileID: 7518331397191871058}
-  - {fileID: 8506108974852845081}
-  m_Father: {fileID: 402922790189717609}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2854834537426350271
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3903145884842501313}
-  - component: {fileID: 8114661659325547245}
-  m_Layer: 0
-  m_Name: carry
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3903145884842501313
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2854834537426350271}
+  m_GameObject: {fileID: 2508020391302548066}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 8455068439891888159}
-  - {fileID: 295794193542709918}
-  m_Father: {fileID: 7210280715007986180}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8114661659325547245
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2854834537426350271}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29c0a6e242d2d6040b0a155492588556, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 7210280715007986180}
-  ofs: {x: 0, y: 0, z: 0}
-  lockX: 0
-  lockY: 0
-  lockZ: 1
-  delay: 0.3
---- !u!1 &2946337777191788901
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7795229481006386859}
-  - component: {fileID: 5597235763470282524}
-  - component: {fileID: 1038586512856702721}
-  m_Layer: 0
-  m_Name: spriteOverlay
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7795229481006386859
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2946337777191788901}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -1.22, y: -1.033, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 7518331397191871058}
+  m_Father: {fileID: 2508020392190223908}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &5597235763470282524
+--- !u!212 &2508020391302548076
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2946337777191788901}
+  m_GameObject: {fileID: 2508020391302548066}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -135,7 +50,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9e065555d7ac145468b51d9ca2b0c4f7, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -153,40 +68,337 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1328874929
-  m_SortingLayer: 14
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f82f4b9a03d6afd479e2d8949f3cb8b4, type: 3}
-  m_Color: {r: 0.9921569, g: 0.38823533, b: 0.3803922, a: 0}
+  m_SortingLayerID: 2043895669
+  m_SortingLayer: 10
+  m_SortingOrder: -35
+  m_Sprite: {fileID: 21300000, guid: 61897feab3ef304458258a7f28651a37, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.6875, y: 0.625}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1038586512856702721
+--- !u!1 &2508020391334012075
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2508020391334012074}
+  - component: {fileID: 2508020391334011989}
+  m_Layer: 0
+  m_Name: colonyShip_thruster (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2508020391334012074
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020391334012075}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.22, y: -1.033, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2508020392190223908}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &2508020391334011989
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020391334012075}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 2043895669
+  m_SortingLayer: 10
+  m_SortingOrder: -35
+  m_Sprite: {fileID: 21300000, guid: 61897feab3ef304458258a7f28651a37, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 1
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.6875, y: 0.625}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1 &2508020391384673554
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2508020391384673565}
+  - component: {fileID: 2508020391384673566}
+  - component: {fileID: 2508020391384673567}
+  - component: {fileID: 2508020391384673564}
+  m_Layer: 0
+  m_Name: circleFuzzyGlow (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2508020391384673565
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020391384673554}
+  m_LocalRotation: {x: 0, y: 0, z: 0.38268346, w: 0.9238795}
+  m_LocalPosition: {x: 1.495, y: -1.306, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2508020392250732292}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &2508020391384673566
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020391384673554}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: e83ac30213f1d45408bf3b8631da5125, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 2043895669
+  m_SortingLayer: 10
+  m_SortingOrder: -37
+  m_Sprite: {fileID: 21300000, guid: df4b3443a66668842a035a006fef682c, type: 3}
+  m_Color: {r: 0.98823535, g: 0.62352943, b: 0.40000004, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1.25, y: 1.25}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &2508020391384673567
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2946337777191788901}
+  m_GameObject: {fileID: 2508020391384673554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b597ff712ae065840bcf6e6bbac22f4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 2508020391384673565}
+  updateType: 0
+  pauseDelay:
+    min: 0
+    max: 0
+  pulseDelay:
+    min: 0.1
+    max: 0.4
+  ofsMin: {x: -0.1, y: 0.1, z: 0}
+  ofsMax: {x: 0.1, y: 0.4, z: 0}
+  startPause: 0
+  roundOutput: 0
+  squared: 1
+--- !u!114 &2508020391384673564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020391384673554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88c2ad01879cd78478930cc138281693, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 2508020391384673566}
+  type: 3
+  delay: 2
+  useRealTime: 0
+  colors:
+  - {r: 0.3647059, g: 0.14509805, b: 0.10980392, a: 0.5019608}
+  - {r: 0.3647059, g: 0.14509805, b: 0.10980392, a: 1}
+  - {r: 0.7294118, g: 0.34509805, b: 0.20784314, a: 0.5019608}
+  - {r: 0.7294118, g: 0.34509805, b: 0.20784314, a: 1}
+  - {r: 0.9882353, g: 0.62352943, b: 0.4, a: 0.5019608}
+  - {r: 0.9882353, g: 0.62352943, b: 0.4, a: 1}
+--- !u!1 &2508020391573563205
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2508020391573563204}
+  - component: {fileID: 2508020391573563206}
+  - component: {fileID: 2508020391573563207}
+  m_Layer: 0
+  m_Name: frogShipCrew (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2508020391573563204
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020391573563205}
+  m_LocalRotation: {x: -0, y: -0, z: -0.1313049, w: -0.991342}
+  m_LocalPosition: {x: 0.659, y: -0.32599998, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2508020392600216306}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &2508020391573563206
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020391573563205}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 2043895669
+  m_SortingLayer: 10
+  m_SortingOrder: -16
+  m_Sprite: {fileID: 21300000, guid: 69b9a3e4a51d75e4e8a23efcae4f019f, type: 3}
+  m_Color: {r: 0.801, g: 0.801, b: 0.801, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.625, y: 0.65625}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &2508020391573563207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020391573563205}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4b47d1d85cb89b49b61c11b9f343069, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sourceSpriteRender: {fileID: 3076246307830380735}
-  destinationSpriteRender: {fileID: 5597235763470282524}
+  sourceSpriteRender: {fileID: 2508020392423914631}
+  destinationSpriteRender: {fileID: 2508020391573563206}
   copySprite: 1
   copyColor: 0
-  copyFlipX: 1
-  copyFlipY: 1
-  copySize: 1
---- !u!1 &4298414090149691714
+  copyFlipX: 0
+  copyFlipY: 0
+  copySize: 0
+--- !u!1 &2508020391603529610
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -194,85 +406,37 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7210280715007986180}
-  - component: {fileID: 5729919027525597276}
+  - component: {fileID: 2508020391603529653}
+  - component: {fileID: 2508020391603529652}
   m_Layer: 0
-  m_Name: carryAnchor
+  m_Name: shinLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7210280715007986180
+--- !u!4 &2508020391603529653
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4298414090149691714}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.56, y: 1.2, z: 0}
+  m_GameObject: {fileID: 2508020391603529610}
+  m_LocalRotation: {x: 0, y: 0, z: 0.8546855, w: -0.51914614}
+  m_LocalPosition: {x: 0.705, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 3903145884842501313}
-  m_Father: {fileID: 654192431584538821}
-  m_RootOrder: 0
+  - {fileID: 2508020392519247109}
+  m_Father: {fileID: 2508020392544110913}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5729919027525597276
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4298414090149691714}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdec5f3ea2f9859429e69b1f03e027b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  offset: {x: 0, y: 0, z: 0}
-  color: {r: 1, g: 0.8431373, b: 0.6, a: 0.59607846}
-  radius: 0.1
-  solid: 1
-  useCollider: 0
---- !u!1 &4965998977581916632
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 543551201518542573}
-  - component: {fileID: 678298127362595737}
-  m_Layer: 0
-  m_Name: circle32x32
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &543551201518542573
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4965998977581916632}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 295794193542709918}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &678298127362595737
+--- !u!212 &2508020391603529652
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4965998977581916632}
+  m_GameObject: {fileID: 2508020391603529610}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -303,21 +467,21 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1328874929
-  m_SortingLayer: 14
-  m_SortingOrder: -10
-  m_Sprite: {fileID: 21300000, guid: 326ab6c73d9e81346bb6774298a0d825, type: 3}
-  m_Color: {r: 0.08235291, g: 0.337647, b: 0.93333334, a: 1}
-  m_FlipX: 0
+  m_SortingLayerID: 2043895669
+  m_SortingLayer: 10
+  m_SortingOrder: -31
+  m_Sprite: {fileID: 21300000, guid: cf8f16614f12d6a4f85df03439b9bc45, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.84375, y: 0.28125}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &5382137273764333144
+--- !u!1 &2508020391889212496
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -325,37 +489,38 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7518331397191871058}
-  - component: {fileID: 3076246307830380735}
+  - component: {fileID: 2508020391889212499}
+  - component: {fileID: 2508020391889212498}
   m_Layer: 0
-  m_Name: sprite
+  m_Name: legRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7518331397191871058
+--- !u!4 &2508020391889212499
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5382137273764333144}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_GameObject: {fileID: 2508020391889212496}
+  m_LocalRotation: {x: 0, y: 0, z: 0.1270647, w: -0.9918944}
+  m_LocalPosition: {x: -0.813, y: -1.13, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 7795229481006386859}
-  m_Father: {fileID: 654192431584538821}
+  - {fileID: 2508020393320853805}
+  - {fileID: 2508020392346526217}
+  m_Father: {fileID: 2508020393197941709}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &3076246307830380735
+--- !u!212 &2508020391889212498
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5382137273764333144}
+  m_GameObject: {fileID: 2508020391889212496}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -386,21 +551,21 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1328874929
-  m_SortingLayer: 14
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f82f4b9a03d6afd479e2d8949f3cb8b4, type: 3}
+  m_SortingLayerID: 2043895669
+  m_SortingLayer: 10
+  m_SortingOrder: -31
+  m_Sprite: {fileID: 21300000, guid: cf8f16614f12d6a4f85df03439b9bc45, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.84375, y: 0.28125}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &5497271432328853721
+--- !u!1 &2508020392026133431
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -408,70 +573,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8455068439891888159}
-  m_Layer: 0
-  m_Name: flower
+  - component: {fileID: 2508020392026133424}
+  - component: {fileID: 2508020392026133425}
+  - component: {fileID: 2508020392026133430}
+  m_Layer: 8
+  m_Name: landingFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8455068439891888159
+--- !u!4 &2508020392026133424
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5497271432328853721}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 2351207474481828102}
-  m_Father: {fileID: 3903145884842501313}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &6939710791310518278
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8506108974852845081}
-  - component: {fileID: 933613116354697134}
-  - component: {fileID: 7312773247339525974}
-  m_Layer: 0
-  m_Name: spawnFX
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8506108974852845081
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6939710791310518278}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_GameObject: {fileID: 2508020392026133431}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 654192431584538821}
-  m_RootOrder: 2
+  m_Father: {fileID: 2508020393077471781}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!198 &933613116354697134
+--- !u!198 &2508020392026133425
 ParticleSystem:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6939710791310518278}
+  m_GameObject: {fileID: 2508020392026133431}
   serializedVersion: 7
-  lengthInSec: 0.3
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -546,8 +680,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.3
-      minScalar: 0.2
+      scalar: 1
+      minScalar: 0.3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -598,9 +732,9 @@ ParticleSystem:
         m_RotationOrder: 4
     startSpeed:
       serializedVersion: 2
-      minMaxState: 3
-      scalar: 10
-      minScalar: 5
+      minMaxState: 0
+      scalar: 0
+      minScalar: 0
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1177,7 +1311,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.57
+      value: 1.07
       mode: 0
       spread: 0
       speed:
@@ -1296,7 +1430,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 32
+      scalar: 16
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -1402,7 +1536,7 @@ ParticleSystem:
     m_BurstCount: 0
     m_Bursts: []
   SizeModule:
-    enabled: 1
+    enabled: 0
     curve:
       serializedVersion: 2
       minMaxState: 1
@@ -1414,30 +1548,21 @@ ParticleSystem:
         - serializedVersion: 3
           time: 0
           value: 0
-          inSlope: 3.947421
-          outSlope: 3.947421
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0.07973944
-        - serializedVersion: 3
-          time: 0.507433
-          value: 0.9895834
-          inSlope: -0.025153827
-          outSlope: -0.025153827
+          inSlope: 0
+          outSlope: 1
           tangentMode: 0
           weightedMode: 0
           inWeight: 0.33333334
-          outWeight: 0.25619245
+          outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 0
-          inSlope: -3.5357306
-          outSlope: -3.5357306
+          value: 1
+          inSlope: 1
+          outSlope: 0
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.1522159
-          outWeight: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
@@ -1743,33 +1868,33 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.6156863, g: 0.27450982, b: 0.17254902, a: 1}
-        key1: {r: 0.98823535, g: 0.62352943, b: 0.40000004, a: 1}
-        key2: {r: 1, g: 0.69411767, b: 0.454902, a: 0}
+        key0: {r: 0.23137257, g: 0.15294118, b: 0.19607845, a: 0}
+        key1: {r: 0.79215693, g: 0.7176471, b: 0.6862745, a: 1}
+        key2: {r: 0, g: 0, b: 0, a: 1}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 0
-        ctime1: 29491
-        ctime2: 65535
+        ctime1: 65535
+        ctime2: 0
         ctime3: 0
         ctime4: 0
         ctime5: 0
         ctime6: 0
         ctime7: 0
-        atime0: 0
-        atime1: 32575
-        atime2: 65535
+        atime0: 193
+        atime1: 24117
+        atime2: 41418
         atime3: 65535
         atime4: 0
         atime5: 0
         atime6: 0
         atime7: 0
         m_Mode: 0
-        m_NumColorKeys: 3
-        m_NumAlphaKeys: 3
+        m_NumColorKeys: 2
+        m_NumAlphaKeys: 4
       minGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -1807,8 +1932,8 @@ ParticleSystem:
     fps: 30
     frameOverTime:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 0
+      minMaxState: 1
+      scalar: 0.9999
       minScalar: 0.9999
       maxCurve:
         serializedVersion: 2
@@ -1920,16 +2045,20 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 21300000, guid: df4b3443a66668842a035a006fef682c, type: 3}
+    - sprite: {fileID: 21300000, guid: bf01b0b7199ec26448b016fd2de647e5, type: 3}
+    - sprite: {fileID: 21300000, guid: 1abaebf232c3b9d409c5c9383ee84f5d, type: 3}
+    - sprite: {fileID: 21300000, guid: 44a2e43498084d140b46c5499e074241, type: 3}
+    - sprite: {fileID: 21300000, guid: e5dc777390553e4499a405c82af83aef, type: 3}
+    - sprite: {fileID: 21300000, guid: 21c769e4040edd24e83c0830fb109b60, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:
-    enabled: 0
+    enabled: 1
     x:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 0
-      minScalar: 0
+      minMaxState: 3
+      scalar: -0.6
+      minScalar: 0.6
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1980,9 +2109,9 @@ ParticleSystem:
         m_RotationOrder: 4
     y:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 0
-      minScalar: 0
+      minMaxState: 3
+      scalar: 0.3
+      minScalar: 0.6
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2033,7 +2162,7 @@ ParticleSystem:
         m_RotationOrder: 4
     z:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 0
       minScalar: 0
       maxCurve:
@@ -5178,14 +5307,14 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!199 &7312773247339525974
+--- !u!199 &2508020392026133430
 ParticleSystemRenderer:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6939710791310518278}
+  m_GameObject: {fileID: 2508020392026133431}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -5198,7 +5327,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e83ac30213f1d45408bf3b8631da5125, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5216,9 +5345,9 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1328874929
-  m_SortingLayer: 14
-  m_SortingOrder: 1
+  m_SortingLayerID: 2043895669
+  m_SortingLayer: 10
+  m_SortingOrder: 21
   m_RenderMode: 0
   m_SortMode: 0
   m_MinParticleSize: 0
@@ -5244,7 +5373,7 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!1 &7084469090983538809
+--- !u!1 &2508020392061464948
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5252,36 +5381,36 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2351207474481828102}
-  - component: {fileID: 5744529806639519706}
+  - component: {fileID: 2508020392061464951}
+  - component: {fileID: 2508020392061464950}
   m_Layer: 0
-  m_Name: circle32x32
+  m_Name: back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2351207474481828102
+--- !u!4 &2508020392061464951
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7084469090983538809}
+  m_GameObject: {fileID: 2508020392061464948}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.16000003, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children: []
-  m_Father: {fileID: 8455068439891888159}
+  m_Father: {fileID: 2508020392783420804}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &5744529806639519706
+--- !u!212 &2508020392061464950
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7084469090983538809}
+  m_GameObject: {fileID: 2508020392061464948}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -5312,11 +5441,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1328874929
-  m_SortingLayer: 14
-  m_SortingOrder: -10
+  m_SortingLayerID: 2043895669
+  m_SortingLayer: 10
+  m_SortingOrder: -20
   m_Sprite: {fileID: 21300000, guid: 326ab6c73d9e81346bb6774298a0d825, type: 3}
-  m_Color: {r: 0.9339623, g: 0.8145557, b: 0.083704144, a: 1}
+  m_Color: {r: 0.156, g: 0.10311865, b: 0.1322034, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -5326,7 +5455,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &8591014765780002345
+--- !u!1 &2508020392111986283
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5334,30 +5463,131 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 295794193542709918}
+  - component: {fileID: 2508020392111986282}
+  - component: {fileID: 2508020392111986199}
+  - component: {fileID: 2508020392111986196}
+  - component: {fileID: 2508020392111986197}
   m_Layer: 0
-  m_Name: water
+  m_Name: circleFuzzyGlow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &295794193542709918
+--- !u!4 &2508020392111986282
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8591014765780002345}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 543551201518542573}
-  m_Father: {fileID: 3903145884842501313}
-  m_RootOrder: 1
+  m_GameObject: {fileID: 2508020392111986283}
+  m_LocalRotation: {x: 0, y: 0, z: -0.38268346, w: 0.9238795}
+  m_LocalPosition: {x: -1.495, y: -1.306, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2508020392250732292}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &8992602271487551781
+--- !u!212 &2508020392111986199
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392111986283}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: e83ac30213f1d45408bf3b8631da5125, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 2043895669
+  m_SortingLayer: 10
+  m_SortingOrder: -37
+  m_Sprite: {fileID: 21300000, guid: df4b3443a66668842a035a006fef682c, type: 3}
+  m_Color: {r: 0.98823535, g: 0.62352943, b: 0.40000004, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1.25, y: 1.25}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &2508020392111986196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392111986283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b597ff712ae065840bcf6e6bbac22f4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 2508020392111986282}
+  updateType: 0
+  pauseDelay:
+    min: 0
+    max: 0
+  pulseDelay:
+    min: 0.1
+    max: 0.4
+  ofsMin: {x: -0.1, y: 0.1, z: 0}
+  ofsMax: {x: 0.1, y: 0.4, z: 0}
+  startPause: 0
+  roundOutput: 0
+  squared: 1
+--- !u!114 &2508020392111986197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392111986283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88c2ad01879cd78478930cc138281693, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 2508020392111986199}
+  type: 3
+  delay: 2
+  useRealTime: 0
+  colors:
+  - {r: 0.3647059, g: 0.14509805, b: 0.10980392, a: 0.5019608}
+  - {r: 0.3647059, g: 0.14509805, b: 0.10980392, a: 1}
+  - {r: 0.7294118, g: 0.34509805, b: 0.20784314, a: 0.5019608}
+  - {r: 0.7294118, g: 0.34509805, b: 0.20784314, a: 1}
+  - {r: 0.9882353, g: 0.62352943, b: 0.4, a: 0.5019608}
+  - {r: 0.9882353, g: 0.62352943, b: 0.4, a: 1}
+--- !u!1 &2508020392190223909
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5365,285 +5595,1200 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 402922790189717609}
-  - component: {fileID: 602341086552725993}
-  - component: {fileID: 6913319711067040161}
-  - component: {fileID: 5460443019586600254}
-  - component: {fileID: 6565651711271175087}
-  - component: {fileID: 3838182837196035996}
-  m_Layer: 9
-  m_Name: citizen
-  m_TagString: Ally
+  - component: {fileID: 2508020392190223908}
+  m_Layer: 0
+  m_Name: thrusters
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &402922790189717609
+--- !u!4 &2508020392190223908
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8992602271487551781}
+  m_GameObject: {fileID: 2508020392190223909}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4, y: -3, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 654192431584538821}
+  - {fileID: 2508020391302548077}
+  - {fileID: 2508020393235749831}
+  - {fileID: 2508020391334012074}
+  - {fileID: 2508020393426318797}
+  m_Father: {fileID: 2508020393197941709}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2508020392250732293
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2508020392250732292}
+  m_Layer: 0
+  m_Name: thrusters_flame
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2508020392250732292
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392250732293}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2508020392111986282}
+  - {fileID: 2508020392388308525}
+  - {fileID: 2508020391384673565}
+  - {fileID: 2508020392365602744}
+  m_Father: {fileID: 2508020393197941709}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2508020392284266759
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2508020392284266758}
+  - component: {fileID: 2508020392284266753}
+  m_Layer: 0
+  m_Name: footRight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2508020392284266758
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392284266759}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7815204, w: -0.6238797}
+  m_LocalPosition: {x: -0.599, y: 0.014, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2508020392346526217}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &2508020392284266753
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392284266759}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 2043895669
+  m_SortingLayer: 10
+  m_SortingOrder: -30
+  m_Sprite: {fileID: 21300000, guid: e335a309394698a4d87f369404d9cd12, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.90625, y: 0.40625}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1 &2508020392346526222
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2508020392346526217}
+  - component: {fileID: 2508020392346526216}
+  m_Layer: 0
+  m_Name: shinRight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2508020392346526217
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392346526222}
+  m_LocalRotation: {x: 0, y: 0, z: 0.8546854, w: 0.51914626}
+  m_LocalPosition: {x: -0.705, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2508020392284266758}
+  m_Father: {fileID: 2508020391889212499}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &2508020392346526216
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392346526222}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 2043895669
+  m_SortingLayer: 10
+  m_SortingOrder: -31
+  m_Sprite: {fileID: 21300000, guid: cf8f16614f12d6a4f85df03439b9bc45, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.84375, y: 0.28125}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1 &2508020392365602745
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2508020392365602744}
+  - component: {fileID: 2508020392365602725}
+  - component: {fileID: 2508020392365602746}
+  - component: {fileID: 2508020392365602747}
+  m_Layer: 0
+  m_Name: circleFuzzyGlow (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2508020392365602744
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392365602745}
+  m_LocalRotation: {x: 0, y: 0, z: 0.38268346, w: 0.9238795}
+  m_LocalPosition: {x: 1.7, y: -0.717, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2508020392250732292}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &2508020392365602725
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392365602745}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: e83ac30213f1d45408bf3b8631da5125, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 2043895669
+  m_SortingLayer: 10
+  m_SortingOrder: -37
+  m_Sprite: {fileID: 21300000, guid: df4b3443a66668842a035a006fef682c, type: 3}
+  m_Color: {r: 0.98823535, g: 0.62352943, b: 0.40000004, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1.25, y: 1.25}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &2508020392365602746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392365602745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b597ff712ae065840bcf6e6bbac22f4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 2508020392365602744}
+  updateType: 0
+  pauseDelay:
+    min: 0
+    max: 0
+  pulseDelay:
+    min: 0.1
+    max: 0.4
+  ofsMin: {x: -0.1, y: 0.1, z: 0}
+  ofsMax: {x: 0.1, y: 0.4, z: 0}
+  startPause: 0
+  roundOutput: 0
+  squared: 1
+--- !u!114 &2508020392365602747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392365602745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88c2ad01879cd78478930cc138281693, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 2508020392365602725}
+  type: 3
+  delay: 2
+  useRealTime: 0
+  colors:
+  - {r: 0.3647059, g: 0.14509805, b: 0.10980392, a: 0.5019608}
+  - {r: 0.3647059, g: 0.14509805, b: 0.10980392, a: 1}
+  - {r: 0.7294118, g: 0.34509805, b: 0.20784314, a: 0.5019608}
+  - {r: 0.7294118, g: 0.34509805, b: 0.20784314, a: 1}
+  - {r: 0.9882353, g: 0.62352943, b: 0.4, a: 0.5019608}
+  - {r: 0.9882353, g: 0.62352943, b: 0.4, a: 1}
+--- !u!1 &2508020392388308514
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2508020392388308525}
+  - component: {fileID: 2508020392388308526}
+  - component: {fileID: 2508020392388308527}
+  - component: {fileID: 2508020392388308524}
+  m_Layer: 0
+  m_Name: circleFuzzyGlow (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2508020392388308525
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392388308514}
+  m_LocalRotation: {x: 0, y: 0, z: -0.38268346, w: 0.9238795}
+  m_LocalPosition: {x: -1.697, y: -0.721, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2508020392250732292}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &2508020392388308526
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392388308514}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: e83ac30213f1d45408bf3b8631da5125, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 2043895669
+  m_SortingLayer: 10
+  m_SortingOrder: -37
+  m_Sprite: {fileID: 21300000, guid: df4b3443a66668842a035a006fef682c, type: 3}
+  m_Color: {r: 0.98823535, g: 0.62352943, b: 0.40000004, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1.25, y: 1.25}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &2508020392388308527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392388308514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b597ff712ae065840bcf6e6bbac22f4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 2508020392388308525}
+  updateType: 0
+  pauseDelay:
+    min: 0
+    max: 0
+  pulseDelay:
+    min: 0.1
+    max: 0.4
+  ofsMin: {x: -0.1, y: 0.1, z: 0}
+  ofsMax: {x: 0.1, y: 0.4, z: 0}
+  startPause: 0
+  roundOutput: 0
+  squared: 1
+--- !u!114 &2508020392388308524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392388308514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88c2ad01879cd78478930cc138281693, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 2508020392388308526}
+  type: 3
+  delay: 2
+  useRealTime: 0
+  colors:
+  - {r: 0.3647059, g: 0.14509805, b: 0.10980392, a: 0.5019608}
+  - {r: 0.3647059, g: 0.14509805, b: 0.10980392, a: 1}
+  - {r: 0.7294118, g: 0.34509805, b: 0.20784314, a: 0.5019608}
+  - {r: 0.7294118, g: 0.34509805, b: 0.20784314, a: 1}
+  - {r: 0.9882353, g: 0.62352943, b: 0.4, a: 0.5019608}
+  - {r: 0.9882353, g: 0.62352943, b: 0.4, a: 1}
+--- !u!1 &2508020392423914629
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2508020392423914628}
+  - component: {fileID: 2508020392423914631}
+  m_Layer: 0
+  m_Name: frogShipCrew (0)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2508020392423914628
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392423914629}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.53199995, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2508020392600216306}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &2508020392423914631
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392423914629}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 2043895669
+  m_SortingLayer: 10
+  m_SortingOrder: -15
+  m_Sprite: {fileID: 21300000, guid: 69b9a3e4a51d75e4e8a23efcae4f019f, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.625, y: 0.65625}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1 &2508020392519247130
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2508020392519247109}
+  - component: {fileID: 2508020392519247108}
+  m_Layer: 0
+  m_Name: footLeft
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2508020392519247109
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392519247130}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7815204, w: 0.6238797}
+  m_LocalPosition: {x: 0.599, y: -0.014, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2508020391603529653}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &2508020392519247108
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392519247130}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 2043895669
+  m_SortingLayer: 10
+  m_SortingOrder: -30
+  m_Sprite: {fileID: 21300000, guid: e335a309394698a4d87f369404d9cd12, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.90625, y: 0.40625}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1 &2508020392544110918
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2508020392544110913}
+  - component: {fileID: 2508020392544110912}
+  m_Layer: 0
+  m_Name: legLeft
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2508020392544110913
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392544110918}
+  m_LocalRotation: {x: 0, y: 0, z: 0.1270647, w: 0.9918944}
+  m_LocalPosition: {x: 0.813, y: -1.13, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2508020392559130132}
+  - {fileID: 2508020391603529653}
+  m_Father: {fileID: 2508020393197941709}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &2508020392544110912
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392544110918}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 2043895669
+  m_SortingLayer: 10
+  m_SortingOrder: -31
+  m_Sprite: {fileID: 21300000, guid: cf8f16614f12d6a4f85df03439b9bc45, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 1
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.84375, y: 0.28125}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1 &2508020392559130133
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2508020392559130132}
+  - component: {fileID: 2508020392559130135}
+  m_Layer: 0
+  m_Name: colonyShip_joint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2508020392559130132
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392559130133}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.648, y: 0.004, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2508020392544110913}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &2508020392559130135
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392559130133}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 2043895669
+  m_SortingLayer: 10
+  m_SortingOrder: -30
+  m_Sprite: {fileID: 21300000, guid: 0b672bba72e7f1d49bd0439a487d075d, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.375, y: 0.375}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1 &2508020392600216307
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2508020392600216306}
+  m_Layer: 0
+  m_Name: frogs
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2508020392600216306
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392600216307}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2508020392423914628}
+  - {fileID: 2508020392814686240}
+  - {fileID: 2508020391573563204}
+  m_Father: {fileID: 2508020392783420804}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2508020392746017174
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2508020392746017169}
+  - component: {fileID: 2508020392746017168}
+  m_Layer: 0
+  m_Name: glass
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2508020392746017169
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392746017174}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.0423, y: 0.22499996, z: 0}
+  m_LocalScale: {x: 2.38, y: 2, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2508020392783420804}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &2508020392746017168
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392746017174}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 2043895669
+  m_SortingLayer: 10
+  m_SortingOrder: -11
+  m_Sprite: {fileID: 21300000, guid: 36ce24ec9ae04524289ce0e80bf270be, type: 3}
+  m_Color: {r: 0.9294118, g: 0.9294118, b: 1, a: 0.2}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1 &2508020392783420805
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2508020392783420804}
+  m_Layer: 0
+  m_Name: main
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2508020392783420804
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392783420805}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2508020392061464951}
+  - {fileID: 2508020392600216306}
+  - {fileID: 2508020392746017169}
+  m_Father: {fileID: 2508020393197941709}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2508020392814686241
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2508020392814686240}
+  - component: {fileID: 2508020392814686242}
+  - component: {fileID: 2508020392814686243}
+  m_Layer: 0
+  m_Name: frogShipCrew (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2508020392814686240
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392814686241}
+  m_LocalRotation: {x: -0, y: -0, z: 0.1313049, w: -0.991342}
+  m_LocalPosition: {x: -0.659, y: -0.32599998, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2508020392600216306}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &2508020392814686242
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392814686241}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 2043895669
+  m_SortingLayer: 10
+  m_SortingOrder: -16
+  m_Sprite: {fileID: 21300000, guid: 69b9a3e4a51d75e4e8a23efcae4f019f, type: 3}
+  m_Color: {r: 0.801, g: 0.801, b: 0.801, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.625, y: 0.65625}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &2508020392814686243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020392814686241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4b47d1d85cb89b49b61c11b9f343069, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sourceSpriteRender: {fileID: 2508020392423914631}
+  destinationSpriteRender: {fileID: 2508020392814686242}
+  copySprite: 1
+  copyColor: 0
+  copyFlipX: 0
+  copyFlipY: 0
+  copySize: 0
+--- !u!1 &2508020393077471803
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2508020393077471781}
+  - component: {fileID: 2508020393077471802}
+  - component: {fileID: 2508020393077471782}
+  - component: {fileID: 2508020393077471780}
+  - component: {fileID: 2508020393077471783}
+  m_Layer: 8
+  m_Name: colonyShip
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2508020393077471781
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020393077471803}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -3.618, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2508020393431712069}
+  - {fileID: 2508020392026133424}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &602341086552725993
+--- !u!114 &2508020393077471802
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8992602271487551781}
+  m_GameObject: {fileID: 2508020393077471803}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00815b06cb0384340a5732e970ca7a54, type: 3}
+  m_Script: {fileID: 11500000, guid: d3b773205014a7f41ac0f58feb60c66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  root: {fileID: 654192431584538821}
-  spriteRender: {fileID: 3076246307830380735}
-  spriteOverlayRender: {fileID: 5597235763470282524}
-  animator: {fileID: 6565651711271175087}
-  takeSpawn: 0
-  takeIdle: 1
-  takeMove: 2
-  takeRun: 3
-  takeMidAir: 4
-  takeSwim: 10
-  takeAct: 11
-  takeHurt: 5
-  takeDying: 6
-  takeDeath: 7
-  takeDespawn: 8
-  takeVictory: 9
-  carryRoot: {fileID: 3903145884842501313}
-  carryFlowerGO: {fileID: 5497271432328853721}
-  carryWaterGO: {fileID: 8591014765780002345}
---- !u!114 &6913319711067040161
+  activeGO: {fileID: 2508020393431712090}
+  constructionGO: {fileID: 0}
+  damagedGO: {fileID: 0}
+  repairGO: {fileID: 0}
+  animator: {fileID: 2508020393077471782}
+  takeSpawn: -1
+  takeIdle: -1
+  takeDamage: -1
+  takeMoving: -1
+  takeMoveFinish: -1
+  takeDestroyed: -1
+  takeDemolish: -1
+  _waypointGroups:
+  - name: spawn
+    waypoints:
+    - _point: {x: -0.22, y: 0}
+    - _point: {x: -0.54499996, y: 0}
+    - _point: {x: 0.22, y: 0}
+    - _point: {x: 0.545, y: 0}
+  - name: idle
+    waypoints:
+    - _point: {x: -0.38, y: 0}
+    - _point: {x: -0.7, y: 0}
+    - _point: {x: -1, y: 0}
+    - _point: {x: -1.32, y: 0}
+    - _point: {x: 0.38, y: 0}
+    - _point: {x: 0.7, y: 0}
+    - _point: {x: 1, y: 0}
+    - _point: {x: 1.32, y: 0}
+  - name: launch
+    waypoints:
+    - _point: {x: 0, y: 2.44}
+  _data: {fileID: 11400000, guid: f8c0222d9792d864c8946a703825bec0, type: 2}
+  landingActiveGO: {fileID: 2508020392250732293}
+  landingDelay: 1
+  landingEase: 3
+  takeLanding: 0
+  takeBump: 1
+--- !u!114 &2508020393077471782
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8992602271487551781}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c20ec650792827348b41596fab724f7b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _moveSpeed: 10
-  _moveEase: 1
-  applyUpVector: 1
---- !u!61 &5460443019586600254
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8992602271487551781}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.65625}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.3125, y: 1.3125}
-  m_EdgeRadius: 0
---- !u!114 &6565651711271175087
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8992602271487551781}
+  m_GameObject: {fileID: 2508020393077471803}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 189a50e0ddb1421498ef25dcd885c95b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   takeData:
-  - name: spawn
+  - name: landing
     frameRate: 30
     endFramePadding: 0
     numLoop: 1
     loopMode: 0
     loopBackToFrame: 0
-    trackCounter: 11
+    trackCounter: 14
     groupCounter: 0
     rootGroup:
-      group_name: Group0
+      group_name: 
       group_id: 0
-      elements: 050000000400000009000000060000000b000000
+      elements: 030000000200000004000000050000000600000007000000080000000a000000090000000b0000000c0000000d0000000e000000
       foldout: 1
     groupValues: []
-  - name: idle
-    frameRate: 30
-    endFramePadding: 0
-    numLoop: -1
-    loopMode: 1
-    loopBackToFrame: 0
-    trackCounter: 2
-    groupCounter: 0
-    rootGroup:
-      group_name: Group0
-      group_id: 0
-      elements: 02000000
-      foldout: 1
-    groupValues: []
-  - name: move
-    frameRate: 30
-    endFramePadding: 0
-    numLoop: -1
-    loopMode: 0
-    loopBackToFrame: 0
-    trackCounter: 4
-    groupCounter: 0
-    rootGroup:
-      group_name: Group0
-      group_id: 0
-      elements: 020000000300000004000000
-      foldout: 1
-    groupValues: []
-  - name: run
-    frameRate: 30
-    endFramePadding: 0
-    numLoop: -1
-    loopMode: 1
-    loopBackToFrame: 0
-    trackCounter: 4
-    groupCounter: 0
-    rootGroup:
-      group_name: Group0
-      group_id: 0
-      elements: 020000000300000004000000
-      foldout: 1
-    groupValues: []
-  - name: midAir
+  - name: bump
     frameRate: 30
     endFramePadding: 0
     numLoop: 1
     loopMode: 0
     loopBackToFrame: 0
-    trackCounter: 2
+    trackCounter: 14
     groupCounter: 0
     rootGroup:
-      group_name: Group0
+      group_name: 
       group_id: 0
-      elements: 02000000
-      foldout: 1
-    groupValues: []
-  - name: hurt
-    frameRate: 30
-    endFramePadding: 0
-    numLoop: -1
-    loopMode: 0
-    loopBackToFrame: 0
-    trackCounter: 7
-    groupCounter: 0
-    rootGroup:
-      group_name: Group0
-      group_id: 0
-      elements: 02000000030000000700000006000000
-      foldout: 1
-    groupValues: []
-  - name: dying
-    frameRate: 30
-    endFramePadding: 0
-    numLoop: -1
-    loopMode: 0
-    loopBackToFrame: 11
-    trackCounter: 5
-    groupCounter: 0
-    rootGroup:
-      group_name: Group0
-      group_id: 0
-      elements: 02000000030000000400000005000000
-      foldout: 1
-    groupValues: []
-  - name: death
-    frameRate: 30
-    endFramePadding: 0
-    numLoop: 1
-    loopMode: 0
-    loopBackToFrame: 0
-    trackCounter: 12
-    groupCounter: 0
-    rootGroup:
-      group_name: Group0
-      group_id: 0
-      elements: 02000000030000000400000005000000080000000c000000
-      foldout: 1
-    groupValues: []
-  - name: despawn
-    frameRate: 30
-    endFramePadding: 0
-    numLoop: 1
-    loopMode: 0
-    loopBackToFrame: 0
-    trackCounter: 7
-    groupCounter: 0
-    rootGroup:
-      group_name: Group0
-      group_id: 0
-      elements: 02000000030000000700000006000000
-      foldout: 1
-    groupValues: []
-  - name: victory
-    frameRate: 30
-    endFramePadding: 0
-    numLoop: 1
-    loopMode: 0
-    loopBackToFrame: 0
-    trackCounter: 3
-    groupCounter: 0
-    rootGroup:
-      group_name: Group0
-      group_id: 0
-      elements: 0200000003000000
-      foldout: 1
-    groupValues: []
-  - name: swim
-    frameRate: 30
-    endFramePadding: 0
-    numLoop: -1
-    loopMode: 0
-    loopBackToFrame: 0
-    trackCounter: 3
-    groupCounter: 0
-    rootGroup:
-      group_name: Group0
-      group_id: 0
-      elements: 0200000003000000
-      foldout: 1
-    groupValues: []
-  - name: act
-    frameRate: 30
-    endFramePadding: 0
-    numLoop: 2
-    loopMode: 0
-    loopBackToFrame: 0
-    trackCounter: 3
-    groupCounter: 0
-    rootGroup:
-      group_name: Group0
-      group_id: 0
-      elements: 0200000003000000
+      elements: 03000000020000000400000005000000060000000700000008000000090000000b0000000c0000000d0000000e000000
       foldout: 1
     groupValues: []
   _defaultTakeName: 
@@ -5662,18 +6807,11 @@ MonoBehaviour:
     _cameraSwitcherKeys: []
     _eventTracks:
     - _version: 1
-      id: 11
-      name: Track6
+      id: 10
+      name: Track9
       foldout: 1
       _targetPath: 
-      obj: {fileID: 6939710791310518278}
-      componentName: 
-    - _version: 1
-      id: 12
-      name: Track7
-      foldout: 1
-      _targetPath: 
-      obj: {fileID: 6939710791310518278}
+      obj: {fileID: 2508020392026133431}
       componentName: 
     _eventKeys:
     - interp: 0
@@ -5686,24 +6824,21 @@ MonoBehaviour:
       parameters: []
       methodName: Play
       componentType: ParticleSystem
-    - interp: 0
-      frame: 5
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      useSendMessage: 0
-      parameters: []
-      methodName: Play
-      componentType: ParticleSystem
     _goSetActiveTracks:
     - _version: 1
-      id: 7
-      name: Track4
+      id: 9
+      name: Track8
       foldout: 1
       _targetPath: 
-      obj: {fileID: 2946337777191788901}
-      startActive: 0
+      obj: {fileID: 2508020392600216307}
+      startActive: 1
+    - _version: 1
+      id: 9
+      name: Track8
+      foldout: 1
+      _targetPath: 
+      obj: {fileID: 2508020392600216307}
+      startActive: 1
     _goSetActiveKeys:
     - interp: 0
       frame: 1
@@ -5712,6 +6847,30 @@ MonoBehaviour:
       period: 0
       customEase: []
       setActive: 1
+      endFrame: 40
+    - interp: 0
+      frame: 40
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      setActive: 0
+      endFrame: -1
+    - interp: 0
+      frame: 1
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      setActive: 1
+      endFrame: 25
+    - interp: 0
+      frame: 25
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      setActive: 0
       endFrame: -1
     _materialTracks: []
     _materialKeys: []
@@ -5719,423 +6878,30 @@ MonoBehaviour:
     _orientationKeys: []
     _propertyTracks:
     - _version: 4
-      id: 4
-      name: Track3
-      foldout: 1
-      _targetPath: root/sprite
-      valueType: 13
-      obj: {fileID: 0}
-      component: {fileID: 3076246307830380735}
-      componentName: SpriteRenderer
-      fieldName: 
-      propertyName: sprite
-    - _version: 4
-      id: 5
-      name: Track4
-      foldout: 1
-      _targetPath: root/sprite
-      valueType: 6
-      obj: {fileID: 0}
-      component: {fileID: 3076246307830380735}
-      componentName: SpriteRenderer
-      fieldName: 
-      propertyName: color
-    - _version: 4
-      id: 6
-      name: Track4
+      id: 11
+      name: Track10
       foldout: 1
       _targetPath: 
-      valueType: 6
-      obj: {fileID: 2946337777191788901}
-      component: {fileID: 5597235763470282524}
-      componentName: SpriteRenderer
-      fieldName: 
-      propertyName: color
-    - _version: 4
-      id: 2
-      name: Track1
-      foldout: 1
-      _targetPath: root/sprite
       valueType: 13
-      obj: {fileID: 0}
-      component: {fileID: 3076246307830380735}
+      obj: {fileID: 2508020392423914629}
+      component: {fileID: 2508020392423914631}
       componentName: SpriteRenderer
       fieldName: 
       propertyName: sprite
     - _version: 4
-      id: 2
-      name: Track1
-      foldout: 1
-      _targetPath: root/sprite
-      valueType: 13
-      obj: {fileID: 0}
-      component: {fileID: 3076246307830380735}
-      componentName: SpriteRenderer
-      fieldName: 
-      propertyName: sprite
-    - _version: 4
-      id: 2
-      name: Track1
-      foldout: 1
-      _targetPath: root/sprite
-      valueType: 13
-      obj: {fileID: 0}
-      component: {fileID: 3076246307830380735}
-      componentName: SpriteRenderer
-      fieldName: 
-      propertyName: sprite
-    - _version: 4
-      id: 2
-      name: Track1
-      foldout: 1
-      _targetPath: root/sprite
-      valueType: 13
-      obj: {fileID: 0}
-      component: {fileID: 3076246307830380735}
-      componentName: SpriteRenderer
-      fieldName: 
-      propertyName: sprite
-    - _version: 4
-      id: 2
-      name: Track1
-      foldout: 1
-      _targetPath: root/sprite
-      valueType: 13
-      obj: {fileID: 0}
-      component: {fileID: 3076246307830380735}
-      componentName: SpriteRenderer
-      fieldName: 
-      propertyName: sprite
-    - _version: 4
-      id: 3
-      name: Track2
-      foldout: 1
-      _targetPath: root/sprite
-      valueType: 6
-      obj: {fileID: 0}
-      component: {fileID: 3076246307830380735}
-      componentName: SpriteRenderer
-      fieldName: 
-      propertyName: color
-    - _version: 4
-      id: 6
-      name: Track5
+      id: 11
+      name: Track10
       foldout: 1
       _targetPath: 
-      valueType: 6
-      obj: {fileID: 2946337777191788901}
-      component: {fileID: 5597235763470282524}
-      componentName: SpriteRenderer
-      fieldName: 
-      propertyName: color
-    - _version: 4
-      id: 2
-      name: Track1
-      foldout: 1
-      _targetPath: root/sprite
       valueType: 13
-      obj: {fileID: 0}
-      component: {fileID: 3076246307830380735}
-      componentName: SpriteRenderer
-      fieldName: 
-      propertyName: sprite
-    - _version: 4
-      id: 3
-      name: Track2
-      foldout: 1
-      _targetPath: root/sprite
-      valueType: 6
-      obj: {fileID: 0}
-      component: {fileID: 3076246307830380735}
-      componentName: SpriteRenderer
-      fieldName: 
-      propertyName: color
-    - _version: 4
-      id: 2
-      name: Track1
-      foldout: 1
-      _targetPath: root/sprite
-      valueType: 13
-      obj: {fileID: 0}
-      component: {fileID: 3076246307830380735}
-      componentName: SpriteRenderer
-      fieldName: 
-      propertyName: sprite
-    - _version: 4
-      id: 3
-      name: Track2
-      foldout: 1
-      _targetPath: root/sprite
-      valueType: 6
-      obj: {fileID: 0}
-      component: {fileID: 3076246307830380735}
-      componentName: SpriteRenderer
-      fieldName: 
-      propertyName: color
-    - _version: 4
-      id: 8
-      name: Track7
-      foldout: 1
-      _targetPath: 
-      valueType: 6
-      obj: {fileID: 2946337777191788901}
-      component: {fileID: 5597235763470282524}
-      componentName: SpriteRenderer
-      fieldName: 
-      propertyName: color
-    - _version: 4
-      id: 2
-      name: Track1
-      foldout: 1
-      _targetPath: root/sprite
-      valueType: 13
-      obj: {fileID: 0}
-      component: {fileID: 3076246307830380735}
-      componentName: SpriteRenderer
-      fieldName: 
-      propertyName: sprite
-    - _version: 4
-      id: 3
-      name: Track2
-      foldout: 1
-      _targetPath: root/sprite
-      valueType: 6
-      obj: {fileID: 0}
-      component: {fileID: 3076246307830380735}
-      componentName: SpriteRenderer
-      fieldName: 
-      propertyName: color
-    - _version: 4
-      id: 6
-      name: Track5
-      foldout: 1
-      _targetPath: 
-      valueType: 6
-      obj: {fileID: 2946337777191788901}
-      component: {fileID: 5597235763470282524}
-      componentName: SpriteRenderer
-      fieldName: 
-      propertyName: color
-    - _version: 4
-      id: 2
-      name: Track1
-      foldout: 1
-      _targetPath: root/sprite
-      valueType: 13
-      obj: {fileID: 0}
-      component: {fileID: 3076246307830380735}
-      componentName: SpriteRenderer
-      fieldName: 
-      propertyName: sprite
-    - _version: 4
-      id: 2
-      name: Track1
-      foldout: 1
-      _targetPath: root/sprite
-      valueType: 13
-      obj: {fileID: 0}
-      component: {fileID: 3076246307830380735}
-      componentName: SpriteRenderer
-      fieldName: 
-      propertyName: sprite
-    - _version: 4
-      id: 2
-      name: Track1
-      foldout: 1
-      _targetPath: root/sprite
-      valueType: 13
-      obj: {fileID: 0}
-      component: {fileID: 3076246307830380735}
+      obj: {fileID: 2508020392423914629}
+      component: {fileID: 2508020392423914631}
       componentName: SpriteRenderer
       fieldName: 
       propertyName: sprite
     _propertyKeys:
     - interp: 2
-      frame: 1
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 1
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: aa76d6526984e864789ccaba3033d175, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 2
-      frame: 1
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 5
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 0}
-      vect4: {x: 1, y: 1, z: 1, w: 0}
-    - interp: 1
-      frame: 5
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 15
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 0}
-      vect4: {x: 1, y: 1, z: 1, w: 0}
-    - interp: 1
       frame: 15
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: -1
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 0}
-      vect4: {x: 1, y: 1, z: 1, w: 1}
-    - interp: 0
-      frame: 1
-      easeType: 3
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 15
-      isConstSpeed: 0
-      _paths:
-      - type: 1
-        subdivisionsXSegment: 10
-        wps:
-        - vals:
-          - 1
-          - 1
-          - 1
-          - 0
-        - vals:
-          - 1
-          - 0.8431373
-          - 0.6
-          - 1
-        - vals:
-          - 1
-          - 0.8431373
-          - 0.6
-          - 0
-        wpsTimeTable:
-        - 0.64285713
-        controlPoints:
-        - a:
-            vals:
-            - 1
-            - 0.8431373
-            - 0.6
-            - 1
-          b:
-            vals: []
-        - a:
-            vals:
-            - 1
-            - 0.8431373
-            - 0.6
-            - -1
-          b:
-            vals: []
-        length: 2.1028006
-        timesTable: []
-        lengthsTable: []
-        _isConstantSpeed: 0
-      val: 0
-      valString: 
-      valObj: {fileID: 0}
-      vect4: {x: 1, y: 1, z: 1, w: 0}
-    - interp: 0
-      frame: 10
-      easeType: 3
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: -1
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 0}
-      vect4: {x: 1, y: 0.8431373, z: 0.6, w: 1}
-    - interp: 0
-      frame: 15
-      easeType: 3
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: -1
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 0}
-      vect4: {x: 1, y: 0.8431373, z: 0.6, w: 0}
-    - interp: 2
-      frame: 1
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 9
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: f82f4b9a03d6afd479e2d8949f3cb8b4, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 2
-      frame: 9
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 12
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: 95d88ba0687e14242b780bd15827dc1d, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 2
-      frame: 12
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 14
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: dc25f29340f57b643b034605dc449275, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 2
-      frame: 14
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 16
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: 95d88ba0687e14242b780bd15827dc1d, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 2
-      frame: 16
       easeType: 1
       amplitude: 0
       period: 0
@@ -6145,7 +6911,7 @@ MonoBehaviour:
       _paths: []
       val: 0
       valString: 
-      valObj: {fileID: 21300000, guid: f82f4b9a03d6afd479e2d8949f3cb8b4, type: 3}
+      valObj: {fileID: 21300000, guid: 69b9a3e4a51d75e4e8a23efcae4f019f, type: 3}
       vect4: {x: 0, y: 0, z: 0, w: 0}
     - interp: 2
       frame: 19
@@ -6158,7 +6924,7 @@ MonoBehaviour:
       _paths: []
       val: 0
       valString: 
-      valObj: {fileID: 21300000, guid: c1e8416bb4ac55248ba08b84af3322a7, type: 3}
+      valObj: {fileID: 21300000, guid: 19c3e2f4beed38e45af9d28dafcd2474, type: 3}
       vect4: {x: 0, y: 0, z: 0, w: 0}
     - interp: 2
       frame: 22
@@ -6171,7 +6937,7 @@ MonoBehaviour:
       _paths: []
       val: 0
       valString: 
-      valObj: {fileID: 21300000, guid: 628fac9d629a5a943ba00873d3a83348, type: 3}
+      valObj: {fileID: 21300000, guid: 69b9a3e4a51d75e4e8a23efcae4f019f, type: 3}
       vect4: {x: 0, y: 0, z: 0, w: 0}
     - interp: 2
       frame: 26
@@ -6179,28 +6945,28 @@ MonoBehaviour:
       amplitude: 0
       period: 0
       customEase: []
-      endFrame: 26
+      endFrame: 30
       isConstSpeed: 0
       _paths: []
       val: 0
       valString: 
-      valObj: {fileID: 21300000, guid: 628fac9d629a5a943ba00873d3a83348, type: 3}
+      valObj: {fileID: 21300000, guid: 19c3e2f4beed38e45af9d28dafcd2474, type: 3}
       vect4: {x: 0, y: 0, z: 0, w: 0}
     - interp: 2
-      frame: 1
+      frame: 30
       easeType: 1
       amplitude: 0
       period: 0
       customEase: []
-      endFrame: 4
+      endFrame: 30
       isConstSpeed: 0
       _paths: []
       val: 0
       valString: 
-      valObj: {fileID: 21300000, guid: 82a46a1f521993145bd70c049304c9d0, type: 3}
+      valObj: {fileID: 21300000, guid: 69b9a3e4a51d75e4e8a23efcae4f019f, type: 3}
       vect4: {x: 0, y: 0, z: 0, w: 0}
     - interp: 2
-      frame: 4
+      frame: 1
       easeType: 1
       amplitude: 0
       period: 0
@@ -6210,7 +6976,7 @@ MonoBehaviour:
       _paths: []
       val: 0
       valString: 
-      valObj: {fileID: 21300000, guid: 54d83079f71b6f84eb079605fbb4f412, type: 3}
+      valObj: {fileID: 21300000, guid: 69b9a3e4a51d75e4e8a23efcae4f019f, type: 3}
       vect4: {x: 0, y: 0, z: 0, w: 0}
     - interp: 2
       frame: 7
@@ -6218,25 +6984,12 @@ MonoBehaviour:
       amplitude: 0
       period: 0
       customEase: []
-      endFrame: 10
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: 205407f42d722314ba6b1180bc92c375, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 2
-      frame: 10
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
       endFrame: 15
       isConstSpeed: 0
       _paths: []
       val: 0
       valString: 
-      valObj: {fileID: 21300000, guid: beb86412ffe1f2447a8d775d0b5d9dff, type: 3}
+      valObj: {fileID: 21300000, guid: 19c3e2f4beed38e45af9d28dafcd2474, type: 3}
       vect4: {x: 0, y: 0, z: 0, w: 0}
     - interp: 2
       frame: 15
@@ -6249,853 +7002,93 @@ MonoBehaviour:
       _paths: []
       val: 0
       valString: 
-      valObj: {fileID: 21300000, guid: 82a46a1f521993145bd70c049304c9d0, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 2
-      frame: 1
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 5
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: f6b2824a59518234fbb8648d4a7d7456, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 2
-      frame: 5
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 5
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: 2521dc9c9d5c58c4f897cee3f691b70e, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 2
-      frame: 1
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 5
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: 54d83079f71b6f84eb079605fbb4f412, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 2
-      frame: 5
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 10
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: 205407f42d722314ba6b1180bc92c375, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 2
-      frame: 10
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 10
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: beb86412ffe1f2447a8d775d0b5d9dff, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 2
-      frame: 1
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 4
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: 0297c4f39cee5a14ebce3caa0c127559, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 2
-      frame: 4
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 8
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: 4186b4ef9e96a1c4695992000e453057, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 2
-      frame: 8
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 12
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: 0297c4f39cee5a14ebce3caa0c127559, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 2
-      frame: 12
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 15
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: 4186b4ef9e96a1c4695992000e453057, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 2
-      frame: 15
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 15
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: 0297c4f39cee5a14ebce3caa0c127559, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 0
-      frame: 1
-      easeType: 4
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 15
-      isConstSpeed: 0
-      _paths:
-      - type: 1
-        subdivisionsXSegment: 10
-        wps:
-        - vals:
-          - 1
-          - 1
-          - 1
-          - 1
-        - vals:
-          - 1
-          - 1
-          - 1
-          - 0
-        - vals:
-          - 1
-          - 1
-          - 1
-          - 1
-        wpsTimeTable:
-        - 0.5
-        controlPoints:
-        - a:
-            vals:
-            - 1
-            - 1
-            - 1
-            - 0
-          b:
-            vals: []
-        - a:
-            vals:
-            - 1
-            - 1
-            - 1
-            - 0
-          b:
-            vals: []
-        length: 2
-        timesTable: []
-        lengthsTable: []
-        _isConstantSpeed: 0
-      val: 0
-      valString: 
-      valObj: {fileID: 0}
-      vect4: {x: 1, y: 1, z: 1, w: 1}
-    - interp: 0
-      frame: 8
-      easeType: 4
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: -1
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 0}
-      vect4: {x: 1, y: 1, z: 1, w: 0}
-    - interp: 0
-      frame: 15
-      easeType: 4
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: -1
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 0}
-      vect4: {x: 1, y: 1, z: 1, w: 1}
-    - interp: 0
-      frame: 1
-      easeType: 4
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 15
-      isConstSpeed: 0
-      _paths:
-      - type: 1
-        subdivisionsXSegment: 10
-        wps:
-        - vals:
-          - 0.9921569
-          - 0.38823533
-          - 0.3803922
-          - 0
-        - vals:
-          - 0.9921569
-          - 0.38823533
-          - 0.3803922
-          - 1
-        - vals:
-          - 0.9921569
-          - 0.38823533
-          - 0.3803922
-          - 0
-        wpsTimeTable:
-        - 0.5
-        controlPoints:
-        - a:
-            vals:
-            - 0.9921569
-            - 0.38823533
-            - 0.3803922
-            - 1
-          b:
-            vals: []
-        - a:
-            vals:
-            - 0.9921569
-            - 0.38823533
-            - 0.3803922
-            - 1
-          b:
-            vals: []
-        length: 2
-        timesTable: []
-        lengthsTable: []
-        _isConstantSpeed: 0
-      val: 0
-      valString: 
-      valObj: {fileID: 0}
-      vect4: {x: 0.9921569, y: 0.38823533, z: 0.3803922, w: 0}
-    - interp: 0
-      frame: 8
-      easeType: 4
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: -1
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 0}
-      vect4: {x: 0.9921569, y: 0.38823533, z: 0.3803922, w: 1}
-    - interp: 0
-      frame: 15
-      easeType: 4
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: -1
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 0}
-      vect4: {x: 0.9921569, y: 0.38823533, z: 0.3803922, w: 0}
-    - interp: 2
-      frame: 1
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 10
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: 01544c918d4124a4eb970f4bef953c6f, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 2
-      frame: 10
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 40
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: e28ef94eaccb62e4b87a59e7259c1735, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 2
-      frame: 40
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 40
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: e28ef94eaccb62e4b87a59e7259c1735, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 1
-      frame: 1
-      easeType: 3
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 10
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 0}
-      vect4: {x: 1, y: 1, z: 1, w: 1}
-    - interp: 0
-      frame: 10
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 40
-      isConstSpeed: 0
-      _paths:
-      - type: 1
-        subdivisionsXSegment: 10
-        wps:
-        - vals:
-          - 0.695
-          - 0.695
-          - 0.695
-          - 1
-        - vals:
-          - 0.5
-          - 0.5
-          - 0.5
-          - 1
-        - vals:
-          - 0.695
-          - 0.695
-          - 0.695
-          - 1
-        wpsTimeTable:
-        - 0.5
-        controlPoints:
-        - a:
-            vals:
-            - 0.5
-            - 0.5
-            - 0.5
-            - 1
-          b:
-            vals: []
-        - a:
-            vals:
-            - 0.5
-            - 0.5
-            - 0.5
-            - 1
-          b:
-            vals: []
-        length: 0.67549986
-        timesTable: []
-        lengthsTable: []
-        _isConstantSpeed: 0
-      val: 0
-      valString: 
-      valObj: {fileID: 0}
-      vect4: {x: 0.695, y: 0.695, z: 0.695, w: 1}
-    - interp: 0
-      frame: 25
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: -1
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 0}
-      vect4: {x: 0.5, y: 0.5, z: 0.5, w: 1}
-    - interp: 0
-      frame: 40
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: -1
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 0}
-      vect4: {x: 0.695, y: 0.695, z: 0.695, w: 1}
-    - interp: 2
-      frame: 1
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 1
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: e28ef94eaccb62e4b87a59e7259c1735, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 0
-      frame: 1
-      easeType: 2
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 8
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 0}
-      vect4: {x: 0.5, y: 0.5, z: 0.5, w: 1}
-    - interp: 0
-      frame: 8
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: -1
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 0}
-      vect4: {x: 0.5, y: 0.5, z: 0.5, w: 0}
-    - interp: 0
-      frame: 1
-      easeType: 4
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 15
-      isConstSpeed: 0
-      _paths:
-      - type: 1
-        subdivisionsXSegment: 10
-        wps:
-        - vals:
-          - 1
-          - 0.8431373
-          - 0.6
-          - 0
-        - vals:
-          - 1
-          - 0.8431373
-          - 0.6
-          - 1
-        - vals:
-          - 1
-          - 0.8431373
-          - 0.6
-          - 0
-        wpsTimeTable:
-        - 0.5
-        controlPoints:
-        - a:
-            vals:
-            - 1
-            - 0.8431373
-            - 0.6
-            - 1
-          b:
-            vals: []
-        - a:
-            vals:
-            - 1
-            - 0.8431373
-            - 0.6
-            - 1
-          b:
-            vals: []
-        length: 2
-        timesTable: []
-        lengthsTable: []
-        _isConstantSpeed: 0
-      val: 0
-      valString: 
-      valObj: {fileID: 0}
-      vect4: {x: 1, y: 0.8431373, z: 0.6, w: 0}
-    - interp: 0
-      frame: 8
-      easeType: 4
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: -1
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 0}
-      vect4: {x: 1, y: 0.8431373, z: 0.6, w: 1}
-    - interp: 0
-      frame: 15
-      easeType: 4
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: -1
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 0}
-      vect4: {x: 1, y: 0.8431373, z: 0.6, w: 0}
-    - interp: 2
-      frame: 1
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 1
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: aa76d6526984e864789ccaba3033d175, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 0
-      frame: 1
-      easeType: 2
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 7
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 0}
-      vect4: {x: 1, y: 1, z: 1, w: 1}
-    - interp: 0
-      frame: 7
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: -1
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 0}
-      vect4: {x: 1, y: 1, z: 1, w: 0}
-    - interp: 0
-      frame: 1
-      easeType: 4
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 15
-      isConstSpeed: 0
-      _paths:
-      - type: 1
-        subdivisionsXSegment: 10
-        wps:
-        - vals:
-          - 1
-          - 0.8431373
-          - 0.6
-          - 0
-        - vals:
-          - 1
-          - 0.8431373
-          - 0.6
-          - 1
-        - vals:
-          - 1
-          - 0.8431373
-          - 0.6
-          - 0
-        wpsTimeTable:
-        - 0.42857143
-        controlPoints:
-        - a:
-            vals:
-            - 1
-            - 0.8431373
-            - 0.6
-            - 1
-          b:
-            vals: []
-        - a:
-            vals:
-            - 1
-            - 0.8431373
-            - 0.6
-            - 1
-          b:
-            vals: []
-        length: 2
-        timesTable: []
-        lengthsTable: []
-        _isConstantSpeed: 0
-      val: 0
-      valString: 
-      valObj: {fileID: 0}
-      vect4: {x: 1, y: 0.8431373, z: 0.6, w: 0}
-    - interp: 0
-      frame: 7
-      easeType: 4
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: -1
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 0}
-      vect4: {x: 1, y: 0.8431373, z: 0.6, w: 1}
-    - interp: 0
-      frame: 15
-      easeType: 4
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: -1
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 0}
-      vect4: {x: 1, y: 0.8431373, z: 0.6, w: 0}
-    - interp: 2
-      frame: 1
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 10
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: ce4be6f2b504ce54da6efbb7e9112339, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 2
-      frame: 10
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 13
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: aa76d6526984e864789ccaba3033d175, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 2
-      frame: 13
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 25
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: 1d0e13de40c44f8479f0a9401255b593, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 2
-      frame: 25
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 29
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: aa76d6526984e864789ccaba3033d175, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 2
-      frame: 29
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 29
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: ce4be6f2b504ce54da6efbb7e9112339, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 2
-      frame: 1
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 6
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: 7dc9bcd0b392e064aa53c3051e519056, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 2
-      frame: 6
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 10
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: 166498e15be6536419fa809b0326a8bf, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 2
-      frame: 10
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 10
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: 166498e15be6536419fa809b0326a8bf, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 2
-      frame: 1
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 4
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: 82a46a1f521993145bd70c049304c9d0, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 2
-      frame: 4
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 6
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: 54d83079f71b6f84eb079605fbb4f412, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 2
-      frame: 6
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 9
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: 205407f42d722314ba6b1180bc92c375, type: 3}
-      vect4: {x: 0, y: 0, z: 0, w: 0}
-    - interp: 2
-      frame: 9
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 9
-      isConstSpeed: 0
-      _paths: []
-      val: 0
-      valString: 
-      valObj: {fileID: 21300000, guid: 54d83079f71b6f84eb079605fbb4f412, type: 3}
+      valObj: {fileID: 21300000, guid: 69b9a3e4a51d75e4e8a23efcae4f019f, type: 3}
       vect4: {x: 0, y: 0, z: 0, w: 0}
     _rotationEulerTracks:
     - _version: 3
-      id: 4
-      name: Track3
+      id: 2
+      name: Track1
       foldout: 1
-      _targetPath: root/sprite
+      _targetPath: 
       axis: 4
-      _obj: {fileID: 0}
+      _obj: {fileID: 2508020391889212499}
     - _version: 3
       id: 4
       name: Track3
       foldout: 1
-      _targetPath: root/sprite
+      _targetPath: 
       axis: 4
-      _obj: {fileID: 0}
+      _obj: {fileID: 2508020392346526217}
     - _version: 3
       id: 5
       name: Track4
       foldout: 1
-      _targetPath: root/sprite
+      _targetPath: 
       axis: 4
-      _obj: {fileID: 0}
+      _obj: {fileID: 2508020392284266758}
+    - _version: 3
+      id: 6
+      name: Track5
+      foldout: 1
+      _targetPath: 
+      axis: 4
+      _obj: {fileID: 2508020392544110913}
+    - _version: 3
+      id: 7
+      name: Track6
+      foldout: 1
+      _targetPath: 
+      axis: 4
+      _obj: {fileID: 2508020391603529653}
+    - _version: 3
+      id: 8
+      name: Track7
+      foldout: 1
+      _targetPath: 
+      axis: 4
+      _obj: {fileID: 2508020392519247109}
+    - _version: 3
+      id: 2
+      name: Track1
+      foldout: 1
+      _targetPath: 
+      axis: 4
+      _obj: {fileID: 2508020391889212499}
+    - _version: 3
+      id: 4
+      name: Track3
+      foldout: 1
+      _targetPath: 
+      axis: 4
+      _obj: {fileID: 2508020392346526217}
     - _version: 3
       id: 5
       name: Track4
       foldout: 1
-      _targetPath: root/sprite
+      _targetPath: 
       axis: 4
-      _obj: {fileID: 0}
+      _obj: {fileID: 2508020392284266758}
+    - _version: 3
+      id: 6
+      name: Track5
+      foldout: 1
+      _targetPath: 
+      axis: 4
+      _obj: {fileID: 2508020392544110913}
+    - _version: 3
+      id: 7
+      name: Track6
+      foldout: 1
+      _targetPath: 
+      axis: 4
+      _obj: {fileID: 2508020391603529653}
+    - _version: 3
+      id: 8
+      name: Track7
+      foldout: 1
+      _targetPath: 
+      axis: 4
+      _obj: {fileID: 2508020392519247109}
     _rotationEulerKeys:
     - interp: 0
       frame: 1
@@ -7112,44 +7105,39 @@ MonoBehaviour:
         - vals:
           - -0
           - 0
-          - 0
+          - 311.63
         - vals:
           - -0
           - 0
-          - 7
-        - vals:
-          - 0
-          - 0
-          - -9
+          - 328.3
         - vals:
           - -0
           - 0
-          - 0
+          - 345.4
         wpsTimeTable:
-        - 0.14285715
-        - 0.85714287
+        - 0.71428573
         controlPoints:
-        - a:
-            vals:
-            - 0
-            - 0
-            - -9
-          b:
-            vals: []
         - a:
             vals:
             - -0
             - 0
-            - 7
+            - 328.3
           b:
             vals: []
-        length: 32.688
+        - a:
+            vals:
+            - 0
+            - 0
+            - 362.5
+          b:
+            vals: []
+        length: 33.76999
         timesTable: []
         lengthsTable: []
         _isConstantSpeed: 0
-      rotation: {x: -0, y: 0, z: 0}
+      rotation: {x: -0, y: 0, z: 311.63}
     - interp: 0
-      frame: 3
+      frame: 11
       easeType: 1
       amplitude: 0
       period: 0
@@ -7157,9 +7145,9 @@ MonoBehaviour:
       endFrame: -1
       isConstSpeed: 0
       _paths: []
-      rotation: {x: -0, y: 0, z: 7}
-    - interp: 0
-      frame: 13
+      rotation: {x: -0, y: 0, z: 328.3}
+    - interp: 1
+      frame: 15
       easeType: 1
       amplitude: 0
       period: 0
@@ -7167,7 +7155,195 @@ MonoBehaviour:
       endFrame: -1
       isConstSpeed: 0
       _paths: []
-      rotation: {x: 0, y: 0, z: -9}
+      rotation: {x: -0, y: 0, z: 345.4}
+    - interp: 0
+      frame: 1
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: 15
+      isConstSpeed: 0
+      _paths:
+      - type: 1
+        subdivisionsXSegment: 10
+        wps:
+        - vals:
+          - -0
+          - 0
+          - 191.7
+        - vals:
+          - -0
+          - 0
+          - 134.7
+        - vals:
+          - -0
+          - 0
+          - 117.45
+        wpsTimeTable:
+        - 0.71428573
+        controlPoints:
+        - a:
+            vals:
+            - -0
+            - 0
+            - 134.7
+          b:
+            vals: []
+        - a:
+            vals:
+            - 0
+            - 0
+            - 100.2
+          b:
+            vals: []
+        length: 74.25
+        timesTable: []
+        lengthsTable: []
+        _isConstantSpeed: 0
+      rotation: {x: -0, y: 0, z: 191.7}
+    - interp: 0
+      frame: 11
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      rotation: {x: -0, y: 0, z: 134.7}
+    - interp: 1
+      frame: 15
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      rotation: {x: -0, y: 0, z: 117.45}
+    - interp: 0
+      frame: 1
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: 15
+      isConstSpeed: 0
+      _paths:
+      - type: 1
+        subdivisionsXSegment: 10
+        wps:
+        - vals:
+          - -0
+          - 0
+          - 333.2
+        - vals:
+          - -0
+          - 0
+          - 257.2
+        - vals:
+          - -0
+          - 0
+          - 257.2
+        wpsTimeTable:
+        - 0.71428573
+        controlPoints:
+        - a:
+            vals:
+            - -0
+            - 0
+            - 257.2
+          b:
+            vals: []
+        - a:
+            vals:
+            - 0
+            - 0
+            - 257.2
+          b:
+            vals: []
+        length: 87.25925
+        timesTable: []
+        lengthsTable: []
+        _isConstantSpeed: 0
+      rotation: {x: -0, y: 0, z: 333.2}
+    - interp: 0
+      frame: 11
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      rotation: {x: -0, y: 0, z: 257.2}
+    - interp: 1
+      frame: 15
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      rotation: {x: -0, y: 0, z: 257.2}
+    - interp: 0
+      frame: 1
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: 15
+      isConstSpeed: 0
+      _paths:
+      - type: 1
+        subdivisionsXSegment: 10
+        wps:
+        - vals:
+          - -0
+          - 0
+          - 53
+        - vals:
+          - -0
+          - 0
+          - 35
+        - vals:
+          - -0
+          - 0
+          - 14.600011
+        wpsTimeTable:
+        - 0.71428573
+        controlPoints:
+        - a:
+            vals:
+            - -0
+            - 0
+            - 35
+          b:
+            vals: []
+        - a:
+            vals:
+            - 0
+            - 0
+            - -5.799979
+          b:
+            vals: []
+        length: 38.39999
+        timesTable: []
+        lengthsTable: []
+        _isConstantSpeed: 0
+      rotation: {x: -0, y: 0, z: 53}
+    - interp: 0
+      frame: 11
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      rotation: {x: -0, y: 0, z: 35}
     - interp: 0
       frame: 15
       easeType: 1
@@ -7177,17 +7353,200 @@ MonoBehaviour:
       endFrame: -1
       isConstSpeed: 0
       _paths: []
-      rotation: {x: -0, y: 0, z: 0}
+      rotation: {x: -0, y: 0, z: 14.600011}
     - interp: 0
       frame: 1
-      easeType: 4
+      easeType: 1
       amplitude: 0
       period: 0
       customEase: []
-      endFrame: 10
+      endFrame: 15
+      isConstSpeed: 0
+      _paths:
+      - type: 1
+        subdivisionsXSegment: 10
+        wps:
+        - vals:
+          - -0
+          - 0
+          - 177
+        - vals:
+          - -0
+          - 0
+          - 215.4
+        - vals:
+          - -0
+          - 0
+          - 242.54999
+        wpsTimeTable:
+        - 0.71428573
+        controlPoints:
+        - a:
+            vals:
+            - -0
+            - 0
+            - 215.4
+          b:
+            vals: []
+        - a:
+            vals:
+            - 0
+            - 0
+            - 269.69998
+          b:
+            vals: []
+        length: 65.54999
+        timesTable: []
+        lengthsTable: []
+        _isConstantSpeed: 0
+      rotation: {x: -0, y: 0, z: 177}
+    - interp: 0
+      frame: 11
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
       isConstSpeed: 0
       _paths: []
-      rotation: {x: -0, y: 0, z: 7}
+      rotation: {x: -0, y: 0, z: 215.4}
+    - interp: 0
+      frame: 15
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      rotation: {x: -0, y: 0, z: 242.54999}
+    - interp: 0
+      frame: 1
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: 15
+      isConstSpeed: 0
+      _paths:
+      - type: 1
+        subdivisionsXSegment: 10
+        wps:
+        - vals:
+          - -0
+          - 0
+          - 10
+        - vals:
+          - -0
+          - 0
+          - 109.3
+        - vals:
+          - -0
+          - 0
+          - 102.79999
+        wpsTimeTable:
+        - 0.71428573
+        controlPoints:
+        - a:
+            vals:
+            - -0
+            - 0
+            - 109.3
+          b:
+            vals: []
+        - a:
+            vals:
+            - 0
+            - 0
+            - 96.29997
+          b:
+            vals: []
+        length: 117.505844
+        timesTable: []
+        lengthsTable: []
+        _isConstantSpeed: 0
+      rotation: {x: -0, y: 0, z: 10}
+    - interp: 0
+      frame: 11
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      rotation: {x: -0, y: 0, z: 109.3}
+    - interp: 0
+      frame: 15
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      rotation: {x: -0, y: 0, z: 102.79999}
+    - interp: 0
+      frame: 1
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: 15
+      isConstSpeed: 0
+      _paths:
+      - type: 1
+        subdivisionsXSegment: 10
+        wps:
+        - vals:
+          - -0
+          - 0
+          - 345.4
+        - vals:
+          - -0
+          - 0
+          - 330.6
+        - vals:
+          - -0
+          - 0
+          - 367.7
+        - vals:
+          - -0
+          - 0
+          - 345.4
+        wpsTimeTable:
+        - 0.2857143
+        - 0.64285713
+        controlPoints:
+        - a:
+            vals:
+            - -0
+            - 0
+            - 367.7
+          b:
+            vals: []
+        - a:
+            vals:
+            - -0
+            - 0
+            - 330.6
+          b:
+            vals: []
+        length: 75.80353
+        timesTable: []
+        lengthsTable: []
+        _isConstantSpeed: 0
+      rotation: {x: -0, y: 0, z: 345.4}
+    - interp: 0
+      frame: 5
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      rotation: {x: -0, y: 0, z: 330.6}
     - interp: 0
       frame: 10
       easeType: 1
@@ -7197,37 +7556,422 @@ MonoBehaviour:
       endFrame: -1
       isConstSpeed: 0
       _paths: []
-      rotation: {x: -0, y: 0, z: -7}
+      rotation: {x: -0, y: 0, z: 367.7}
     - interp: 0
-      frame: 1
-      easeType: 2
+      frame: 15
+      easeType: 1
       amplitude: 0
       period: 0
       customEase: []
-      endFrame: 10
+      endFrame: -1
       isConstSpeed: 0
       _paths: []
-      rotation: {x: -0, y: 0, z: 0}
-    - interp: 2
+      rotation: {x: -0, y: 0, z: 345.4}
+    - interp: 0
+      frame: 1
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: 15
+      isConstSpeed: 0
+      _paths:
+      - type: 1
+        subdivisionsXSegment: 10
+        wps:
+        - vals:
+          - -0
+          - 0
+          - 117.45
+        - vals:
+          - -0
+          - 0
+          - 126.2
+        - vals:
+          - -0
+          - 0
+          - 95
+        - vals:
+          - -0
+          - 0
+          - 117.45
+        wpsTimeTable:
+        - 0.2857143
+        - 0.64285713
+        controlPoints:
+        - a:
+            vals:
+            - -0
+            - 0
+            - 95
+          b:
+            vals: []
+        - a:
+            vals:
+            - -0
+            - 0
+            - 126.2
+          b:
+            vals: []
+        length: 64.58623
+        timesTable: []
+        lengthsTable: []
+        _isConstantSpeed: 0
+      rotation: {x: -0, y: 0, z: 117.45}
+    - interp: 0
+      frame: 5
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      rotation: {x: -0, y: 0, z: 126.2}
+    - interp: 0
       frame: 10
       easeType: 1
       amplitude: 0
       period: 0
       customEase: []
-      endFrame: 10
+      endFrame: -1
       isConstSpeed: 0
       _paths: []
-      rotation: {x: -0, y: 0, z: 90}
-    - interp: 2
+      rotation: {x: -0, y: 0, z: 95}
+    - interp: 0
+      frame: 15
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      rotation: {x: -0, y: 0, z: 117.45}
+    - interp: 0
       frame: 1
       easeType: 1
       amplitude: 0
       period: 0
       customEase: []
-      endFrame: 1
+      endFrame: 15
+      isConstSpeed: 0
+      _paths:
+      - type: 1
+        subdivisionsXSegment: 10
+        wps:
+        - vals:
+          - -0
+          - 0
+          - 257.2
+        - vals:
+          - -0
+          - 0
+          - 263.1
+        - vals:
+          - -0
+          - 0
+          - 257.2
+        - vals:
+          - -0
+          - 0
+          - 257.2
+        wpsTimeTable:
+        - 0.2857143
+        - 0.64285713
+        controlPoints:
+        - a:
+            vals:
+            - -0
+            - 0
+            - 257.2
+          b:
+            vals: []
+        - a:
+            vals:
+            - -0
+            - 0
+            - 263.1
+          b:
+            vals: []
+        length: 13.253113
+        timesTable: []
+        lengthsTable: []
+        _isConstantSpeed: 0
+      rotation: {x: -0, y: 0, z: 257.2}
+    - interp: 0
+      frame: 5
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
       isConstSpeed: 0
       _paths: []
-      rotation: {x: -0, y: 0, z: 90}
+      rotation: {x: -0, y: 0, z: 263.1}
+    - interp: 0
+      frame: 10
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      rotation: {x: -0, y: 0, z: 257.2}
+    - interp: 0
+      frame: 15
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      rotation: {x: -0, y: 0, z: 257.2}
+    - interp: 0
+      frame: 1
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: 15
+      isConstSpeed: 0
+      _paths:
+      - type: 1
+        subdivisionsXSegment: 10
+        wps:
+        - vals:
+          - -0
+          - 0
+          - 14.600011
+        - vals:
+          - -0
+          - 0
+          - 30.3
+        - vals:
+          - -0
+          - 0
+          - -14.5
+        - vals:
+          - -0
+          - 0
+          - 14.600011
+        wpsTimeTable:
+        - 0.2857143
+        - 0.64285713
+        controlPoints:
+        - a:
+            vals:
+            - -0
+            - 0
+            - -14.5
+          b:
+            vals: []
+        - a:
+            vals:
+            - -0
+            - 0
+            - 30.3
+          b:
+            vals: []
+        length: 91.94278
+        timesTable: []
+        lengthsTable: []
+        _isConstantSpeed: 0
+      rotation: {x: -0, y: 0, z: 14.600011}
+    - interp: 0
+      frame: 5
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      rotation: {x: -0, y: 0, z: 30.3}
+    - interp: 0
+      frame: 10
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      rotation: {x: -0, y: 0, z: -14.5}
+    - interp: 0
+      frame: 15
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      rotation: {x: -0, y: 0, z: 14.600011}
+    - interp: 0
+      frame: 1
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: 15
+      isConstSpeed: 0
+      _paths:
+      - type: 1
+        subdivisionsXSegment: 10
+        wps:
+        - vals:
+          - -0
+          - 0
+          - 242.54999
+        - vals:
+          - -0
+          - 0
+          - 230
+        - vals:
+          - -0
+          - 0
+          - 268.1
+        - vals:
+          - -0
+          - 0
+          - 242.54999
+        wpsTimeTable:
+        - 0.2857143
+        - 0.64285713
+        controlPoints:
+        - a:
+            vals:
+            - -0
+            - 0
+            - 268.1
+          b:
+            vals: []
+        - a:
+            vals:
+            - -0
+            - 0
+            - 230
+          b:
+            vals: []
+        length: 78.39609
+        timesTable: []
+        lengthsTable: []
+        _isConstantSpeed: 0
+      rotation: {x: -0, y: 0, z: 242.54999}
+    - interp: 0
+      frame: 5
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      rotation: {x: -0, y: 0, z: 230}
+    - interp: 0
+      frame: 10
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      rotation: {x: -0, y: 0, z: 268.1}
+    - interp: 0
+      frame: 15
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      rotation: {x: -0, y: 0, z: 242.54999}
+    - interp: 0
+      frame: 1
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: 15
+      isConstSpeed: 0
+      _paths:
+      - type: 1
+        subdivisionsXSegment: 10
+        wps:
+        - vals:
+          - -0
+          - 0
+          - 102.79999
+        - vals:
+          - -0
+          - 0
+          - 99.5
+        - vals:
+          - -0
+          - 0
+          - 106.4
+        - vals:
+          - -0
+          - 0
+          - 102.79999
+        wpsTimeTable:
+        - 0.2857143
+        - 0.64285713
+        controlPoints:
+        - a:
+            vals:
+            - -0
+            - 0
+            - 106.4
+          b:
+            vals: []
+        - a:
+            vals:
+            - -0
+            - 0
+            - 99.5
+          b:
+            vals: []
+        length: 14.096695
+        timesTable: []
+        lengthsTable: []
+        _isConstantSpeed: 0
+      rotation: {x: -0, y: 0, z: 102.79999}
+    - interp: 0
+      frame: 5
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      rotation: {x: -0, y: 0, z: 99.5}
+    - interp: 0
+      frame: 10
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      rotation: {x: -0, y: 0, z: 106.4}
+    - interp: 0
+      frame: 15
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      rotation: {x: -0, y: 0, z: 102.79999}
     _rotationTracks: []
     _rotationKeys: []
     _translationTracks:
@@ -7235,62 +7979,70 @@ MonoBehaviour:
       id: 3
       name: Track2
       foldout: 1
-      _targetPath: root/sprite
-      _obj: {fileID: 0}
+      _targetPath: 
+      _obj: {fileID: 2508020393431712069}
+      pixelSnap: 0
+      pixelPerUnit: 100
+    - _version: 3
+      id: 12
+      name: Track11
+      foldout: 1
+      _targetPath: 
+      _obj: {fileID: 2508020392423914628}
+      pixelSnap: 0
+      pixelPerUnit: 100
+    - _version: 3
+      id: 13
+      name: Track12
+      foldout: 1
+      _targetPath: 
+      _obj: {fileID: 2508020392814686240}
+      pixelSnap: 0
+      pixelPerUnit: 100
+    - _version: 3
+      id: 14
+      name: Track13
+      foldout: 1
+      _targetPath: 
+      _obj: {fileID: 2508020391573563204}
       pixelSnap: 0
       pixelPerUnit: 100
     - _version: 3
       id: 3
       name: Track2
       foldout: 1
-      _targetPath: root/sprite
-      _obj: {fileID: 0}
+      _targetPath: 
+      _obj: {fileID: 2508020393431712069}
       pixelSnap: 0
       pixelPerUnit: 100
     - _version: 3
-      id: 4
-      name: Track3
+      id: 12
+      name: Track11
       foldout: 1
-      _targetPath: root/sprite
-      _obj: {fileID: 0}
+      _targetPath: 
+      _obj: {fileID: 2508020392423914628}
       pixelSnap: 0
       pixelPerUnit: 100
     - _version: 3
-      id: 4
-      name: Track3
+      id: 13
+      name: Track12
       foldout: 1
-      _targetPath: root/sprite
-      _obj: {fileID: 0}
+      _targetPath: 
+      _obj: {fileID: 2508020392814686240}
       pixelSnap: 0
       pixelPerUnit: 100
     - _version: 3
-      id: 3
-      name: Track2
+      id: 14
+      name: Track13
       foldout: 1
-      _targetPath: root/sprite
-      _obj: {fileID: 0}
-      pixelSnap: 0
-      pixelPerUnit: 100
-    - _version: 3
-      id: 3
-      name: Track2
-      foldout: 1
-      _targetPath: root/sprite
-      _obj: {fileID: 0}
-      pixelSnap: 0
-      pixelPerUnit: 100
-    - _version: 3
-      id: 3
-      name: Track2
-      foldout: 1
-      _targetPath: root/sprite
-      _obj: {fileID: 0}
+      _targetPath: 
+      _obj: {fileID: 2508020391573563204}
       pixelSnap: 0
       pixelPerUnit: 100
     _translationKeys:
     - interp: 0
       frame: 1
-      easeType: 4
+      easeType: 1
       amplitude: 0
       period: 0
       customEase: []
@@ -7302,556 +8054,311 @@ MonoBehaviour:
         wps:
         - vals:
           - 0
-          - 0
-          - 0
-        - vals:
-          - 0
-          - 0.3
+          - 3.4
           - 0
         - vals:
           - 0
+          - 1.67
           - 0
+        - vals:
+          - 0
+          - 1.764
           - 0
         wpsTimeTable:
-        - 0.5
+        - 0.64285713
         controlPoints:
         - a:
             vals:
             - 0
-            - 0.3
+            - 1.67
             - 0
           b:
             vals: []
         - a:
             vals:
             - 0
-            - 0.3
+            - 1.8580002
             - 0
           b:
             vals: []
-        length: 0.6
+        length: 2.035442
         timesTable: []
         lengthsTable: []
         _isConstantSpeed: 0
-      position: {x: 0, y: 0, z: 0}
+      position: {x: 0, y: 3.4, z: 0}
       orientMode: 0
       orientLockAxis: 0
     - interp: 0
-      frame: 8
-      easeType: 4
+      frame: 10
+      easeType: 1
       amplitude: 0
       period: 0
       customEase: []
       endFrame: -1
       isConstSpeed: 0
       _paths: []
-      position: {x: 0, y: 0.3, z: 0}
+      position: {x: 0, y: 1.67, z: 0}
+      orientMode: 0
+      orientLockAxis: 0
+    - interp: 1
+      frame: 15
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      position: {x: 0, y: 1.764, z: 0}
+      orientMode: 0
+      orientLockAxis: 0
+    - interp: 0
+      frame: 30
+      easeType: 2
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: 40
+      isConstSpeed: 0
+      _paths: []
+      position: {x: 0, y: -0.53199995, z: 0}
+      orientMode: 0
+      orientLockAxis: 0
+    - interp: 0
+      frame: 40
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      position: {x: 0, y: -1.05, z: 0}
+      orientMode: 0
+      orientLockAxis: 0
+    - interp: 0
+      frame: 30
+      easeType: 2
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: 40
+      isConstSpeed: 0
+      _paths: []
+      position: {x: -0.659, y: -0.32599998, z: 0}
+      orientMode: 0
+      orientLockAxis: 0
+    - interp: 0
+      frame: 40
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      position: {x: -0.791, y: -0.816, z: 0}
+      orientMode: 0
+      orientLockAxis: 0
+    - interp: 0
+      frame: 30
+      easeType: 2
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: 40
+      isConstSpeed: 0
+      _paths: []
+      position: {x: 0.659, y: -0.32599998, z: 0}
+      orientMode: 0
+      orientLockAxis: 0
+    - interp: 0
+      frame: 40
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      position: {x: 0.791, y: -0.815, z: 0}
+      orientMode: 0
+      orientLockAxis: 0
+    - interp: 0
+      frame: 1
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: 15
+      isConstSpeed: 0
+      _paths:
+      - type: 1
+        subdivisionsXSegment: 10
+        wps:
+        - vals:
+          - 0
+          - 1.764
+          - 0
+        - vals:
+          - 0
+          - 1.58
+          - 0
+        - vals:
+          - 0
+          - 2.1
+          - 0
+        - vals:
+          - 0
+          - 1.764
+          - 0
+        wpsTimeTable:
+        - 0.2857143
+        - 0.64285713
+        controlPoints:
+        - a:
+            vals:
+            - 0
+            - 2.1
+            - 0
+          b:
+            vals: []
+        - a:
+            vals:
+            - 0
+            - 1.58
+            - 0
+          b:
+            vals: []
+        length: 1.0667439
+        timesTable: []
+        lengthsTable: []
+        _isConstantSpeed: 0
+      position: {x: 0, y: 1.764, z: 0}
+      orientMode: 0
+      orientLockAxis: 0
+    - interp: 0
+      frame: 5
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      position: {x: 0, y: 1.58, z: 0}
+      orientMode: 0
+      orientLockAxis: 0
+    - interp: 0
+      frame: 10
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      position: {x: 0, y: 2.1, z: 0}
       orientMode: 0
       orientLockAxis: 0
     - interp: 0
       frame: 15
-      easeType: 4
+      easeType: 1
       amplitude: 0
       period: 0
       customEase: []
       endFrame: -1
       isConstSpeed: 0
       _paths: []
-      position: {x: 0, y: 0, z: 0}
+      position: {x: 0, y: 1.764, z: 0}
       orientMode: 0
       orientLockAxis: 0
-    - interp: 0
+    - interp: 1
       frame: 1
-      easeType: 4
+      easeType: 3
       amplitude: 0
       period: 0
       customEase: []
       endFrame: 10
       isConstSpeed: 0
-      _paths:
-      - type: 1
-        subdivisionsXSegment: 10
-        wps:
-        - vals:
-          - 0
-          - 0
-          - 0
-        - vals:
-          - 0
-          - 0.25
-          - 0
-        - vals:
-          - 0
-          - 0
-          - 0
-        wpsTimeTable:
-        - 0.44444445
-        controlPoints:
-        - a:
-            vals:
-            - 0
-            - 0.25
-            - 0
-          b:
-            vals: []
-        - a:
-            vals:
-            - 0
-            - 0.25
-            - 0
-          b:
-            vals: []
-        length: 0.5
-        timesTable: []
-        lengthsTable: []
-        _isConstantSpeed: 0
-      position: {x: 0, y: 0, z: 0}
-      orientMode: 0
-      orientLockAxis: 0
-    - interp: 0
-      frame: 5
-      easeType: 4
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: -1
-      isConstSpeed: 0
       _paths: []
-      position: {x: 0, y: 0.25, z: 0}
+      position: {x: 0, y: -1.05, z: 0}
       orientMode: 0
       orientLockAxis: 0
-    - interp: 0
+    - interp: 2
       frame: 10
-      easeType: 4
+      easeType: 1
       amplitude: 0
       period: 0
       customEase: []
-      endFrame: -1
+      endFrame: 15
       isConstSpeed: 0
       _paths: []
-      position: {x: 0, y: 0, z: 0}
+      position: {x: 0, y: -0.53199995, z: 0}
       orientMode: 0
       orientLockAxis: 0
-    - interp: 0
-      frame: 1
+    - interp: 1
+      frame: 15
       easeType: 2
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 10
-      isConstSpeed: 0
-      _paths:
-      - type: 1
-        subdivisionsXSegment: 10
-        wps:
-        - vals:
-          - 0
-          - 0
-          - 0
-        - vals:
-          - 0.12
-          - 0.48
-          - 0
-        - vals:
-          - 0.53
-          - 0.34
-          - 0
-        wpsTimeTable:
-        - 0.44444445
-        controlPoints:
-        - a:
-            vals:
-            - 0.12
-            - 0.48
-            - 0
-          b:
-            vals: []
-        - a:
-            vals:
-            - 0.93999994
-            - 0.20000002
-            - 0
-          b:
-            vals: []
-        length: 0.94776195
-        timesTable: []
-        lengthsTable: []
-        _isConstantSpeed: 0
-      position: {x: 0, y: 0, z: 0}
-      orientMode: 0
-      orientLockAxis: 0
-    - interp: 0
-      frame: 5
-      easeType: 2
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: -1
-      isConstSpeed: 0
-      _paths: []
-      position: {x: 0.12, y: 0.48, z: 0}
-      orientMode: 0
-      orientLockAxis: 0
-    - interp: 2
-      frame: 10
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 10
-      isConstSpeed: 0
-      _paths: []
-      position: {x: 0.53, y: 0.34, z: 0}
-      orientMode: 0
-      orientLockAxis: 0
-    - interp: 2
-      frame: 1
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 1
-      isConstSpeed: 0
-      _paths: []
-      position: {x: 0.53, y: 0.34, z: 0}
-      orientMode: 0
-      orientLockAxis: 0
-    - interp: 2
-      frame: 1
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 10
-      isConstSpeed: 0
-      _paths: []
-      position: {x: 0, y: 0, z: 0}
-      orientMode: 0
-      orientLockAxis: 0
-    - interp: 0
-      frame: 10
-      easeType: 4
       amplitude: 0
       period: 0
       customEase: []
       endFrame: 25
       isConstSpeed: 0
-      _paths:
-      - type: 1
-        subdivisionsXSegment: 10
-        wps:
-        - vals:
-          - 0
-          - 0
-          - 0
-        - vals:
-          - 0
-          - 0.7
-          - 0
-        - vals:
-          - 0
-          - 0
-          - 0
-        wpsTimeTable:
-        - 0.6666667
-        controlPoints:
-        - a:
-            vals:
-            - 0
-            - 0.7
-            - 0
-          b:
-            vals: []
-        - a:
-            vals:
-            - 0
-            - 0.7
-            - 0
-          b:
-            vals: []
-        length: 1.4000001
-        timesTable: []
-        lengthsTable: []
-        _isConstantSpeed: 0
-      position: {x: 0, y: 0, z: 0}
-      orientMode: 0
-      orientLockAxis: 0
-    - interp: 0
-      frame: 20
-      easeType: 4
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: -1
-      isConstSpeed: 0
       _paths: []
-      position: {x: 0, y: 0.7, z: 0}
+      position: {x: 0, y: -0.53199995, z: 0}
       orientMode: 0
       orientLockAxis: 0
-    - interp: 0
+    - interp: 1
       frame: 25
-      easeType: 4
+      easeType: 3
       amplitude: 0
       period: 0
       customEase: []
       endFrame: -1
       isConstSpeed: 0
       _paths: []
-      position: {x: 0, y: 0, z: 0}
+      position: {x: 0, y: -1.05, z: 0}
       orientMode: 0
       orientLockAxis: 0
-    - interp: 0
+    - interp: 1
       frame: 1
-      easeType: 1
+      easeType: 3
       amplitude: 0
       period: 0
       customEase: []
       endFrame: 10
       isConstSpeed: 0
-      _paths:
-      - type: 1
-        subdivisionsXSegment: 10
-        wps:
-        - vals:
-          - 0
-          - 0
-          - 0
-        - vals:
-          - 0
-          - -0.1
-          - 0
-        - vals:
-          - 0
-          - 0
-          - 0
-        wpsTimeTable:
-        - 0.5555556
-        controlPoints:
-        - a:
-            vals:
-            - 0
-            - -0.1
-            - 0
-          b:
-            vals: []
-        - a:
-            vals:
-            - 0
-            - -0.1
-            - 0
-          b:
-            vals: []
-        length: 0.2
-        timesTable: []
-        lengthsTable: []
-        _isConstantSpeed: 0
-      position: {x: 0, y: 0, z: 0}
-      orientMode: 0
-      orientLockAxis: 0
-    - interp: 0
-      frame: 6
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: -1
-      isConstSpeed: 0
       _paths: []
-      position: {x: 0, y: -0.1, z: 0}
-      orientMode: 0
-      orientLockAxis: 0
-    - interp: 0
-      frame: 10
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: -1
-      isConstSpeed: 0
-      _paths: []
-      position: {x: 0, y: 0, z: 0}
+      position: {x: -0.791, y: -0.816, z: 0}
       orientMode: 0
       orientLockAxis: 0
     - interp: 2
-      frame: 1
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 4
-      isConstSpeed: 0
-      _paths: []
-      position: {x: 0, y: 0, z: 0}
-      orientMode: 0
-      orientLockAxis: 0
-    - interp: 0
-      frame: 4
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 10
-      isConstSpeed: 0
-      _paths:
-      - type: 1
-        subdivisionsXSegment: 10
-        wps:
-        - vals:
-          - 0
-          - 0
-          - 0
-        - vals:
-          - 0
-          - 0.5
-          - 0
-        - vals:
-          - 0
-          - 0
-          - 0
-        wpsTimeTable:
-        - 0.33333334
-        controlPoints:
-        - a:
-            vals:
-            - 0
-            - 0.5
-            - 0
-          b:
-            vals: []
-        - a:
-            vals:
-            - 0
-            - 0.5
-            - 0
-          b:
-            vals: []
-        length: 1
-        timesTable: []
-        lengthsTable: []
-        _isConstantSpeed: 0
-      position: {x: 0, y: 0, z: 0}
-      orientMode: 0
-      orientLockAxis: 0
-    - interp: 0
-      frame: 6
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: -1
-      isConstSpeed: 0
-      _paths: []
-      position: {x: 0, y: 0.5, z: 0}
-      orientMode: 0
-      orientLockAxis: 0
-    - interp: 0
       frame: 10
       easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: -1
-      isConstSpeed: 0
-      _paths: []
-      position: {x: 0, y: 0, z: 0}
-      orientMode: 0
-      orientLockAxis: 0
-    _unityAnimationTracks: []
-    _unityAnimationKeys: []
-    _scaleTracks:
-    - _version: 3
-      id: 9
-      name: Track7
-      foldout: 1
-      _targetPath: 
-      axis: -5
-      _obj: {fileID: 7518331397191871058}
-    - _version: 3
-      id: 7
-      name: Track6
-      foldout: 1
-      _targetPath: 
-      axis: -5
-      _obj: {fileID: 7518331397191871058}
-    _scaleKeys:
-    - interp: 0
-      frame: 1
-      easeType: 3
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: 5
-      isConstSpeed: 0
-      _paths: []
-      scale: {x: 0, y: 1, z: 1}
-    - interp: 0
-      frame: 5
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: -1
-      isConstSpeed: 0
-      _paths: []
-      scale: {x: 1, y: 1, z: 1}
-    - interp: 0
-      frame: 7
-      easeType: 3
       amplitude: 0
       period: 0
       customEase: []
       endFrame: 15
       isConstSpeed: 0
-      _paths:
-      - type: 1
-        subdivisionsXSegment: 10
-        wps:
-        - vals:
-          - 1
-          - 1
-          - 1
-        - vals:
-          - 1.5
-          - 0.43
-          - 1
-        - vals:
-          - 0
-          - 1.5
-          - 1
-        wpsTimeTable:
-        - 0.375
-        controlPoints:
-        - a:
-            vals:
-            - 1.5
-            - 0.43
-            - 1
-          b:
-            vals: []
-        - a:
-            vals:
-            - -1.5
-            - 2.57
-            - 1
-          b:
-            vals: []
-        length: 2.6520243
-        timesTable: []
-        lengthsTable: []
-        _isConstantSpeed: 0
-      scale: {x: 1, y: 1, z: 1}
-    - interp: 0
-      frame: 10
-      easeType: 3
-      amplitude: 0
-      period: 0
-      customEase: []
-      endFrame: -1
-      isConstSpeed: 0
       _paths: []
-      scale: {x: 1.5, y: 0.43, z: 1}
-    - interp: 0
+      position: {x: -0.659, y: -0.32599998, z: 0}
+      orientMode: 0
+      orientLockAxis: 0
+    - interp: 1
       frame: 15
+      easeType: 2
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: 25
+      isConstSpeed: 0
+      _paths: []
+      position: {x: -0.659, y: -0.32599998, z: 0}
+      orientMode: 0
+      orientLockAxis: 0
+    - interp: 1
+      frame: 25
       easeType: 3
       amplitude: 0
       period: 0
@@ -7859,134 +8366,542 @@ MonoBehaviour:
       endFrame: -1
       isConstSpeed: 0
       _paths: []
-      scale: {x: 0, y: 1.5, z: 1}
+      position: {x: -0.791, y: -0.816, z: 0}
+      orientMode: 0
+      orientLockAxis: 0
+    - interp: 1
+      frame: 1
+      easeType: 3
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: 10
+      isConstSpeed: 0
+      _paths: []
+      position: {x: 0.791, y: -0.815, z: 0}
+      orientMode: 0
+      orientLockAxis: 0
+    - interp: 2
+      frame: 10
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: 15
+      isConstSpeed: 0
+      _paths: []
+      position: {x: 0.659, y: -0.32599998, z: 0}
+      orientMode: 0
+      orientLockAxis: 0
+    - interp: 1
+      frame: 15
+      easeType: 2
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: 25
+      isConstSpeed: 0
+      _paths: []
+      position: {x: 0.659, y: -0.32599998, z: 0}
+      orientMode: 0
+      orientLockAxis: 0
+    - interp: 1
+      frame: 25
+      easeType: 3
+      amplitude: 0
+      period: 0
+      customEase: []
+      endFrame: -1
+      isConstSpeed: 0
+      _paths: []
+      position: {x: 0.791, y: -0.815, z: 0}
+      orientMode: 0
+      orientLockAxis: 0
+    _unityAnimationTracks: []
+    _unityAnimationKeys: []
+    _scaleTracks: []
+    _scaleKeys: []
     _trackLookups:
-    - type: 7
+    - type: 8
       index: 0
-      keyIndices: 00000000
-    - type: 7
+      keyIndices: 000000000100000002000000
+    - type: 8
       index: 1
-      keyIndices: 010000000200000003000000
-    - type: 7
+      keyIndices: 030000000400000005000000
+    - type: 8
       index: 2
-      keyIndices: 040000000500000006000000
-    - type: 11
+      keyIndices: 060000000700000008000000
+    - type: 8
+      index: 3
+      keyIndices: 090000000a0000000b000000
+    - type: 8
+      index: 4
+      keyIndices: 0c0000000d0000000e000000
+    - type: 8
+      index: 5
+      keyIndices: 0f0000001000000011000000
+    - type: 4
       index: 0
       keyIndices: 0000000001000000
     - type: 3
       index: 0
       keyIndices: 00000000
     - type: 7
-      index: 3
-      keyIndices: 0700000008000000090000000a0000000b0000000c0000000d0000000e000000
-    - type: 7
-      index: 4
-      keyIndices: 0f00000010000000110000001200000013000000
-    - type: 8
       index: 0
-      keyIndices: 00000000010000000200000003000000
+      keyIndices: 0000000001000000020000000300000004000000
     - type: 10
       index: 0
       keyIndices: 000000000100000002000000
-    - type: 7
-      index: 5
-      keyIndices: 1400000015000000
-    - type: 8
-      index: 1
-      keyIndices: 0400000005000000
     - type: 10
       index: 1
-      keyIndices: 030000000400000005000000
-    - type: 7
+      keyIndices: 0300000004000000
+    - type: 10
+      index: 2
+      keyIndices: 0500000006000000
+    - type: 10
+      index: 3
+      keyIndices: 0700000008000000
+    - type: 8
       index: 6
-      keyIndices: 160000001700000018000000
-    - type: 7
+      keyIndices: 12000000130000001400000015000000
+    - type: 8
       index: 7
-      keyIndices: 190000001a0000001b0000001c0000001d000000
-    - type: 7
+      keyIndices: 16000000170000001800000019000000
+    - type: 8
       index: 8
-      keyIndices: 1e0000001f00000020000000
-    - type: 7
+      keyIndices: 1a0000001b0000001c0000001d000000
+    - type: 8
       index: 9
-      keyIndices: 210000002200000023000000
-    - type: 4
-      index: 0
-      keyIndices: 00000000
-    - type: 7
+      keyIndices: 1e0000001f0000002000000021000000
+    - type: 8
       index: 10
-      keyIndices: 240000002500000026000000
-    - type: 7
+      keyIndices: 22000000230000002400000025000000
+    - type: 8
       index: 11
-      keyIndices: 2700000028000000290000002a000000
-    - type: 8
-      index: 2
-      keyIndices: 0600000007000000
-    - type: 10
-      index: 2
-      keyIndices: 060000000700000008000000
-    - type: 7
-      index: 12
-      keyIndices: 2b000000
-    - type: 7
-      index: 13
-      keyIndices: 2c0000002d000000
-    - type: 8
-      index: 3
-      keyIndices: 08000000
-    - type: 7
-      index: 14
-      keyIndices: 2e0000002f00000030000000
-    - type: 3
+      keyIndices: 26000000270000002800000029000000
+    - type: 4
       index: 1
-      keyIndices: 01000000
-    - type: 10
-      index: 3
-      keyIndices: 09000000
+      keyIndices: 0200000003000000
     - type: 7
-      index: 15
-      keyIndices: 31000000
-    - type: 7
-      index: 16
-      keyIndices: 3200000033000000
-    - type: 7
-      index: 17
-      keyIndices: 340000003500000036000000
-    - type: 11
       index: 1
-      keyIndices: 020000000300000004000000
-    - type: 7
-      index: 18
-      keyIndices: 3700000038000000390000003a0000003b000000
+      keyIndices: 050000000600000007000000
     - type: 10
       index: 4
-      keyIndices: 0a0000000b0000000c0000000d000000
-    - type: 7
-      index: 19
-      keyIndices: 3c0000003d0000003e000000
+      keyIndices: 090000000a0000000b0000000c000000
     - type: 10
       index: 5
-      keyIndices: 0e0000000f00000010000000
-    - type: 7
-      index: 20
-      keyIndices: 3f000000400000004100000042000000
+      keyIndices: 0d0000000e0000000f00000010000000
     - type: 10
       index: 6
       keyIndices: 11000000120000001300000014000000
-    _takeTrackCounts: 050000000100000003000000030000000100000004000000040000000600000004000000020000000200000002000000
---- !u!114 &3838182837196035996
+    - type: 10
+      index: 7
+      keyIndices: 15000000160000001700000018000000
+    _takeTrackCounts: 0d0000000c000000
+--- !u!61 &2508020393077471780
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020393077471803}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.00000011920929, y: 1.3818772}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3.0022433, y: 3.8084655}
+  m_EdgeRadius: 0
+--- !u!114 &2508020393077471783
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8992602271487551781}
+  m_GameObject: {fileID: 2508020393077471803}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bdec5f3ea2f9859429e69b1f03e027b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 0, z: 0}
-  color: {r: 0.17647058, g: 1, b: 0.34675583, a: 1}
+  color: {r: 0.6475285, g: 0.3496351, b: 0.9150943, a: 1}
   radius: 0.1
   solid: 1
   useCollider: 0
+--- !u!1 &2508020393197941698
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2508020393197941709}
+  - component: {fileID: 2508020393197941708}
+  m_Layer: 0
+  m_Name: colonyShip_body
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2508020393197941709
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020393197941698}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.009, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2508020392783420804}
+  - {fileID: 2508020391889212499}
+  - {fileID: 2508020392544110913}
+  - {fileID: 2508020392190223908}
+  - {fileID: 2508020392250732292}
+  m_Father: {fileID: 2508020393431712069}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &2508020393197941708
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020393197941698}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 2043895669
+  m_SortingLayer: 10
+  m_SortingOrder: -10
+  m_Sprite: {fileID: 21300000, guid: ed04c3c50dec78a4b81e776f0cdae67d, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 3.0625, y: 4.0625}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1 &2508020393235749828
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2508020393235749831}
+  - component: {fileID: 2508020393235749830}
+  m_Layer: 0
+  m_Name: colonyShip_thruster (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2508020393235749831
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020393235749828}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.435, y: -0.463, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2508020392190223908}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &2508020393235749830
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020393235749828}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 2043895669
+  m_SortingLayer: 10
+  m_SortingOrder: -36
+  m_Sprite: {fileID: 21300000, guid: 61897feab3ef304458258a7f28651a37, type: 3}
+  m_Color: {r: 0.801, g: 0.801, b: 0.801, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.6875, y: 0.625}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1 &2508020393320853794
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2508020393320853805}
+  - component: {fileID: 2508020393320853804}
+  m_Layer: 0
+  m_Name: colonyShip_joint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2508020393320853805
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020393320853794}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.648, y: 0.004, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2508020391889212499}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &2508020393320853804
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020393320853794}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 2043895669
+  m_SortingLayer: 10
+  m_SortingOrder: -30
+  m_Sprite: {fileID: 21300000, guid: 0b672bba72e7f1d49bd0439a487d075d, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.375, y: 0.375}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1 &2508020393426318786
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2508020393426318797}
+  - component: {fileID: 2508020393426318796}
+  m_Layer: 0
+  m_Name: colonyShip_thruster (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2508020393426318797
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020393426318786}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.435, y: -0.467, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2508020392190223908}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &2508020393426318796
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020393426318786}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 2043895669
+  m_SortingLayer: 10
+  m_SortingOrder: -36
+  m_Sprite: {fileID: 21300000, guid: 61897feab3ef304458258a7f28651a37, type: 3}
+  m_Color: {r: 0.801, g: 0.801, b: 0.801, a: 1}
+  m_FlipX: 1
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.6875, y: 0.625}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1 &2508020393431712090
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2508020393431712069}
+  m_Layer: 8
+  m_Name: active
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2508020393431712069
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508020393431712090}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.764, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2508020393197941709}
+  m_Father: {fileID: 2508020393077471781}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

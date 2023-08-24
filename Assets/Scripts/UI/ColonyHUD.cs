@@ -25,6 +25,8 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
 
     [Header("New House Info Display")]
     public GameObject newHouseInfoActiveGO;
+    [M8.Localize]
+    public string newHouseInfoTextRef;
 
     [Header("Animation")]
     public M8.Animator.Animate animator;
@@ -130,6 +132,7 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
     private Coroutine mSwitchModeRout;
 
     private Coroutine mNewHouseInfoRout;
+    private bool mNewHouseInfoSpeak;
 
     public void PlacementAccept() {
         var colonyCtrl = ColonyController.instance;
@@ -300,6 +303,9 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
 
         paletteStructureWidget.ClearGroupActive();
 
+        if(mNewHouseInfoRout == null)
+            mNewHouseInfoSpeak = true;
+
         ShowNewHouseInfo();
     }
 
@@ -378,6 +384,14 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
 
         if(!mIsPlacementActive) {
             if(newHouseInfoActiveGO) newHouseInfoActiveGO.SetActive(true);
+
+            yield return new WaitForSeconds(0.3f);
+
+            if(mNewHouseInfoSpeak) {
+                if(!string.IsNullOrEmpty(newHouseInfoTextRef))
+                    LoLExt.LoLManager.instance.SpeakText(newHouseInfoTextRef);
+                mNewHouseInfoSpeak = false;
+            }
         }
 
         mNewHouseInfoRout = null;
@@ -393,10 +407,13 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
         //only show if available
         var structurePaletteCtrl = ColonyController.instance.structurePaletteController;
 
+        var houseCount = structurePaletteCtrl.GetHouseCount();
+        var houseCapacity = structurePaletteCtrl.GetHouseCapacity();
+
         if(structurePaletteCtrl.GetHouseCapacity() == 1) //don't show in the beginning
             return;
 
-        if(structurePaletteCtrl.IsHouseAvailable()) {
+        if(houseCount < houseCapacity) {
             mNewHouseInfoRout = StartCoroutine(DoShowNewHouseInfo());
         }
     }

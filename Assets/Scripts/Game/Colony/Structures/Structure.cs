@@ -28,6 +28,8 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     public int takeDestroyed = -1;
     [M8.Animator.TakeSelector]
     public int takeDemolish = -1;
+    [M8.Animator.TakeSelector]
+    public int takeVictory = -1;
 
     [Header("Dimensions")]
     [SerializeField]
@@ -486,6 +488,13 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
                 mRout = StartCoroutine(DoDemolish());
                 break;
 
+            case StructureState.Victory:
+                physicsActive = false;
+
+                if(takeVictory != -1)
+                    animator.Play(takeVictory);
+                break;
+
             case StructureState.None:
                 if(animator)
                     animator.Stop();
@@ -605,6 +614,8 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
 
         RefreshWaypoints();
 
+        if(GameData.instance.signalVictory) GameData.instance.signalVictory.callback += OnVictory;
+
         Spawned();
     }
 
@@ -617,6 +628,8 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     }
 
     void M8.IPoolDespawn.OnDespawned() {
+        if(GameData.instance.signalVictory) GameData.instance.signalVictory.callback -= OnVictory;
+
         state = StructureState.None;
 
         if(mWorldWaypoints != null) { //clear out waypoint marks
@@ -650,6 +663,11 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
 
         isClicked = true;
         GameData.instance.signalStructureClick?.Invoke(this);
+    }
+
+    void OnVictory() {
+        if(state == StructureState.None)
+            state = StructureState.Victory;
     }
 
     IEnumerator DoConstruction() {

@@ -53,6 +53,7 @@ SpriteAtlas:
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: 21300000, guid: efb30510923c8e341a94021d37b90f02, type: 3}
   - {fileID: 21300000, guid: 8e82e4308846c6a419e3327bdca0faf4, type: 3}
   - {fileID: 21300000, guid: 3b2b4640e66b71643aebaa43a9c22ee5, type: 3}
   - {fileID: 21300000, guid: 0b7ce160622e272439a38b7041c8153c, type: 3}
@@ -111,6 +112,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 5b879903c40dc9c4d8d14d6a35253dbe, type: 3}
   - {fileID: 21300000, guid: 13e7a5134edbf4d488a8e3ec15a11f4b, type: 3}
   - {fileID: 21300000, guid: c05e5e136fe7a084084e48c38b81b054, type: 3}
+  - {fileID: 21300000, guid: 425bb223fc171864cbce99edbb973804, type: 3}
   - {fileID: 21300000, guid: 0d7865338b255d74c91a3363a206e54f, type: 3}
   - {fileID: 21300000, guid: 623a304307bd37f428d507823f1dd91a, type: 3}
   - {fileID: 21300000, guid: df4b3443a66668842a035a006fef682c, type: 3}
@@ -119,6 +121,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 6365d063b104ede43a6f2866a82d29fe, type: 3}
   - {fileID: 21300000, guid: 7a4077635c059a8469ee86414b4615e9, type: 3}
   - {fileID: 21300000, guid: 6e42396373e7f17478e871a190e7a848, type: 3}
+  - {fileID: 21300000, guid: 09334573304a52d49a1f19aec56acfb6, type: 3}
   - {fileID: 21300000, guid: 0b70367339fa44f43bea142698c0b6ac, type: 3}
   - {fileID: 21300000, guid: e5dc777390553e4499a405c82af83aef, type: 3}
   - {fileID: 21300000, guid: 651213832b1ec7a4289e14fa81b2c679, type: 3}
@@ -145,6 +148,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 0dcc4ca4a407f4b47b76fd2730144ba6, type: 3}
   - {fileID: 21300000, guid: 90078ea4ac24fff4f90bb7e8e121024d, type: 3}
   - {fileID: 21300000, guid: 2a9196c44baef2b46825f228c6c888ee, type: 3}
+  - {fileID: 21300000, guid: b6bf19d4ccd6b3d49a7e075574aabd0c, type: 3}
   - {fileID: 21300000, guid: 69b9a3e4a51d75e4e8a23efcae4f019f, type: 3}
   - {fileID: 21300000, guid: 21c769e4040edd24e83c0830fb109b60, type: 3}
   - {fileID: 21300000, guid: aeff4ee443109df4aa32b4458b58432d, type: 3}
@@ -167,6 +171,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 6225c0852077c6c44ac16831acb2b0ca, type: 3}
   - {fileID: 21300000, guid: 5a5f968574ee14a4ba797d4847282e3b, type: 3}
   - {fileID: 21300000, guid: 4e5f99955be3b514ea3b3003cbf917a1, type: 3}
+  - {fileID: 21300000, guid: 1f5cadb50390689459d6d01efc5893db, type: 3}
   - {fileID: 21300000, guid: ed04c3c50dec78a4b81e776f0cdae67d, type: 3}
   - {fileID: 21300000, guid: 09619be537e2ee440ba09ccceec1e24f, type: 3}
   - {fileID: 21300000, guid: 7881fd06e455ffc4c952103cb3721d91, type: 3}
@@ -313,6 +318,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: fba64e4d913c49b42819f7e8b8b1a436, type: 3}
   - {fileID: 21300000, guid: e6bbbc5d75b40d04089166d070028677, type: 3}
   - {fileID: 21300000, guid: 3cb8e07d42442594db4d310e61772300, type: 3}
+  - {fileID: 21300000, guid: 998bcf7d461949f43b6363e2e6b63f42, type: 3}
   - {fileID: 21300000, guid: 628fac9d629a5a943ba00873d3a83348, type: 3}
   - {fileID: 21300000, guid: 491590bdd3f0af440aa40459445aa8c9, type: 3}
   - {fileID: 21300000, guid: 1fd3c0bded41dc9459de817705cd24c0, type: 3}
@@ -341,6 +347,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: b92ab8feeacf6fd4692ac0f6714e6470, type: 3}
   - {fileID: 21300000, guid: 7fd21bfee80230e44819922ebeb8f001, type: 3}
   - {fileID: 21300000, guid: 9aa3560f1644a2145a61c0231787431d, type: 3}
+  - {fileID: 21300000, guid: 4ba7fa0f1f2067943a76978851a0a7d2, type: 3}
   - {fileID: 21300000, guid: 3c73311f8d530ad4ea7116f60eae91b2, type: 3}
   - {fileID: 21300000, guid: 82a46a1f521993145bd70c049304c9d0, type: 3}
   - {fileID: 21300000, guid: a510922fc711a644e9da17b8a599fb4f, type: 3}
@@ -367,6 +374,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: d68cf5ef691d71f438c862c367d6137a, type: 3}
   - {fileID: 21300000, guid: d33d4aef725d9fa4d825742edfe50ca9, type: 3}
   m_PackedSpriteNamesToIndex:
+  - rank_SS
   - structureIcon_windTurbine
   - beetle4
   - humidity_map_spring
@@ -425,6 +433,7 @@ SpriteAtlas:
   - temperature_map_winter
   - frogGardener_act_1
   - roundRectGlow
+  - rank_S
   - frogHunter_attack_0
   - frogHunter_idle_1
   - circleFuzzyGlow
@@ -433,6 +442,7 @@ SpriteAtlas:
   - ringGlowLarge
   - frogIcon
   - mole_walk_2
+  - victoryHouseIcon
   - plant_flower04
   - explodePixel4
   - frogHunter_act_2
@@ -459,6 +469,7 @@ SpriteAtlas:
   - frogMedic_hurt_2
   - structureIcon_house
   - waterTank_base
+  - rank_A
   - frogShipCrew_1
   - explodePixel5
   - vine_stem
@@ -481,6 +492,7 @@ SpriteAtlas:
   - plant_root
   - solarPanel_support_bottom
   - structureGroup_agriculture
+  - rank_D
   - colonyShip_body
   - statusIcon_demolish
   - frogHunter_move_3
@@ -627,6 +639,7 @@ SpriteAtlas:
   - thumbsUp
   - plant_leaf03
   - frogGardener_move_2
+  - rank_B
   - frogCivilian_idle_4
   - frogHorticulturist_idle_3
   - frogGardener_dying_0
@@ -655,6 +668,7 @@ SpriteAtlas:
   - frogHorticulturist_run_0
   - frogEngineer_hurt_2
   - windTurbine_pipe
+  - rank_C
   - statusIcon_construct
   - frogCivilian_move_0
   - plant_leaf05

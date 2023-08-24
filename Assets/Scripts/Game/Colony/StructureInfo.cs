@@ -13,6 +13,7 @@ public enum StructureState {
     Moving, //for moveable structures, start moving
     Destroyed, //when hitpoint reaches 0
     Demolish, //when deconstruct via UI
+    Victory, //special cases, otherwise stops all activity
 }
 
 public enum StructureStatus {

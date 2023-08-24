@@ -16,6 +16,7 @@ MonoBehaviour:
   modalHotspotInvestigate: hotspotInvestigate
   modalHotspotAnalyze: hotspotAnalyze
   modalWeatherForecast: weatherForecast
+  modalVictory: victory
   seasons:
   - {fileID: 11400000, guid: ed63ca993a99fc846aae09147cbb7b26, type: 2}
   - {fileID: 11400000, guid: ac5f6108cc5374647a455ba1ad6db09d, type: 2}
@@ -91,6 +92,7 @@ MonoBehaviour:
     path: 
   signalColonyStart: {fileID: 11400000, guid: 3edf050b350006a4b94870b2f1de9233, type: 2}
   signalClickCategory: {fileID: 11400000, guid: 821168db214a9e24fa0ee2b13a8e3d31, type: 2}
+  signalVictory: {fileID: 11400000, guid: a04f93fbfae3bb349aa24d5d7b3ae138, type: 2}
   signalCycleBegin: {fileID: 11400000, guid: d4036c4cb45ad164fb7af0cfe7bbe2a4, type: 2}
   signalCycleNext: {fileID: 11400000, guid: afd17a7934cd42140b72612cd8d7f699, type: 2}
   signalCycleEnd: {fileID: 11400000, guid: 489c025c4ad3b0a4fa9210adff1216a1, type: 2}
