@@ -182,7 +182,9 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public string GetCycleName(int cycleIndex) {
         if(cycleDayNameRefs == null || cycleDayNameRefs.Length == 0) return ""; //fail-safe
 
-        return M8.Localize.Get(cycleDayNameRefs[cycleIndex % cycleDayNameRefs.Length]);
+        var textRef = cycleDayNameRefs[cycleIndex % cycleDayNameRefs.Length];
+
+        return string.IsNullOrEmpty(textRef) ? "" : M8.Localize.Get(textRef);
     }
 
     public void ProgressReset() {

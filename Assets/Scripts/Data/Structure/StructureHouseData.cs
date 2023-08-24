@@ -28,6 +28,9 @@ public class StructureHouseData : StructureData {
     public int citizenCapacity;
     public int citizenWorkerCapacity = 1;
 
+    [Header("Decay Info")]
+    public float lowPowerDecayDelay = 5f;
+
     [Header("Population Info")]
     [SerializeField]
     PopulationLevelInfo[] _populationLevels;

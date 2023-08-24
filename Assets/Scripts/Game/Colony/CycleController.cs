@@ -25,7 +25,8 @@ public class CycleController : MonoBehaviour {
     public float cycleTimeScale { get; set; }
     public float cycleDuration { get; private set; }
     public float cycleDayDuration { get { return cycleDuration * daylightScale; } }
-    
+    public float cycleNightDuration { get { return cycleDuration * Mathf.Clamp01(1.0f - daylightScale); } }
+
     public int cycleCount { get { return cycleData.cycles.Length; } }
 
     public bool cycleIsDay {

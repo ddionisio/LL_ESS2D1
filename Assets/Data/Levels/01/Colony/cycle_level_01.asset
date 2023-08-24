@@ -21,52 +21,127 @@ MonoBehaviour:
       wind: 0
       water: 0
       growth: 0
-    windDirAngle: 0
-  - weather: {fileID: 11400000, guid: 17368d584a51685429cbcf06bf9b5557, type: 2}
-    atmosphereMods: []
+    windDirAngle: 90
+  - weather: {fileID: 11400000, guid: 192fbfa12f3149f47a212b16627ef381, type: 2}
+    atmosphereMods:
+    - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
+      isOverride: 0
+      range:
+        min: -5
+        max: -5
+    - atmosphere: {fileID: 11400000, guid: a1acb9bb17afa9e47bd265ddc249f905, type: 2}
+      isOverride: 0
+      range:
+        min: 2
+        max: 2
+    - atmosphere: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
+      isOverride: 0
+      range:
+        min: -2
+        max: -2
     resourceScaleMod:
       sunDay: 0
+      sunNight: 0.1
+      wind: 0
+      water: 0
+      growth: 0
+    windDirAngle: 90
+  - weather: {fileID: 11400000, guid: 1d8d47ba9dcfcfb47948c60462be2fe2, type: 2}
+    atmosphereMods:
+    - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
+      isOverride: 0
+      range:
+        min: -8
+        max: -8
+    - atmosphere: {fileID: 11400000, guid: a1acb9bb17afa9e47bd265ddc249f905, type: 2}
+      isOverride: 0
+      range:
+        min: 12
+        max: 12
+    - atmosphere: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
+      isOverride: 0
+      range:
+        min: 1
+        max: 1
+    resourceScaleMod:
+      sunDay: -0.1
       sunNight: 0
       wind: 0
       water: 0
       growth: 0
-    windDirAngle: 0
-  - weather: {fileID: 11400000, guid: 17368d584a51685429cbcf06bf9b5557, type: 2}
-    atmosphereMods: []
+    windDirAngle: 90
+  - weather: {fileID: 11400000, guid: 7c3ec5c1719f26947a06eafe6e8e92c6, type: 2}
+    atmosphereMods:
+    - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
+      isOverride: 0
+      range:
+        min: -11
+        max: -11
+    - atmosphere: {fileID: 11400000, guid: a1acb9bb17afa9e47bd265ddc249f905, type: 2}
+      isOverride: 0
+      range:
+        min: 9
+        max: 9
+    - atmosphere: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
+      isOverride: 0
+      range:
+        min: -1
+        max: -1
+    resourceScaleMod:
+      sunDay: -0.2
+      sunNight: 0
+      wind: 0
+      water: 0.2
+      growth: 0.02
+    windDirAngle: 90
+  - weather: {fileID: 11400000, guid: 192fbfa12f3149f47a212b16627ef381, type: 2}
+    atmosphereMods:
+    - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
+      isOverride: 0
+      range:
+        min: -6
+        max: -6
+    - atmosphere: {fileID: 11400000, guid: a1acb9bb17afa9e47bd265ddc249f905, type: 2}
+      isOverride: 0
+      range:
+        min: 6
+        max: 6
+    - atmosphere: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
+      isOverride: 0
+      range:
+        min: -3
+        max: -3
     resourceScaleMod:
       sunDay: 0
-      sunNight: 0
+      sunNight: 0.1
       wind: 0
       water: 0
       growth: 0
-    windDirAngle: 0
+    windDirAngle: 90
   - weather: {fileID: 11400000, guid: 17368d584a51685429cbcf06bf9b5557, type: 2}
-    atmosphereMods: []
+    atmosphereMods:
+    - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
+      isOverride: 0
+      range:
+        min: -4
+        max: -4
+    - atmosphere: {fileID: 11400000, guid: a1acb9bb17afa9e47bd265ddc249f905, type: 2}
+      isOverride: 0
+      range:
+        min: -2
+        max: -2
+    - atmosphere: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
+      isOverride: 0
+      range:
+        min: -2
+        max: -2
     resourceScaleMod:
       sunDay: 0
-      sunNight: 0
+      sunNight: 0.1
       wind: 0
       water: 0
       growth: 0
-    windDirAngle: 0
-  - weather: {fileID: 11400000, guid: 17368d584a51685429cbcf06bf9b5557, type: 2}
-    atmosphereMods: []
-    resourceScaleMod:
-      sunDay: 0
-      sunNight: 0
-      wind: 0
-      water: 0
-      growth: 0
-    windDirAngle: 0
-  - weather: {fileID: 11400000, guid: 17368d584a51685429cbcf06bf9b5557, type: 2}
-    atmosphereMods: []
-    resourceScaleMod:
-      sunDay: 0
-      sunNight: 0
-      wind: 0
-      water: 0
-      growth: 0
-    windDirAngle: 0
+    windDirAngle: 90
   cycleTotalDuration: 150
   resourceScale:
     sunDay: 1

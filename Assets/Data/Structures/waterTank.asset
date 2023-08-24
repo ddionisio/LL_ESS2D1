@@ -15,9 +15,9 @@ MonoBehaviour:
   nameRef: 
   descRef: 
   icon: {fileID: 21300000, guid: 0b4bfccb6b6176c408261ee04e00771d, type: 3}
-  hitpoints: 4
+  hitpoints: 3
   buildTime: 2
-  workCapacity: 2
+  workCapacity: 1
   isReparable: 1
   isDemolishable: 1
   ghostPrefab: {fileID: 8913103262921130422, guid: aece5595cb3ee4847ba187eb30e10e17, type: 3}

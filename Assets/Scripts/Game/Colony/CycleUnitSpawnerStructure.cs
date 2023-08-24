@@ -20,7 +20,7 @@ public class CycleUnitSpawnerStructure : CycleUnitSpawnerBase {
         }
     }
 
-    public override void Init() {
+    protected override void Init() {
         base.Init();
 
         mStructureAvailable = new M8.CacheList<Structure>(ColonyController.instance.structurePaletteController.structureActives.Capacity);

@@ -29,6 +29,7 @@ MonoBehaviour:
   citizenStartCount: 1
   citizenCapacity: 5
   citizenWorkerCapacity: 1
+  lowPowerDecayDelay: 5
   _populationLevels:
   - foodMax: 1
     waterMax: 0
@@ -44,4 +45,4 @@ MonoBehaviour:
     powerConsumption: 12
   - foodMax: 1
     waterMax: 1
-    powerConsumption: 12
+    powerConsumption: 15

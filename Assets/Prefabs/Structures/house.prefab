@@ -4762,7 +4762,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: e83ac30213f1d45408bf3b8631da5125, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -20346,6 +20346,7 @@ MonoBehaviour:
   takeMoveFinish: 4
   takeDestroyed: 5
   takeDemolish: -1
+  takeVictory: -1
   _waypointGroups:
   - name: spawn
     waypoints:

@@ -60,7 +60,7 @@ public class CycleUnitSpawnerWaypoint : CycleUnitSpawnerBase {
             mCurWaypointInd = 0;
     }
 
-    public override void Init() {
+    protected override void Init() {
         base.Init();
 
         for(int i = 0; i < _waypoints.Length; i++)

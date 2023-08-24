@@ -57,7 +57,7 @@ public abstract class CycleUnitSpawnerBase : CycleControlBase {
         }
     }
 
-    public override void Init() {
+    protected override void Init() {
         base.Init();
 
         var gameDat = GameData.instance;
@@ -84,7 +84,7 @@ public abstract class CycleUnitSpawnerBase : CycleControlBase {
         unitData.Setup(colonyCtrl);
     }
 
-    public override void Deinit() {
+    protected override void Deinit() {
         if(GameData.isInstantiated) {
             var gameDat = GameData.instance;
 

@@ -82,7 +82,8 @@ public class WeatherForecastItemWidget : MonoBehaviour, IPointerClickHandler {
     private bool mIsExpand;
 
     public void SetCycleNameToCurrent() {
-        if(dayLabel) dayLabel.text = M8.Localize.Get(GameData.instance.cycleDayNameCurrentRef);
+        var textRef = GameData.instance.cycleDayNameCurrentRef;
+        if(dayLabel) dayLabel.text = string.IsNullOrEmpty(textRef) ? "" : M8.Localize.Get(GameData.instance.cycleDayNameCurrentRef);
     }
 
     public void SetCycleName(int cycleIndex) {

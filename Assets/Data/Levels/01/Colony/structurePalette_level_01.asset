@@ -33,15 +33,17 @@ MonoBehaviour:
     - data: {fileID: 11400000, guid: 00c13b5caec751f4cac6d8ab4a682fc4, type: 2}
       populationQuotaUnlock: 1
     - data: {fileID: 11400000, guid: 8208dd7fc10f033418395759cf155bf5, type: 2}
-      populationQuotaUnlock: 4
+      populationQuotaUnlock: 2
     capacityStart: 0
-    capacity: 2
+    capacity: 3
     highlightOnAvailable: 0
     pauseCycleOnAvailable: 0
     capacityUpgrades:
     - populationQuota: 1
       capacityIncrease: 1
-    - populationQuota: 4
+    - populationQuota: 2
+      capacityIncrease: 1
+    - populationQuota: 6
       capacityIncrease: 1
   - nameRef: 
     icon: {fileID: 21300000, guid: c1d90da3a06a5984bbb5bc10c4315700, type: 3}
@@ -51,7 +53,7 @@ MonoBehaviour:
     - data: {fileID: 11400000, guid: 055a6f0de3afd324eac0f3cd1ac87593, type: 2}
       populationQuotaUnlock: 2
     capacityStart: 0
-    capacity: 4
+    capacity: 5
     highlightOnAvailable: 0
     pauseCycleOnAvailable: 0
     capacityUpgrades:
@@ -60,4 +62,6 @@ MonoBehaviour:
     - populationQuota: 4
       capacityIncrease: 2
     - populationQuota: 6
+      capacityIncrease: 1
+    - populationQuota: 10
       capacityIncrease: 1
