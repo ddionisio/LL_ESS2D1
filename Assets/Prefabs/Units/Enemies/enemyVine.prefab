@@ -188,8 +188,8 @@ MonoBehaviour:
       customEase: []
       useSendMessage: 0
       parameters: []
-      methodName: 
-      componentType: 
+      methodName: Play
+      componentType: ParticleSystem
     - interp: 0
       frame: 1
       easeType: 1

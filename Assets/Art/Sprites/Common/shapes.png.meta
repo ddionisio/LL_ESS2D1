@@ -11,6 +11,9 @@ TextureImporter:
   - first:
       213: -8166966530815011495
     second: rightTriangle
+  - first:
+      213: -488248382649040768
+    second: trapezoid
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -185,6 +188,31 @@ TextureImporter:
       bones: []
       spriteID: 955544ee53b19ae80800000000000000
       internalID: -8166966530815011495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trapezoid
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 4
+        height: 4
+      alignment: 9
+      pivot: {x: 0.5, y: -0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -2, y: 2}
+        - {x: -0.58000004, y: -2}
+        - {x: 0.5600002, y: -2}
+        - {x: 2, y: 2}
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0808b0ecea46939f0800000000000000
+      internalID: -488248382649040768
       vertices: []
       indices: 
       edges: []

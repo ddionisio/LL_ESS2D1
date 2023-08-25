@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5199366895629414582
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5199366895629414583}
+  - component: {fileID: 5199366895629414580}
+  m_Layer: 0
+  m_Name: cameraColor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5199366895629414583
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5199366895629414582}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5199366895629414580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5199366895629414582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdf064ab244f8f64bad9c66e4269b7ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weatherTransitions:
+  - weather: {fileID: 11400000, guid: 192fbfa12f3149f47a212b16627ef381, type: 2}
+    color: {r: 0.752, g: 0.752, b: 0.752, a: 1}
+  - weather: {fileID: 11400000, guid: 1d8d47ba9dcfcfb47948c60462be2fe2, type: 2}
+    color: {r: 0.404, g: 0.404, b: 0.404, a: 1}
+  - weather: {fileID: 11400000, guid: 02fb9d56c09bfc84c804e3a38a075f36, type: 2}
+    color: {r: 0.34901962, g: 0.34901962, b: 0.34901962, a: 1}
+  - weather: {fileID: 11400000, guid: 7c3ec5c1719f26947a06eafe6e8e92c6, type: 2}
+    color: {r: 0.348, g: 0.348, b: 0.348, a: 1}
+  startColor: {r: 0.1254902, g: 0.10980393, b: 0.1764706, a: 1}
+  dayColors:
+  - {r: 0.1254902, g: 0.10980393, b: 0.1764706, a: 1}
+  - {r: 0.2784314, g: 0.20392159, b: 0.28235295, a: 1}
+  - {r: 0.43137258, g: 0.30588236, b: 0.38431376, a: 1}
+  - {r: 0.5411765, g: 0.32156864, b: 0.3647059, a: 1}
+  - {r: 0.9490196, g: 0.654902, b: 0.5372549, a: 1}
+  - {r: 0.6392157, g: 0.5294118, b: 0.6, a: 1}
+  - {r: 0.58431375, g: 0.54509807, b: 0.654902, a: 1}
+  nightColors:
+  - {r: 0.58431375, g: 0.54509807, b: 0.654902, a: 1}
+  - {r: 0.6392157, g: 0.5294118, b: 0.6, a: 1}
+  - {r: 0.9490196, g: 0.654902, b: 0.5372549, a: 1}
+  - {r: 0.5411765, g: 0.32156864, b: 0.3647059, a: 1}
+  - {r: 0.43137258, g: 0.30588236, b: 0.38431376, a: 1}
+  - {r: 0.2784314, g: 0.20392159, b: 0.28235295, a: 1}
+  - {r: 0.1254902, g: 0.10980393, b: 0.1764706, a: 1}
+  endColors:
+  - {r: 0.9490197, g: 0.654902, b: 0.5372549, a: 1}
+  delayTransitionScale: 0.4
+  endDelay: 0.5

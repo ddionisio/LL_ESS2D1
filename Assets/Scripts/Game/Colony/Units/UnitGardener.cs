@@ -13,7 +13,7 @@ public class UnitGardener : Unit {
     private StructurePlant mTargetPlant;
     private bool mTargetPlantIsWorkAdded;
 
-    public bool canWork { get { return ColonyController.instance.cycleController.cycleTimeScale > 0f; } }
+    public bool canWork { get { return ColonyController.instance.cycleAllowProgress; } }
 
     protected override void ClearCurrentState() {
         base.ClearCurrentState();

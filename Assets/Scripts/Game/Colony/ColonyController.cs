@@ -96,7 +96,7 @@ public class ColonyController : GameModeController<ColonyController> {
         public float scale { get { return Mathf.Clamp01(amount / capacity); } }
 
         public bool isFull { get { return amount >= capacity; } }
-
+                
         public List<ResourceFixedAmount> resourceFixed { get { return mResourceFixed; } }
         public List<ResourceQuota> resourceQuotas { get { return mResourceQuotas; } }
 
@@ -170,6 +170,10 @@ public class ColonyController : GameModeController<ColonyController> {
     [Header("Signal Invoke")]
     public M8.Signal signalInvokePopulationUpdate;
     public M8.Signal signalInvokeResourceUpdate;
+
+    [Header("Sequence")]
+    [Tooltip("Use this for dialog, lessons, etc.")]
+    public ColonySequenceBase sequence;
         
     [Header("Debug")]
     public bool debugEnabled;
@@ -257,6 +261,15 @@ public class ColonyController : GameModeController<ColonyController> {
                 }
             }
         }
+    }
+
+    public bool cycleAllowProgress { 
+        get {
+            if(cycleController.cycleTimeScale > 0f)
+                return true;
+
+            return sequence && sequence.cyclePauseAllowProgress;
+        } 
     }
 
     public event System.Action<TimeState> fastforwardChangedCallback;
@@ -361,6 +374,9 @@ public class ColonyController : GameModeController<ColonyController> {
     }
 
     protected override void OnInstanceDeinit() {
+        if(sequence)
+            sequence.Deinit();
+
         var gameDat = GameData.instance;
 
         if(gameDat.signalCycleNext) gameDat.signalCycleNext.callback -= OnCycleNext;
@@ -457,6 +473,9 @@ public class ColonyController : GameModeController<ColonyController> {
 
         //setup signals
         if(gameDat.signalCycleNext) gameDat.signalCycleNext.callback += OnCycleNext;
+
+        if(sequence)
+            sequence.Init();
     }
 
     protected override IEnumerator Start() {
@@ -468,16 +487,21 @@ public class ColonyController : GameModeController<ColonyController> {
 
         gameDat.signalColonyStart?.Invoke();
 
-        //dialog, etc.
+        if(sequence)
+            yield return sequence.Intro();
 
         //weather forecast
         ShowWeatherForecast(true, false);
+
+        if(sequence)
+            yield return sequence.Forecast();
 
         //wait for forecast to close
         while(M8.ModalManager.main.IsInStack(gameDat.modalWeatherForecast) || M8.ModalManager.main.isBusy)
             yield return null;
 
-        //dialog, etc.
+        if(sequence)
+            yield return sequence.ColonyShipPreEnter();
 
         //colony ship enter
         colonyShip.Spawn();
@@ -485,6 +509,9 @@ public class ColonyController : GameModeController<ColonyController> {
         //wait for colony to be active
         while(colonyShip.state != StructureState.Active)
             yield return null;
+
+        if(sequence)
+            yield return sequence.ColonyShipPostEnter();
 
         yield return DoCycle();
 
@@ -513,13 +540,16 @@ public class ColonyController : GameModeController<ColonyController> {
     IEnumerator DoCycle() {
         cycleController.Begin();
 
+        if(sequence)
+            sequence.CycleBegin();
+
         mIsHazzard = cycleController.isHazzard; //shouldn't really have hazzard on first cycle...
         if(mIsHazzard) {
             mIsCyclePause = false;
             timeState = TimeState.None;
         }
         else {
-            mIsCyclePause = structurePaletteController.isPauseCycle;
+            mIsCyclePause = structurePaletteController.isPauseCycle || (sequence && sequence.isPauseCycle);
             timeState = mIsCyclePause ? TimeState.CyclePause : TimeState.Normal;
         }
 
@@ -530,7 +560,7 @@ public class ColonyController : GameModeController<ColonyController> {
             yield return null;
 
             //check if we need to pause cycle
-            var isCyclePause = structurePaletteController.isPauseCycle;
+            var isCyclePause = structurePaletteController.isPauseCycle || (sequence && sequence.isPauseCycle);
             if(mIsCyclePause != isCyclePause) {
                 mIsCyclePause = isCyclePause;
                 timeState = mIsCyclePause ? TimeState.CyclePause : TimeState.Normal;
@@ -561,10 +591,14 @@ public class ColonyController : GameModeController<ColonyController> {
 
         timeState = TimeState.None;
 
-        //determine population count, reset cycle if player needs more population
+        if(sequence)
+            yield return sequence.CycleEnd();
     }
 
     void OnCycleNext() {
+        if(sequence)
+            sequence.CycleNext();
+
         //stop any interaction during hazzard event
         if(mIsHazzard != cycleController.isHazzard) {
             mIsHazzard = cycleController.isHazzard;

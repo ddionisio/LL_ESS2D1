@@ -11,10 +11,11 @@ public abstract class CycleUnitSpawnerBase : CycleControlBase {
 
     [Header("Spawn Info")]
     public UnitData unitData;
-    
+        
     [Header("Cycle Info")]
     [Tooltip("Cycle range for when this spawner is active, will despawn everything after max range (set to -1 to despawn at CycleEnd)")]
     public M8.RangeInt cycleIndexRange;
+    public bool cycleDespawnAfterMax;
     public SpawnInfo[] cycleSpawnSequence; //determines maximum spawn count in delayed sequence during cycle
 
     public int cycleIndex { get; private set; }
@@ -160,7 +161,9 @@ public abstract class CycleUnitSpawnerBase : CycleControlBase {
         }
 
         mRout = null;
-        EndSpawn();
+
+        if(cycleDespawnAfterMax)
+            EndSpawn();
     }
 
     void OnUnitDespawn(Unit unit) {

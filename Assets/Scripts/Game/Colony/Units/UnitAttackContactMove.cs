@@ -54,6 +54,15 @@ public class UnitAttackContactMove : Unit {
             }
         }
 
+        switch(moveDir) {
+            case DirType.Left:
+                facing = MovableBase.Facing.Left;
+                break;
+            case DirType.Right:
+                facing = MovableBase.Facing.Right;
+                break;
+        }
+
         mMoveDest = GetScreenOutsidePosition(moveDir);
     }
 

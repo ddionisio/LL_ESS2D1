@@ -191,6 +191,14 @@ public class UnitPaletteController : MonoBehaviour {
         }   
     }
 
+    public void IncreaseCapacity(int amount) {
+        var newCapacity = Mathf.Clamp(mCapacity + amount, 0, unitPalette.capacity);
+        if(mCapacity < newCapacity) {
+            mCapacity = newCapacity;
+            signalInvokeRefresh?.Invoke();
+        }
+    }
+
     public void RefreshUnitInfos(int population) {
         var isUpdated = false;
 

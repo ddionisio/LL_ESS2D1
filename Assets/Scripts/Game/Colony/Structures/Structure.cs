@@ -253,6 +253,24 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         return null;
     }
 
+    public int GetWaypointMarkCount(string waypointName) {
+        if(mWorldWaypoints == null)
+            return 0;
+
+        int markCount = 0;
+
+        WaypointControl ret;
+        if(mWorldWaypoints.TryGetValue(waypointName, out ret)) {
+            for(int i = 0; i < ret.waypoints.Length; i++) {
+                var wp = ret.waypoints[i];
+                if(wp.isMarked)
+                    markCount++;
+            }
+        }
+
+        return markCount;
+    }
+
     public StructureStatusInfo GetStatusInfo(StructureStatus status) {
         return mStatusInfos[(int)status];
     }

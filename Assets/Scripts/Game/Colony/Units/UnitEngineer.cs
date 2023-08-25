@@ -13,7 +13,7 @@ public class UnitEngineer : Unit {
     private Structure mTargetStructure;
     private bool mTargetIsWorkAdded;
 
-    public bool canWork { get { return ColonyController.instance.cycleController.cycleTimeScale > 0f; } }
+    public bool canWork { get { return ColonyController.instance.cycleAllowProgress; } }
 
     protected override void ClearCurrentState() {
         base.ClearCurrentState();
@@ -267,10 +267,9 @@ public class UnitEngineer : Unit {
 
     private bool CanGotoAndWorkOnStructure(Structure structure) {
         if(CanWorkOnStructure(structure)) {
-            //check if all work waypoint is marked (this means someone else is on the way)
-            var unmarkedWorkWp = structure.GetWaypointUnmarkedClosest(GameData.structureWaypointWork, position.x);
-
-            return unmarkedWorkWp != null;
+            //check if there is enough unmarked waypoints to work
+            int markWpCount = structure.GetWaypointMarkCount(GameData.structureWaypointWork);
+            return markWpCount < structure.workCapacity;
         }
 
         return false;

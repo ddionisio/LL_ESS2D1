@@ -249,6 +249,6 @@ public class UnitHunter : Unit {
         if(!attackDat)
             return false;
 
-        return attackDat.CanAttackUnit(unit) && unit.markCount < unit.hitpointsCurrent;
+        return attackDat.CanAttackUnit(unit) && unit.markCount < 1;
     }
 }

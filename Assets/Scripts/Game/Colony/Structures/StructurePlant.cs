@@ -323,7 +323,7 @@ public class StructurePlant : Structure {
         while(true) {
             yield return null;
 
-            var cycleTimeScale = ColonyController.instance.cycleController.cycleTimeScale;
+            var cycleTimeScale = ColonyController.instance.cycleAllowProgress ? 1.0f : ColonyController.instance.cycleController.cycleTimeScale;
 
             switch(growthState) {
                 case GrowthState.None:

@@ -49,9 +49,9 @@ MonoBehaviour:
     icon: {fileID: 21300000, guid: c1d90da3a06a5984bbb5bc10c4315700, type: 3}
     structures:
     - data: {fileID: 11400000, guid: e6518c7cb5a58f34d8950afde470f478, type: 2}
-      populationQuotaUnlock: 2
+      populationQuotaUnlock: -1
     - data: {fileID: 11400000, guid: 055a6f0de3afd324eac0f3cd1ac87593, type: 2}
-      populationQuotaUnlock: 2
+      populationQuotaUnlock: -1
     capacityStart: 0
     capacity: 5
     highlightOnAvailable: 0

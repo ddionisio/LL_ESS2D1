@@ -24,7 +24,7 @@ public class UnitCitizen : Unit {
     private Transform mCarryRootParentDefault;
     private Vector3 mCarryRootPositionLocalDefault;
 
-    public bool canGather { get { return ColonyController.instance.cycleController.cycleTimeScale > 0f; } }
+    public bool canGather { get { return ColonyController.instance.cycleAllowProgress; } }
 
     protected override void ClearCurrentState() {
         base.ClearCurrentState();

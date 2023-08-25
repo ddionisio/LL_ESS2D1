@@ -248,7 +248,7 @@ public class StructureHouse : Structure {
 
         while(true) {
             //can't do anything during hazzard weather or when cycle is paused
-            while(colonyCtrl.cycleController.isHazzard || colonyCtrl.cycleController.cycleTimeScale <= 0f)
+            while(colonyCtrl.cycleController.isHazzard || !colonyCtrl.cycleAllowProgress)
                 yield return null;
 
             //check if we need to spawn
