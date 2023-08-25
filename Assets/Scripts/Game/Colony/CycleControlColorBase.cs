@@ -123,30 +123,35 @@ public abstract class CycleControlColorBase : CycleControlBase {
         }
 
         //transition to day
-        ApplyColors(dayColors);
+        ApplyColors(dayColors, colorMod);
 
-        yield return DoColorTransition(mColorDayTransitionDelay, colorMod);
+        yield return DoColorTransition(mColorDayTransitionDelay);
 
         //wait for day to be over
-        while(cycleCtrl.cycleIsDay)
+        var waitDelay = cycleCtrl.cycleDayDuration - mColorDayTransitionDelay;
+        while(cycleCtrl.cycleCurElapsed < waitDelay)
             yield return null;
 
-        //day to night
-        ApplyColors(nightColors);
+        //wait for day to be over
+        //while(cycleCtrl.cycleIsDay)
+            //yield return null;
 
-        yield return DoColorTransition(mColorNightTransitionDelay, colorMod);
+        //day to night
+        ApplyColors(nightColors, colorMod);
+
+        yield return DoColorTransition(mColorNightTransitionDelay);
 
         mRout = null;
     }
 
     IEnumerator DoEndTransition() {
-        ApplyColors(endColors);
-        yield return DoColorTransition(endDelay, Color.white);
+        ApplyColors(endColors, Color.white);
+        yield return DoColorTransition(endDelay);
 
         mRout = null;
     }
 
-    IEnumerator DoColorTransition(float delay, Color colorMod) {
+    IEnumerator DoColorTransition(float delay) {
         var cycleCtrl = ColonyController.instance.cycleController;
 
         var curTime = 0f;
@@ -157,17 +162,16 @@ public abstract class CycleControlColorBase : CycleControlBase {
 
             var t = Mathf.Clamp01(curTime / delay);
             mCurColor = M8.ColorUtil.Lerp(mColorTransition, 0, mColorTransitionLength, t);
-            ApplyColor(mCurColor * colorMod);
+            ApplyColor(mCurColor);
         }
     }
 
-    private void ApplyColors(Color[] colors) {
+    private void ApplyColors(Color[] colors, Color colorMod) {
         mColorTransition[0] = mCurColor;
-        if(colors.Length > 0) {
-            System.Array.Copy(colors, 0, mColorTransition, 1, colors.Length);
-            mColorTransitionLength = colors.Length + 1;
-        }
-        else
-            mColorTransitionLength = 1;
+
+        for(int i = 0; i < colors.Length; i++)
+            mColorTransition[i + 1] = colors[i] * colorMod;
+
+        mColorTransitionLength = colors.Length + 1;
     }
 }
