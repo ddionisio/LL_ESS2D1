@@ -113,14 +113,14 @@ public class ColonySequence01 : ColonySequenceBase {
             }
         }
         else if(unit.data == engineer) {
-            if(!mIsEngineerSpawned) {
-                cyclePauseAllowProgress = true;
+            if(!mIsEngineerSpawned) {                
                 mIsEngineerSpawned = true;
 
                 Debug.Log("Dialog about engineers as builders, etc. etc.");
 
                 //finally proceed with game
                 isPauseCycle = false;
+                cyclePauseAllowProgress = false;
             }
         }
         else if(unit.data == vine) {

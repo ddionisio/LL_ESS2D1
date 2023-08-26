@@ -60,11 +60,13 @@ public class CycleController : MonoBehaviour {
 
     public bool isRunning { get { return mRout != null; } }
 
-    public bool isHazzard { get { return cycleCurWeather ? cycleCurWeather.isHazzard : false; } }
+    public bool isHazzard { get { return mIsHazzard; } }
+    public bool isHazzardRetreat { get { return cycleCurWeather.isHazzardRetreat; } }
 
     private AtmosphereStat[] mAtmosphereStatsDefault;
     private AtmosphereModifier[] mRegionAtmosphereMods;
 
+    private bool mIsHazzard;
     private Coroutine mRout;
 
     public float GetResourceScale(CycleResourceType cycleResourceType) {
@@ -159,11 +161,25 @@ public class CycleController : MonoBehaviour {
         }
 
         while(true) {
+            var curWeather = cycleCurWeather;
+            var checkHazzard = curWeather.isHazzard;
+
             //time pass
             while(cycleCurElapsed <= cycleDuration) {
                 yield return null;
 
                 cycleCurElapsed += Time.deltaTime * cycleTimeScale;
+
+                if(checkHazzard) {
+                    if(mIsHazzard) {
+                        if(cycleCurElapsed - curWeather.hazzardStartDelay >= curWeather.hazzardDuration) {
+                            mIsHazzard = false;
+                            checkHazzard = false;
+                        }
+                    }
+                    else if(cycleCurElapsed >= curWeather.hazzardStartDelay)
+                        mIsHazzard = true;
+                }
             }
 
             if(cycleCurIndex + 1 == cycleCount)

@@ -14,6 +14,8 @@ public class UnitCitizen : Unit {
     public GameObject carryFlowerGO;
     public GameObject carryWaterGO;
 
+    public override bool canSwim { get { return true; } }
+
     private ResourceGatherType mCarryType;
 
     private Structure mGatherTarget;
@@ -24,7 +26,7 @@ public class UnitCitizen : Unit {
     private Transform mCarryRootParentDefault;
     private Vector3 mCarryRootPositionLocalDefault;
 
-    public bool canGather { get { return ColonyController.instance.cycleAllowProgress; } }
+    public bool canGather { get { return ColonyController.instance.cycleAllowProgress && !ColonyController.instance.cycleController.isHazzard && !isSwimming; } }
 
     protected override void ClearCurrentState() {
         base.ClearCurrentState();

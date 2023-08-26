@@ -13,7 +13,9 @@ public class UnitGardener : Unit {
     private StructurePlant mTargetPlant;
     private bool mTargetPlantIsWorkAdded;
 
-    public bool canWork { get { return ColonyController.instance.cycleAllowProgress; } }
+    public override bool canSwim { get { return true; } }
+
+    public bool canWork { get { return ColonyController.instance.cycleAllowProgress && !ColonyController.instance.cycleController.isHazzard && !isSwimming; } }
 
     protected override void ClearCurrentState() {
         base.ClearCurrentState();
@@ -177,6 +179,9 @@ public class UnitGardener : Unit {
             ClearTargetPlant();
         if(mTargetEnemy)
             ClearTargetEnemy();
+
+        if(isSwimming || ColonyController.instance.cycleController.isHazzard) //can't do anything if we are swimming or hazzard
+            return false;
 
         var gardenerDat = data as UnitGardenerData;
 

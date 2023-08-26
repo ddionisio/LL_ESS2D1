@@ -46,6 +46,8 @@ public abstract class MovableBase : MonoBehaviour {
 
     public Facing facing { get; private set; }
 
+    public bool isWater { get; protected set; }
+
     private Coroutine mRout;
 
     private DG.Tweening.EaseFunction mEaseFunc;
@@ -87,6 +89,8 @@ public abstract class MovableBase : MonoBehaviour {
     }
 
     IEnumerator DoMove() {
+        isWater = false;
+
         if(mEaseFunc == null)
             mEaseFunc = DG.Tweening.Core.Easing.EaseManager.ToEaseFunction(_moveEase);
 

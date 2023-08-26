@@ -15,6 +15,8 @@ public class UnitMedic : Unit {
         }
     }
 
+    public override bool canSwim { get { return true; } }
+
     private Unit mTargetUnit;
 
     protected override void ApplyCurrentState() {
@@ -105,6 +107,9 @@ public class UnitMedic : Unit {
     }
 
     private bool CanWorkOnUnit(Unit unit) {
+        if(isSwimming || ColonyController.instance.cycleController.isHazzard) //can't do anything if we are swimming or there's hazzard
+            return false;
+
         return unit.state == UnitState.Dying;
     }
 }

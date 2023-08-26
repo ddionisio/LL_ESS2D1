@@ -189,14 +189,6 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
 
         if(weatherForecastOverlay)
             weatherForecastOverlay.SetCycleInfo(cycleCtrl.cycleCurWeather, cycleCtrl.atmosphereStats);
-
-        //hazzard
-        if(cycleCtrl.isHazzard) {
-            paletteActive = false;
-        }
-        else {
-            paletteActive = true;
-        }
     }
 
     void OnCycleEnd() {

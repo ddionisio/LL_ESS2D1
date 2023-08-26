@@ -183,6 +183,8 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
 
     private Vector2 mClickPosition;
 
+    private float mLastWaterCheckTime;
+
     public void AddMark() {
         mMark++;
     }
@@ -449,6 +451,8 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
 
                 if(takeIdle != -1)
                     animator.Play(takeIdle);
+
+                mLastWaterCheckTime = Time.time;
                 break;
 
             case StructureState.Construction:
@@ -539,22 +543,9 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         SetPlacementBlocker(addPlacementBlocker);
     }
 
-    protected void SetPlacementBlocker(bool addPlacementBlocker) {
-        var structureCtrl = ColonyController.instance.structurePaletteController;
-
-        if(addPlacementBlocker) {
-            if(state == StructureState.Moving && !moveCtrl) //special case
-                structureCtrl.PlacementAddBlocker(this, moveCtrl.moveDestination);
-            else
-                structureCtrl.PlacementAddBlocker(this);
-        }
-        else
-            structureCtrl.PlacementRemoveBlocker(this);
-    }
-
     protected virtual void HitpointsChanged(int previousHitpoints) {
         if(mCurHitpoints > previousHitpoints) { //healed?
-                                            //remove damage display
+                                                //remove damage display
             if(mCurHitpoints == hitpointsMax && damagedGO)
                 damagedGO.SetActive(false);
         }
@@ -568,6 +559,36 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         }
     }
 
+    protected virtual void Update() {
+        //check if we are on water
+        if(data && !data.isWaterImmune && state == StructureState.Active) {
+            var time = Time.time;
+            var elapsed = time - mLastWaterCheckTime;
+            if(elapsed >= GameData.instance.structureWaterCheckDelay) {
+                mLastWaterCheckTime = time;
+
+                var bounds = boxCollider.bounds;
+                var coll = Physics2D.OverlapBox(bounds.center, bounds.size, 0f, GameData.instance.waterLayerMask);
+                if(coll) {
+                    hitpointsCurrent--;
+                }
+            }
+        }
+    }
+
+    protected void SetPlacementBlocker(bool addPlacementBlocker) {
+        var structureCtrl = ColonyController.instance.structurePaletteController;
+
+        if(addPlacementBlocker) {
+            if(state == StructureState.Moving && !moveCtrl) //special case
+                structureCtrl.PlacementAddBlocker(this, moveCtrl.moveDestination);
+            else
+                structureCtrl.PlacementAddBlocker(this);
+        }
+        else
+            structureCtrl.PlacementRemoveBlocker(this);
+    }
+        
     protected void AnimateToState(int takeInd, StructureState toState) {
         mRout = StartCoroutine(DoAnimationToState(takeInd, toState));
     }

@@ -8717,8 +8717,8 @@ MonoBehaviour:
   cycleDespawnAfterMax: 0
   cycleSpawnSequence:
   - delay: 5
-    count: 2
-  - delay: 5
+    count: 1
+  - delay: 3
     count: 1
   _waypoints:
   - _point: {x: 15.187304, y: -4.0326433}
@@ -9644,7 +9644,7 @@ MonoBehaviour:
   cycleDespawnAfterMax: 0
   cycleSpawnSequence:
   - delay: 0
-    count: 3
+    count: 2
 --- !u!114 &1912693561
 MonoBehaviour:
   m_ObjectHideFlags: 0

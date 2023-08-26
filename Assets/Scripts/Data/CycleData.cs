@@ -11,7 +11,6 @@ public class CycleData : ScriptableObject {
         public AtmosphereModifier[] atmosphereMods;
 
         public CycleResourceScale resourceScaleMod;
-        public float windDirAngle; //0 is at top
     }
 
     public WeatherInfo[] cycles;

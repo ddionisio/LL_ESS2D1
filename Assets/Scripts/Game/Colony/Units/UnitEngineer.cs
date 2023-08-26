@@ -13,7 +13,9 @@ public class UnitEngineer : Unit {
     private Structure mTargetStructure;
     private bool mTargetIsWorkAdded;
 
-    public bool canWork { get { return ColonyController.instance.cycleAllowProgress; } }
+    public override bool canSwim { get { return true; } }
+
+    public bool canWork { get { return ColonyController.instance.cycleAllowProgress && !ColonyController.instance.cycleController.isHazzard && !isSwimming; } }
 
     protected override void ClearCurrentState() {
         base.ClearCurrentState();
@@ -188,6 +190,9 @@ public class UnitEngineer : Unit {
             ClearTargetStructure();
         if(mTargetEnemySpawner)
             ClearTargetEnemy();
+
+        if(isSwimming || ColonyController.instance.cycleController.isHazzard) //can't do anything if we are swimming or there's hazzard
+            return false;
 
         var colonyCtrl = ColonyController.instance;
 

@@ -28,6 +28,8 @@ public class StructureColonyShip : Structure {
     private M8.CacheList<Unit> mUnitDyingList;
     private M8.CacheList<UnitMedic> mMedicActives;
 
+    private M8.CacheList<UnitData> mUnitHazzardRetreats = new M8.CacheList<UnitData>(16);
+
     private bool mIsInit;
 
     public void Bump() {
@@ -62,6 +64,15 @@ public class StructureColonyShip : Structure {
         var spawnComplete = this as M8.IPoolSpawnComplete;
         if(spawnComplete != null)
             spawnComplete.OnSpawnComplete();
+    }
+
+    public void AddUnitHazzardRetreat(UnitData unitData) {
+        if(mUnitHazzardRetreats.IsFull)
+            return;
+
+        var unitIndex = ColonyController.instance.unitPaletteController.GetUnitIndex(unitData);
+        if(unitIndex != -1)
+            mUnitHazzardRetreats.Add(unitData);
     }
 
     protected override void ApplyCurrentState() {
@@ -104,7 +115,9 @@ public class StructureColonyShip : Structure {
         }
     }
 
-    void Update() {
+    protected override void Update() {
+        base.Update();
+
         //check for dying units
         if(mUnitDyingList.Count > 0) {
             for(int i = 0; i < mUnitDyingList.Count; i++) {
@@ -132,7 +145,7 @@ public class StructureColonyShip : Structure {
 
                 if(!medicAssigned) {
                     //can spawn medic?
-                    if(!mMedicActives.IsFull) {
+                    if(!mMedicActives.IsFull && !ColonyController.instance.cycleController.isHazzard) {
                         var wp = GetWaypointRandom(GameData.structureWaypointSpawn, false);
                         var medic = (UnitMedic)ColonyController.instance.unitController.Spawn(_data.medicData, this, wp != null ? wp.groundPoint.position : position);
 
@@ -144,6 +157,11 @@ public class StructureColonyShip : Structure {
                         break;
                 }
             }
+        }
+
+        if(mUnitHazzardRetreats.Count > 0 && !ColonyController.instance.cycleController.isHazzard) {
+            var unitDat = mUnitHazzardRetreats.RemoveLast();
+            ColonyController.instance.unitPaletteController.SpawnQueue(unitDat);
         }
     }
 

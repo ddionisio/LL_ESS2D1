@@ -253,7 +253,11 @@ public class StructurePlant : Structure {
             case StructureState.Damage:
                 base.ApplyCurrentState();
 
-                mBloomTime *= 0.5f;
+                //mBloomTime *= 0.5f;
+                if(growthState != GrowthState.Decay || growthState != GrowthState.Decay) {
+                    growthState = GrowthState.Decay;
+                    ApplyCurrentGrowthState();
+                }
                 break;
 
             case StructureState.Moving: //just in case we make this movable

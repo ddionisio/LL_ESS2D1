@@ -238,8 +238,6 @@ public class StructureHouse : Structure {
     }
 
     IEnumerator DoActive() {
-        UpdatePopulation();
-
         var colonyCtrl = ColonyController.instance;
 
         var workerCount = Mathf.Min(houseData.citizenWorkerCapacity, population);
@@ -365,7 +363,8 @@ public class StructureHouse : Structure {
              isFoodComplete  = foodMax == 0 || foodCount == foodMax, 
              isPowerComplete = mPowerQuota == null || mPowerQuota.isFulfilled;
 
-        if(isWaterComplete && isFoodComplete && isPowerComplete) {
+        //can't increase population if there's hazzard
+        if(!ColonyController.instance.cycleController.isHazzard && isWaterComplete && isFoodComplete && isPowerComplete) {
             if(population < populationMax) {
                 population++;
 

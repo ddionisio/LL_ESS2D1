@@ -17,8 +17,24 @@ public class StructureResourceGenerateGlobal : Structure {
         }
     }
 
+    public float resourceFixedScale {
+        get {
+            return Mathf.Clamp01((float)hitpointsCurrent / hitpointsMax);
+        }
+    }
+
     private bool mIsResourceGlobalCapacityApplied;
     private ColonyController.ResourceFixedAmount mResourceFixed;
+
+    protected override void HitpointsChanged(int previousHitpoints) {
+        base.HitpointsChanged(previousHitpoints);
+
+        //reduce output based on hitpoints
+        if(mResourceFixed != null && hitpointsCurrent > 0) {
+            mResourceFixed.UpdateBase(resourceData.resourceFixedValue * resourceFixedScale);
+            ColonyController.instance.RefreshResources(resourceType);
+        }
+    }
 
     protected override void Despawned() {
         resourceData = null;
@@ -41,7 +57,8 @@ public class StructureResourceGenerateGlobal : Structure {
             case StructureState.Active:
                 ApplyGlobalResource(true);
 
-                mRout = StartCoroutine(DoActive());
+                if(resourceData && resourceData.resourceGenerateRate > 0f)
+                    mRout = StartCoroutine(DoActive());
                 break;
 
             case StructureState.Destroyed:
@@ -61,7 +78,7 @@ public class StructureResourceGenerateGlobal : Structure {
 
             if(apply) {
                 if(resourceData.resourceFixedValue > 0f)
-                    mResourceFixed = colonyCtrl.AddResourceFixedAmount(resourceType, resourceData.resourceInputType, resourceData.resourceFixedValue);
+                    mResourceFixed = colonyCtrl.AddResourceFixedAmount(resourceType, resourceData.resourceInputType, resourceData.resourceFixedValue * resourceFixedScale);
 
                 colonyCtrl.SetResourceCapacity(resourceType, resGlobalCapacity + resourceCapacity);
             }
@@ -77,11 +94,6 @@ public class StructureResourceGenerateGlobal : Structure {
     }
 
     IEnumerator DoActive() {
-        if(!resourceData) { //fail-safe
-            mRout = null;
-            yield break;
-        }
-
         var colonyCtrl = ColonyController.instance;
         var cycleCtrl = colonyCtrl.cycleController;
 

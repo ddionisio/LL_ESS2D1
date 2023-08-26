@@ -62,6 +62,10 @@ public class ColonyController : GameModeController<ColonyController> {
             mAmountScale = initialScale;
         }
 
+        public void UpdateBase(float val) {
+            mAmountBase = val;
+        }
+
         public void UpdateScale(float scale) {
             mAmountScale = scale;
         }
@@ -519,10 +523,11 @@ public class ColonyController : GameModeController<ColonyController> {
         if(gameDat.signalVictory) gameDat.signalVictory.Invoke();
 
         var houseCount = structurePaletteController.GetHouseCount();
-        var houseCapacity = structurePaletteController.GetHouseCapacity();
+        var houseCapacity = structurePaletteController.GetHouseMaxCapacity();
+        var populationMaxCapacity = structurePaletteController.GetPopulationMaxCapacity();
 
         mVictoryParms[ModalVictory.parmPopulation] = population;
-        mVictoryParms[ModalVictory.parmPopulationMax] = populationCapacity;
+        mVictoryParms[ModalVictory.parmPopulationMax] = populationMaxCapacity;
         mVictoryParms[ModalVictory.parmHouse] = houseCount;
         mVictoryParms[ModalVictory.parmHouseMax] = houseCapacity;
 
@@ -538,32 +543,41 @@ public class ColonyController : GameModeController<ColonyController> {
     }
 
     IEnumerator DoCycle() {
+        mIsHazzard = false;
+
         cycleController.Begin();
 
         if(sequence)
             sequence.CycleBegin();
-
-        mIsHazzard = cycleController.isHazzard; //shouldn't really have hazzard on first cycle...
-        if(mIsHazzard) {
-            mIsCyclePause = false;
-            timeState = TimeState.None;
-        }
-        else {
-            mIsCyclePause = structurePaletteController.isPauseCycle || (sequence && sequence.isPauseCycle);
-            timeState = mIsCyclePause ? TimeState.CyclePause : TimeState.Normal;
-        }
-
+                
         int curCycleInd = cycleController.cycleCurIndex;
         bool curCycleIsDay = cycleController.cycleIsDay;
 
         while(cycleController.isRunning) {
             yield return null;
 
+            if(mIsHazzard != cycleController.isHazzard) {
+                mIsHazzard = cycleController.isHazzard;
+
+                if(mIsHazzard) {
+                    ColonyHUD.instance.paletteActive = false;
+
+                    timeState = TimeState.None;
+                }
+                else {
+                    ColonyHUD.instance.paletteActive = true;
+
+                    timeState = TimeState.Normal;
+                }
+            }
+
             //check if we need to pause cycle
-            var isCyclePause = structurePaletteController.isPauseCycle || (sequence && sequence.isPauseCycle);
-            if(mIsCyclePause != isCyclePause) {
-                mIsCyclePause = isCyclePause;
-                timeState = mIsCyclePause ? TimeState.CyclePause : TimeState.Normal;
+            if(!mIsHazzard) {
+                var isCyclePause = structurePaletteController.isPauseCycle || (sequence && sequence.isPauseCycle);
+                if(mIsCyclePause != isCyclePause) {
+                    mIsCyclePause = isCyclePause;
+                    timeState = mIsCyclePause ? TimeState.CyclePause : TimeState.Normal;
+                }
             }
 
             //refresh resources if we are at next cycle or changing from day to night
@@ -598,20 +612,6 @@ public class ColonyController : GameModeController<ColonyController> {
     void OnCycleNext() {
         if(sequence)
             sequence.CycleNext();
-
-        //stop any interaction during hazzard event
-        if(mIsHazzard != cycleController.isHazzard) {
-            mIsHazzard = cycleController.isHazzard;
-
-            if(mIsHazzard) {
-                structurePaletteController.PlacementCancel();
-
-                timeState = TimeState.None;
-            }
-            else {
-                timeState = mIsCyclePause ? TimeState.CyclePause : TimeState.Normal;
-            }
-        }
     }
 
     private void OnDrawGizmos() {

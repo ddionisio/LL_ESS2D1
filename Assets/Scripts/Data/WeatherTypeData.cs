@@ -14,5 +14,11 @@ public class WeatherTypeData : ScriptableObject {
     public Sprite image; //higher quality for forecast and description
 
     public bool isSunVisible;
+
+    [Header("Hazzard Info")]
     public bool isHazzard;
+    public bool isHazzardRetreat; //if units need to retreat
+
+    public float hazzardStartDelay; //when to start hazzard during cycle
+    public float hazzardDuration; //how long the hazzard lasts after starting
 }

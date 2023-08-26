@@ -45,7 +45,9 @@ public class UnitHorticulturist : Unit {
         }
     }
 
-    public bool canWork { get { return ColonyController.instance.cycleAllowProgress; } }
+    public override bool canSwim { get { return true; } }
+
+    public bool canWork { get { return ColonyController.instance.cycleAllowProgress && !ColonyController.instance.cycleController.isHazzard && !isSwimming; } }
 
     private StructureResourceGenerateContainer mGatherTarget;
     private bool mGatherInProcess;

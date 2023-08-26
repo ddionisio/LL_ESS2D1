@@ -5,6 +5,7 @@ using UnityEngine;
 public struct GroundPoint {
     public Vector2 position;
     public Vector2 up;
+    public bool isWater;
 
     public static bool GetGroundPoint(Vector2 position, out GroundPoint point) {
         var levelBounds = ColonyController.instance.bounds;
@@ -31,14 +32,14 @@ public struct GroundPoint {
         var checkPoint = new Vector2(x, levelBounds.max.y);
         var checkDir = Vector2.down;
 
-        var hit = Physics2D.Raycast(checkPoint, checkDir, levelBounds.size.y, GameData.instance.groundLayerMask);
+        var hit = Physics2D.Raycast(checkPoint, checkDir, levelBounds.size.y, GameData.instance.groundLayerMask | GameData.instance.waterLayerMask);
         if(hit.collider) {
-            point = new GroundPoint() { position = hit.point, up = hit.normal };
+            point = new GroundPoint() { position = hit.point, up = hit.normal, isWater = ((1<<hit.collider.gameObject.layer) & GameData.instance.waterLayerMask) != 0 };
 
             return true;
         }
         else {
-            point = new GroundPoint() { position = new Vector2(x, levelBounds.min.y), up = Vector2.up };
+            point = new GroundPoint() { position = new Vector2(x, levelBounds.min.y), up = Vector2.up, isWater = false };
 
             return false;
         }

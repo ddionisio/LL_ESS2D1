@@ -70,7 +70,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1328874929
   m_SortingLayer: 14
-  m_SortingOrder: -30
+  m_SortingOrder: 102
   m_Sprite: {fileID: 21300000, guid: a0cf9408b144551468d68e257c0f963f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -4963,7 +4963,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1328874929
   m_SortingLayer: 14
-  m_SortingOrder: -31
+  m_SortingOrder: 101
   m_Sprite: {fileID: 21300000, guid: dc3c261ed8e691f4db98821e47087a0b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -10017,12 +10017,12 @@ MonoBehaviour:
     numLoop: -1
     loopMode: 0
     loopBackToFrame: 0
-    trackCounter: 10
+    trackCounter: 11
     groupCounter: 0
     rootGroup:
       group_name: 
       group_id: 0
-      elements: 090000000200000003000000080000000a00000004000000050000000600000007000000
+      elements: 090000000200000003000000080000000a000000040000000500000006000000070000000b000000
       foldout: 1
     groupValues: []
   - name: spawn
@@ -10031,12 +10031,12 @@ MonoBehaviour:
     numLoop: 1
     loopMode: 0
     loopBackToFrame: 0
-    trackCounter: 12
+    trackCounter: 13
     groupCounter: 0
     rootGroup:
       group_name: Group0
       group_id: 0
-      elements: 0a00000003000000040000000c0000000500000006000000070000000800000009000000
+      elements: 0a00000003000000040000000c00000005000000060000000700000008000000090000000d000000
       foldout: 1
     groupValues: []
   - name: move
@@ -10073,12 +10073,12 @@ MonoBehaviour:
     numLoop: 1
     loopMode: 0
     loopBackToFrame: 0
-    trackCounter: 12
+    trackCounter: 13
     groupCounter: 0
     rootGroup:
       group_name: Group0
       group_id: 0
-      elements: 030000000200000004000000070000000c00000008000000090000000a0000000b000000
+      elements: 030000000200000004000000070000000c00000008000000090000000a0000000b0000000d000000
       foldout: 1
     groupValues: []
   - name: death
@@ -10087,12 +10087,12 @@ MonoBehaviour:
     numLoop: 1
     loopMode: 0
     loopBackToFrame: 0
-    trackCounter: 13
+    trackCounter: 14
     groupCounter: 0
     rootGroup:
       group_name: Group0
       group_id: 0
-      elements: 030000000200000004000000070000000d00000008000000090000000a0000000b0000000c000000
+      elements: 030000000200000004000000070000000d00000008000000090000000a0000000b0000000c0000000e000000
       foldout: 1
     groupValues: []
   - name: despawn
@@ -10101,12 +10101,12 @@ MonoBehaviour:
     numLoop: 1
     loopMode: 0
     loopBackToFrame: 0
-    trackCounter: 10
+    trackCounter: 11
     groupCounter: 0
     rootGroup:
       group_name: Group0
       group_id: 0
-      elements: 0800000002000000030000000a0000000400000005000000060000000700000009000000
+      elements: 0800000002000000030000000a00000004000000050000000600000007000000090000000b000000
       foldout: 1
     groupValues: []
   _defaultTakeName: 
@@ -10178,13 +10178,64 @@ MonoBehaviour:
       componentType: ParticleSystem
     _goSetActiveTracks:
     - _version: 1
+      id: 11
+      name: Track10
+      foldout: 1
+      _targetPath: 
+      obj: {fileID: 6050185848768374404}
+      startActive: 0
+    - _version: 1
+      id: 13
+      name: Track10
+      foldout: 1
+      _targetPath: 
+      obj: {fileID: 6050185848768374404}
+      startActive: 0
+    - _version: 1
       id: 9
       name: Track8
       foldout: 1
       _targetPath: 
       obj: {fileID: 6050185848768374404}
       startActive: 0
+    - _version: 1
+      id: 13
+      name: Track10
+      foldout: 1
+      _targetPath: 
+      obj: {fileID: 6050185848768374404}
+      startActive: 0
+    - _version: 1
+      id: 14
+      name: Track11
+      foldout: 1
+      _targetPath: 
+      obj: {fileID: 6050185848768374404}
+      startActive: 0
+    - _version: 1
+      id: 11
+      name: Track10
+      foldout: 1
+      _targetPath: 
+      obj: {fileID: 6050185848768374404}
+      startActive: 0
     _goSetActiveKeys:
+    - interp: 0
+      frame: 1
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      setActive: 0
+      endFrame: -1
+    - interp: 0
+      frame: 1
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      setActive: 0
+      endFrame: -1
     - interp: 0
       frame: 3
       easeType: 1
@@ -10195,6 +10246,30 @@ MonoBehaviour:
       endFrame: 10
     - interp: 0
       frame: 10
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      setActive: 0
+      endFrame: -1
+    - interp: 0
+      frame: 1
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      setActive: 0
+      endFrame: -1
+    - interp: 0
+      frame: 1
+      easeType: 1
+      amplitude: 0
+      period: 0
+      customEase: []
+      setActive: 0
+      endFrame: -1
+    - interp: 0
+      frame: 1
       easeType: 1
       amplitude: 0
       period: 0
@@ -12749,6 +12824,9 @@ MonoBehaviour:
     - type: 7
       index: 1
       keyIndices: 01000000
+    - type: 4
+      index: 0
+      keyIndices: 00000000
     - type: 10
       index: 0
       keyIndices: 00000000
@@ -12776,6 +12854,9 @@ MonoBehaviour:
     - type: 7
       index: 3
       keyIndices: 0400000005000000
+    - type: 4
+      index: 1
+      keyIndices: 01000000
     - type: 10
       index: 3
       keyIndices: 070000000800000009000000
@@ -12819,8 +12900,8 @@ MonoBehaviour:
       index: 10
       keyIndices: 1500000016000000
     - type: 4
-      index: 0
-      keyIndices: 0000000001000000
+      index: 2
+      keyIndices: 0200000003000000
     - type: 7
       index: 6
       keyIndices: 0a0000000b0000000c000000
@@ -12854,6 +12935,9 @@ MonoBehaviour:
     - type: 7
       index: 8
       keyIndices: 0e0000000f000000100000001100000012000000
+    - type: 4
+      index: 3
+      keyIndices: 04000000
     - type: 10
       index: 13
       keyIndices: 20000000
@@ -12884,6 +12968,9 @@ MonoBehaviour:
     - type: 7
       index: 10
       keyIndices: 1400000015000000
+    - type: 4
+      index: 4
+      keyIndices: 05000000
     - type: 10
       index: 16
       keyIndices: 23000000
@@ -12911,6 +12998,9 @@ MonoBehaviour:
     - type: 7
       index: 12
       keyIndices: 1800000019000000
+    - type: 4
+      index: 5
+      keyIndices: 06000000
     - type: 10
       index: 19
       keyIndices: 26000000270000002800000029000000
@@ -12920,7 +13010,7 @@ MonoBehaviour:
     - type: 10
       index: 21
       keyIndices: 2d0000002e000000
-    _takeTrackCounts: 0900000009000000070000000a000000090000000a00000009000000
+    _takeTrackCounts: 0a0000000a000000070000000a0000000a0000000b0000000a000000
 --- !u!61 &2509283504092040759
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -13056,7 +13146,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1328874929
   m_SortingLayer: 14
-  m_SortingOrder: -32
+  m_SortingOrder: 100
   m_Sprite: {fileID: 21300000, guid: 2baee0daba6b3df4e9e8149526d19f2f, type: 3}
   m_Color: {r: 0.801, g: 0.801, b: 0.801, a: 1}
   m_FlipX: 0

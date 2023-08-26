@@ -20,6 +20,7 @@ MonoBehaviour:
   workCapacity: 0
   isReparable: 0
   isDemolishable: 0
+  isWaterImmune: 1
   ghostPrefab: {fileID: 0}
   spawnPrefab: {fileID: 0}
   placementValidLayerMask:

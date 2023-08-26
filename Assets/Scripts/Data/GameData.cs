@@ -67,6 +67,8 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
 
     public float structureDemolishDelay = 2f; //how long before demolish is actually done.
 
+    public float structureWaterCheckDelay = 2f;
+
     public StructureData[] structureFoodSources;
     public StructureData[] structureWaterSources;
 

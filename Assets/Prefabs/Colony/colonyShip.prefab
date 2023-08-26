@@ -6734,14 +6734,12 @@ MonoBehaviour:
     - _point: {x: 0.545, y: 0}
   - name: idle
     waypoints:
-    - _point: {x: -0.38, y: 0}
-    - _point: {x: -0.7, y: 0}
-    - _point: {x: -1, y: 0}
-    - _point: {x: -1.32, y: 0}
-    - _point: {x: 0.38, y: 0}
-    - _point: {x: 0.7, y: 0}
-    - _point: {x: 1, y: 0}
-    - _point: {x: 1.32, y: 0}
+    - _point: {x: -2, y: 0}
+    - _point: {x: -1.28, y: 0}
+    - _point: {x: -0.68, y: 0}
+    - _point: {x: 0.68, y: 0}
+    - _point: {x: 1.28, y: 0}
+    - _point: {x: 2, y: 0}
   - name: launch
     waypoints:
     - _point: {x: 0, y: 2.44}
@@ -8523,7 +8521,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.0022433, y: 3.8084655}
+  m_Size: {x: 2.6, y: 3.8084655}
   m_EdgeRadius: 0
 --- !u!114 &2508020393077471783
 MonoBehaviour:

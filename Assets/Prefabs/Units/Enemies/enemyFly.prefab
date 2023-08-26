@@ -870,7 +870,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1328874929
   m_SortingLayer: 14
-  m_SortingOrder: -31
+  m_SortingOrder: 100
   m_Sprite: {fileID: 21300000, guid: e38be06161667aa4ca5a0aee1d35cf34, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.5019608}
   m_FlipX: 0
@@ -898,6 +898,8 @@ MonoBehaviour:
   rotate: {x: 0, y: 0, z: -60}
   speed: 1080
   local: 1
+  isRealtime: 0
+  resetOnDisable: 0
 --- !u!1 &1743566228857513212
 GameObject:
   m_ObjectHideFlags: 0
@@ -968,7 +970,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1328874929
   m_SortingLayer: 14
-  m_SortingOrder: -30
+  m_SortingOrder: 101
   m_Sprite: {fileID: 21300000, guid: 83931c886dd3e4e4f8906dc2092b77ad, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1117,7 +1119,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1328874929
   m_SortingLayer: 14
-  m_SortingOrder: -31
+  m_SortingOrder: 100
   m_Sprite: {fileID: 21300000, guid: e38be06161667aa4ca5a0aee1d35cf34, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.5019608}
   m_FlipX: 0
@@ -1145,6 +1147,8 @@ MonoBehaviour:
   rotate: {x: 0, y: 0, z: -90}
   speed: 1080
   local: 1
+  isRealtime: 0
+  resetOnDisable: 0
 --- !u!1 &6029291814785329728
 GameObject:
   m_ObjectHideFlags: 0
@@ -1216,7 +1220,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1328874929
   m_SortingLayer: 14
-  m_SortingOrder: -31
+  m_SortingOrder: 100
   m_Sprite: {fileID: 21300000, guid: e38be06161667aa4ca5a0aee1d35cf34, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.5019608}
   m_FlipX: 0
@@ -1244,6 +1248,8 @@ MonoBehaviour:
   rotate: {x: 0, y: 0, z: 90}
   speed: 1080
   local: 1
+  isRealtime: 0
+  resetOnDisable: 0
 --- !u!1 &8873195860252865084
 GameObject:
   m_ObjectHideFlags: 0
@@ -1315,7 +1321,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1328874929
   m_SortingLayer: 14
-  m_SortingOrder: -31
+  m_SortingOrder: 100
   m_Sprite: {fileID: 21300000, guid: e38be06161667aa4ca5a0aee1d35cf34, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.5019608}
   m_FlipX: 0
@@ -1343,3 +1349,5 @@ MonoBehaviour:
   rotate: {x: 0, y: 0, z: 60}
   speed: 1080
   local: 1
+  isRealtime: 0
+  resetOnDisable: 0

@@ -14,6 +14,8 @@ public class MovableGround : MovableBase {
 
     protected override Vector2 MoveUpdate(Vector2 from, Vector2 to, float t) {
         if(GroundPoint.GetGroundPoint(Mathf.Lerp(from.x, to.x, t), out mGroundPt)) {
+            isWater = mGroundPt.isWater;
+
             if(applyUpVector)
                 transform.up = mGroundPt.up;
 

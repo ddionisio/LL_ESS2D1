@@ -70,6 +70,12 @@ public class StructureResourceGenerateContainer : Structure {
                 mRout = StartCoroutine(DoActive());
                 break;
 
+            case StructureState.Damage:
+                //reduce resource upon damage
+                mResource = Mathf.Clamp(mResource - resourceCapacity * 0.25f, 0f, resourceCapacity);
+                RefreshDisplay();
+                break;
+
             case StructureState.Destroyed:
                 mResource = 0f;
                 RefreshDisplay();

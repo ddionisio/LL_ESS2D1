@@ -89,6 +89,10 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
 
     public bool isVictoryEnabled { get { return takeVictory != -1; } }
 
+    public virtual bool canSwim { get { return false; } }
+
+    public bool isSwimming { get; private set; }
+
     public Vector2 position {
         get { return transform.position; }
         set { transform.position = value; }
@@ -241,6 +245,14 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     public bool MoveToOwnerStructure(bool isRun) {
         if(!(isMovable && ownerStructure)) return false;
 
+        ApplyMoveToOwnerStructure(isRun);
+
+        state = UnitState.Move;
+
+        return true;
+    }
+
+    private void ApplyMoveToOwnerStructure(bool isRun) {
         if(moveWaypoint != null) //remove previous waypoint
             moveWaypoint.RemoveMark();
 
@@ -252,10 +264,6 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
         }
         else //just move to structure's position
             MoveApply(ownerStructure.position, isRun);
-
-        state = UnitState.Move;
-
-        return true;
     }
 
     /// <summary>
@@ -293,12 +301,6 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
         MoveApply(retreatPos, true);
 
         state = UnitState.Retreat;
-    }
-
-    public void RetreatToBase() {
-        if(!isMovable) return;
-
-        state = UnitState.RetreatToBase;
     }
 
     public void Despawn() {
@@ -368,13 +370,20 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
                 break;
 
             case UnitState.Idle:
-                if(takeIdle != -1)
-                    animator.Play(takeIdle);
+                if(isSwimming) {
+                    if(takeSwim != -1)
+                        animator.Play(takeSwim);
+                }
+                else {
+                    if(takeIdle != -1)
+                        animator.Play(takeIdle);
+                }
 
                 ApplyTelemetryState(true, true);
                 break;
 
             case UnitState.Move:
+            case UnitState.RetreatToBase:
                 ApplyTelemetryState(true, true);
 
                 mRout = StartCoroutine(DoMove());
@@ -424,12 +433,6 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
                 ApplyTelemetryState(true, true);
 
                 mRout = StartCoroutine(DoMove());
-                break;
-
-            case UnitState.RetreatToBase:
-                ApplyTelemetryState(true, true);
-
-                //TODO
                 break;
 
             case UnitState.BounceToBase:
@@ -508,15 +511,68 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
             }
 
             //check if we are off-screen and we have an owner structure
-            if(ownerStructure && isOffscreen) {
+            if(ownerStructure) {
                 //bounce back to base
-                state = UnitState.BounceToBase;
+                if(isOffscreen) {
+                    state = UnitState.BounceToBase;
+                }
+                //check if there's hazzard, retreat if we have an owner base
+                else if(ColonyController.instance.cycleController.isHazzard && ColonyController.instance.cycleController.isHazzardRetreat) {
+                    ApplyMoveToOwnerStructure(true);
+                    state = UnitState.RetreatToBase;
+                }
+            }
+        }
+
+        if(!(state == UnitState.Move 
+            || state == UnitState.Retreat 
+            || state == UnitState.BounceToBase 
+            || state == UnitState.RetreatToBase 
+            || state == UnitState.Spawning 
+            || state == UnitState.Hurt 
+            || state == UnitState.Despawning 
+            || state == UnitState.Victory)) {
+            //check if we are on water
+            var levelBounds = ColonyController.instance.bounds;
+
+            var checkPoint = new Vector2(position.x, levelBounds.max.y);
+            var checkDir = Vector2.down;
+
+            var hit = Physics2D.Raycast(checkPoint, checkDir, levelBounds.size.y, GameData.instance.groundLayerMask | GameData.instance.waterLayerMask);
+            if(hit.collider && ((1 << hit.collider.gameObject.layer) & GameData.instance.waterLayerMask) != 0) {
+                if(canSwim) {
+                    position = hit.point;
+
+                    if(!isSwimming) {
+                        isSwimming = true;
+                        state = UnitState.Idle;
+                    }
+                }
+                else //just despawn if we can't swim
+                    state = UnitState.Despawning;
+            }
+            else {
+                if(isSwimming) {
+                    position = hit.point;
+
+                    isSwimming = false;
+
+                    if(takeIdle != -1)
+                        animator.Play(takeIdle);
+                }
             }
         }
     }
 
     protected virtual void MoveToComplete() {
-        state = UnitState.Idle;
+        if(state == UnitState.RetreatToBase) {
+            if(ownerStructure is StructureColonyShip)
+                ((StructureColonyShip)ownerStructure).AddUnitHazzardRetreat(data);
+
+            Despawn();
+        }
+        else
+            state = UnitState.Idle;
     }
 
     protected void AnimateToState(int takeInd, UnitState toState) {
@@ -635,8 +691,14 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     IEnumerator DoMove() {
         yield return null;
 
-        if(mTakeCurMoveInd != -1)
-            animator.Play(mTakeCurMoveInd);
+        if(isSwimming) {
+            if(takeSwim != -1)
+                animator.Play(takeSwim);
+        }
+        else {
+            if(mTakeCurMoveInd != -1)
+                animator.Play(mTakeCurMoveInd);
+        }
 
         moveCtrl.Move();
 
@@ -645,6 +707,23 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
             facing = moveCtrl.facing;
 
             yield return null;
+
+            if(moveCtrl.isWater) {
+                if(!isSwimming) {
+                    isSwimming = true;
+
+                    if(takeSwim != -1)
+                        animator.Play(takeSwim);
+                }
+            }
+            else {
+                if(isSwimming) {
+                    isSwimming = false;
+
+                    if(mTakeCurMoveInd != -1)
+                        animator.Play(mTakeCurMoveInd);
+                }
+            }
         }
 
         mRout = null;

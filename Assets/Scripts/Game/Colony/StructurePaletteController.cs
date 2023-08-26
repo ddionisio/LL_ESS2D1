@@ -147,6 +147,37 @@ public class StructurePaletteController : MonoBehaviour  {
         return 0;
     }
 
+    public int GetHouseMaxCapacity() {
+        for(int i = 0; i < mGroupInfos.Length; i++) {
+            var grpInfo = mGroupInfos[i];
+            if(grpInfo.containsHouseStructure)
+                return paletteData.groups[i].capacity;
+        }
+
+        return 0;
+    }
+
+    public int GetPopulationMaxCapacity() {
+        int popMax = 0;
+        for(int i = 0; i < paletteData.groups.Length; i++) {
+            var grp = paletteData.groups[i];
+
+            int citizenCapacity = 0;
+            for(int j = 0; j < grp.structures.Length; j++) {
+                var structure = grp.structures[j];
+                if(structure.data is StructureHouseData) {
+                    var houseDat = (StructureHouseData)structure.data;
+                    if(citizenCapacity < houseDat.citizenCapacity)
+                        citizenCapacity = houseDat.citizenCapacity;
+                }
+            }
+
+            popMax += citizenCapacity * grp.capacity;
+        }
+
+        return popMax;
+    }
+
     public T GetStructureNearestActive<T>(float positionX, StructureData structureData, CheckStructureValid<T> checkValid) where T : Structure {
         T ret = null;
         float dist = 0f;

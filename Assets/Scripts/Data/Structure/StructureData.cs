@@ -22,6 +22,7 @@ public class StructureData : ScriptableObject {
 
     public bool isReparable;
     public bool isDemolishable;
+    public bool isWaterImmune;
 
     [Header("Spawn")]
     public StructureGhost ghostPrefab;

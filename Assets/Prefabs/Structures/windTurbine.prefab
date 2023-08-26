@@ -23307,6 +23307,7 @@ MonoBehaviour:
   takeMoveFinish: -1
   takeDestroyed: 2
   takeDemolish: 3
+  takeVictory: -1
   _waypointGroups:
   - name: work
     waypoints:
@@ -24114,6 +24115,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6819044348691206329}
   - component: {fileID: 3438594954701161272}
+  - component: {fileID: 5612185298380048087}
   m_Layer: 0
   m_Name: active
   m_TagString: Untagged
@@ -24201,6 +24203,21 @@ MonoBehaviour:
   - {fileID: 5783106042648700029}
   - {fileID: 8409928505394028104}
   - {fileID: 3925556555069106756}
+--- !u!114 &5612185298380048087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6819044348691206334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e4373429ee221249b2f30eca888148d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resourceType: 2
+  target: {fileID: 8544971504488483119}
+  rotatePerSecondMax: {x: 0, y: 720, z: 0}
 --- !u!1 &6838417686676552660
 GameObject:
   m_ObjectHideFlags: 0

@@ -393,11 +393,12 @@ MonoBehaviour:
   unitPaletteController: {fileID: 999251209998080931}
   bounds:
     m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 14, y: 7, z: 0}
+    m_Extent: {x: 15, y: 7, z: 0}
   regionRoot: {fileID: 0}
   colonyShip: {fileID: 0}
   signalInvokePopulationUpdate: {fileID: 11400000, guid: 3b08570cc8efe0e4a85a63c9e45325fd, type: 2}
   signalInvokeResourceUpdate: {fileID: 11400000, guid: b7f3770d7e642874d952a701d3cf3593, type: 2}
+  sequence: {fileID: 0}
   debugEnabled: 0
   debugSeason: {fileID: 0}
   debugRegionIndex: 0

@@ -15,14 +15,13 @@ public class UnitHunter : Unit {
     [M8.Animator.TakeSelector]
     public int takeAttackHit = -1;
 
-    private bool mIsMovingLeft;
+    public override bool canSwim { get { return true; } }
 
     private Unit mTargetUnit;
 
     protected override void SpawnComplete() {
         if(moveCtrl) moveCtrl.isLocked = false;
 
-        mIsMovingLeft = Random.Range(0, 2) == 0 ? true : false;
         MoveRoam();
     }
 
@@ -193,19 +192,14 @@ public class UnitHunter : Unit {
             }
         }
 
-        mIsMovingLeft = facing == MovableBase.Facing.Left;
         MoveRoam();
     }
 
     private void MoveRoam() {
-        var levelBounds = ColonyController.instance.bounds;
+        var activeStructures = ColonyController.instance.structurePaletteController.structureActives;
+        var ind = Random.Range(0, activeStructures.Count);
 
-        if(mIsMovingLeft)
-            MoveTo(new Vector2(levelBounds.min.x, position.y), false);
-        else
-            MoveTo(new Vector2(levelBounds.max.x, position.y), false);
-
-        mIsMovingLeft = !mIsMovingLeft;
+        MoveTo(activeStructures[ind].position, false);
     }
 
     private void ClearTargetUnit() {
@@ -218,6 +212,9 @@ public class UnitHunter : Unit {
     private bool RefreshAndMoveToNewTarget() {
         if(mTargetUnit) //fail-safe, shouldn't exist when calling this
             ClearTargetUnit();
+
+        if(isSwimming || ColonyController.instance.cycleController.isHazzard) //can't do anything if we are swimming or there's hazzard
+            return false;
 
         var colonyCtrl = ColonyController.instance;
 
