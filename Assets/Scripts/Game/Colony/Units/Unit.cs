@@ -569,7 +569,9 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
             if(ownerStructure is StructureColonyShip)
                 ((StructureColonyShip)ownerStructure).AddUnitHazzardRetreat(data);
 
-            Despawn();
+            var unitPaletteCtrl = ColonyController.instance.unitPaletteController;
+            if(!unitPaletteCtrl.Despawn(this))
+                Despawn();
         }
         else
             state = UnitState.Idle;

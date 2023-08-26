@@ -147,6 +147,21 @@ public class UnitPaletteController : MonoBehaviour {
         signalInvokeRefresh?.Invoke();
     }
 
+    public bool Despawn(Unit unit) {
+        int ind = unitPalette.GetIndex(unit.data);
+        if(ind == -1)
+            return false;
+
+        unit.Despawn();
+
+        if(activeCount > 0)
+            activeCount--;
+
+        signalInvokeRefresh?.Invoke();
+
+        return true;
+    }
+
     public void Despawn(UnitData unitData) {        
         int ind = unitPalette.GetIndex(unitData);
         if(ind == -1) {

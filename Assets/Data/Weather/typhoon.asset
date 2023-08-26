@@ -18,6 +18,6 @@ MonoBehaviour:
   image: {fileID: 0}
   isSunVisible: 0
   isHazzard: 1
-  isHazzardRetreat: 0
+  isHazzardRetreat: 1
   hazzardStartDelay: 10
   hazzardDuration: 5
