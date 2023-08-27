@@ -54,7 +54,7 @@ public abstract class SensorBase : MonoBehaviour {
 
             for(int i = 0; i < overlapCount; i++) {
                 var coll = mColls[i];
-                if(string.IsNullOrEmpty(checkTagFilter) || coll.CompareTag(checkTagFilter)) {
+                if(coll.gameObject != gameObject && (string.IsNullOrEmpty(checkTagFilter) || coll.CompareTag(checkTagFilter))) {
                     if(!Process(coll))
                         break;
                 }

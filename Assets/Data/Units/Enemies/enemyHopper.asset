@@ -18,13 +18,14 @@ MonoBehaviour:
   hitpointStartApply: 0
   hitpointStart: 0
   hitpoints: 2
-  _moveSpeed: 6
+  _moveSpeed: 10
   _moveSpeedDeviation: 0.5
-  _runSpeed: 6
+  _runSpeed: 10
   canRevive: 0
   damageImmunity: 2
+  courageLevel: 0
   spawnPrefab: {fileID: 2444954639787283386, guid: dbd274be815abb548aed544c49b38c91, type: 3}
   attackUnitTagFilter: Ally
-  attackFlags: 1
+  attackFlags: 5
   attackDamage: 1
-  attackIdleDelay: 2
+  attackIdleDelay: 1

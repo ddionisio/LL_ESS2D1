@@ -2390,7 +2390,7 @@ MonoBehaviour:
   isGlobal: 0
   onDisableAction: 3
   updateType: 0
-  updateTimeIndependent: 0
+  updateTimeIndependent: 1
   serializeData:
     _audioTracks: []
     _audioKeys: []
@@ -9171,7 +9171,7 @@ MonoBehaviour:
   isGlobal: 0
   onDisableAction: 3
   updateType: 0
-  updateTimeIndependent: 0
+  updateTimeIndependent: 1
   serializeData:
     _audioTracks: []
     _audioKeys: []

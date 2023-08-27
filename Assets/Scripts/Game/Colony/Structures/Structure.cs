@@ -200,6 +200,14 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         return boxCollider.bounds.Intersects(unit.boxCollider.bounds);
     }
 
+    public Waypoint GetWaypointAny() {
+        if(_waypointGroups == null || _waypointGroups.Length == 0)
+            return null;
+
+        var waypointName = _waypointGroups[Random.Range(0, _waypointGroups.Length)].name;
+        return GetWaypointRandom(waypointName, false);
+    }
+
     public Waypoint[] GetWaypoints(string waypointName) {
         if(mWorldWaypoints == null || !mWorldWaypoints.ContainsKey(waypointName))
             return null;

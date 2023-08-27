@@ -110,6 +110,8 @@ public class StructurePaletteController : MonoBehaviour  {
         }
     }
 
+    public bool isPlacementActive { get { return placementInput ? placementInput.isActive : false; } }
+
     private GroupInfo[] mGroupInfos; //correlates to paletteData's items
 
     private Dictionary<StructureData, M8.CacheList<Structure>> mStructureTypeActives; //categorized active structures

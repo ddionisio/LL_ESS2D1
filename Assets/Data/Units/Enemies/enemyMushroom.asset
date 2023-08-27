@@ -17,14 +17,15 @@ MonoBehaviour:
   icon: {fileID: 0}
   hitpointStartApply: 0
   hitpointStart: 0
-  hitpoints: 1
+  hitpoints: 2
   _moveSpeed: 0
   _moveSpeedDeviation: 0
   _runSpeed: 0
   canRevive: 0
   damageImmunity: 1
+  courageLevel: 0
   spawnPrefab: {fileID: 8651710515154814314, guid: 12eae5e8f8b231a419d58fe79f1b6f95, type: 3}
   attackUnitTagFilter: Ally
   attackFlags: 2
   attackDamage: 1
-  attackDelay: 2
+  attackIdleDelay: 1.5

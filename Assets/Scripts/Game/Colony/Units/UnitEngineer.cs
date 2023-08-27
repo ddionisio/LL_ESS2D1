@@ -138,7 +138,8 @@ public class UnitEngineer : Unit {
                 if(takeAttack != -1)
                     yield return animator.PlayWait(takeAttack);
 
-                mTargetEnemySpawner.hitpointsCurrent--;
+                if(mTargetEnemySpawner.isDamageable)
+                    mTargetEnemySpawner.hitpointsCurrent--;
 
                 yield return null;
             }

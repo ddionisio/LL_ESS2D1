@@ -47,7 +47,7 @@ public class UnitPaletteController : MonoBehaviour {
 
     public int capacity { get { return mCapacity; } }
 
-    public int activeCount { get; private set; }
+    public int activeCount { get { return mUnitSpawns != null ? mUnitSpawns.Count : 0; } }
 
     public int queueCount { 
         get {
@@ -69,6 +69,8 @@ public class UnitPaletteController : MonoBehaviour {
     private UnitInfo[] mUnitInfos;
 
     private UnitDespawnComparer mUnitDespawnComparer = new UnitDespawnComparer();
+
+    private M8.CacheList<Unit> mUnitSpawns;
         
     private int mCapacity;
 
@@ -147,21 +149,6 @@ public class UnitPaletteController : MonoBehaviour {
         signalInvokeRefresh?.Invoke();
     }
 
-    public bool Despawn(Unit unit) {
-        int ind = unitPalette.GetIndex(unit.data);
-        if(ind == -1)
-            return false;
-
-        unit.Despawn();
-
-        if(activeCount > 0)
-            activeCount--;
-
-        signalInvokeRefresh?.Invoke();
-
-        return true;
-    }
-
     public void Despawn(UnitData unitData) {        
         int ind = unitPalette.GetIndex(unitData);
         if(ind == -1) {
@@ -172,6 +159,7 @@ public class UnitPaletteController : MonoBehaviour {
         //remove from queue first
         if(mUnitInfos[ind].queueCount > 0) {
             mUnitInfos[ind].RemoveQueue();
+            signalInvokeRefresh?.Invoke();
         }
         else {
             var activeUnits = mUnitCtrl.GetUnitActivesByData(unitData);
@@ -185,12 +173,8 @@ public class UnitPaletteController : MonoBehaviour {
 
                 var unit = activeUnits[0];
                 unit.Despawn();
-
-                activeCount--;
             }
         }
-
-        signalInvokeRefresh?.Invoke();
     }
 
     public void ForceShowUnit(UnitData unitData) {
@@ -265,11 +249,21 @@ public class UnitPaletteController : MonoBehaviour {
 
         mCapacity = unitPalette.GetCurrentCapacity(0);
 
-        activeCount = 0;
+        mUnitSpawns = new M8.CacheList<Unit>(unitPalette.capacity);
     }
 
     void OnDisable() {
         ClearSpawnQueue();
+    }
+
+    void OnDestroy() {
+        if(GameData.isInstantiated) {
+            GameData.instance.signalUnitDespawned.callback -= OnUnitDespawn;
+        }
+    }
+
+    void Awake() {
+        GameData.instance.signalUnitDespawned.callback += OnUnitDespawn;
     }
 
     IEnumerator DoSpawnQueue() {
@@ -302,12 +296,13 @@ public class UnitPaletteController : MonoBehaviour {
                         else //fail-safe
                             spawnPt = structureOwner.position;
 
-                        mUnitCtrl.Spawn(inf.data, structureOwner, spawnPt);
+                        var unit = mUnitCtrl.Spawn(inf.data, structureOwner, spawnPt);
+
+                        mUnitSpawns.Add(unit);
 
                         //refresh
                         mUnitInfos[i] = inf;
 
-                        activeCount++;
                         signalInvokeRefresh?.Invoke();
                     }
 
@@ -320,6 +315,12 @@ public class UnitPaletteController : MonoBehaviour {
         }
 
         mSpawnQueueRout = null;
+    }
+
+    void OnUnitDespawn(Unit unit) {
+        if(mUnitSpawns.Remove(unit)) {
+            signalInvokeRefresh?.Invoke();
+        }
     }
 
     private class UnitDespawnComparer : IComparer<Unit> {

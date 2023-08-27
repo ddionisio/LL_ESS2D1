@@ -150,7 +150,8 @@ public class UnitHunter : Unit {
             //check again if still valid
             if(mTargetUnit.hitpointsCurrent > 0) {
                 //do actual attack
-                mTargetUnit.hitpointsCurrent--;
+                if(mTargetUnit.isDamageable)
+                    mTargetUnit.hitpointsCurrent--;
 
                 if(takeAttackHit != -1)
                     yield return animator.PlayWait(takeAttackHit);

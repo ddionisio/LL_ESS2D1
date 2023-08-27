@@ -371,6 +371,7 @@ MonoBehaviour:
   takeMoveFinish: -1
   takeDestroyed: 3
   takeDemolish: 3
+  takeVictory: -1
   _waypointGroups:
   - name: collect
     waypoints:
@@ -382,6 +383,9 @@ MonoBehaviour:
   - name: roam
     waypoints:
     - _point: {x: 0, y: 7}
+  - name: attack
+    waypoints:
+    - _point: {x: 0, y: 0.8}
   blooms: []
   bloomGrabDelay: 0.5
   bloomGrabHeightRange:

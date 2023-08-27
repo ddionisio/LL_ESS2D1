@@ -99,21 +99,7 @@ public abstract class CycleUnitSpawnerBase : CycleControlBase {
         base.Deinit();
     }
 
-    protected virtual void OnCycleBegin() {
-        cycleIndex = 0;
-
-        if(cycleIndexRange.min == 0)
-            StartSpawn();
-    }
-
-    protected virtual void OnCycleNext() {
-        cycleIndex = ColonyController.instance.cycleController.cycleCurIndex;
-
-        if(!isSpawning) {
-            if(cycleIndexRange.min == cycleIndex)
-                StartSpawn();
-        }
-    }
+    protected virtual void SpawnStart() { }
 
     protected virtual void OnCycleEnd() {
         if(isSpawning)
@@ -131,6 +117,8 @@ public abstract class CycleUnitSpawnerBase : CycleControlBase {
         spawnCounterMax = 0;
         
         var lastElapsedTime = cycleCtrl.cycleCurElapsed;
+
+        SpawnStart();
 
         while(cycleIndex <= cycleIndexRange.max) {
             yield return null;
@@ -164,6 +152,22 @@ public abstract class CycleUnitSpawnerBase : CycleControlBase {
 
         if(cycleDespawnAfterMax)
             EndSpawn();
+    }
+
+    void OnCycleBegin() {
+        cycleIndex = 0;
+
+        if(cycleIndexRange.min == 0)
+            StartSpawn();
+    }
+
+    void OnCycleNext() {
+        cycleIndex = ColonyController.instance.cycleController.cycleCurIndex;
+
+        if(!isSpawning) {
+            if(cycleIndexRange.min == cycleIndex)
+                StartSpawn();
+        }
     }
 
     void OnUnitDespawn(Unit unit) {

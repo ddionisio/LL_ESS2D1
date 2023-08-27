@@ -226,9 +226,15 @@ public class StructurePaletteWidget : MonoBehaviour {
             }
 
             mGroupWidgetActive.itemsActive = true;
+
+            ColonyController.instance.Pause();
         }
-        else //toggle
+        else { //toggle
             ClearGroupActive();
+
+            if(ColonyController.instance.timeState == ColonyController.TimeState.Pause)
+                ColonyController.instance.Resume();
+        }
     }
 
     void OnItemClick(StructureItemWidget itemWidget) {
@@ -261,7 +267,11 @@ public class StructurePaletteWidget : MonoBehaviour {
     }
 
     void OnClickCategory(int category) {
-        if(category != GameData.clickCategoryStructurePalette)
+        if(category != GameData.clickCategoryStructurePalette) {
             ClearGroupActive();
+
+            if(ColonyController.instance.timeState == ColonyController.TimeState.Pause)
+                ColonyController.instance.Resume();
+        }
     }
 }

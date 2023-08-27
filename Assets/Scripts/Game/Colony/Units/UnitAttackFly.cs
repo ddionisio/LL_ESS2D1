@@ -19,6 +19,8 @@ public class UnitAttackFly : Unit {
     private DG.Tweening.EaseFunction mFlyGrabEaseFunc;
     private DG.Tweening.EaseFunction mFlyDespawnMoveEaseFunc;
 
+    private float mSpawnPositionY;
+
     protected override void ClearCurrentState() {
         base.ClearCurrentState();
 
@@ -83,7 +85,7 @@ public class UnitAttackFly : Unit {
 
                             //make sure there's a spot for us to grab blooms
                             //and it's not in a ruined state
-                            if(plant.markCount < plant.bloomCount && !(plant.state == StructureState.None || plant.state == StructureState.Destroyed || plant.state == StructureState.Demolish)) {
+                            if(plant.markCount < plant.hitpointsMax && !(plant.state == StructureState.None || plant.state == StructureState.Destroyed || plant.state == StructureState.Demolish)) {
                                 if(mPlantTarget) //fail-safe
                                     mPlantTarget.RemoveMark();
 
@@ -123,6 +125,8 @@ public class UnitAttackFly : Unit {
                 mIsMovingLeft = false;
                 break;
         }
+
+        mSpawnPositionY = position.y;
     }
 
     protected override void Init() {
@@ -138,9 +142,9 @@ public class UnitAttackFly : Unit {
         var levelBounds = ColonyController.instance.bounds;
 
         if(mIsMovingLeft)
-            MoveTo(new Vector2(levelBounds.min.x, position.y), false);
+            MoveTo(new Vector2(levelBounds.min.x, mSpawnPositionY), false);
         else
-            MoveTo(new Vector2(levelBounds.max.x, position.y), false);
+            MoveTo(new Vector2(levelBounds.max.x, mSpawnPositionY), false);
     }
 
     IEnumerator DoAct() {
@@ -166,67 +170,92 @@ public class UnitAttackFly : Unit {
             roamCenter = new Vector2(plantBounds.center.x, plantBounds.max.y + flyDat.flyWaitRadius);
 
         Vector2 moveStart = position, moveEnd = position;
-        bool isIdle = true;
-        int bloomInd = -1;
+        bool isMove = false;
+        bool isAttack = false;
+        //int bloomInd = -1;
 
         while(mPlantTarget && !(mPlantTarget.state == StructureState.None || mPlantTarget.state == StructureState.Destroyed || mPlantTarget.state == StructureState.Demolish)) {
             yield return null;
 
             //grabbing?
-            if(bloomInd != -1) {
-                if(stateTimeElapsed < flyDat.flyGrabDelay) {
-                    //moving towards target
-                    var t = mFlyGrabEaseFunc(stateTimeElapsed, flyDat.flyWaitMoveDelay, 0f, 0f);
-                    position = Vector2.Lerp(moveStart, moveEnd, t);
-
-                    //make sure it's still available
-                    if(!mPlantTarget.BloomIsAvailable(bloomInd)) {
-                        bloomInd = -1;
-
-                        RestartStateTime();
-
-                        isIdle = true;
-                    }
-                }
-                else { //"eat" bloom and move away
-                    mPlantTarget.BloomClear(bloomInd);
-                    bloomInd = -1;
-
-                    RestartStateTime();
-
-                    moveStart = position;
-                    moveEnd = roamCenter + Random.insideUnitCircle * flyDat.flyWaitRadius;
-
-                    isIdle = false;
-                }
-            }
-            //check if bloom is available
-            else if(mPlantTarget.growthState == StructurePlant.GrowthState.Bloom && (bloomInd = mPlantTarget.BloomGrabAvailableIndex()) != -1) {
-                RestartStateTime();
-
-                moveStart = position;
-                moveEnd = mPlantTarget.BloomPosition(bloomInd);
-            }
-            else if(isIdle) {
-                if(stateTimeElapsed >= flyDat.flyWaitDelay) {
-                    RestartStateTime();
-
-                    moveStart = position;
-                    moveEnd = roamCenter + Random.insideUnitCircle * flyDat.flyWaitRadius;
-
-                    isIdle = false;
-                }
-            }
-            else {
+            //if(bloomInd != -1) {
+            if(isMove) {
                 if(stateTimeElapsed < flyDat.flyWaitMoveDelay) {
                     var t = mFlyWaitMoveEaseFunc(stateTimeElapsed, flyDat.flyWaitMoveDelay, 0f, 0f);
                     position = Vector2.Lerp(moveStart, moveEnd, t);
                 }
                 else {
                     RestartStateTime();
-                    isIdle = true;
+                    isMove = false;
                 }
             }
+            else if(isAttack) {
+                if(stateTimeElapsed < flyDat.flyGrabDelay) {
+                    //moving towards target
+                    var t = mFlyGrabEaseFunc(stateTimeElapsed, flyDat.flyGrabDelay, 0f, 0f);
+                    position = Vector2.Lerp(moveStart, moveEnd, t);
+
+                    //make sure it's still available
+                    //if(!mPlantTarget.BloomIsAvailable(bloomInd)) {
+                    if(!mPlantTarget.isDamageable) {
+                        isAttack = false;
+
+                        RestartStateTime();
+
+                        moveEnd = roamCenter + Random.insideUnitCircle * flyDat.flyWaitRadius;
+                        isMove = true;
+                    }
+                }
+                else { //attack plant
+                    //mPlantTarget.BloomClear(bloomInd);
+                    if(mPlantTarget.isDamageable)
+                        mPlantTarget.hitpointsCurrent--;
+
+                    isAttack = false;
+
+                    RestartStateTime();
+
+                    moveStart = position;
+                    moveEnd = roamCenter + Random.insideUnitCircle * flyDat.flyWaitRadius;
+
+                    isMove = true;
+                }
+            }
+            //check if bloom is available
+            //else if(mPlantTarget.growthState == StructurePlant.GrowthState.Bloom && (bloomInd = mPlantTarget.BloomGrabAvailableIndex()) != -1) {
+            else if(mPlantTarget.growthState == StructurePlant.GrowthState.Bloom) {
+                RestartStateTime();
+
+                moveStart = position;
+
+                var wp = mPlantTarget.GetWaypointRandom(GameData.structureWaypointAttack, false);
+
+                moveEnd = wp != null ? wp.point : mPlantTarget.position;
+                //moveEnd = mPlantTarget.BloomPosition(bloomInd);
+
+                isAttack = true;
+            }
+            else {
+                if(stateTimeElapsed >= flyDat.flyWaitDelay) {
+                    RestartStateTime();
+
+                    moveStart = position;
+                    moveEnd = roamCenter + Random.insideUnitCircle * flyDat.flyWaitRadius;
+
+                    isMove = true;
+                }
+            }
+        }
+
+        //move to spawn position y
+        moveStart = position;
+        moveEnd = new Vector2(position.x, mSpawnPositionY);
+        RestartStateTime();
+        while(stateTimeElapsed < flyDat.flyGrabDelay) {
+            yield return null;
+
+            var t = mFlyGrabEaseFunc(stateTimeElapsed, flyDat.flyGrabDelay, 0f, 0f);
+            position = Vector2.Lerp(moveStart, moveEnd, t);
         }
 
         mRout = null;

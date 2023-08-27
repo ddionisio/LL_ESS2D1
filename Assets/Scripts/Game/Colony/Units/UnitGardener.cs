@@ -133,7 +133,8 @@ public class UnitGardener : Unit {
                 if(takeAttack != -1)
                     yield return animator.PlayWait(takeAttack);
 
-                mTargetEnemy.hitpointsCurrent--;
+                if(mTargetEnemy.isDamageable)
+                    mTargetEnemy.hitpointsCurrent--;
 
                 yield return null;
             }

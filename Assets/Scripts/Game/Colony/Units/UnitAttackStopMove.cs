@@ -6,6 +6,13 @@ using UnityEngine;
 /// Move to a distant, wait, and then attack; despawn after reaching end of screen.
 /// </summary>
 public class UnitAttackStopMove : Unit {
+    [Header("Display")]
+    public GameObject moveActiveGO;
+    public GameObject blastActiveGO;
+    public M8.Animator.Animate blastAnimator;
+    [M8.Animator.TakeSelector(animatorField = "blastAnimator")]
+    public int blastTakeActive = -1;
+
     [Header("Move Info")]
     public bool moveIsGrounded;
     public M8.RangeFloat moveDistanceRange;
@@ -13,13 +20,23 @@ public class UnitAttackStopMove : Unit {
     [Header("Attack Info")]
     public Bounds attackBounds;
     public int attackCheckCapacity = 4;
-
+        
     public Vector2 attackAreaCenter { get { return transform.position + attackBounds.center; } }
     public Vector2 attackAreaSize { get { return attackBounds.size; } }
 
     private DirType mMoveDir;
 
     private Collider2D[] mAttackCheckColls;
+
+    protected override void ClearCurrentState() {
+        base.ClearCurrentState();
+
+        switch(state) {
+            case UnitState.Move:
+                if(moveActiveGO) moveActiveGO.SetActive(false);
+                break;
+        }
+    }
 
     protected override void ApplyCurrentState() {
         base.ApplyCurrentState();
@@ -31,6 +48,15 @@ public class UnitAttackStopMove : Unit {
 
             case UnitState.Act:
                 mRout = StartCoroutine(DoAttack());
+                break;
+
+            case UnitState.Move:
+                if(moveActiveGO) moveActiveGO.SetActive(true);
+                break;
+
+            case UnitState.None:
+                if(moveActiveGO) moveActiveGO.SetActive(false);
+                if(blastActiveGO) blastActiveGO.SetActive(false);
                 break;
         }
     }
@@ -46,6 +72,12 @@ public class UnitAttackStopMove : Unit {
 
     protected override void Init() {
         mAttackCheckColls = new Collider2D[attackCheckCapacity];
+
+        if(moveActiveGO) moveActiveGO.SetActive(false);
+        if(blastActiveGO) blastActiveGO.SetActive(false);
+
+        if(blastAnimator)
+            blastAnimator.takeCompleteCallback += OnBlastTakeComplete;
     }
 
     protected override void UpdateAI() {
@@ -151,6 +183,10 @@ public class UnitAttackStopMove : Unit {
             }
         }
 
+        if(blastActiveGO) blastActiveGO.SetActive(true);
+        if(blastTakeActive != -1)
+            blastAnimator.Play(blastTakeActive);
+
         //wait for attack animation to end
         if(takeAct != -1) {
             while(animator.isPlaying)
@@ -160,6 +196,10 @@ public class UnitAttackStopMove : Unit {
         mRout = null;
 
         state = UnitState.Idle;
+    }
+
+    void OnBlastTakeComplete(M8.Animator.Animate anim, M8.Animator.Take take) {
+        if(blastActiveGO) blastActiveGO.SetActive(false);
     }
 
     void OnDrawGizmos() {

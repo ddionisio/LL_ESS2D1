@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: maps
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 1
+      m_CompressionQuality: 100
+      m_CrunchedCompression: 1
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 1906ac68fe6070847a38b57ec2c2d790, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 0b7ce160622e272439a38b7041c8153c, type: 3}
+  - {fileID: 21300000, guid: 2709498189bb0f24e9ff5ace48763fd6, type: 3}
+  - {fileID: 21300000, guid: 5b879903c40dc9c4d8d14d6a35253dbe, type: 3}
+  - {fileID: 21300000, guid: e199e05379129b44fbb965bf670fc10d, type: 3}
+  - {fileID: 21300000, guid: 0e7330747dfc9664d808fa30eaf6fd72, type: 3}
+  - {fileID: 21300000, guid: f9a26365967a31a44aa4e06f49aa0a23, type: 3}
+  - {fileID: 21300000, guid: bc1fbb66502d5094fb75ba3ad5c9bf24, type: 3}
+  - {fileID: 21300000, guid: 8757e7079650bf7498f7d27cdfdc605a, type: 3}
+  - {fileID: 21300000, guid: 55f99f0ba3b46f64686680435ae89361, type: 3}
+  - {fileID: 21300000, guid: feb0bddb753a35b4a8e2b42459cb9ed3, type: 3}
+  - {fileID: 21300000, guid: 3a77e0fe4bf6d7749afb0f260b549d42, type: 3}
+  - {fileID: 21300000, guid: 0774fa4f9c4f4c44088983f6fba9a131, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - humidity_map_spring
+  - temperature_map_autumn
+  - temperature_map_winter
+  - humidity_map_autumn
+  - wind_map_autumn
+  - humidity_map_winter
+  - humidity_map_summer
+  - wind_map_spring
+  - temperature_map_summer
+  - wind_map_winter
+  - wind_map_summer
+  - temperature_map_spring
+  m_RenderDataMap: {}
+  m_Tag: maps
+  m_IsVariant: 0

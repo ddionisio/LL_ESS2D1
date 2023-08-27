@@ -319,11 +319,20 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
                 var screenPos = RectTransformUtility.WorldToScreenPoint(colonyCtrl.mainCamera, structure.clickPosition);
 
                 structureActionsWidget.transform.position = screenPos;
+
                 structureActionsWidget.active = true;
+
+                colonyCtrl.Pause();
             }
             else { //cancels other structure
                 mStructureClicked = null;
-                structureActionsWidget.active = false;
+
+                if(structureActionsWidget.active) {
+                    structureActionsWidget.active = false;
+
+                    if(ColonyController.instance.timeState == ColonyController.TimeState.Pause)
+                        ColonyController.instance.Resume();
+                }
             }
         }
     }
@@ -345,7 +354,15 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
                 break;
         }
 
-        if(structureActionsWidget) structureActionsWidget.active = false;
+        if(structureActionsWidget) {
+            structureActionsWidget.active = false;
+
+            if(!ColonyController.instance.structurePaletteController.isPlacementActive) {
+                if(ColonyController.instance.timeState == ColonyController.TimeState.Pause)
+                    ColonyController.instance.Resume();
+            }
+        }
+
         mStructureClicked = null;
     }
 
@@ -365,8 +382,12 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
         if(category != GameData.clickCategoryStructure) {
             mStructureClicked = null;
 
-            if(structureActionsWidget)
+            if(structureActionsWidget && structureActionsWidget.active) {
                 structureActionsWidget.active = false;
+
+                if(ColonyController.instance.timeState == ColonyController.TimeState.Pause)
+                    ColonyController.instance.Resume();
+            }
         }
     }
 

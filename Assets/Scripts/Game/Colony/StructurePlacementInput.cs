@@ -38,6 +38,8 @@ public class StructurePlacementInput : MonoBehaviour, IPointerEnterHandler, IPoi
 
     public StructureGhost currentGhost { get { return mCurGhostItem != null ? mCurGhostItem.ghost : null; } }
 
+    public bool isActive { get { return gameObject.activeSelf; } }
+
     private GhostItem[] mGhostStructures;
     private GhostItem mCurGhostItem;
 

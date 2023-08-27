@@ -77,9 +77,9 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
         }
     }
 
-    public int hitpointsMax { get { return data.hitpoints; } }
+    public int hitpointsMax { get { return data ? data.hitpoints : 0; } }
 
-    public bool isDamageable { get { return data.hitpoints > 0 && (state == UnitState.Idle || state == UnitState.Move || state == UnitState.Act || state == UnitState.Retreat || state == UnitState.RetreatToBase); } }
+    public bool isDamageable { get { return data && data.hitpoints > 0 && (state == UnitState.Idle || state == UnitState.Move || state == UnitState.Act || state == UnitState.Retreat || state == UnitState.RetreatToBase); } }
 
     public bool isMovable {
         get {
@@ -569,9 +569,7 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
             if(ownerStructure is StructureColonyShip)
                 ((StructureColonyShip)ownerStructure).AddUnitHazzardRetreat(data);
 
-            var unitPaletteCtrl = ColonyController.instance.unitPaletteController;
-            if(!unitPaletteCtrl.Despawn(this))
-                Despawn();
+            Despawn();
         }
         else
             state = UnitState.Idle;
