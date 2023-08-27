@@ -14,6 +14,9 @@ TextureImporter:
   - first:
       213: -488248382649040768
     second: trapezoid
+  - first:
+      213: 5659205836826695444
+    second: rhombus
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -213,6 +216,31 @@ TextureImporter:
       bones: []
       spriteID: 0808b0ecea46939f0800000000000000
       internalID: -488248382649040768
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rhombus
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 2}
+        - {x: -2, y: -2}
+        - {x: 0, y: -2}
+        - {x: 2, y: 2}
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4175fde89b9898e40800000000000000
+      internalID: 5659205836826695444
       vertices: []
       indices: 
       edges: []

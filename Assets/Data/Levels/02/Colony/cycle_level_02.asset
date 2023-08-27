@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: cycle_level_02
   m_EditorClassIdentifier: 
   cycles:
-  - weather: {fileID: 11400000, guid: 17368d584a51685429cbcf06bf9b5557, type: 2}
+  - weather: {fileID: 11400000, guid: cee0af97631f19843bb9f23c1b8a9e8d, type: 2}
     atmosphereMods: []
     resourceScaleMod:
       sunDay: 0
@@ -21,7 +21,7 @@ MonoBehaviour:
       wind: 0
       water: 0
       growth: 0
-  - weather: {fileID: 11400000, guid: 5e2d1ebe810c2ad4a9516f3a006c46dd, type: 2}
+  - weather: {fileID: 11400000, guid: 549ded0306d16bc469b1e5d9e13be152, type: 2}
     atmosphereMods:
     - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
       isOverride: 0
@@ -40,11 +40,11 @@ MonoBehaviour:
         max: -2
     resourceScaleMod:
       sunDay: 0
-      sunNight: 0.1
-      wind: 0
+      sunNight: 0
+      wind: 1
       water: 0
       growth: 0
-  - weather: {fileID: 11400000, guid: 1d8d47ba9dcfcfb47948c60462be2fe2, type: 2}
+  - weather: {fileID: 11400000, guid: 5e2d1ebe810c2ad4a9516f3a006c46dd, type: 2}
     atmosphereMods:
     - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
       isOverride: 0
@@ -62,12 +62,12 @@ MonoBehaviour:
         min: 1
         max: 1
     resourceScaleMod:
-      sunDay: -0.1
+      sunDay: 0
       sunNight: 0
-      wind: 0
+      wind: 1
       water: 0
       growth: 0
-  - weather: {fileID: 11400000, guid: 7c3ec5c1719f26947a06eafe6e8e92c6, type: 2}
+  - weather: {fileID: 11400000, guid: cee0af97631f19843bb9f23c1b8a9e8d, type: 2}
     atmosphereMods:
     - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
       isOverride: 0
@@ -85,12 +85,12 @@ MonoBehaviour:
         min: -1
         max: -1
     resourceScaleMod:
-      sunDay: -0.2
+      sunDay: 0
       sunNight: 0
-      wind: 0
+      wind: 1
       water: 0.2
       growth: 0.02
-  - weather: {fileID: 11400000, guid: 192fbfa12f3149f47a212b16627ef381, type: 2}
+  - weather: {fileID: 11400000, guid: 02fb9d56c09bfc84c804e3a38a075f36, type: 2}
     atmosphereMods:
     - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
       isOverride: 0
@@ -109,11 +109,11 @@ MonoBehaviour:
         max: -3
     resourceScaleMod:
       sunDay: 0
-      sunNight: 0.1
-      wind: 0
+      sunNight: 0
+      wind: 0.5
       water: 0
       growth: 0
-  - weather: {fileID: 11400000, guid: 17368d584a51685429cbcf06bf9b5557, type: 2}
+  - weather: {fileID: 11400000, guid: 192fbfa12f3149f47a212b16627ef381, type: 2}
     atmosphereMods:
     - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
       isOverride: 0
@@ -131,15 +131,15 @@ MonoBehaviour:
         min: -2
         max: -2
     resourceScaleMod:
-      sunDay: 0
-      sunNight: 0.1
-      wind: 0
+      sunDay: 0.8
+      sunNight: 0.4
+      wind: 0.2
       water: 0
       growth: 0
   cycleTotalDuration: 180
   resourceScale:
-    sunDay: 1
-    sunNight: 0.5
+    sunDay: 0
+    sunNight: 0
     wind: 1
     water: 1
     growth: 0.05

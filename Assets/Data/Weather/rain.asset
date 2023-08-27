@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 150bb3c28fdc4914ca3b2aa12395148c, type: 3}
-  m_Name: typhoon
+  m_Name: rain
   m_EditorClassIdentifier: 
-  nameRef: weather_typhoon
+  nameRef: weather_rain
   detailRef: 
   icon: {fileID: 0}
   image: {fileID: 0}
   isSunVisible: 0
-  isHazzard: 1
-  isHazzardRetreat: 1
-  hazzardStartDelay: 20
-  hazzardDuration: 8
+  isHazzard: 0
+  isHazzardRetreat: 0
+  hazzardStartDelay: 0
+  hazzardDuration: 0
