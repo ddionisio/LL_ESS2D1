@@ -1,0 +1,145 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f4513517cef0294a82fc0d44d05d8e5, type: 3}
+  m_Name: cycle_level_03
+  m_EditorClassIdentifier: 
+  cycles:
+  - weather: {fileID: 11400000, guid: 17368d584a51685429cbcf06bf9b5557, type: 2}
+    atmosphereMods: []
+    resourceScaleMod:
+      sunDay: 0
+      sunNight: 0
+      wind: -0.3
+      water: 0
+      growth: 0
+  - weather: {fileID: 11400000, guid: ddd8bed999f61a54c8b9a55f4f8a984f, type: 2}
+    atmosphereMods:
+    - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
+      isOverride: 0
+      range:
+        min: -5
+        max: -5
+    - atmosphere: {fileID: 11400000, guid: a1acb9bb17afa9e47bd265ddc249f905, type: 2}
+      isOverride: 0
+      range:
+        min: 2
+        max: 2
+    - atmosphere: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
+      isOverride: 0
+      range:
+        min: -2
+        max: -2
+    resourceScaleMod:
+      sunDay: -0.25
+      sunNight: -0.1
+      wind: -0.15
+      water: 0
+      growth: 0
+  - weather: {fileID: 11400000, guid: 95f050511789a6547936395eb44ba5fd, type: 2}
+    atmosphereMods:
+    - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
+      isOverride: 0
+      range:
+        min: -8
+        max: -8
+    - atmosphere: {fileID: 11400000, guid: a1acb9bb17afa9e47bd265ddc249f905, type: 2}
+      isOverride: 0
+      range:
+        min: 12
+        max: 12
+    - atmosphere: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
+      isOverride: 0
+      range:
+        min: 1
+        max: 1
+    resourceScaleMod:
+      sunDay: -0.5
+      sunNight: -0.25
+      wind: 1
+      water: 0
+      growth: 0
+  - weather: {fileID: 11400000, guid: 17368d584a51685429cbcf06bf9b5557, type: 2}
+    atmosphereMods:
+    - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
+      isOverride: 0
+      range:
+        min: -11
+        max: -11
+    - atmosphere: {fileID: 11400000, guid: a1acb9bb17afa9e47bd265ddc249f905, type: 2}
+      isOverride: 0
+      range:
+        min: 9
+        max: 9
+    - atmosphere: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
+      isOverride: 0
+      range:
+        min: -1
+        max: -1
+    resourceScaleMod:
+      sunDay: 0.2
+      sunNight: 0.2
+      wind: -0.4
+      water: 0.2
+      growth: 0.02
+  - weather: {fileID: 11400000, guid: 95f050511789a6547936395eb44ba5fd, type: 2}
+    atmosphereMods:
+    - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
+      isOverride: 0
+      range:
+        min: -6
+        max: -6
+    - atmosphere: {fileID: 11400000, guid: a1acb9bb17afa9e47bd265ddc249f905, type: 2}
+      isOverride: 0
+      range:
+        min: 6
+        max: 6
+    - atmosphere: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
+      isOverride: 0
+      range:
+        min: -3
+        max: -3
+    resourceScaleMod:
+      sunDay: -0.5
+      sunNight: -0.25
+      wind: 1
+      water: 0
+      growth: 0
+  - weather: {fileID: 11400000, guid: 17368d584a51685429cbcf06bf9b5557, type: 2}
+    atmosphereMods:
+    - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
+      isOverride: 0
+      range:
+        min: -4
+        max: -4
+    - atmosphere: {fileID: 11400000, guid: a1acb9bb17afa9e47bd265ddc249f905, type: 2}
+      isOverride: 0
+      range:
+        min: -2
+        max: -2
+    - atmosphere: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
+      isOverride: 0
+      range:
+        min: -2
+        max: -2
+    resourceScaleMod:
+      sunDay: 0
+      sunNight: 0
+      wind: -0.2
+      water: 0
+      growth: 0
+  cycleTotalDuration: 160
+  resourceScale:
+    sunDay: 1
+    sunNight: 0.5
+    wind: 1
+    water: 1
+    growth: 0.02

@@ -364,7 +364,7 @@ public class StructureHouse : Structure {
              isPowerComplete = mPowerQuota == null || mPowerQuota.isFulfilled;
 
         //can't increase population if there's hazzard
-        if(!ColonyController.instance.cycleController.isHazzard && isWaterComplete && isFoodComplete && isPowerComplete) {
+        if(!ColonyController.instance.cycleController.cycleCurWeather.isHazzard && isWaterComplete && isFoodComplete && isPowerComplete) {
             if(population < populationMax) {
                 population++;
 

@@ -21,7 +21,7 @@ MonoBehaviour:
   _moveSpeed: 3
   _moveSpeedDeviation: 0.15
   _runSpeed: 4
-  canRevive: 0
+  canRevive: 1
   damageImmunity: 0
   courageLevel: 0
   spawnPrefab: {fileID: 2543768139291352931, guid: 72eb70fe3ca01d5498746f71c2f4367b, type: 3}

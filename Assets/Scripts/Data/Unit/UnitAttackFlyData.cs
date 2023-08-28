@@ -13,4 +13,6 @@ public class UnitAttackFlyData : UnitData {
 
     public float flyGrabDelay = 1f;
     public DG.Tweening.Ease flyGrabEase = DG.Tweening.Ease.OutSine;
+
+    public float flyAttackCooldown = 1f;
 }

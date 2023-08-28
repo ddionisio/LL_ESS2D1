@@ -93,15 +93,18 @@ public class StructureResourceGenerateContainer : Structure {
             yield break;
         }
 
-        var cycleCtrl = ColonyController.instance.cycleController;
+        var colonyCtrl = ColonyController.instance;
+        var cycleCtrl = colonyCtrl.cycleController;
 
         while(true) {
             yield return null;
 
-            if(cycleCtrl.cycleTimeScale > 0f && resource < resourceCapacity) {
+            var timeScale = colonyCtrl.cycleAllowProgress ? 1.0f : cycleCtrl.cycleTimeScale;
+
+            if(timeScale > 0f && resource < resourceCapacity) {
                 var rate = resourceData.resourceGenerateRate * cycleCtrl.GetResourceScale(resourceData.resourceInputType);
 
-                resource += rate * Time.deltaTime * cycleCtrl.cycleTimeScale;
+                resource += rate * Time.deltaTime * timeScale;
             }
         }
     }

@@ -52,6 +52,16 @@ MonoBehaviour:
     color: {r: 0.34901962, g: 0.34901962, b: 0.34901962, a: 1}
   - weather: {fileID: 11400000, guid: 7c3ec5c1719f26947a06eafe6e8e92c6, type: 2}
     color: {r: 0.348, g: 0.348, b: 0.348, a: 1}
+  - weather: {fileID: 11400000, guid: cee0af97631f19843bb9f23c1b8a9e8d, type: 2}
+    color: {r: 0.348, g: 0.348, b: 0.348, a: 1}
+  - weather: {fileID: 11400000, guid: 549ded0306d16bc469b1e5d9e13be152, type: 2}
+    color: {r: 0.248, g: 0.248, b: 0.248, a: 1}
+  - weather: {fileID: 11400000, guid: 5e2d1ebe810c2ad4a9516f3a006c46dd, type: 2}
+    color: {r: 0.248, g: 0.248, b: 0.248, a: 1}
+  - weather: {fileID: 11400000, guid: ddd8bed999f61a54c8b9a55f4f8a984f, type: 2}
+    color: {r: 0.3490566, g: 0.32268995, b: 0.28155038, a: 1}
+  - weather: {fileID: 11400000, guid: 95f050511789a6547936395eb44ba5fd, type: 2}
+    color: {r: 0.3490566, g: 0.32268995, b: 0.28155038, a: 1}
   startColor: {r: 0.1254902, g: 0.10980393, b: 0.1764706, a: 1}
   dayColors:
   - {r: 0.1254902, g: 0.10980393, b: 0.1764706, a: 1}

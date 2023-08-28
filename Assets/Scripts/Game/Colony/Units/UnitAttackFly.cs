@@ -223,7 +223,7 @@ public class UnitAttackFly : Unit {
             }
             //check if bloom is available
             //else if(mPlantTarget.growthState == StructurePlant.GrowthState.Bloom && (bloomInd = mPlantTarget.BloomGrabAvailableIndex()) != -1) {
-            else if(mPlantTarget.growthState == StructurePlant.GrowthState.Bloom) {
+            else if(stateTimeElapsed >= flyDat.flyAttackCooldown && mPlantTarget.isDamageable && mPlantTarget.growthState != StructurePlant.GrowthState.None && mPlantTarget.growthState != StructurePlant.GrowthState.Decay) {
                 RestartStateTime();
 
                 moveStart = position;

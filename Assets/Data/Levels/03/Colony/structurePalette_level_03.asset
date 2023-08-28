@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67695fc814a4bca4ca33444be6a5c294, type: 3}
+  m_Name: structurePalette_level_03
+  m_EditorClassIdentifier: 
+  groups:
+  - nameRef: 
+    icon: {fileID: 21300000, guid: a0d90d4fa5edd724faf85452ff11eba3, type: 3}
+    structures:
+    - data: {fileID: 11400000, guid: 918b5d6b53bd90f44ad2cc28f374bf18, type: 2}
+      populationQuotaUnlock: 0
+    capacityStart: 1
+    capacity: 3
+    highlightOnAvailable: 1
+    pauseCycleOnAvailable: 1
+    capacityUpgrades:
+    - populationQuota: 2
+      capacityIncrease: 1
+    - populationQuota: 8
+      capacityIncrease: 1
+  - nameRef: 
+    icon: {fileID: 21300000, guid: 4e5f99955be3b514ea3b3003cbf917a1, type: 3}
+    structures:
+    - data: {fileID: 11400000, guid: 00c13b5caec751f4cac6d8ab4a682fc4, type: 2}
+      populationQuotaUnlock: 1
+    - data: {fileID: 11400000, guid: 8208dd7fc10f033418395759cf155bf5, type: 2}
+      populationQuotaUnlock: 2
+    capacityStart: 0
+    capacity: 3
+    highlightOnAvailable: 0
+    pauseCycleOnAvailable: 0
+    capacityUpgrades:
+    - populationQuota: 1
+      capacityIncrease: 1
+    - populationQuota: 2
+      capacityIncrease: 1
+    - populationQuota: 6
+      capacityIncrease: 1
+  - nameRef: 
+    icon: {fileID: 21300000, guid: c1d90da3a06a5984bbb5bc10c4315700, type: 3}
+    structures:
+    - data: {fileID: 11400000, guid: e6518c7cb5a58f34d8950afde470f478, type: 2}
+      populationQuotaUnlock: 1
+    - data: {fileID: 11400000, guid: 055a6f0de3afd324eac0f3cd1ac87593, type: 2}
+      populationQuotaUnlock: 2
+    - data: {fileID: 11400000, guid: 2ecd68efbe929a241888a40e78c941a1, type: 2}
+      populationQuotaUnlock: 2
+    capacityStart: 0
+    capacity: 5
+    highlightOnAvailable: 0
+    pauseCycleOnAvailable: 0
+    capacityUpgrades:
+    - populationQuota: 1
+      capacityIncrease: 1
+    - populationQuota: 2
+      capacityIncrease: 2
+    - populationQuota: 4
+      capacityIncrease: 1
+    - populationQuota: 8
+      capacityIncrease: 1

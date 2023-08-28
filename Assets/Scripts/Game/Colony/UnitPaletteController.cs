@@ -73,6 +73,7 @@ public class UnitPaletteController : MonoBehaviour {
     private M8.CacheList<Unit> mUnitSpawns;
         
     private int mCapacity;
+    private int mCapacityMod;
 
     private Coroutine mSpawnQueueRout;
 
@@ -191,6 +192,8 @@ public class UnitPaletteController : MonoBehaviour {
     }
 
     public void IncreaseCapacity(int amount) {
+        mCapacityMod += amount;
+
         var newCapacity = Mathf.Clamp(mCapacity + amount, 0, unitPalette.capacity);
         if(mCapacity < newCapacity) {
             mCapacity = newCapacity;
@@ -202,7 +205,7 @@ public class UnitPaletteController : MonoBehaviour {
         var isUpdated = false;
 
         //update capacity if it's increased
-        var newCapacity = unitPalette.GetCurrentCapacity(population);
+        var newCapacity = Mathf.Clamp(unitPalette.GetCurrentCapacity(population) + mCapacityMod, 0, unitPalette.capacity);
         if(mCapacity < newCapacity) {
             mCapacity = newCapacity;
             isUpdated = true;

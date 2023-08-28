@@ -107,9 +107,9 @@ public class ArableField : MonoBehaviour {
     }
 
     void Update() {
-        if(mHealthCurCount > 0) {
-            var cycleCtrl = ColonyController.instance.cycleController;
+        var cycleCtrl = ColonyController.instance.cycleController;
 
+        if(mHealthCurCount > 0) {
             mDecayCurTime += Time.deltaTime * cycleCtrl.cycleTimeScale;
             if(mDecayCurTime >= _healthDecayDelay) {
                 if(mHealthCurCount > 0) {
@@ -123,7 +123,7 @@ public class ArableField : MonoBehaviour {
             RefreshDisplay();
         }
         else { //check for plants
-            mPlantHurtCurTime += Time.deltaTime;
+            mPlantHurtCurTime += Time.deltaTime * cycleCtrl.cycleTimeScale;
             if(mPlantHurtCurTime >= _plantHurtDelay) {
                 int checkCount = Physics2D.OverlapBoxNonAlloc(transform.position + _plantCheckBounds.center, _plantCheckBounds.size, 0f, mCollChecks);
                 for(int i = 0; i < checkCount; i++) {
