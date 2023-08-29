@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf62d29afad1af04f9d6869572ce7eaf, type: 3}
+  m_Name: enemyAntlion
+  m_EditorClassIdentifier: 
+  nameRef: 
+  descRef: 
+  icon: {fileID: 0}
+  hitpointStartApply: 0
+  hitpointStart: 0
+  hitpoints: 2
+  _moveSpeed: 0
+  _moveSpeedDeviation: 0
+  _runSpeed: 0
+  canRevive: 0
+  damageImmunity: 0
+  courageLevel: 0
+  spawnPrefab: {fileID: 4826399237482679807, guid: 39df965978db54c4c883114b7a5bc9a8, type: 3}
+  attackUnitTagFilter: Ally
+  attackFlags: 5
+  attackDamage: 1
+  attackIdleDelay: 1.5

@@ -8,6 +8,9 @@ public class ColonySequence03 : ColonySequenceBase {
     public UnitData landscaper;
     public UnitData gardener;
 
+    [Header("Enemy Data")]
+    public UnitData antlion;
+
     [Header("Building Data")]
     public StructureData house;
     public StructureData waterTank;
@@ -25,6 +28,8 @@ public class ColonySequence03 : ColonySequenceBase {
 
     private bool mIsPlantSpawned;
 
+    private bool mIsAntlionSpawned;
+
     public override void Init() {
         isPauseCycle = true;
         cyclePauseAllowProgress = true;
@@ -35,7 +40,6 @@ public class ColonySequence03 : ColonySequenceBase {
     }
 
     public override void Deinit() {
-
         ColonyController.instance.structurePaletteController.signalInvokeStructureSpawned.callback -= OnStructureSpawned;
 
         GameData.instance.signalUnitSpawned.callback -= OnUnitSpawned;
@@ -60,6 +64,13 @@ public class ColonySequence03 : ColonySequenceBase {
         }
         else if(unit.data == landscaper) {
             mIsLandscaperSpawned = true;
+        }
+        else if(unit.data == antlion) {
+            if(!mIsAntlionSpawned) {
+                mIsAntlionSpawned = true;
+
+                Debug.Log("Dialog about antlion.");
+            }
         }
     }
 
@@ -143,12 +154,19 @@ public class ColonySequence03 : ColonySequenceBase {
         while(!mIsPlantSpawned)
             yield return null;
 
-        Debug.Log("Tell player of their excellent effort, remind them to tend the garden. play now resumes.");
+        Debug.Log("Tell player of their excellent effort, remind them to tend the garden.");
 
         //unlock gardener
         ColonyController.instance.unitPaletteController.ForceShowUnit(gardener);
         ColonyController.instance.unitPaletteController.IncreaseCapacity(1);
 
-        isPauseCycle = false;        
+        cyclePauseAllowProgress = true;
+
+        //wait for population increase
+        while(ColonyController.instance.population < 2)
+            yield return null;
+
+        isPauseCycle = false;
+        cyclePauseAllowProgress = false;
     }
 }

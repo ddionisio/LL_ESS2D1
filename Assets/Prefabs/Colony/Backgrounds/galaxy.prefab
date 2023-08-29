@@ -50,9 +50,9 @@ MonoBehaviour:
   - weather: {fileID: 11400000, guid: 192fbfa12f3149f47a212b16627ef381, type: 2}
     color: {r: 0.496, g: 0.496, b: 0.496, a: 1}
   - weather: {fileID: 11400000, guid: 1d8d47ba9dcfcfb47948c60462be2fe2, type: 2}
-    color: {r: 0.099, g: 0.099, b: 0.099, a: 1}
+    color: {r: 0.199, g: 0.199, b: 0.199, a: 1}
   - weather: {fileID: 11400000, guid: 02fb9d56c09bfc84c804e3a38a075f36, type: 2}
-    color: {r: 0.099, g: 0.099, b: 0.099, a: 1}
+    color: {r: 0.14899999, g: 0.14899999, b: 0.14899999, a: 1}
   - weather: {fileID: 11400000, guid: 7c3ec5c1719f26947a06eafe6e8e92c6, type: 2}
     color: {r: 0.099, g: 0.099, b: 0.099, a: 1}
   - weather: {fileID: 11400000, guid: cee0af97631f19843bb9f23c1b8a9e8d, type: 2}
@@ -64,6 +64,10 @@ MonoBehaviour:
   - weather: {fileID: 11400000, guid: ddd8bed999f61a54c8b9a55f4f8a984f, type: 2}
     color: {r: 0, g: 0, b: 0, a: 0}
   - weather: {fileID: 11400000, guid: 95f050511789a6547936395eb44ba5fd, type: 2}
+    color: {r: 0, g: 0, b: 0, a: 0}
+  - weather: {fileID: 11400000, guid: a94c630c5e473da44aff6059b37402e0, type: 2}
+    color: {r: 0, g: 0, b: 0, a: 0}
+  - weather: {fileID: 11400000, guid: c10a8ea3b4b42464080dc7f80fe5f012, type: 2}
     color: {r: 0, g: 0, b: 0, a: 0}
   startColor: {r: 1, g: 1, b: 1, a: 1}
   dayColors:

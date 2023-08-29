@@ -5173,6 +5173,122 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &125969728
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 125969729}
+  - component: {fileID: 125969730}
+  - component: {fileID: 125969732}
+  - component: {fileID: 125969731}
+  m_Layer: 0
+  m_Name: antlion
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &125969729
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125969728}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1850283566}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &125969730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125969728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da8f1721205d8874481e9eff5c3a518a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitData: {fileID: 11400000, guid: 6efb1f7ed16c54944bf3cd0ae7c83f02, type: 2}
+  cycleIndexRange:
+    min: 1
+    max: 1
+  cycleDespawnAfterMax: 1
+  cycleSpawnSequence:
+  - delay: 2
+    count: 1
+  - delay: 10
+    count: 1
+  - delay: 7
+    count: 1
+  _waypoints:
+  - _point: {x: -3.3341658, y: -2.8359828}
+  - _point: {x: 3.5197787, y: -2.2033112}
+  - _point: {x: 8.001204, y: -2.7832603}
+  - _point: {x: -7.921038, y: -3.125958}
+  _isGround: 1
+  _moveDirAxis: 1
+--- !u!114 &125969731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125969728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da8f1721205d8874481e9eff5c3a518a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitData: {fileID: 11400000, guid: 6efb1f7ed16c54944bf3cd0ae7c83f02, type: 2}
+  cycleIndexRange:
+    min: 5
+    max: 5
+  cycleDespawnAfterMax: 1
+  cycleSpawnSequence:
+  - delay: 5
+    count: 1
+  _waypoints:
+  - _point: {x: -5.232243, y: -3.1629715}
+  - _point: {x: 5.272867, y: -2.4322033}
+  _isGround: 1
+  _moveDirAxis: 1
+--- !u!114 &125969732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125969728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da8f1721205d8874481e9eff5c3a518a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitData: {fileID: 11400000, guid: 6efb1f7ed16c54944bf3cd0ae7c83f02, type: 2}
+  cycleIndexRange:
+    min: 3
+    max: 3
+  cycleDespawnAfterMax: 1
+  cycleSpawnSequence:
+  - delay: 16
+    count: 1
+  _waypoints:
+  - _point: {x: -3.3341658, y: -2.8359828}
+  - _point: {x: 3.5197787, y: -2.2033112}
+  - _point: {x: 8.001204, y: -2.7832603}
+  - _point: {x: -7.921038, y: -3.125958}
+  _isGround: 1
+  _moveDirAxis: 1
 --- !u!1 &135122316
 GameObject:
   m_ObjectHideFlags: 0
@@ -10979,7 +11095,7 @@ SpriteRenderer:
   m_SortingLayer: 13
   m_SortingOrder: 300
   m_Sprite: {fileID: 21300002, guid: 02cb7109eec577d45a27167e2308de23, type: 3}
-  m_Color: {r: 0.41176474, g: 0.30588236, b: 0.3019608, a: 0.7019608}
+  m_Color: {r: 0.41176474, g: 0.30588236, b: 0.3019608, a: 0.6}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -11551,6 +11667,7 @@ MonoBehaviour:
   engineer: {fileID: 11400000, guid: 912d03d196362454ca1452c28cec3c4b, type: 2}
   landscaper: {fileID: 11400000, guid: a9e86df1bfb9a704db18855bf5c5a378, type: 2}
   gardener: {fileID: 11400000, guid: 72dee7ea53ab7104f881194bc990908f, type: 2}
+  antlion: {fileID: 11400000, guid: 6efb1f7ed16c54944bf3cd0ae7c83f02, type: 2}
   house: {fileID: 11400000, guid: 918b5d6b53bd90f44ad2cc28f374bf18, type: 2}
   waterTank: {fileID: 11400000, guid: e6518c7cb5a58f34d8950afde470f478, type: 2}
   plant: {fileID: 11400000, guid: 00c13b5caec751f4cac6d8ab4a682fc4, type: 2}
@@ -12141,13 +12258,14 @@ GameObject:
   m_Component:
   - component: {fileID: 1517191076}
   - component: {fileID: 1517191077}
+  - component: {fileID: 1517191078}
   m_Layer: 0
   m_Name: hoppers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1517191076
 Transform:
   m_ObjectHideFlags: 0
@@ -12160,7 +12278,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1850283566}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1517191077
 MonoBehaviour:
@@ -12176,19 +12294,44 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitData: {fileID: 11400000, guid: 942c89446770343438ae9c0289964041, type: 2}
   cycleIndexRange:
-    min: 4
-    max: 4
+    min: 3
+    max: 3
   cycleDespawnAfterMax: 1
   cycleSpawnSequence:
-  - delay: 2
+  - delay: 1
     count: 1
   - delay: 5
     count: 1
   - delay: 10
     count: 1
   _waypoints:
-  - _point: {x: -16.804804, y: -3.5740998}
-  - _point: {x: 16.986197, y: -0.046855323}
+  - _point: {x: -17.033695, y: -3.0509186}
+  - _point: {x: 17.313185, y: -2.2703762}
+  _isGround: 1
+  _moveDirAxis: 1
+--- !u!114 &1517191078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1517191075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da8f1721205d8874481e9eff5c3a518a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitData: {fileID: 11400000, guid: 942c89446770343438ae9c0289964041, type: 2}
+  cycleIndexRange:
+    min: 5
+    max: 5
+  cycleDespawnAfterMax: 1
+  cycleSpawnSequence:
+  - delay: 8
+    count: 1
+  _waypoints:
+  - _point: {x: -17.033695, y: -3.0509186}
+  - _point: {x: 17.313185, y: -2.2703762}
   _isGround: 1
   _moveDirAxis: 1
 --- !u!1 &1546641730
@@ -12201,13 +12344,14 @@ GameObject:
   m_Component:
   - component: {fileID: 1546641731}
   - component: {fileID: 1546641732}
+  - component: {fileID: 1546641733}
   m_Layer: 0
   m_Name: flies
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1546641731
 Transform:
   m_ObjectHideFlags: 0
@@ -12220,9 +12364,36 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1850283566}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1546641732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1546641730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da8f1721205d8874481e9eff5c3a518a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitData: {fileID: 11400000, guid: 07ccd23c4cc58fb46bc96c9f7a225f3e, type: 2}
+  cycleIndexRange:
+    min: 0
+    max: 1
+  cycleDespawnAfterMax: 1
+  cycleSpawnSequence:
+  - delay: 10
+    count: 1
+  - delay: 10
+    count: 1
+  _waypoints:
+  - _point: {x: 15.634401, y: 4.98847}
+  - _point: {x: -16.622538, y: 4.771217}
+  _isGround: 0
+  _moveDirAxis: 1
+--- !u!114 &1546641733
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12240,17 +12411,11 @@ MonoBehaviour:
     max: 3
   cycleDespawnAfterMax: 1
   cycleSpawnSequence:
-  - delay: 1
-    count: 1
-  - delay: 6
-    count: 1
-  - delay: 10
+  - delay: 18
     count: 1
   _waypoints:
-  - _point: {x: 15.68112, y: 5.455645}
-  - _point: {x: -16.76269, y: 4.7712173}
-  - _point: {x: -16.76269, y: 3.6777718}
-  - _point: {x: 15.687956, y: 4.242131}
+  - _point: {x: 15.634401, y: 4.98847}
+  - _point: {x: -16.622538, y: 4.771217}
   _isGround: 0
   _moveDirAxis: 1
 --- !u!1 &1556132907
@@ -13887,6 +14052,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 125969729}
   - {fileID: 1912693558}
   - {fileID: 1546641731}
   - {fileID: 1517191076}
@@ -14552,13 +14718,14 @@ GameObject:
   m_Component:
   - component: {fileID: 1912693558}
   - component: {fileID: 1912693559}
+  - component: {fileID: 1912693560}
   m_Layer: 0
   m_Name: vines
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1912693558
 Transform:
   m_ObjectHideFlags: 0
@@ -14571,7 +14738,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1850283566}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1912693559
 MonoBehaviour:
@@ -14594,7 +14761,31 @@ MonoBehaviour:
   - delay: 8
     count: 1
   - delay: 8
+    count: 1
+  - delay: 2
+    count: 1
+--- !u!114 &1912693560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1912693557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a2d820c04680ce47bb94dc2a934fb27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitData: {fileID: 11400000, guid: 3b71eae6c7d47d34b9489fd9f1ca156a, type: 2}
+  cycleIndexRange:
+    min: 5
+    max: 5
+  cycleDespawnAfterMax: 1
+  cycleSpawnSequence:
+  - delay: 2
     count: 2
+  - delay: 10
+    count: 1
 --- !u!1 &1917064395
 GameObject:
   m_ObjectHideFlags: 0
@@ -15148,7 +15339,7 @@ MonoBehaviour:
       endFrame: -1
       isConstSpeed: 0
       _paths: []
-      val: 1
+      val: 0.6000000238418579
       valString: 
       valObj: {fileID: 0}
       vect4: {x: 0, y: 0, z: 0, w: 0}
@@ -15161,7 +15352,7 @@ MonoBehaviour:
       endFrame: 15
       isConstSpeed: 0
       _paths: []
-      val: 1
+      val: 0.6000000238418579
       valString: 
       valObj: {fileID: 0}
       vect4: {x: 0, y: 0, z: 0, w: 0}

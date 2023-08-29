@@ -15,7 +15,7 @@ public class MedalWidget : MonoBehaviour {
         if(medalSprites.Length == 0)
             return;
 
-        int index = Mathf.Clamp(Mathf.FloorToInt(t * medalSprites.Length), 0, medalSprites.Length - 1);
+        int index = Mathf.Clamp(Mathf.FloorToInt(t * (medalSprites.Length - 1)), 0, medalSprites.Length - 1);
 
         if(iconImage) {
             iconImage.sprite = medalSprites[index];

@@ -136,10 +136,10 @@ MonoBehaviour:
       wind: -0.2
       water: 0
       growth: 0
-  cycleTotalDuration: 160
+  cycleTotalDuration: 150
   resourceScale:
     sunDay: 1
     sunNight: 0.5
     wind: 1
-    water: 1
+    water: 0.6
     growth: 0.02

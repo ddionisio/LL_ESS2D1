@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02ca3a679b472b049b71fea8ce733052, type: 3}
+  m_Name: enemyFlyWinter
+  m_EditorClassIdentifier: 
+  nameRef: 
+  descRef: 
+  icon: {fileID: 0}
+  hitpointStartApply: 0
+  hitpointStart: 0
+  hitpoints: 1
+  _moveSpeed: 2.5
+  _moveSpeedDeviation: 0.5
+  _runSpeed: 2.5
+  canRevive: 0
+  damageImmunity: 2
+  courageLevel: 0
+  spawnPrefab: {fileID: 1926875938908409004, guid: 7ac90474907fee244b865546ac7a7653, type: 3}
+  flyWaitRadius: 1.5
+  flyWaitDelay: 1
+  flyWaitMoveDelay: 1
+  flyWaitMoveEase: 4
+  flyGrabDelay: 1.5
+  flyGrabEase: 3
+  flyAttackCooldown: 1

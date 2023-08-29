@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: waterCarry
-  m_Shader: {fileID: 4800000, guid: df3e0995f22fb0843a67e0bb9079feb4, type: 3}
+  m_Shader: {fileID: 4800000, guid: 30ca12062138bd34c905655372d155d4, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -87,12 +87,12 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.21960786, g: 0.19607845, b: 0.2784314, a: 1}
+    - _Color: {r: 0.3724635, g: 0.565514, b: 0.8490566, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _Overlay2Color: {r: 0.28606036, g: 0.25849947, b: 0.3490566, a: 1}
+    - _Overlay2Color: {r: 0.5385814, g: 0.7838452, b: 0.8584906, a: 0.5686275}
     - _Overlay2Params: {r: -0.02, g: -0.2, b: -0.2, a: -0.1}
-    - _OverlayColor: {r: 0.27058825, g: 0.24313727, b: 0.33333334, a: 1}
+    - _OverlayColor: {r: 0.405915, g: 0.4008989, b: 0.9339623, a: 0.3882353}
     - _OverlayParams: {r: 0.01, g: -0.3, b: 0.1, a: 0.1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

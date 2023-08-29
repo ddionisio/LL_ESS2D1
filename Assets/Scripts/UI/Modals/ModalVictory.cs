@@ -32,10 +32,10 @@ public class ModalVictory : M8.ModalController, M8.IModalPush {
                 houseMax = parms.GetValue<int>(parmHouseMax);
         }
 
-        if(populationLabel) populationLabel.text = string.Format("{0}/{1}", pop, popMax);
+        if(populationLabel) populationLabel.text = pop.ToString(); //string.Format("{0}/{1}", pop, popMax);
         if(popMax > 0 && populationMedal) populationMedal.ApplyRank((float)pop / popMax);
 
-        if(houseCountLabel) houseCountLabel.text = string.Format("{0}/{1}", house, houseMax);
+        if(houseCountLabel) houseCountLabel.text = house.ToString(); //string.Format("{0}/{1}", house, houseMax);
         if(houseMax > 0 && houseMedal) houseMedal.ApplyRank((float)house / houseMax);
     }
 }
