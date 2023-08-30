@@ -85,12 +85,12 @@ MonoBehaviour:
   overworldScenes:
   - name: overworld01
     path: Assets/Scenes/overworld01.unity
-  - name: overworld01
-    path: Assets/Scenes/overworld01.unity
-  - name: overworld01
-    path: Assets/Scenes/overworld01.unity
-  - name: overworld01
-    path: Assets/Scenes/overworld01.unity
+  - name: overworld02
+    path: Assets/Scenes/overworld02.unity
+  - name: overworld03
+    path: Assets/Scenes/overworld03.unity
+  - name: overworld04
+    path: Assets/Scenes/overworld04.unity
   endScene:
     name: 
     path: 

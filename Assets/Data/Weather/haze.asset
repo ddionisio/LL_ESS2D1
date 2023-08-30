@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameRef: weather_haze
   detailRef: 
-  icon: {fileID: 0}
-  image: {fileID: 0}
+  icon: {fileID: 21300000, guid: b124e20cb5caf6e4ab8508bb38740034, type: 3}
+  image: {fileID: 21300000, guid: 5ce5b7cb204e207479de74d3ea7b25f8, type: 3}
   isSunVisible: 0
   isHazzard: 0
   isHazzardRetreat: 0

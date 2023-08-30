@@ -20,10 +20,10 @@ MonoBehaviour:
     - min: 67
       max: 78
     - min: 68
-      max: 74
-    - min: 72
       max: 75
-    - min: 74
+    - min: 65
+      max: 76
+    - min: 66
       max: 83
   - atmosphere: {fileID: 11400000, guid: a1acb9bb17afa9e47bd265ddc249f905, type: 2}
     criticRange:
@@ -33,7 +33,7 @@ MonoBehaviour:
       max: 72
     - min: 59
       max: 68
-    - min: 63
-      max: 81
-    - min: 66
-      max: 77
+    - min: 55
+      max: 70
+    - min: 60
+      max: 75

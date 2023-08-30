@@ -12429,7 +12429,7 @@ GameObject:
   - component: {fileID: 1556132908}
   - component: {fileID: 1556132909}
   m_Layer: 0
-  m_Name: 01
+  m_Name: 03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12465,7 +12465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4fceacd192d82b45b1c5332bedd8631, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  regionIndex: 0
+  regionIndex: 3
   cycleSeasons: []
   cycleDataDefault: {fileID: 11400000, guid: be9fd96ac4b273a4089643c8fd707364, type: 2}
 --- !u!1 &1580970145
@@ -16100,6 +16100,10 @@ PrefabInstance:
       propertyPath: criteriaData
       value: 
       objectReference: {fileID: 11400000, guid: 822e59f443d44c94aa1c778673f2f662, type: 2}
+    - target: {fileID: 999251208909647916, guid: 4a3346b38d42fa74ca89cbdb09aefd17, type: 3}
+      propertyPath: debugRegionIndex
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 999251208909647916, guid: 4a3346b38d42fa74ca89cbdb09aefd17, type: 3}
       propertyPath: structurePalette
       value: 

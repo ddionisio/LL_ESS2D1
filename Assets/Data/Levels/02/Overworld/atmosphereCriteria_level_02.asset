@@ -15,25 +15,37 @@ MonoBehaviour:
   attributes:
   - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
     criticRange:
-    - min: 70
-      max: 75
-    - min: 67
-      max: 78
-    - min: 68
-      max: 74
+    - min: 76
+      max: 80
+    - min: 78
+      max: 91
     - min: 72
-      max: 75
-    - min: 74
+      max: 85
+    - min: 70
+      max: 78
+    - min: 75
       max: 83
   - atmosphere: {fileID: 11400000, guid: a1acb9bb17afa9e47bd265ddc249f905, type: 2}
     criticRange:
-    - min: 57
-      max: 67
-    - min: 61
-      max: 72
-    - min: 59
-      max: 68
-    - min: 63
-      max: 81
-    - min: 66
-      max: 77
+    - min: 79
+      max: 89
+    - min: 83
+      max: 95
+    - min: 76
+      max: 88
+    - min: 81
+      max: 97
+    - min: 82
+      max: 91
+  - atmosphere: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
+    criticRange:
+    - min: 10
+      max: 22
+    - min: 12
+      max: 24
+    - min: 9
+      max: 19
+    - min: 13
+      max: 21
+    - min: 14
+      max: 25

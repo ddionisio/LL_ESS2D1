@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameRef: weather_cloudy
   detailRef: 
-  icon: {fileID: 0}
-  image: {fileID: 0}
+  icon: {fileID: 21300000, guid: f790fa88618975e468bd99d8e88a0aea, type: 3}
+  image: {fileID: 21300000, guid: 4eeba846c759c284ca9aa3f746973fdc, type: 3}
   isSunVisible: 0
   isHazzard: 0
+  isHazzardRetreat: 0
+  hazzardStartDelay: 0
+  hazzardDuration: 0

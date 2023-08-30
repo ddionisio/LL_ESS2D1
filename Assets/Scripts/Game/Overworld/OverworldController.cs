@@ -140,6 +140,8 @@ public class OverworldController : GameModeController<OverworldController> {
         landscapePreview.active = true;
         //anim
 
+        criteriaGroup.ApplyCriteria(hotspotGroup.criteria);
+
         //show critic group
         criteriaGroup.active = true;
         criteriaGroup.Show();

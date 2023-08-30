@@ -12,53 +12,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df0b1d9598de9e9438d830c306b3b567, type: 3}
   m_Name: hotspot_level_03_01
   m_EditorClassIdentifier: 
-  nameRef: region_NA
-  climate: {fileID: 11400000, guid: 13eb6e3c01328d640944f6c54217865b, type: 2}
+  nameRef: region_EG
+  climate: {fileID: 11400000, guid: 23507809c1c24794eafd4d59cfa06237, type: 2}
   _atmosphereInfos:
   - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
-    winterRange:
-      min: 31
-      max: 31
-    springRange:
-      min: 62
-      max: 62
-    summerRange:
-      min: 79
-      max: 79
-    autumnRange:
-      min: 65
-      max: 65
-  - atmosphere: {fileID: 11400000, guid: a1acb9bb17afa9e47bd265ddc249f905, type: 2}
     winterRange:
       min: 57
       max: 57
     springRange:
-      min: 44
-      max: 44
+      min: 70
+      max: 70
     summerRange:
-      min: 66
-      max: 66
+      min: 96
+      max: 96
     autumnRange:
-      min: 48
-      max: 48
-  - atmosphere: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
+      min: 106
+      max: 106
+  - atmosphere: {fileID: 11400000, guid: a1acb9bb17afa9e47bd265ddc249f905, type: 2}
     winterRange:
-      min: 11
-      max: 11
+      min: 42
+      max: 42
     springRange:
-      min: 20
-      max: 20
+      min: 27
+      max: 27
     summerRange:
+      min: 18
+      max: 18
+    autumnRange:
       min: 8
       max: 8
+  - atmosphere: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
+    winterRange:
+      min: 7
+      max: 7
+    springRange:
+      min: 16
+      max: 16
+    summerRange:
+      min: 14
+      max: 14
     autumnRange:
       min: 12
       max: 12
-  winterDaylightScale: 0.7
-  springDaylightScale: 0.7
-  summerDaylightScale: 0.7
-  autumnDaylightScale: 0.7
-  landscapePrefab: {fileID: 1356387101706006881, guid: 9e0010180e916814fa69750b5e0c1b02, type: 3}
+  winterDaylightScale: 0.65
+  springDaylightScale: 0.65
+  summerDaylightScale: 0.65
+  autumnDaylightScale: 0.65
+  landscapePrefab: {fileID: 6208874366808620293, guid: 78f9dd30d1e46ec44a6468d805f5cc08, type: 3}
   colonyScene:
     name: colony03
     path: Assets/Scenes/colony03.unity

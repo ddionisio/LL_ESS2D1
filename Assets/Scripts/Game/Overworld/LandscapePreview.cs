@@ -75,7 +75,7 @@ public class LandscapePreview : MonoBehaviour {
             return;
 
         if(!aHotspotData.landscapePrefab) {
-            Debug.LogWarning("No landscape prefab found for: " + aHotspotData.name);
+            //Debug.LogWarning("No landscape prefab found for: " + aHotspotData.name);
             return;
         }
 
@@ -111,7 +111,7 @@ public class LandscapePreview : MonoBehaviour {
             landscapePreviewTelemetry.gameObject.SetActive(true);
 
             //reset view to first region
-            mCurRegionInd = 0;
+            mCurRegionInd = landscapePreviewTelemetry.startIndex;
 
             landscapeTrans.localPosition = -landscapePreviewTelemetry.regions[mCurRegionInd].center;
 

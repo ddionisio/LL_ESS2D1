@@ -12,53 +12,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df0b1d9598de9e9438d830c306b3b567, type: 3}
   m_Name: hotspot_level_02_01
   m_EditorClassIdentifier: 
-  nameRef: region_NA
-  climate: {fileID: 11400000, guid: 13eb6e3c01328d640944f6c54217865b, type: 2}
+  nameRef: region_PH
+  climate: {fileID: 11400000, guid: 2f16346db96846a4eaf5e99ef350d017, type: 2}
   _atmosphereInfos:
   - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
     winterRange:
-      min: 31
-      max: 31
+      min: 76
+      max: 76
     springRange:
-      min: 62
-      max: 62
+      min: 77
+      max: 77
     summerRange:
-      min: 79
-      max: 79
+      min: 76
+      max: 76
     autumnRange:
-      min: 65
-      max: 65
+      min: 78
+      max: 78
   - atmosphere: {fileID: 11400000, guid: a1acb9bb17afa9e47bd265ddc249f905, type: 2}
     winterRange:
-      min: 57
-      max: 57
+      min: 88
+      max: 88
     springRange:
-      min: 44
-      max: 44
+      min: 83
+      max: 83
     summerRange:
-      min: 66
-      max: 66
+      min: 92
+      max: 92
     autumnRange:
-      min: 48
-      max: 48
+      min: 87
+      max: 87
   - atmosphere: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
     winterRange:
-      min: 11
-      max: 11
+      min: 2
+      max: 2
     springRange:
-      min: 20
-      max: 20
+      min: 3
+      max: 3
     summerRange:
-      min: 8
-      max: 8
+      min: 3
+      max: 3
     autumnRange:
-      min: 12
-      max: 12
+      min: 18
+      max: 18
   winterDaylightScale: 0.5
   springDaylightScale: 0.5
   summerDaylightScale: 0.5
   autumnDaylightScale: 0.5
-  landscapePrefab: {fileID: 1356387101706006881, guid: 9e0010180e916814fa69750b5e0c1b02, type: 3}
+  landscapePrefab: {fileID: 8477257864291678825, guid: 4774aebf1fac6f84ca0858f99e31690c, type: 3}
   colonyScene:
     name: colony02
     path: Assets/Scenes/colony02.unity

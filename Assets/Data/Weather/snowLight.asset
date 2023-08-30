@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameRef: weather_light_snow
   detailRef: 
-  icon: {fileID: 0}
-  image: {fileID: 0}
+  icon: {fileID: 21300000, guid: 32df73ed3a18ae04180ede7a7945ca89, type: 3}
+  image: {fileID: 21300000, guid: f85c6915ac085e1449384d2a050b542f, type: 3}
   isSunVisible: 0
   isHazzard: 0
   isHazzardRetreat: 0

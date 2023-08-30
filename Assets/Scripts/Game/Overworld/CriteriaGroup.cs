@@ -95,11 +95,11 @@ public class CriteriaGroup : MonoBehaviour {
             mCriticResults = new int[mItemActiveCount];
     }
 
-    public void Evaluate(AtmosphereStat[] stats) {
-        data.Evaluate(mCriticResults, stats);
+    public void ApplyCompares(int[] compareResults) {
+        var count = Mathf.Min(compareResults.Length, mItemActiveCount);
 
-        for(int i = 0; i < mItemActiveCount; i++) {
-            switch(mCriticResults[i]) {
+        for(int i = 0; i < count; i++) {
+            switch(compareResults[i]) {
                 case 0: //neutral
                     mItems[i].state = CriteriaItem.State.Neutral;
                     break;
@@ -113,6 +113,16 @@ public class CriteriaGroup : MonoBehaviour {
                     break;
             }
         }
+
+        if(mCriticResults != compareResults) {
+            var criticCount = Mathf.Min(compareResults.Length, mCriticResults.Length);
+            System.Array.Copy(compareResults, mCriticResults, criticCount);
+        }
+    }
+
+    public void Evaluate(AtmosphereStat[] stats) {
+        data.Evaluate(mCriticResults, stats);
+        ApplyCompares(mCriticResults);
     }
 
     public void Show() {

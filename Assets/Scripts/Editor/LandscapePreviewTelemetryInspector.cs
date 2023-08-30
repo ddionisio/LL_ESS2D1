@@ -57,19 +57,21 @@ public class LandscapePreviewTelemetryInspector : Editor {
 
         var regionSnap = new Vector3 { x = gameDat.landscapePreviewRegionHandleSnap, y = gameDat.landscapePreviewRegionHandleSnap, z = 0f };
 
-        for(int i = 0; i < dat.regions.Length; i++) {
-            var region = dat.regions[i];
+        if(dat.regions != null) {
+            for(int i = 0; i < dat.regions.Length; i++) {
+                var region = dat.regions[i];
 
-            Vector3 wpos = worldPos + (Vector3)region.center;
+                Vector3 wpos = worldPos + (Vector3)region.center;
 
-            var size = HandleUtility.GetHandleSize(wpos) * gameDat.landscapePreviewRegionHandleScale;
+                var size = HandleUtility.GetHandleSize(wpos) * gameDat.landscapePreviewRegionHandleScale;
 
-            EditorGUI.BeginChangeCheck();
-            var newPos = Handles.FreeMoveHandle(wpos, Quaternion.identity, size, regionSnap, Handles.DotHandleCap);
-            if(EditorGUI.EndChangeCheck()) {
-                Undo.RecordObject(dat, "Change Region Position");
+                EditorGUI.BeginChangeCheck();
+                var newPos = Handles.FreeMoveHandle(wpos, Quaternion.identity, size, regionSnap, Handles.DotHandleCap);
+                if(EditorGUI.EndChangeCheck()) {
+                    Undo.RecordObject(dat, "Change Region Position");
 
-                region.center = newPos - worldPos;
+                    region.center = newPos - worldPos;
+                }
             }
         }
     }

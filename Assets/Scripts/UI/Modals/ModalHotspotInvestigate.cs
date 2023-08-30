@@ -79,7 +79,8 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
     public void Launch() {
         //determine if all critics are satisfied, otherwise activate the hint system
         if(mIsLaunchValid) {
-            Debug.Log("Can Launch!");
+            //Debug.Log("Can Launch!");
+            if(signalInvokeLaunch) signalInvokeLaunch.Invoke(mRegionIndex);
         }
         else {
             Debug.Log("Cannot Launch!");
@@ -264,7 +265,11 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
         }
 
         //update criteria
-        mCriteriaGroup.Evaluate(mCurStats);
+        var landscapePreviewTelemetry = mLandscapePreview.landscapePreviewTelemetry;
+        if(landscapePreviewTelemetry.regions[mRegionIndex].criticsOverride)
+            mCriteriaGroup.ApplyCompares(landscapePreviewTelemetry.regions[mRegionIndex].criticsCompares);
+        else
+            mCriteriaGroup.Evaluate(mCurStats);
 
         //check if we can launch, show glow if so
         mIsLaunchValid = mCriteriaGroup.criticCountBad == 0 && mCriteriaGroup.criticCountGood >= GameData.instance.overworldLaunchCriticGoodCount;

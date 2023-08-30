@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df0b1d9598de9e9438d830c306b3b567, type: 3}
+  m_Name: hotspot_level_03_02
+  m_EditorClassIdentifier: 
+  nameRef: region_GL
+  climate: {fileID: 11400000, guid: b21019b2b4ce934449dddaf912412f74, type: 2}
+  _atmosphereInfos:
+  - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
+    winterRange:
+      min: 21
+      max: 21
+    springRange:
+      min: 3
+      max: 3
+    summerRange:
+      min: 49
+      max: 49
+    autumnRange:
+      min: 34
+      max: 34
+  - atmosphere: {fileID: 11400000, guid: a1acb9bb17afa9e47bd265ddc249f905, type: 2}
+    winterRange:
+      min: 76
+      max: 76
+    springRange:
+      min: 58
+      max: 58
+    summerRange:
+      min: 72
+      max: 72
+    autumnRange:
+      min: 52
+      max: 52
+  - atmosphere: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
+    winterRange:
+      min: 7
+      max: 7
+    springRange:
+      min: 25
+      max: 25
+    summerRange:
+      min: 7
+      max: 7
+    autumnRange:
+      min: 32
+      max: 32
+  winterDaylightScale: 0.5
+  springDaylightScale: 0.5
+  summerDaylightScale: 0.5
+  autumnDaylightScale: 0.5
+  landscapePrefab: {fileID: 0}
+  colonyScene:
+    name: 
+    path: 

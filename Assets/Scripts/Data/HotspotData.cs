@@ -104,14 +104,19 @@ public class HotspotData : ScriptableObject {
     }
 
     public AtmosphereStat[] GenerateModifiedStats(SeasonData season, int regionIndex) {
-        var stats = GetAtmosphereStats(season);
-        if(stats != null) {
+        var seasonStats = GetAtmosphereStats(season);
+        if(seasonStats != null) {
+            var stats = new AtmosphereStat[seasonStats.Length];
+            System.Array.Copy(seasonStats, stats, stats.Length);
+
             var regionMods = GetRegionAtmosphereModifiers(regionIndex);
             if(regionMods != null)
                 AtmosphereModifier.Apply(stats, regionMods);
+
+            return stats;
         }
 
-        return stats;
+        return null;
     }
 
     public void ApplyModifiedStats(AtmosphereStat[] stats, SeasonData season, int regionIndex) {

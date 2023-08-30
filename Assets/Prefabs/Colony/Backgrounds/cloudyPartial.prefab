@@ -723,6 +723,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weathers:
   - {fileID: 11400000, guid: 192fbfa12f3149f47a212b16627ef381, type: 2}
+  - {fileID: 11400000, guid: 7c3ec5c1719f26947a06eafe6e8e92c6, type: 2}
   isEnd: 0
   rootGO: {fileID: 6954816356500235595}
   animator: {fileID: 6954816356668353775}

@@ -79,7 +79,7 @@ public class CriteriaData : ScriptableObject {
                     int result;
 
                     if(j < attr.criticRange.Length)
-                        result = stat.CheckBounds(attr.criticRange[j]);
+                        result = AtmosphereStat.CheckBounds(attr.criticRange[j], stat.range);
                     else
                         result = 1;
 

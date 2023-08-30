@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameRef: weather_sunny
   detailRef: 
-  icon: {fileID: 0}
-  image: {fileID: 0}
+  icon: {fileID: 21300000, guid: b6399ae8e255a7449a3b4441bb2f0443, type: 3}
+  image: {fileID: 21300000, guid: 8d289531519523b4199808cd9badae21, type: 3}
   isSunVisible: 1
   isHazzard: 0
+  isHazzardRetreat: 0
+  hazzardStartDelay: 0
+  hazzardDuration: 0

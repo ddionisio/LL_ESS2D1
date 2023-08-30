@@ -5112,8 +5112,6 @@ MonoBehaviour:
   cycleSpawnSequence:
   - delay: 5
     count: 1
-  - delay: 8
-    count: 1
   _waypoints:
   - _point: {x: 14.756008, y: -3.9566648}
   - _point: {x: -14.772052, y: -4.078855}
@@ -10961,7 +10959,7 @@ GameObject:
   - component: {fileID: 1556132908}
   - component: {fileID: 1556132909}
   m_Layer: 0
-  m_Name: 01
+  m_Name: 03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10997,7 +10995,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4fceacd192d82b45b1c5332bedd8631, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  regionIndex: 0
+  regionIndex: 3
   cycleSeasons: []
   cycleDataDefault: {fileID: 11400000, guid: a30c422af40366e46b95f8271a24a68f, type: 2}
 --- !u!1 &1558230894
@@ -18809,7 +18807,7 @@ PrefabInstance:
     - target: {fileID: 999251208909647916, guid: 4a3346b38d42fa74ca89cbdb09aefd17, type: 3}
       propertyPath: debugSeason
       value: 
-      objectReference: {fileID: 11400000, guid: ac5f6108cc5374647a455ba1ad6db09d, type: 2}
+      objectReference: {fileID: 11400000, guid: 78dd022e7c535a540a62a7bed510d39a, type: 2}
     - target: {fileID: 999251208909647916, guid: 4a3346b38d42fa74ca89cbdb09aefd17, type: 3}
       propertyPath: hotspotData
       value: 
@@ -18822,6 +18820,10 @@ PrefabInstance:
       propertyPath: criteriaData
       value: 
       objectReference: {fileID: 11400000, guid: 822e59f443d44c94aa1c778673f2f662, type: 2}
+    - target: {fileID: 999251208909647916, guid: 4a3346b38d42fa74ca89cbdb09aefd17, type: 3}
+      propertyPath: debugRegionIndex
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 999251208909647916, guid: 4a3346b38d42fa74ca89cbdb09aefd17, type: 3}
       propertyPath: structurePalette
       value: 
