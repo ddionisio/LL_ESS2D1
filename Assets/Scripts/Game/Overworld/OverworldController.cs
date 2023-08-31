@@ -22,6 +22,9 @@ public class OverworldController : GameModeController<OverworldController> {
     public LandscapePreview landscapePreview;
     public CriteriaGroup criteriaGroup;
 
+    [Header("Sequence")]
+    public OverworldSequenceBase sequence;
+
     [Header("Signal Listen")]
     public SignalSeasonData signalListenSeasonToggle;
     public SignalHotspot signalListenHotspotClick;
@@ -46,6 +49,8 @@ public class OverworldController : GameModeController<OverworldController> {
     private M8.GenericParams mModalHotspotInvestigateParms = new M8.GenericParams();
 
     protected override void OnInstanceDeinit() {
+        if(sequence) sequence.Deinit();
+
         if(signalListenSeasonToggle) signalListenSeasonToggle.callback -= OnSeasonToggle;
         if(signalListenHotspotClick) signalListenHotspotClick.callback -= OnHotspotClick;
         if(signalListenHotspotInvestigate) signalListenHotspotInvestigate.callback -= OnHotspotInvestigate;
@@ -80,6 +85,8 @@ public class OverworldController : GameModeController<OverworldController> {
         if(signalListenHotspotInvestigate) signalListenHotspotInvestigate.callback += OnHotspotInvestigate;
         if(signalListenHotspotInvestigateBack) signalListenHotspotInvestigateBack.callback += OnHotspotInvestigateBack;
         if(signalListenHotspotInvestigateLaunch) signalListenHotspotInvestigateLaunch.callback += OnHotspotInvestigateLaunch;
+
+        if(sequence) sequence.Init();
     }
 
     protected override IEnumerator Start() {
@@ -87,12 +94,14 @@ public class OverworldController : GameModeController<OverworldController> {
 
         //show overworld
 
+        //some intros
+        if(sequence)
+            yield return sequence.StartBegin();
+
         //wind FX
         if(overworldWindFX && overworldWindFXPlayOnStart)
             overworldWindFX.Play();
-
-        //some intros
-
+                
         //setup hotspot
         if(hotspotGroup) {
             //prep landscape prefabs for preview
@@ -113,9 +122,18 @@ public class OverworldController : GameModeController<OverworldController> {
 
         //show overworld modal
         ModalShowOverworld();
+
+        while(M8.ModalManager.main.isBusy)
+            yield return null;
+
+        if(sequence)
+            yield return sequence.StartFinish();
     }
 
     IEnumerator DoInvestigateEnter(Hotspot hotspot) {
+        if(sequence)
+            yield return sequence.InvestigationEnterBegin();
+
         //turn off overlays
         if(signalInvokeAtmosphereOverlayDefault) signalInvokeAtmosphereOverlayDefault.Invoke(atmosphereDefault);
 
@@ -152,6 +170,12 @@ public class OverworldController : GameModeController<OverworldController> {
         mModalHotspotInvestigateParms[ModalHotspotInvestigate.parmLandscape] = landscapePreview;
 
         M8.ModalManager.main.Open(GameData.instance.modalHotspotInvestigate, mModalHotspotInvestigateParms);
+
+        while(M8.ModalManager.main.isBusy)
+            yield return null;
+
+        if(sequence)
+            yield return sequence.InvestigationEnterEnd();
 
         mRout = null;
     }
@@ -216,6 +240,8 @@ public class OverworldController : GameModeController<OverworldController> {
 
     void OnSeasonToggle(SeasonData season) {
         mCurSeasonData = season;
+
+        if(sequence) sequence.SeasonToggle(season);
     }
 
     void OnHotspotClick(Hotspot hotspot) {
@@ -228,6 +254,8 @@ public class OverworldController : GameModeController<OverworldController> {
         mModalHotspotAnalyzeParms[ModalHotspotAnalyze.parmCriteria] = hotspotGroup.criteria;
 
         M8.ModalManager.main.Open(GameData.instance.modalHotspotAnalyze, mModalHotspotAnalyzeParms);
+
+        if(sequence) sequence.HotspotClick(hotspot);
     }
 
     void OnHotspotInvestigate(Hotspot hotspot) {

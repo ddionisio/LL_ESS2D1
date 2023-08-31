@@ -453,8 +453,8 @@ MonoBehaviour:
   _isHidden: 1
   rootGO: {fileID: 8529460266471240251}
   pingRoot: {fileID: 8529460266701152513}
-  revealRadius: 1
-  pingRadius: 4
+  revealRadius: 1.5
+  pingRadius: 6
   animator: {fileID: 8529460265258956189}
   takeActive: active
   takeReveal: reveal

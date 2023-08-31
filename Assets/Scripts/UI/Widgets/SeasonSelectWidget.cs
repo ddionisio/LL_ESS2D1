@@ -34,6 +34,8 @@ public class SeasonSelectWidget : MonoBehaviour {
     [Header("Signal Invoke")]
     public SignalSeasonData signalInvokeSeasonClick;
 
+    public bool active { get { return gameObject.activeSelf; } set { gameObject.SetActive(value); } }
+
     private ItemInfo[] mItems;
     private int mCurItemInd;
 
@@ -57,6 +59,14 @@ public class SeasonSelectWidget : MonoBehaviour {
         }
     }
 
+    void OnDisable() {
+        if(signalInvokeSeasonClick) signalInvokeSeasonClick.callback -= OnSeasonToggle;
+    }
+
+    void OnEnable() {
+        if(signalInvokeSeasonClick) signalInvokeSeasonClick.callback += OnSeasonToggle;
+    }
+
     void Awake() {
         if(!mIsInit) Init();
     }
@@ -65,11 +75,25 @@ public class SeasonSelectWidget : MonoBehaviour {
         if(mCurItemInd == index)
             return;
 
-        SetSelectItem(index);
+        //SetSelectItem(index);
 
         var itm = mItems[index];
 
         signalInvokeSeasonClick?.Invoke(itm.seasonWidget ? itm.seasonWidget.data : null);
+    }
+
+    void OnSeasonToggle(SeasonData season) {
+        var ind = -1;
+        for(int i = 0; i < mItems.Length; i++) {
+            var itm = mItems[i];
+            if(itm.data == season) {
+                ind = i;
+                break;
+            }
+        }
+
+        if(ind != -1)
+            SetSelectItem(ind);
     }
 
     private void SetSelectItem(int index) {

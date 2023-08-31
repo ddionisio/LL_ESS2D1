@@ -56,6 +56,8 @@ public class AtmosphereAttributeSelectWidget : MonoBehaviour {
     [Header("Signal Invoke")]
     public SignalAtmosphereAttribute signalInvokeAtmosphereClick;
 
+    public bool active { get { return gameObject.activeSelf; } set { gameObject.SetActive(value); } }
+
     private ItemInfo[] mItems;
     private int mCurItemInd;
 
@@ -83,6 +85,14 @@ public class AtmosphereAttributeSelectWidget : MonoBehaviour {
         SetSelectItem(selectIndex);
     }
 
+    void OnDisable() {
+        if(signalInvokeAtmosphereClick) signalInvokeAtmosphereClick.callback -= OnAtmosphereToggle;
+    }
+
+    void OnEnable() {
+        if(signalInvokeAtmosphereClick) signalInvokeAtmosphereClick.callback += OnAtmosphereToggle;
+    }
+
     void Awake() {
         if(!mIsInit) Init();
     }
@@ -91,11 +101,25 @@ public class AtmosphereAttributeSelectWidget : MonoBehaviour {
         if(mCurItemInd == index)
             return;
                 
-        SetSelectItem(index);
+        //SetSelectItem(index);
 
         var itm = mItems[index];
 
         signalInvokeAtmosphereClick?.Invoke(itm.data);
+    }
+
+    void OnAtmosphereToggle(AtmosphereAttributeBase atmosphereAttribute) {
+        var ind = -1;
+        for(int i = 0; i < mItems.Length; i++) {
+            var itm = mItems[i];
+            if(itm.data == atmosphereAttribute) {
+                ind = i;
+                break;
+            }
+        }
+
+        if(ind != -1)
+            SetSelectItem(ind);
     }
 
     private void SetSelectItem(int index) {
