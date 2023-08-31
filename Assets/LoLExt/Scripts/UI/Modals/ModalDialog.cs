@@ -26,6 +26,7 @@ namespace LoLExt {
         public GameObject textProcessFinishGO;
 
         [Header("Data")]
+        public Sprite portraitDefault;
         public float nextDelay = 0.5f; //when we are allowed to process next since active
         public bool isRealtime;
         public bool isCloseOnNext;
@@ -70,6 +71,7 @@ namespace LoLExt {
                 dlg.ApplyActive();
             }
             else {
+                mParms[parmPortraitSprite] = null;
                 mParms[parmNameTextRef] = nameTextRef;
                 mParms[parmDialogTextRef] = dialogTextRef;
                 mParms[parmNextCallback] = nextCallback;
@@ -201,8 +203,14 @@ namespace LoLExt {
 
         void M8.IModalPush.Push(M8.GenericParams parms) {
             if(parms != null) {
-                if(parms.ContainsKey(parmPortraitSprite))
-                    SetupPortraitTextContent(parms.GetValue<Sprite>(parmPortraitSprite), parms.GetValue<string>(parmNameTextRef), parms.GetValue<string>(parmDialogTextRef));
+                if(parms.ContainsKey(parmPortraitSprite)) {
+                    var spr = parms.GetValue<Sprite>(parmPortraitSprite);
+                    if(!spr)
+                        spr = portraitDefault;
+                    SetupPortraitTextContent(spr, parms.GetValue<string>(parmNameTextRef), parms.GetValue<string>(parmDialogTextRef));
+                }
+                else if(portraitDefault)
+                    SetupPortraitTextContent(portraitDefault, parms.GetValue<string>(parmNameTextRef), parms.GetValue<string>(parmDialogTextRef));
                 else
                     SetupTextContent(parms.GetValue<string>(parmNameTextRef), parms.GetValue<string>(parmDialogTextRef));
 

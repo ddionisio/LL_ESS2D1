@@ -7414,11 +7414,11 @@ MonoBehaviour:
   cycleIndexRange:
     min: 2
     max: 2
-  cycleDespawnAfterMax: 0
+  cycleDespawnAfterMax: 1
   cycleSpawnSequence:
   - delay: 1
     count: 1
-  - delay: 3
+  - delay: 8
     count: 1
   _waypoints:
   - _point: {x: 15.187304, y: -4.0326433}
@@ -7440,8 +7440,8 @@ MonoBehaviour:
   unitData: {fileID: 11400000, guid: f5e1327e900fca142b04a011636f0d8d, type: 2}
   cycleIndexRange:
     min: 4
-    max: 4
-  cycleDespawnAfterMax: 0
+    max: 5
+  cycleDespawnAfterMax: 1
   cycleSpawnSequence:
   - delay: 5
     count: 1
@@ -7468,7 +7468,7 @@ MonoBehaviour:
   cycleIndexRange:
     min: 3
     max: 3
-  cycleDespawnAfterMax: 0
+  cycleDespawnAfterMax: 1
   cycleSpawnSequence:
   - delay: 2
     count: 1
@@ -8031,7 +8031,7 @@ MonoBehaviour:
     count: 1
   - delay: 3
     count: 2
-  - delay: 4
+  - delay: 10
     count: 1
 --- !u!1 &2036648618
 GameObject:

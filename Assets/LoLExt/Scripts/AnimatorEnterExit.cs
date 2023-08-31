@@ -6,6 +6,8 @@ namespace LoLExt {
     public class AnimatorEnterExit : MonoBehaviour {
         [SerializeField]
         GameObject _rootGO;
+        [SerializeField]
+        bool _rootHideOnAwake;
 
         public M8.Animator.Animate animator;
         [M8.Animator.TakeSelector(animatorField = "animator")]
@@ -72,6 +74,11 @@ namespace LoLExt {
                 if(animator && !string.IsNullOrEmpty(takeEnter))
                     animator.ResetTake(takeEnter);
             }
+        }
+
+        void Awake() {
+            if(_rootHideOnAwake)
+                Hide();
         }
     }
 }

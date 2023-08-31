@@ -105,6 +105,7 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
 
     [Header("Scenes")]
     //intro sets progress to 1
+    public M8.SceneAssetPath introScene;
     public M8.SceneAssetPath[] overworldScenes;
     public M8.SceneAssetPath endScene;
 
@@ -248,7 +249,7 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
         var curProgress = LoLManager.instance.curProgress;
 
         if(curProgress == 0) { //shouldn't be 0 at this point if this function is called...
-            ProgressNextToOverworld();
+            introScene.Load();
         }
         else if(curProgress == LoLManager.instance.progressMax) { //ending
             endScene.Load();

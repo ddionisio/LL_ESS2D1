@@ -82,6 +82,9 @@ MonoBehaviour:
   unitVictoryWaitDelayRange:
     min: 0.3
     max: 1
+  introScene:
+    name: intro
+    path: Assets/Scenes/intro.unity
   overworldScenes:
   - name: overworld01
     path: Assets/Scenes/overworld01.unity

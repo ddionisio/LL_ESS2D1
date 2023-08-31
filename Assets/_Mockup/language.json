@@ -4,7 +4,7 @@
     }
   },
   "en": {
-    "title": "Project Bloom: A Quest for Home",
+    "title": "Project Bloom\n<size=30>A Quest for Home</size>",
     "credits_desc": "Made by: RENEGADEWARE",
     "options": "OPTIONS",
     "music": "MUSIC",
@@ -13,6 +13,8 @@
     "close": "CLOSE",
     "on": "ON",
     "off": "OFF",
+    "continue": "CONTINUE",
+    "newGame": "NEW GAME",
     "criteria": "CRITERIA",
     "hotspotAnalyze_title": "Atmospheric Reading",
     "analyzing": "ANALYZING",
@@ -73,6 +75,14 @@
     "weather_haze": "Haze",
     "weather_dustStorm": "Dust Storm",
     "weather_light_snow": "Light Snow",
-    "weather_snow": "Snow"
+    "weather_snow": "Snow",
+    "intro_0_0": "Unidentified ships approaching Earth!",
+    "intro_1_0": "They appear to be frog-like. Let me put on my frog suit to communicate with these peculiar creatures!",
+    "intro_2_0": "That’s better! Let’s see if they are of any threat…",
+    "intro_3_0": "It looks like they have been exiled from their planet, and are looking for a new home.",
+    "intro_3_1": "Well, we can’t just let them hang about in space. Besides, how often are we visited by sentient aliens from outer space?",
+    "intro_4_0": "They are expressing their gratitude, and are ready to cooperate in exchange for their refuge.",
+    "intro_4_1": "Well, why not? Let’s give these hapless frogs some proper homes to settle in, there sure to still be plenty on Earth.",
+    "intro_4_2": "We shall call this operation: Project Bloom – A quest for home!"
   }
 }
