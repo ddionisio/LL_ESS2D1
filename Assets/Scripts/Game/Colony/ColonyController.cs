@@ -171,6 +171,10 @@ public class ColonyController : GameModeController<ColonyController> {
     [Header("Colony Ship")]
     public StructureColonyShip colonyShip;
 
+    [Header("Audio")]
+    [M8.MusicPlaylist]
+    public string musicPlay;
+
     [Header("Signal Invoke")]
     public M8.Signal signalInvokePopulationUpdate;
     public M8.Signal signalInvokeResourceUpdate;
@@ -178,7 +182,7 @@ public class ColonyController : GameModeController<ColonyController> {
     [Header("Sequence")]
     [Tooltip("Use this for dialog, lessons, etc.")]
     public ColonySequenceBase sequence;
-        
+                
     [Header("Debug")]
     public bool debugEnabled;
     public SeasonData debugSeason;
@@ -398,6 +402,9 @@ public class ColonyController : GameModeController<ColonyController> {
 
         var gameDat = GameData.instance;
 
+        if(gameDat.disableSequence)
+            sequence = null;
+
         mainCamera = Camera.main;
         if(mainCamera) {
             mainCamera2D = mainCamera.GetComponent<M8.Camera2D>();
@@ -484,6 +491,9 @@ public class ColonyController : GameModeController<ColonyController> {
 
     protected override IEnumerator Start() {
         yield return base.Start();
+
+        if(!string.IsNullOrEmpty(musicPlay))
+            M8.MusicPlaylist.instance.Play(musicPlay, true, true);
 
         ColonyHUD.instance.active = true;
 

@@ -12,7 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6a109ff7ad827d4396e6fc363da6b6b, type: 3}
   m_Name: musicPlaylist
   m_EditorClassIdentifier: 
-  music: []
+  music:
+  - name: start
+    source: {fileID: 8300000, guid: 5204e04a4b7e10345aa7cfb99a439229, type: 3}
+  - name: overworld
+    source: {fileID: 8300000, guid: fd25a6476f4c7a143842c437be2b3dc3, type: 3}
+  - name: colony
+    source: {fileID: 8300000, guid: 2536d2e169bd0b14b820a6f2dbf7f71f, type: 3}
+  - name: end
+    source: {fileID: 8300000, guid: bd779faec4dc468479f18d4d24480547, type: 3}
   audioMixer: {fileID: 0}
   muteOnFocusLost: 1
   fadeInDelay: 0.3

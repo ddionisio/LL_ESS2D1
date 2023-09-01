@@ -148,7 +148,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 31936182}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10.67, y: -3.5, z: 0}
+  m_LocalPosition: {x: -5.81, y: -2.31, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 893956570}
@@ -912,7 +912,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 245258628}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 12.08, y: -3.74, z: 0}
+  m_LocalPosition: {x: 5.53, y: -2.35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 893956570}
@@ -4523,6 +4523,7 @@ MonoBehaviour:
     m_Extent: {x: 15, y: 7, z: 0}
   regionRoot: {fileID: 1173276949}
   colonyShip: {fileID: 1316209135}
+  musicPlay: end
   signalInvokePopulationUpdate: {fileID: 11400000, guid: 3b08570cc8efe0e4a85a63c9e45325fd, type: 2}
   signalInvokeResourceUpdate: {fileID: 11400000, guid: b7f3770d7e642874d952a701d3cf3593, type: 2}
   sequence: {fileID: 0}

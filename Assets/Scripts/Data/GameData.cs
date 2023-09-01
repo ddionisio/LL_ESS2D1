@@ -30,6 +30,9 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public const int seasonSummerIndex = 2;
     public const int seasonAutumnIndex = 3;
 
+    [Header("Debug")]
+    public bool disableSequence;
+
     [Header("Modals")]
     public string modalOverworld = "overworld";
     public string modalHotspotInvestigate = "hotspotInvestigate";

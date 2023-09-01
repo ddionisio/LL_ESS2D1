@@ -31,12 +31,12 @@ public class StartController : GameModeController<ColonyController> {
 
     protected override IEnumerator Start() {
         yield return base.Start();
+                
+        while(!LoLManager.instance.isReady)
+            yield return null;
 
         if(!string.IsNullOrEmpty(music))
             M8.MusicPlaylist.instance.Play(music, true, true);
-
-        while(!LoLManager.instance.isReady)
-            yield return null;
 
         yield return new WaitForSeconds(0.3f);
 

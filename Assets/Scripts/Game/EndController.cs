@@ -106,6 +106,11 @@ public class EndController : ColonyController {
             signalModeChanged.Invoke(mode);
         //
 
+        if(!string.IsNullOrEmpty(musicPlay))
+            M8.MusicPlaylist.instance.Play(musicPlay, false, true);
+
+        var lastTime = Time.time;
+
         var gameDat = GameData.instance;
 
         gameDat.signalColonyStart?.Invoke();
@@ -200,6 +205,9 @@ public class EndController : ColonyController {
 
             yield return new WaitForSeconds(5.0f);
         }
+
+        var time = Time.time - lastTime;
+        //Debug.Log("Time: " + time);
 
         //end
         LoLManager.instance.Complete();

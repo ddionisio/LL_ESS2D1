@@ -1081,6 +1081,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rootGO: {fileID: 96448257}
+  _rootHideOnAwake: 0
   animator: {fileID: 96448259}
   takeEnter: enter
   takeExit: exit
@@ -9650,7 +9651,7 @@ MonoBehaviour:
   loadingGO: {fileID: 195178797}
   readyAnim: {fileID: 96448260}
   continueGO: {fileID: 15161355}
-  music: 
+  music: start
 --- !u!4 &1753487648
 Transform:
   m_ObjectHideFlags: 0

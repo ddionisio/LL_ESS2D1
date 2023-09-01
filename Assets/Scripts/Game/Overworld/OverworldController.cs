@@ -22,6 +22,10 @@ public class OverworldController : GameModeController<OverworldController> {
     public LandscapePreview landscapePreview;
     public CriteriaGroup criteriaGroup;
 
+    [Header("Audio")]
+    [M8.MusicPlaylist]
+    public string music;
+
     [Header("Sequence")]
     public OverworldSequenceBase sequence;
 
@@ -67,7 +71,10 @@ public class OverworldController : GameModeController<OverworldController> {
 
     protected override void OnInstanceInit() {
         base.OnInstanceInit();
-                
+
+        if(GameData.instance.disableSequence)
+            sequence = null;
+
         mCurSeasonData = seasonDefault;
 
         if(hotspotGroup)
@@ -91,6 +98,9 @@ public class OverworldController : GameModeController<OverworldController> {
 
     protected override IEnumerator Start() {
         yield return base.Start();
+
+        if(!string.IsNullOrEmpty(music))
+            M8.MusicPlaylist.instance.Play(music, true, true);
 
         //show overworld
 
