@@ -6526,6 +6526,51 @@ MonoBehaviour:
   plant: {fileID: 11400000, guid: 00c13b5caec751f4cac6d8ab4a682fc4, type: 2}
   waterTank: {fileID: 11400000, guid: e6518c7cb5a58f34d8950afde470f478, type: 2}
   solarPower: {fileID: 11400000, guid: 055a6f0de3afd324eac0f3cd1ac87593, type: 2}
+  dlgIntro:
+    portrait: {fileID: 0}
+    prefix: colony_1_intro_
+    startIndex: 0
+    count: 0
+  dlgWeather:
+    portrait: {fileID: 0}
+    prefix: colony_1_weather_forecast_
+    startIndex: 0
+    count: 0
+  dlgPostIntro:
+    portrait: {fileID: 0}
+    prefix: colony_1_post_intro_
+    startIndex: 0
+    count: 0
+  dlgHousePlaced:
+    portrait: {fileID: 0}
+    prefix: colony_1_house_placed_
+    startIndex: 0
+    count: 0
+  dlgHouseSecondPlaced:
+    portrait: {fileID: 0}
+    prefix: colony_1_house_second_
+    startIndex: 0
+    count: 0
+  dlgWaterSolarPlaced:
+    portrait: {fileID: 0}
+    prefix: colony_1_water_solar_placed_
+    startIndex: 0
+    count: 0
+  dlgEngineerPlaced:
+    portrait: {fileID: 0}
+    prefix: colony_1_engineer_placed_
+    startIndex: 0
+    count: 0
+  dlgVineAppear:
+    portrait: {fileID: 0}
+    prefix: colony_1_vine_
+    startIndex: 0
+    count: 0
+  dlgMoleAppear:
+    portrait: {fileID: 0}
+    prefix: colony_1_mole_
+    startIndex: 0
+    count: 0
 --- !u!4 &1280744734
 Transform:
   m_ObjectHideFlags: 0
@@ -7418,7 +7463,7 @@ MonoBehaviour:
   cycleSpawnSequence:
   - delay: 1
     count: 1
-  - delay: 8
+  - delay: 10
     count: 1
   _waypoints:
   - _point: {x: 15.187304, y: -4.0326433}
@@ -7445,8 +7490,6 @@ MonoBehaviour:
   cycleSpawnSequence:
   - delay: 5
     count: 1
-  - delay: 3
-    count: 1
   _waypoints:
   - _point: {x: 15.187304, y: -4.0326433}
   - _point: {x: -15.31652, y: -3.799989}
@@ -7471,8 +7514,6 @@ MonoBehaviour:
   cycleDespawnAfterMax: 1
   cycleSpawnSequence:
   - delay: 2
-    count: 1
-  - delay: 5
     count: 1
   _waypoints:
   - _point: {x: 15.187304, y: -4.0326433}
@@ -7988,7 +8029,9 @@ MonoBehaviour:
   cycleDespawnAfterMax: 0
   cycleSpawnSequence:
   - delay: 1
-    count: 2
+    count: 1
+  - delay: 8
+    count: 1
 --- !u!114 &1912693560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8024,8 +8067,8 @@ MonoBehaviour:
   unitData: {fileID: 11400000, guid: 3b71eae6c7d47d34b9489fd9f1ca156a, type: 2}
   cycleIndexRange:
     min: 3
-    max: 3
-  cycleDespawnAfterMax: 0
+    max: 4
+  cycleDespawnAfterMax: 1
   cycleSpawnSequence:
   - delay: 0
     count: 1

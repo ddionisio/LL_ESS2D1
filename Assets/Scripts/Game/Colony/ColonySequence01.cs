@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using LoLExt;
+
 public class ColonySequence01 : ColonySequenceBase {
     [Header("Unit Data")]
     public UnitData gardener;
@@ -17,6 +19,17 @@ public class ColonySequence01 : ColonySequenceBase {
     public StructureData plant;
     public StructureData waterTank;
     public StructureData solarPower;
+
+    [Header("Dialogs")]
+    public ModalDialogFlowIncremental dlgIntro;
+    public ModalDialogFlowIncremental dlgWeather;
+    public ModalDialogFlowIncremental dlgPostIntro;
+    public ModalDialogFlowIncremental dlgHousePlaced;
+    public ModalDialogFlowIncremental dlgHouseSecondPlaced;
+    public ModalDialogFlowIncremental dlgWaterSolarPlaced;
+    public ModalDialogFlowIncremental dlgEngineerPlaced;
+    public ModalDialogFlowIncremental dlgVineAppear;
+    public ModalDialogFlowIncremental dlgMoleAppear;
 
     private bool mIsGardenerSpawned = false;
 
@@ -55,13 +68,11 @@ public class ColonySequence01 : ColonySequenceBase {
     }
 
     public override IEnumerator Intro() {
-        Debug.Log("Dialog about temperate climate.");
-        yield return null;
+        yield return dlgIntro.Play();
     }
 
     public override IEnumerator Forecast() {
-        Debug.Log("Dialog about climate vs. weather.");
-        yield return null;
+        yield return dlgWeather.Play();
     }
 
     public override IEnumerator ColonyShipPreEnter() {
@@ -69,8 +80,7 @@ public class ColonySequence01 : ColonySequenceBase {
     }
 
     public override IEnumerator ColonyShipPostEnter() {
-        Debug.Log("Dialog about placing houses and game premise.");
-        yield return null;
+        yield return dlgPostIntro.Play();
     }
 
     public override void CycleBegin() {
@@ -93,8 +103,6 @@ public class ColonySequence01 : ColonySequenceBase {
                 mIsPopulationIncreased = true;
 
                 cyclePauseAllowProgress = false;
-
-                Debug.Log("Dialog about population increase, new house available.");
             }
         }
     }
@@ -105,10 +113,8 @@ public class ColonySequence01 : ColonySequenceBase {
                 mIsGardenerSpawned = true;
 
                 if(mIsPlantSpawned) {
-                    //Debug.Log("Dialog about population increase, and new house to place.");
                 }
                 else {
-                    Debug.Log("Dialog about spawning plant.");
                 }
             }
         }
@@ -116,18 +122,15 @@ public class ColonySequence01 : ColonySequenceBase {
             if(!mIsEngineerSpawned) {                
                 mIsEngineerSpawned = true;
 
-                Debug.Log("Dialog about engineers as builders, etc. etc.");
-
                 //finally proceed with game
-                isPauseCycle = false;
-                cyclePauseAllowProgress = false;
+                StartCoroutine(DoEngineerSummoned());
             }
         }
         else if(unit.data == vine) {
             if(!mIsVineSpawned) {
                 mIsVineSpawned = true;
 
-                Debug.Log("Dialog about vines and the need for gardener.");
+                StartCoroutine(DoVineAppear());
             }
         }
         else if(unit.data == mole) {
@@ -137,9 +140,51 @@ public class ColonySequence01 : ColonySequenceBase {
                 ColonyController.instance.unitPaletteController.ForceShowUnit(hunter);
                 ColonyController.instance.unitPaletteController.IncreaseCapacity(1);
 
-                Debug.Log("Dialog about mole, and the use of hunters.");
+                StartCoroutine(DoMoleAppear());
             }
         }
+    }
+
+    IEnumerator DoVineAppear() {
+        GameData.instance.signalClickCategory.Invoke(-1);
+
+        var vines = ColonyController.instance.unitController.GetUnitActivesByData(vine);
+        if(vines != null && vines.Count > 0) {
+            var vine = vines[0];
+            while(vine.state == UnitState.Spawning)
+                yield return null;
+        }
+
+        M8.SceneManager.instance.Pause();
+
+        yield return dlgVineAppear.Play();
+
+        M8.SceneManager.instance.Resume();
+    }
+
+    IEnumerator DoMoleAppear() {
+        GameData.instance.signalClickCategory.Invoke(-1);
+
+        var moles = ColonyController.instance.unitController.GetUnitActivesByData(mole);
+        if(moles != null && moles.Count > 0) {
+            var mole = moles[0];
+            while(mole.state == UnitState.Spawning)
+                yield return null;
+        }
+
+        M8.SceneManager.instance.Pause();
+
+        yield return dlgMoleAppear.Play();
+
+        M8.SceneManager.instance.Resume();
+    }
+
+    IEnumerator DoEngineerSummoned() {
+        cyclePauseAllowProgress = false;
+
+        yield return dlgEngineerPlaced.Play();
+
+        isPauseCycle = false;
     }
 
     void OnStructureSpawned(Structure structure) {
@@ -147,16 +192,16 @@ public class ColonySequence01 : ColonySequenceBase {
             if(!mIsHouseSpawned) {
                 mIsHouseSpawned = true;
 
-                Debug.Log("Dialog about needing plant and gardener.");
+                StartCoroutine(dlgHousePlaced.Play());
             }
             else if(!mIsHouseSecondSpawned) {
-                mIsHouseSecondSpawned = true;                
-
-                Debug.Log("Dialog about needing water tank and solar power.");
+                mIsHouseSecondSpawned = true;
                                 
                 //unlock water tank and solar panel
                 ColonyController.instance.structurePaletteController.ForceShowStructure(solarPower);
                 ColonyController.instance.structurePaletteController.ForceShowStructure(waterTank);
+
+                StartCoroutine(dlgHouseSecondPlaced.Play());
             }
         }
         else if(structure.data == plant) {
@@ -164,10 +209,8 @@ public class ColonySequence01 : ColonySequenceBase {
                 mIsPlantSpawned = true;
 
                 if(mIsGardenerSpawned) {
-                    Debug.Log("Dialog about population increase, and new house to place.");
                 }
                 else {
-                    Debug.Log("Dialog about spawning gardener.");
                 }
             }
         }
@@ -176,13 +219,14 @@ public class ColonySequence01 : ColonySequenceBase {
                 mIsWaterTankSpawned = true;
 
                 if(mIsSolarPowerSpawned) {
-                    Debug.Log("Dialog about needing engineers to construct them.");
-
                     //unlock engineer
                     ColonyController.instance.unitPaletteController.ForceShowUnit(engineer);
+                    ColonyController.instance.unitPaletteController.IncreaseCapacity(2);
+
+                    StartCoroutine(dlgWaterSolarPlaced.Play());
                 }
                 else {
-                    Debug.Log("Dialog about spawning power plant.");
+                    //StartCoroutine(dlgWaterTankPlaced.Play());
                 }
             }
         }
@@ -191,13 +235,14 @@ public class ColonySequence01 : ColonySequenceBase {
                 mIsSolarPowerSpawned = true;
 
                 if(mIsWaterTankSpawned) {
-                    Debug.Log("Dialog about needing engineers to construct them.");
-
                     //unlock engineer
                     ColonyController.instance.unitPaletteController.ForceShowUnit(engineer);
+                    ColonyController.instance.unitPaletteController.IncreaseCapacity(2);
+
+                    StartCoroutine(dlgWaterSolarPlaced.Play());
                 }
                 else {
-                    Debug.Log("Dialog about spawning water tank.");
+                    //StartCoroutine(dlgSolarPanelPlaced.Play());
                 }
             }
         }
