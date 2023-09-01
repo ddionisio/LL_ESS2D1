@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using LoLExt;
+
 public class ColonySequence03 : ColonySequenceBase {
     [Header("Unit Data")]
     public UnitData engineer;
@@ -18,6 +20,12 @@ public class ColonySequence03 : ColonySequenceBase {
 
     [Header("Land Info")]
     public ArableField[] fields;
+
+    [Header("Dialogs")]
+    public ModalDialogFlowIncremental dlgIntro;
+    public ModalDialogFlowIncremental dlgWater;
+    public ModalDialogFlowIncremental dlgLandscaping;
+    public ModalDialogFlowIncremental dlgLandscapingComplete;
 
     private bool mIsHouseSpawned;
 
@@ -46,8 +54,8 @@ public class ColonySequence03 : ColonySequenceBase {
     }
 
     public override IEnumerator Intro() {
-        Debug.Log("Dialog about desert climate.");
-        yield return null;
+        //Debug.Log("Dialog about desert climate.");
+        yield return dlgIntro.Play();
     }
 
     void OnUnitSpawned(Unit unit) {
@@ -58,7 +66,7 @@ public class ColonySequence03 : ColonySequenceBase {
                 if(mIsWaterTankSpawned)
                     LandscaperTutorialStart();
                 else {
-                    Debug.Log("Dialog about placing water tank.");
+                    //Debug.Log("Dialog about placing water tank.");
                 }
             }
         }
@@ -69,7 +77,7 @@ public class ColonySequence03 : ColonySequenceBase {
             if(!mIsAntlionSpawned) {
                 mIsAntlionSpawned = true;
 
-                Debug.Log("Dialog about antlion.");
+                //Debug.Log("Dialog about antlion.");
             }
         }
     }
@@ -79,7 +87,8 @@ public class ColonySequence03 : ColonySequenceBase {
             if(!mIsHouseSpawned) {
                 mIsHouseSpawned = true;
 
-                Debug.Log("Dialog about landscaping, then instruct player to place water tank.");
+                //Debug.Log("Dialog about landscaping, then instruct player to place water tank.");
+                StartCoroutine(dlgWater.Play());
             }
         }
         else if(structure.data == waterTank) {
@@ -89,7 +98,7 @@ public class ColonySequence03 : ColonySequenceBase {
                 if(mIsEngineerSpawned)
                     LandscaperTutorialStart();
                 else {
-                    Debug.Log("Dialog about spawning engineer.");
+                    //Debug.Log("Dialog about spawning engineer.");
                 }
             }
         }
@@ -124,7 +133,8 @@ public class ColonySequence03 : ColonySequenceBase {
         ColonyController.instance.unitPaletteController.ForceShowUnit(landscaper);
         ColonyController.instance.unitPaletteController.IncreaseCapacity(1);
 
-        Debug.Log("Talk about landscaping, and wait for it to finish one land.");
+        //Debug.Log("Talk about landscaping, and wait for it to finish one land.");
+        yield return dlgLandscaping.Play();
 
         //wait for landscaper to be spawned
         while(!mIsLandscaperSpawned)
@@ -147,20 +157,23 @@ public class ColonySequence03 : ColonySequenceBase {
             }
         }
 
-        cyclePauseAllowProgress = false;
-
-        Debug.Log("Tell player of their excellent effort, ask them to place a plant.");
-
-        while(!mIsPlantSpawned)
-            yield return null;
-
-        Debug.Log("Tell player of their excellent effort, remind them to tend the garden.");
+        //cyclePauseAllowProgress = false;
 
         //unlock gardener
         ColonyController.instance.unitPaletteController.ForceShowUnit(gardener);
         ColonyController.instance.unitPaletteController.IncreaseCapacity(1);
 
-        cyclePauseAllowProgress = true;
+        //Debug.Log("Tell player of their excellent effort, ask them to place a plant.");
+        yield return dlgLandscapingComplete.Play();
+
+        while(!mIsPlantSpawned)
+            yield return null;
+
+        //Debug.Log("Tell player of their excellent effort, remind them to tend the garden.");
+
+        
+
+        //cyclePauseAllowProgress = true;
 
         //wait for population increase
         while(ColonyController.instance.population < 2)

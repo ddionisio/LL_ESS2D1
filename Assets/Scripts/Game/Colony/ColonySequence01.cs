@@ -146,6 +146,8 @@ public class ColonySequence01 : ColonySequenceBase {
     }
 
     IEnumerator DoVineAppear() {
+        ColonyController.instance.Resume();
+
         GameData.instance.signalClickCategory.Invoke(-1);
 
         var vines = ColonyController.instance.unitController.GetUnitActivesByData(vine);
@@ -155,14 +157,16 @@ public class ColonySequence01 : ColonySequenceBase {
                 yield return null;
         }
 
-        M8.SceneManager.instance.Pause();
+        ColonyController.instance.Pause();
 
         yield return dlgVineAppear.Play();
 
-        M8.SceneManager.instance.Resume();
+        ColonyController.instance.Resume();
     }
 
     IEnumerator DoMoleAppear() {
+        ColonyController.instance.Resume();
+
         GameData.instance.signalClickCategory.Invoke(-1);
 
         var moles = ColonyController.instance.unitController.GetUnitActivesByData(mole);
@@ -172,11 +176,11 @@ public class ColonySequence01 : ColonySequenceBase {
                 yield return null;
         }
 
-        M8.SceneManager.instance.Pause();
+        ColonyController.instance.Pause();
 
         yield return dlgMoleAppear.Play();
 
-        M8.SceneManager.instance.Resume();
+        ColonyController.instance.Resume();
     }
 
     IEnumerator DoEngineerSummoned() {

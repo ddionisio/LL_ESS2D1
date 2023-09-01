@@ -2,11 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using LoLExt;
+
 public class ColonySequence02 : ColonySequenceBase {
     [Header("Enemy Data")]
     public UnitData mushroom;
     public UnitData fly;
     public UnitData hopper;
+
+    [Header("Dialogs")]
+    public ModalDialogFlowIncremental dlgIntro;
+    public ModalDialogFlowIncremental dlgMushroom;
+    public ModalDialogFlowIncremental dlgFly;
+    public ModalDialogFlowIncremental dlgHazzard;
 
     private bool mIsMushroomSpawned;
     private bool mIsFlySpawned;
@@ -23,8 +31,8 @@ public class ColonySequence02 : ColonySequenceBase {
     }
 
     public override IEnumerator Intro() {
-        Debug.Log("Dialog about tropical climate.");
-        yield return null;
+        //Debug.Log("Dialog about tropical climate.");
+        yield return dlgIntro.Play();
     }
 
     public override void CycleNext() {
@@ -32,9 +40,16 @@ public class ColonySequence02 : ColonySequenceBase {
             if(!mIsHazzardHappened) {
                 mIsHazzardHappened = true;
 
-                Debug.Log("Dialog about hazzard.");
+                //Debug.Log("Dialog about hazzard.");
+                StartCoroutine(DoHazzardDialog());
             }
         }
+    }
+
+    IEnumerator DoHazzardDialog() {
+        isPauseCycle = true;
+        yield return dlgHazzard.Play();
+        isPauseCycle = false;
     }
 
     void OnUnitSpawned(Unit unit) {
@@ -42,22 +57,64 @@ public class ColonySequence02 : ColonySequenceBase {
             if(!mIsMushroomSpawned) {
                 mIsMushroomSpawned = true;
 
-                Debug.Log("Dialog about mushroom.");
+                //Debug.Log("Dialog about mushroom.");
+                StartCoroutine(DoMushroomDialog());
             }
         }
         else if(unit.data == fly) {
             if(!mIsFlySpawned) {
                 mIsFlySpawned = true;
 
-                Debug.Log("Dialog about fly.");
+                //Debug.Log("Dialog about fly.");
+                StartCoroutine(DoFlyDialog());
             }
         }
         else if(unit.data == hopper) {
             if(!mIsHopperSpawned) {
                 mIsHopperSpawned = true;
 
-                Debug.Log("Dialog about hopper.");
+                //Debug.Log("Dialog about hopper.");
             }
         }
+    }
+
+    IEnumerator DoMushroomDialog() {
+        ColonyController.instance.Resume();
+
+        GameData.instance.signalClickCategory.Invoke(-1);
+
+        var mushrooms = ColonyController.instance.unitController.GetUnitActivesByData(mushroom);
+        if(mushrooms != null && mushrooms.Count > 0) {
+            var mushroom = mushrooms[0];
+            while(mushroom.state == UnitState.Spawning)
+                yield return null;
+        }
+
+        ColonyController.instance.Pause();
+
+        yield return dlgMushroom.Play();
+
+        ColonyController.instance.Resume();
+    }
+
+    IEnumerator DoFlyDialog() {
+        var flies = ColonyController.instance.unitController.GetUnitActivesByData(fly);
+        if(flies != null && flies.Count > 0) {
+            var fly = flies[0];
+            while(fly.state == UnitState.Spawning)
+                yield return null;
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        ColonyController.instance.Resume();
+
+        GameData.instance.signalClickCategory.Invoke(-1);
+
+        ColonyController.instance.Pause();
+
+        yield return dlgFly.Play();
+
+        ColonyController.instance.Resume();
     }
 }

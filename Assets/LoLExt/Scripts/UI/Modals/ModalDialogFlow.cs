@@ -13,10 +13,25 @@ namespace LoLExt {
         private bool mIsNext;
 
         public IEnumerator Play() {
-            yield return Play(ModalDialog.modalNameGeneric, portrait, null);
+            yield return Play(ModalDialog.modalNameGeneric, portrait, null, false);
         }
 
-        public IEnumerator Play(string modal, Sprite portrait, string nameTextRef) {
+        public IEnumerator PlayPaused() {
+            yield return Play(ModalDialog.modalNameGeneric, portrait, null, true);
+        }
+
+        public IEnumerator Play(Sprite portrait) {
+            yield return Play(ModalDialog.modalNameGeneric, portrait, null, false);
+        }
+
+        public IEnumerator PlayPaused(Sprite portrait) {
+            yield return Play(ModalDialog.modalNameGeneric, portrait, null, true);
+        }
+
+        public IEnumerator Play(string modal, Sprite portrait, string nameTextRef, bool isPause) {
+            if(isPause)
+                M8.SceneManager.instance.Pause();
+
             for(int i = 0; i < dialogTextRefs.Length; i++) {
                 string textRef = dialogTextRefs[i];
                 if(string.IsNullOrEmpty(textRef))
@@ -39,6 +54,9 @@ namespace LoLExt {
             //wait for dialog to close
             while(M8.ModalManager.main.isBusy || M8.ModalManager.main.IsInStack(modal))
                 yield return null;
+
+            if(isPause)
+                M8.SceneManager.instance.Resume();
         }
 
         void OnDialogNext() {

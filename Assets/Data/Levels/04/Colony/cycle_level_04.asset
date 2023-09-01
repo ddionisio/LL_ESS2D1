@@ -18,7 +18,7 @@ MonoBehaviour:
     resourceScaleMod:
       sunDay: 0
       sunNight: 0
-      wind: 0
+      wind: -0.25
       water: 0
       growth: 0
   - weather: {fileID: 11400000, guid: a94c630c5e473da44aff6059b37402e0, type: 2}
@@ -26,8 +26,8 @@ MonoBehaviour:
     - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
       isOverride: 0
       range:
-        min: -5
-        max: -5
+        min: -2
+        max: -2
     - atmosphere: {fileID: 11400000, guid: a1acb9bb17afa9e47bd265ddc249f905, type: 2}
       isOverride: 0
       range:
@@ -36,12 +36,12 @@ MonoBehaviour:
     - atmosphere: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
       isOverride: 0
       range:
-        min: -2
-        max: -2
+        min: 3
+        max: 3
     resourceScaleMod:
       sunDay: -0.25
       sunNight: -0.1
-      wind: 0.1
+      wind: 0
       water: -0.15
       growth: -0.01
   - weather: {fileID: 11400000, guid: c10a8ea3b4b42464080dc7f80fe5f012, type: 2}
@@ -49,18 +49,18 @@ MonoBehaviour:
     - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
       isOverride: 0
       range:
-        min: -8
-        max: -8
+        min: -4
+        max: -4
     - atmosphere: {fileID: 11400000, guid: a1acb9bb17afa9e47bd265ddc249f905, type: 2}
       isOverride: 0
       range:
-        min: 12
-        max: 12
+        min: 8
+        max: 8
     - atmosphere: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
       isOverride: 0
       range:
-        min: 1
-        max: 1
+        min: 7
+        max: 7
     resourceScaleMod:
       sunDay: -0.3
       sunNight: -0.15
@@ -72,22 +72,22 @@ MonoBehaviour:
     - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
       isOverride: 0
       range:
-        min: -11
-        max: -11
+        min: -1
+        max: -1
     - atmosphere: {fileID: 11400000, guid: a1acb9bb17afa9e47bd265ddc249f905, type: 2}
       isOverride: 0
       range:
-        min: 9
-        max: 9
+        min: 3
+        max: 3
     - atmosphere: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
       isOverride: 0
       range:
-        min: -1
-        max: -1
+        min: 4
+        max: 4
     resourceScaleMod:
       sunDay: -0.25
       sunNight: -0.1
-      wind: 0.1
+      wind: 0
       water: -0.15
       growth: -0.01
   - weather: {fileID: 11400000, guid: 02fb9d56c09bfc84c804e3a38a075f36, type: 2}
@@ -95,8 +95,8 @@ MonoBehaviour:
     - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
       isOverride: 0
       range:
-        min: -6
-        max: -6
+        min: 3
+        max: 3
     - atmosphere: {fileID: 11400000, guid: a1acb9bb17afa9e47bd265ddc249f905, type: 2}
       isOverride: 0
       range:
@@ -105,12 +105,12 @@ MonoBehaviour:
     - atmosphere: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
       isOverride: 0
       range:
-        min: -3
-        max: -3
+        min: 0
+        max: 0
     resourceScaleMod:
       sunDay: 0
       sunNight: 0
-      wind: -0.15
+      wind: -0.25
       water: 0
       growth: 0
   - weather: {fileID: 11400000, guid: 1d8d47ba9dcfcfb47948c60462be2fe2, type: 2}
@@ -118,13 +118,13 @@ MonoBehaviour:
     - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
       isOverride: 0
       range:
-        min: -4
-        max: -4
+        min: 6
+        max: 6
     - atmosphere: {fileID: 11400000, guid: a1acb9bb17afa9e47bd265ddc249f905, type: 2}
       isOverride: 0
       range:
-        min: -2
-        max: -2
+        min: -8
+        max: -8
     - atmosphere: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
       isOverride: 0
       range:
@@ -140,6 +140,6 @@ MonoBehaviour:
   resourceScale:
     sunDay: 0.75
     sunNight: 0.25
-    wind: 1
+    wind: 0.9
     water: 1
     growth: 0.01

@@ -175,6 +175,73 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8529460265258956191, guid: 9aa8015bae5f4564c95f33aac4eb949e, type: 3}
   m_PrefabInstance: {fileID: 8529460265551126531}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &856522106
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 856522108}
+  - component: {fileID: 856522107}
+  m_Layer: 0
+  m_Name: sequence
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &856522107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 856522106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80e73f02081ef2a4c80ef6efb1f1bba9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  none: {fileID: 11400000, guid: 35477a9ee6a521048a6b62ff073dc07e, type: 2}
+  wind: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
+  temperature: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
+  dlgIntro:
+    portrait: {fileID: 0}
+    prefix: overworld_2_intro_
+    startIndex: 0
+    count: 0
+  dlgWind:
+    portrait: {fileID: 0}
+    prefix: overworld_2_wind_
+    startIndex: 0
+    count: 0
+  dlgWindTemp:
+    portrait: {fileID: 0}
+    prefix: overworld_2_wind_temp_
+    startIndex: 0
+    count: 0
+  dlgIntroPost:
+    portrait: {fileID: 0}
+    prefix: overworld_2_post_intro_
+    startIndex: 0
+    count: 0
+  signalInvokeAtmosphereToggle: {fileID: 11400000, guid: 5e7d9b8e91e520242bea1b8128f1b7e7, type: 2}
+--- !u!4 &856522108
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 856522106}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &998699157
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -315,12 +382,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4209015124873795808, guid: 302b9f60d03155849a0c7ebf36183d1e, type: 3}
+      propertyPath: sequence
+      value: 
+      objectReference: {fileID: 856522107}
+    - target: {fileID: 4209015124873795808, guid: 302b9f60d03155849a0c7ebf36183d1e, type: 3}
       propertyPath: hotspotGroup
       value: 
       objectReference: {fileID: 257530576}
     - target: {fileID: 4209015124873795808, guid: 302b9f60d03155849a0c7ebf36183d1e, type: 3}
       propertyPath: overworldWindFXPlayOnStart
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4209015124873795808, guid: 302b9f60d03155849a0c7ebf36183d1e, type: 3}
       propertyPath: atmosphereActiveOverlays.Array.size

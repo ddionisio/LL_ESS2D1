@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using LoLExt;
+
 public class ColonySequence04 : ColonySequenceBase {
     [Header("Enemy Data")]
     public UnitData burrow;
@@ -9,6 +11,11 @@ public class ColonySequence04 : ColonySequenceBase {
     [Header("Building Data")]
     public StructureData house;
     public StructureData waterTank;
+
+    [Header("Dialog")]
+    public ModalDialogFlowIncremental dlgIntro;
+    public ModalDialogFlowIncremental dlgLandscape;
+    public ModalDialogFlowIncremental dlgCave;
 
     private bool mIsHouseSpawned;
 
@@ -30,8 +37,8 @@ public class ColonySequence04 : ColonySequenceBase {
     }
 
     public override IEnumerator Intro() {
-        Debug.Log("Dialog about highland climate.");
-        yield return null;
+        //Debug.Log("Dialog about highland climate.");
+        yield return dlgIntro.Play();
     }
 
     void OnUnitSpawned(Unit unit) {
@@ -39,9 +46,29 @@ public class ColonySequence04 : ColonySequenceBase {
             if(!mIsBurrowSpawned) {
                 mIsBurrowSpawned = true;
 
-                Debug.Log("Dialog about burrows.");
+                //Debug.Log("Dialog about burrows.");
+                StartCoroutine(DoBurrowDialog());
             }
         }
+    }
+
+    IEnumerator DoBurrowDialog() {
+        ColonyController.instance.Resume();
+
+        GameData.instance.signalClickCategory.Invoke(-1);
+
+        var burrows = ColonyController.instance.unitController.GetUnitActivesByData(burrow);
+        if(burrows != null && burrows.Count > 0) {
+            var burrow = burrows[0];
+            while(burrow.state == UnitState.Spawning)
+                yield return null;
+        }
+
+        ColonyController.instance.Pause();
+
+        yield return dlgCave.Play();
+
+        ColonyController.instance.Resume();
     }
 
     void OnStructureSpawned(Structure structure) {
@@ -49,7 +76,7 @@ public class ColonySequence04 : ColonySequenceBase {
             if(!mIsHouseSpawned) {
                 mIsHouseSpawned = true;
 
-                Debug.Log("Dialog about landscaping again.");
+                //Debug.Log("Dialog about landscaping again.");
 
                 LandscaperTutorialStart();
             }
@@ -61,13 +88,13 @@ public class ColonySequence04 : ColonySequenceBase {
     }
 
     IEnumerator DoLandScaperTutorial() {
+        yield return dlgLandscape.Play();
+
         //wait for population increase
         while(ColonyController.instance.population < 2)
             yield return null;
 
-        Debug.Log("Dialog about doing excellent, and finally at the tail-end of this journey.");
-
-        isPauseCycle = false;
         cyclePauseAllowProgress = false;
+        isPauseCycle = false;
     }
 }

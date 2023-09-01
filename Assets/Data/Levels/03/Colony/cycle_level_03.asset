@@ -14,7 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cycles:
   - weather: {fileID: 11400000, guid: 17368d584a51685429cbcf06bf9b5557, type: 2}
-    atmosphereMods: []
+    atmosphereMods:
+    - atmosphere: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
+      isOverride: 1
+      range:
+        min: 4
+        max: 4
     resourceScaleMod:
       sunDay: 0
       sunNight: 0
@@ -26,18 +31,18 @@ MonoBehaviour:
     - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
       isOverride: 0
       range:
-        min: -5
-        max: -5
+        min: -2
+        max: -2
     - atmosphere: {fileID: 11400000, guid: a1acb9bb17afa9e47bd265ddc249f905, type: 2}
-      isOverride: 0
-      range:
-        min: 2
-        max: 2
-    - atmosphere: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
       isOverride: 0
       range:
         min: -2
         max: -2
+    - atmosphere: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
+      isOverride: 1
+      range:
+        min: 6
+        max: 6
     resourceScaleMod:
       sunDay: -0.25
       sunNight: -0.1
@@ -49,18 +54,18 @@ MonoBehaviour:
     - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
       isOverride: 0
       range:
-        min: -8
-        max: -8
+        min: -1
+        max: -1
     - atmosphere: {fileID: 11400000, guid: a1acb9bb17afa9e47bd265ddc249f905, type: 2}
       isOverride: 0
       range:
-        min: 12
-        max: 12
+        min: -7
+        max: -7
     - atmosphere: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
       isOverride: 0
       range:
-        min: 1
-        max: 1
+        min: 0
+        max: 0
     resourceScaleMod:
       sunDay: -0.5
       sunNight: -0.25
@@ -72,22 +77,22 @@ MonoBehaviour:
     - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
       isOverride: 0
       range:
-        min: -11
-        max: -11
+        min: 6
+        max: 6
     - atmosphere: {fileID: 11400000, guid: a1acb9bb17afa9e47bd265ddc249f905, type: 2}
       isOverride: 0
       range:
-        min: 9
-        max: 9
+        min: -4
+        max: -4
     - atmosphere: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
       isOverride: 0
       range:
-        min: -1
-        max: -1
+        min: -3
+        max: -3
     resourceScaleMod:
       sunDay: 0.2
       sunNight: 0.2
-      wind: -0.4
+      wind: 0
       water: 0.2
       growth: 0.02
   - weather: {fileID: 11400000, guid: 95f050511789a6547936395eb44ba5fd, type: 2}
@@ -95,18 +100,18 @@ MonoBehaviour:
     - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
       isOverride: 0
       range:
-        min: -6
-        max: -6
+        min: -2
+        max: -2
     - atmosphere: {fileID: 11400000, guid: a1acb9bb17afa9e47bd265ddc249f905, type: 2}
       isOverride: 0
       range:
-        min: 6
-        max: 6
+        min: -8
+        max: -8
     - atmosphere: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
       isOverride: 0
       range:
-        min: -3
-        max: -3
+        min: 2
+        max: 2
     resourceScaleMod:
       sunDay: -0.5
       sunNight: -0.25
@@ -118,18 +123,18 @@ MonoBehaviour:
     - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
       isOverride: 0
       range:
-        min: -4
-        max: -4
+        min: 8
+        max: 8
     - atmosphere: {fileID: 11400000, guid: a1acb9bb17afa9e47bd265ddc249f905, type: 2}
       isOverride: 0
       range:
-        min: -2
-        max: -2
+        min: -6
+        max: -6
     - atmosphere: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
-      isOverride: 0
+      isOverride: 1
       range:
-        min: -2
-        max: -2
+        min: 7
+        max: 7
     resourceScaleMod:
       sunDay: 0
       sunNight: 0
@@ -139,7 +144,7 @@ MonoBehaviour:
   cycleTotalDuration: 150
   resourceScale:
     sunDay: 1
-    sunNight: 0.5
+    sunNight: 0.65
     wind: 1
     water: 0.6
     growth: 0.02
