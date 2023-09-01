@@ -447,6 +447,13 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
                 mRout = StartCoroutine(DoVictory());
                 break;
 
+            case UnitState.End:
+                ApplyTelemetryState(false, false);
+
+                if(takeIdle != -1)
+                    animator.Play(takeIdle);
+                break;
+
             case UnitState.None:
                 if(animator)
                     animator.Stop();

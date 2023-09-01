@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef0e0fa5eb36a9a44b83183ba1d40b87, type: 3}
+  m_Name: colonyShipNoMedic
+  m_EditorClassIdentifier: 
+  nameRef: 
+  descRef: 
+  icon: {fileID: 0}
+  hitpoints: 0
+  buildTime: 0
+  workCapacity: 0
+  isReparable: 0
+  isDemolishable: 0
+  isWaterImmune: 1
+  ghostPrefab: {fileID: 0}
+  spawnPrefab: {fileID: 0}
+  placementValidLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  medicData: {fileID: 0}
+  medicCapacity: 0

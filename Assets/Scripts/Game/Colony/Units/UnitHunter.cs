@@ -198,9 +198,13 @@ public class UnitHunter : Unit {
 
     private void MoveRoam() {
         var activeStructures = ColonyController.instance.structurePaletteController.structureActives;
-        var ind = Random.Range(0, activeStructures.Count);
 
-        MoveTo(activeStructures[ind].position, false);
+        if(activeStructures != null && activeStructures.Count > 0) {
+            var ind = Random.Range(0, activeStructures.Count);
+            MoveTo(activeStructures[ind].position, false);
+        }
+        else
+            state = UnitState.Idle;
     }
 
     private void ClearTargetUnit() {

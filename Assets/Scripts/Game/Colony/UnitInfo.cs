@@ -22,6 +22,8 @@ public enum UnitState {
     Death, //animate and despawn
 
     Victory, //for allies
+
+    End, //special state during ending
 }
 
 [System.Flags]

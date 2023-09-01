@@ -9,6 +9,8 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public const string saveKeyScene = "s";
     public const string saveKeyRegionIndex = "ri";
     public const string saveKeySeasonIndex = "si";
+    public const string saveKeyTotalPopIndex = "pop";
+    public const string saveKeyTotalPopCapIndex = "popCap";
 
     public const int clickCategoryBackground = 1;
     public const int clickCategoryStructure = 2;
@@ -171,6 +173,24 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public int savedSeasonIndex {
         get {
             return LoLManager.instance.userData.GetInt(saveKeySeasonIndex);
+        }
+    }
+
+    public int totalPopulation {
+        get {
+            return LoLManager.instance.userData.GetInt(saveKeyTotalPopIndex);
+        }
+        set {
+            LoLManager.instance.userData.SetInt(saveKeyTotalPopIndex, value);
+        }
+    }
+
+    public int totalPopulationCapacity {
+        get {
+            return LoLManager.instance.userData.GetInt(saveKeyTotalPopCapIndex);
+        }
+        set {
+            LoLManager.instance.userData.SetInt(saveKeyTotalPopCapIndex, value);
         }
     }
 

@@ -35,6 +35,11 @@ public class StartController : GameModeController<ColonyController> {
         if(!string.IsNullOrEmpty(music))
             M8.MusicPlaylist.instance.Play(music, true, true);
 
+        while(!LoLManager.instance.isReady)
+            yield return null;
+
+        yield return new WaitForSeconds(0.3f);
+
         if(loadingGO) loadingGO.SetActive(false);
                 
         var lolMgr = LoLManager.instance;

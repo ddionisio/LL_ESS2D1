@@ -184,11 +184,11 @@ public class ColonyController : GameModeController<ColonyController> {
     public SeasonData debugSeason;
     public int debugRegionIndex;
 
-    public CycleController cycleController { get; private set; }
+    public CycleController cycleController { get; protected set; }
 
-    public Camera mainCamera { get; private set; }
-    public M8.Camera2D mainCamera2D { get; private set; }
-    public Transform mainCameraTransform { get; private set; }
+    public Camera mainCamera { get; protected set; }
+    public M8.Camera2D mainCamera2D { get; protected set; }
+    public Transform mainCameraTransform { get; protected set; }
 
     public int population { 
         get { return mPopulation; }
@@ -278,17 +278,17 @@ public class ColonyController : GameModeController<ColonyController> {
 
     public event System.Action<TimeState> fastforwardChangedCallback;
 
-    private ResourceInfo[] mResources;
+    protected ResourceInfo[] mResources;
 
-    private int mPopulation;
-    private int mPopulationCapacity;
+    protected int mPopulation;
+    protected int mPopulationCapacity;
 
-    private TimeState mTimeState = TimeState.None;
-    private bool mIsHazzard;
-    private bool mIsCyclePause;
+    protected TimeState mTimeState = TimeState.None;
+    protected bool mIsHazzard;
+    protected bool mIsCyclePause;
 
-    private M8.GenericParams mWeatherForecastParms = new M8.GenericParams();
-    private M8.GenericParams mVictoryParms = new M8.GenericParams();
+    protected M8.GenericParams mWeatherForecastParms = new M8.GenericParams();
+    protected M8.GenericParams mVictoryParms = new M8.GenericParams();
 
     public void FastForward() {
         if(!mIsHazzard && !mIsCyclePause)
@@ -538,6 +538,9 @@ public class ColonyController : GameModeController<ColonyController> {
             yield return null;
 
         //other things
+
+        gameDat.totalPopulation += population;
+        gameDat.totalPopulationCapacity += populationMaxCapacity;
 
         gameDat.ProgressNextToOverworld();
     }

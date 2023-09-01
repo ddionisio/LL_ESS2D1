@@ -95,8 +95,8 @@ MonoBehaviour:
   - name: overworld04
     path: Assets/Scenes/overworld04.unity
   endScene:
-    name: 
-    path: 
+    name: end
+    path: Assets/Scenes/end.unity
   signalColonyStart: {fileID: 11400000, guid: 3edf050b350006a4b94870b2f1de9233, type: 2}
   signalClickCategory: {fileID: 11400000, guid: 821168db214a9e24fa0ee2b13a8e3d31, type: 2}
   signalVictory: {fileID: 11400000, guid: a04f93fbfae3bb349aa24d5d7b3ae138, type: 2}

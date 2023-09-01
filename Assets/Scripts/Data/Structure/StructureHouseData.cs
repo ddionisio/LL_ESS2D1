@@ -42,7 +42,9 @@ public class StructureHouseData : StructureData {
     }
 
     public override void Setup(ColonyController colonyCtrl, int structureCount) {
-        colonyCtrl.unitController.AddUnitData(citizenData, citizenWorkerCapacity * structureCount, false);
-        citizenData.Setup(colonyCtrl);
+        if(citizenData && citizenWorkerCapacity > 0) {
+            colonyCtrl.unitController.AddUnitData(citizenData, citizenWorkerCapacity * structureCount, false);
+            citizenData.Setup(colonyCtrl);
+        }
     }
 }

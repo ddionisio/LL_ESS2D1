@@ -122,6 +122,16 @@ public class CycleController : MonoBehaviour {
         mRout = StartCoroutine(DoProcess());
     }
 
+    public void End() {
+        if(mRout != null) {
+            StopCoroutine(mRout);
+
+            GameData.instance.signalCycleEnd?.Invoke();
+
+            mRout = null;
+        }
+    }
+
     /// <summary>
     /// Ensure Setup has already been called
     /// </summary>

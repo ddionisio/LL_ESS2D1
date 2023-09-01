@@ -387,6 +387,35 @@ public class StructurePaletteController : MonoBehaviour  {
         PlacementClear();
     }
 
+    public Structure Spawn(StructureData structureData, Vector2 position, Vector2 normal) {
+        if(mStructureActives.IsFull)
+            return null;
+
+        var groupInd = paletteData.GetGroupIndex(structureData);
+        if(groupInd == -1)
+            return null;
+
+        mSpawnParms[StructureSpawnParams.spawnPoint] = position;
+        mSpawnParms[StructureSpawnParams.spawnNormal] = normal;
+
+        mSpawnParms[StructureSpawnParams.data] = structureData;
+
+        var spawnName = structureData.spawnPrefab.name;
+        var newStructure = mPoolCtrl.Spawn<Structure>(spawnName, spawnName, spawnRoot, mSpawnParms);
+
+        mStructureActives.Add(newStructure);
+
+        M8.CacheList<Structure> activeList;
+        if(mStructureTypeActives.TryGetValue(structureData, out activeList) && !activeList.IsFull) //shouldn't be full...
+            activeList.Add(newStructure);
+
+        mGroupInfos[groupInd].count++;
+
+        signalInvokeStructureSpawned?.Invoke(newStructure);
+
+        return newStructure;
+    }
+
     /// <summary>
     /// Should be called via cancel (also if HUD has a cancel button)
     /// </summary>
