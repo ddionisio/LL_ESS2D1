@@ -89,6 +89,8 @@ public class WeatherForecastProgressWidget : MonoBehaviour {
             mForecastWeatherIconWidth = forecastWeatherIconTemplate.rectTransform.rect.width;
 
             forecastWeatherIconTemplate.gameObject.SetActive(false);
+
+            mIsInit = true;
         }
 
         float iconExt = mForecastWeatherIconWidth * 0.5f;

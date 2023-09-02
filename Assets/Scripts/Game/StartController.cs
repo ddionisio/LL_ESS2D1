@@ -14,11 +14,20 @@ public class StartController : GameModeController<ColonyController> {
     [M8.MusicPlaylist]
     public string music;
 
+    public CanvasGroup canvasGrp;
+
+    private bool mIsProceed;
+    
     public void Continue() {
+        if(mIsProceed) return;
+
+
         StartCoroutine(DoProceed(true));
     }
 
     public void NewGame() {
+        if(mIsProceed) return;
+
         StartCoroutine(DoProceed(false));
     }
 
@@ -27,6 +36,8 @@ public class StartController : GameModeController<ColonyController> {
 
         if(loadingGO) loadingGO.SetActive(true);
         if(readyAnim) readyAnim.Hide();
+
+        if(canvasGrp) canvasGrp.interactable = false;
     }
 
     protected override IEnumerator Start() {
@@ -50,9 +61,13 @@ public class StartController : GameModeController<ColonyController> {
             readyAnim.Show();
             readyAnim.PlayEnter();
         }
+
+        if(canvasGrp) canvasGrp.interactable = true;
     }
 
     IEnumerator DoProceed(bool isContinue) {
+        mIsProceed = true;
+
         if(readyAnim) {
             yield return readyAnim.PlayExitWait();
             readyAnim.Hide();
