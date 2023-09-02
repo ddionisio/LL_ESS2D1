@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class UnitMedic : Unit {
+    [Header("Medic SFX")]
+    [M8.SoundPlaylist]
+    public string sfxRevive;
+
     public Unit targetUnit { 
         get { return mTargetUnit; }
         set {
@@ -95,8 +99,12 @@ public class UnitMedic : Unit {
             yield return null;
 
         if(mTargetUnit) {
-            if(CanWorkOnUnit(mTargetUnit))
+            if(CanWorkOnUnit(mTargetUnit)) {
+                if(!string.IsNullOrEmpty(sfxRevive))
+                    M8.SoundPlaylist.instance.Play(sfxRevive, false);
+
                 mTargetUnit.hitpointsCurrent = mTargetUnit.hitpointsMax;
+            }
 
             mTargetUnit = null;
         }

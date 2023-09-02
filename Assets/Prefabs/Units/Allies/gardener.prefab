@@ -5144,6 +5144,11 @@ MonoBehaviour:
   takeDeath: 7
   takeDespawn: 8
   takeVictory: 9
+  sfxSpawn: allySpawn
+  sfxDespawn: allyDespawn
+  sfxHurt: hit
+  sfxDying: 
+  sfxDeath: allyDeath
   takeAttack: 12
 --- !u!114 &132798742304965075
 MonoBehaviour:

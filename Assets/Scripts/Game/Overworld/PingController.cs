@@ -18,6 +18,14 @@ public class PingController : MonoBehaviour, IPointerClickHandler {
     [M8.Animator.TakeSelector]
     public string takePing;
 
+    [Header("SFX")]
+    [M8.SoundPlaylist]
+    public string sfxPulse;
+    [M8.SoundPlaylist]
+    public string sfxPing;
+    [M8.SoundPlaylist]
+    public string sfxReveal;
+
     public bool isBusy { get { return mRout != null; } }
 
     private Coroutine mRout;
@@ -45,6 +53,9 @@ public class PingController : MonoBehaviour, IPointerClickHandler {
             pingRoot.position = pos;
         }
 
+        if(!string.IsNullOrEmpty(sfxPulse))
+            M8.SoundPlaylist.instance.Play(sfxPulse, false);
+
         //do animation
         if(mTakePingInd != -1)
             yield return animator.PlayWait(mTakePingInd);
@@ -52,16 +63,21 @@ public class PingController : MonoBehaviour, IPointerClickHandler {
         if(pingRoot)
             pingRoot.gameObject.SetActive(false);
 
-        //do hotspot reveals        
-        for(int i = 0; i < mHotspotReveals.Count; i++)
-            mHotspotReveals[i].Reveal();
+        //do hotspot reveals
+        if(mHotspotReveals.Count > 0) {
+            if(!string.IsNullOrEmpty(sfxReveal))
+                M8.SoundPlaylist.instance.Play(sfxReveal, false);
 
-        while(mHotspotReveals.Count > 0) {
-            yield return null;
+            for(int i = 0; i < mHotspotReveals.Count; i++)
+                mHotspotReveals[i].Reveal();
 
-            for(int i = mHotspotReveals.Count - 1; i >= 0; i--) {
-                if(!mHotspotReveals[i].isBusy)
-                    mHotspotReveals.RemoveAt(i);
+            while(mHotspotReveals.Count > 0) {
+                yield return null;
+
+                for(int i = mHotspotReveals.Count - 1; i >= 0; i--) {
+                    if(!mHotspotReveals[i].isBusy)
+                        mHotspotReveals.RemoveAt(i);
+                }
             }
         }
 
@@ -84,6 +100,9 @@ public class PingController : MonoBehaviour, IPointerClickHandler {
                     fadeSprite.color = Color.LerpUnclamped(clr, fadeInColor, t);
                 }
             }
+
+            if(!string.IsNullOrEmpty(sfxPing))
+                M8.SoundPlaylist.instance.Play(sfxPing, false);
 
             //do pings
             for(int i = 0; i < mHotspotPings.Count; i++)

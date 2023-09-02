@@ -36,6 +36,18 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     [M8.Animator.TakeSelector]
     public int takeVictory = -1;
 
+    [Header("SFX")]
+    [M8.SoundPlaylist]
+    public string sfxSpawn;
+    [M8.SoundPlaylist]
+    public string sfxDespawn;
+    [M8.SoundPlaylist]
+    public string sfxHurt;
+    [M8.SoundPlaylist]
+    public string sfxDying;
+    [M8.SoundPlaylist]
+    public string sfxDeath;
+
     public UnitData data { get; private set; }
 
     public UnitState state {
@@ -418,6 +430,9 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
 
                 mCurHitpoints = 0; //just in case
 
+                if(!string.IsNullOrEmpty(sfxDeath))
+                    M8.SoundPlaylist.instance.Play(sfxDeath, false);
+
                 AnimateToRelease(takeDeath);
                 break;
 
@@ -425,6 +440,9 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
                 ApplyTelemetryState(false, false);
 
                 mCurHitpoints = 0;
+
+                if(!string.IsNullOrEmpty(sfxDespawn))
+                    M8.SoundPlaylist.instance.Play(sfxDespawn, false);
 
                 AnimateToRelease(takeDespawn);
                 break;
@@ -685,6 +703,9 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     }
 
     IEnumerator _DoSpawn() {
+        if(!string.IsNullOrEmpty(sfxSpawn))
+            M8.SoundPlaylist.instance.Play(sfxSpawn, false);
+
         if(takeSpawn != -1)
             yield return animator.PlayWait(takeSpawn);
         else
@@ -776,6 +797,9 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     }
 
     IEnumerator DoHurt() {
+        if(!string.IsNullOrEmpty(sfxHurt))
+            M8.SoundPlaylist.instance.Play(sfxHurt, false);
+
         if(takeHurt != -1)
             animator.Play(takeHurt);
 
@@ -797,6 +821,9 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
     }
 
     IEnumerator DoDying() {
+        if(!string.IsNullOrEmpty(sfxDying))
+            M8.SoundPlaylist.instance.Play(sfxDying, false);
+
         if(takeDying != -1)
             animator.Play(takeDying);
 

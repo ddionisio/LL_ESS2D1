@@ -39,6 +39,12 @@ public class ModalHotspotAnalyze : M8.ModalController, M8.IModalActive, M8.IModa
     [M8.Animator.TakeSelector]
     public string takeMismatch;
 
+    [Header("SFX")]
+    [M8.SoundPlaylist]
+    public string sfxMatch;
+    [M8.SoundPlaylist]
+    public string sfxMismatch;
+
     [Header("Signal Invoke")]
     public SignalHotspot signalInvokeHotspotInvestigate;
 
@@ -222,12 +228,18 @@ public class ModalHotspotAnalyze : M8.ModalController, M8.IModalActive, M8.IModa
                 yield return null;
 
             if(itm.compareResult == 0) {
+                if(!string.IsNullOrEmpty(sfxMatch))
+                    M8.SoundPlaylist.instance.Play(sfxMatch, false);
+
                 if(mTakeMatchInd != -1)
                     yield return animator.PlayWait(mTakeMatchInd);
 
                 matchCount++;
             }
             else {
+                if(!string.IsNullOrEmpty(sfxMismatch))
+                    M8.SoundPlaylist.instance.Play(sfxMismatch, false);
+
                 if(mTakeMismatchInd != -1)
                     yield return animator.PlayWait(mTakeMismatchInd);
             }

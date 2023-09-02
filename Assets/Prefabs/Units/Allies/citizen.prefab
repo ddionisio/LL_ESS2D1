@@ -5670,9 +5670,15 @@ MonoBehaviour:
   takeDeath: 7
   takeDespawn: 8
   takeVictory: 9
+  sfxSpawn: allySpawn
+  sfxDespawn: allyDespawn
+  sfxHurt: hit
+  sfxDying: 
+  sfxDeath: allyDeath
   carryRoot: {fileID: 3903145884842501313}
   carryFlowerGO: {fileID: 5497271432328853721}
   carryWaterGO: {fileID: 8591014765780002345}
+  sfxPickup: tap
 --- !u!114 &6913319711067040161
 MonoBehaviour:
   m_ObjectHideFlags: 0

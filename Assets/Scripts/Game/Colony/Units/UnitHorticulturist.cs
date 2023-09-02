@@ -12,11 +12,15 @@ public class UnitHorticulturist : Unit {
     [Header("Carry Display")]
     public Transform carryRoot;
 
-    [Header("UnitHorticulturist Animation")]
+    [Header("Horticulturist Animation")]
     [M8.Animator.TakeSelector]
     public int takeGather = -1;
     [M8.Animator.TakeSelector]
     public int takeCultivate = -1;
+
+    [Header("Horticulturist SFX")]
+    [M8.SoundPlaylist]
+    public string sfxPickup;
 
     public int resourceCount {
         get { return mResourceCount; }
@@ -213,6 +217,9 @@ public class UnitHorticulturist : Unit {
                 } while(stateTimeElapsed < GameData.instance.unitGatherContainerDelay);
 
                 //collect
+                if(!string.IsNullOrEmpty(sfxPickup))
+                    M8.SoundPlaylist.instance.Play(sfxPickup, false);
+
                 resourceCount = resourceCapacity;
                 mGatherInProcess = false;
             }

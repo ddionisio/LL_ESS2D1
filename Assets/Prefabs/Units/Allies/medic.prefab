@@ -5217,6 +5217,12 @@ MonoBehaviour:
   takeDeath: 7
   takeDespawn: 8
   takeVictory: 9
+  sfxSpawn: allySpawn
+  sfxDespawn: allyDespawn
+  sfxHurt: hit
+  sfxDying: 
+  sfxDeath: allyDeath
+  sfxRevive: revive
 --- !u!114 &2368614027173823192
 MonoBehaviour:
   m_ObjectHideFlags: 0

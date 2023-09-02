@@ -9982,6 +9982,11 @@ MonoBehaviour:
   takeDeath: 5
   takeDespawn: 6
   takeVictory: -1
+  sfxSpawn: dig
+  sfxDespawn: dig
+  sfxHurt: hit
+  sfxDying: 
+  sfxDeath: hit
   attackCheckCapacity: 4
 --- !u!114 &6814634120993939163
 MonoBehaviour:

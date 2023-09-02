@@ -64,6 +64,11 @@ MonoBehaviour:
   takeDeath: 2
   takeDespawn: -1
   takeVictory: -1
+  sfxSpawn: 
+  sfxDespawn: 
+  sfxHurt: hit
+  sfxDying: 
+  sfxDeath: hit
   idleDelay: 0.3
   despawnMoveDelay: 1
   despawnMoveEase: 2

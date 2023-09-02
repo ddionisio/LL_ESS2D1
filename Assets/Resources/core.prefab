@@ -216,8 +216,8 @@ MonoBehaviour:
   _userData: {fileID: 11400000, guid: 9d49958e44f75d147a748c1b9fa7ee0e, type: 2}
   _loadOnInstance: 0
   _masterVolumeDefault: 1
-  _soundVolumeDefault: 0.5
-  _musicVolumeDefault: 0.3
+  _soundVolumeDefault: 0.3
+  _musicVolumeDefault: 0.4
 --- !u!81 &3017459658725528079
 AudioListener:
   m_ObjectHideFlags: 0

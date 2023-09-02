@@ -18,6 +18,10 @@ public class ModalVictory : M8.ModalController, M8.IModalPush {
     public TMP_Text houseCountLabel;
     public MedalWidget houseMedal;
 
+    [Header("SFX")]
+    [M8.SoundPlaylist]
+    public string sfxVictory;
+
     void M8.IModalPush.Push(M8.GenericParams parms) {
         int pop = 0, popMax = 0, house = 0, houseMax = 0;
 
@@ -37,5 +41,8 @@ public class ModalVictory : M8.ModalController, M8.IModalPush {
 
         if(houseCountLabel) houseCountLabel.text = house.ToString(); //string.Format("{0}/{1}", house, houseMax);
         if(houseMax > 0 && houseMedal) houseMedal.ApplyRank((float)house / houseMax);
+
+        if(!string.IsNullOrEmpty(sfxVictory))
+            M8.SoundPlaylist.instance.Play(sfxVictory, false);
     }
 }

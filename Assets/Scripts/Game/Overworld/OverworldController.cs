@@ -25,6 +25,10 @@ public class OverworldController : GameModeController<OverworldController> {
     [Header("Audio")]
     [M8.MusicPlaylist]
     public string music;
+    [M8.SoundPlaylist]
+    public string sfxInvestigateEnter;
+    [M8.SoundPlaylist]
+    public string sfxInvestigateExit;
 
     [Header("Sequence")]
     public OverworldSequenceBase sequence;
@@ -155,6 +159,9 @@ public class OverworldController : GameModeController<OverworldController> {
 
         hotspotGroup.active = false;
 
+        if(!string.IsNullOrEmpty(sfxInvestigateEnter))
+            M8.SoundPlaylist.instance.Play(sfxInvestigateEnter, false);
+
         //zoom-in
         overworldView.ZoomIn(hotspot.position, hotspotZoom);
 
@@ -193,6 +200,9 @@ public class OverworldController : GameModeController<OverworldController> {
     IEnumerator DoInvestigateExit() {
         //pop investigate modal
         M8.ModalManager.main.CloseUpTo(GameData.instance.modalHotspotInvestigate, true);
+
+        if(!string.IsNullOrEmpty(sfxInvestigateExit))
+            M8.SoundPlaylist.instance.Play(sfxInvestigateExit, false);
 
         //hide investigate
         //anim

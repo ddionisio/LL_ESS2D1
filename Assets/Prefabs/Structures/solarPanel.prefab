@@ -14998,6 +14998,12 @@ MonoBehaviour:
   takeMoveFinish: -1
   takeDestroyed: 2
   takeDemolish: 3
+  takeVictory: -1
+  sfxConstructComplete: structureConstructComplete
+  sfxRepairComplete: structureRepairComplete
+  sfxHit: structureDamage
+  sfxDemolish: structureDestroy
+  sfxDestroy: structureDestroy
   _waypointGroups:
   - name: work
     waypoints:

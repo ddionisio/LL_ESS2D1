@@ -31,6 +31,18 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     [M8.Animator.TakeSelector]
     public int takeVictory = -1;
 
+    [Header("SFX")]
+    [M8.SoundPlaylist]
+    public string sfxConstructComplete;
+    [M8.SoundPlaylist]
+    public string sfxRepairComplete;
+    [M8.SoundPlaylist]
+    public string sfxHit;
+    [M8.SoundPlaylist]
+    public string sfxDemolish;
+    [M8.SoundPlaylist]
+    public string sfxDestroy;
+
     [Header("Dimensions")]
     [SerializeField]
     WaypointGroup[] _waypointGroups;
@@ -559,11 +571,19 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         }
         else if(state != StructureState.Demolish) { //already being demolished
                                                     //damaged completely?
-            if(mCurHitpoints == 0)
+            if(mCurHitpoints == 0) {
+                if(!string.IsNullOrEmpty(sfxDestroy))
+                    M8.SoundPlaylist.instance.Play(sfxDestroy, false);
+
                 state = StructureState.Destroyed;
+            }
             //perform damage
-            else if(mCurHitpoints < previousHitpoints)
+            else if(mCurHitpoints < previousHitpoints) {
+                if(!string.IsNullOrEmpty(sfxHit))
+                    M8.SoundPlaylist.instance.Play(sfxHit, false);
+
                 state = StructureState.Damage;
+            }
         }
     }
 
@@ -754,6 +774,9 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
 
         SetStatusState(StructureStatus.Construct, StructureStatusState.None);
 
+        if(!string.IsNullOrEmpty(sfxConstructComplete))
+            M8.SoundPlaylist.instance.Play(sfxConstructComplete, false);
+
         state = StructureState.Active;
     }
 
@@ -793,8 +816,12 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
 
         if(mCurHitpoints == 0)
             state = StructureState.Destroyed;
-        else
+        else {
+            if(!string.IsNullOrEmpty(sfxRepairComplete))
+                M8.SoundPlaylist.instance.Play(sfxRepairComplete, false);
+
             state = StructureState.Active;
+        }
     }
 
     IEnumerator DoAnimationToState(int takeInd, StructureState toState) {
@@ -887,6 +914,9 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
             boxCollider.enabled = false;
 
         //proceed to release
+        if(!string.IsNullOrEmpty(sfxDemolish))
+            M8.SoundPlaylist.instance.Play(sfxDemolish, false);
+
         if(takeDemolish != -1)
             yield return animator.PlayWait(takeDemolish);
 

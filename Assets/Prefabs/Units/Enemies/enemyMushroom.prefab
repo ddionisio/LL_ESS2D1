@@ -4872,6 +4872,11 @@ MonoBehaviour:
   takeDeath: 4
   takeDespawn: 4
   takeVictory: -1
+  sfxSpawn: boop
+  sfxDespawn: 
+  sfxHurt: hit
+  sfxDying: 
+  sfxDeath: hit
   attackBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 1, y: 1, z: 0}

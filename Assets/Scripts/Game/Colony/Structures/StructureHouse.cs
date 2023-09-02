@@ -16,6 +16,16 @@ public class StructureHouse : Structure {
     [M8.Animator.TakeSelector]
     public int takeLanding = -1;
 
+    [Header("House SFX")]
+    [M8.SoundPlaylist]
+    public string sfxShipThruster;
+    [M8.SoundPlaylist]
+    public string sfxShipLand;
+    [M8.SoundPlaylist]
+    public string sfxPopIncrease;
+    [M8.SoundPlaylist]
+    public string sfxPopDecrease;
+
     public StructureHouseData houseData { get; private set; }
 
     /// <summary>
@@ -98,6 +108,9 @@ public class StructureHouse : Structure {
 
         switch(state) {
             case StructureState.Moving:
+                if(!string.IsNullOrEmpty(sfxShipLand))
+                    M8.SoundPlaylist.instance.Play(sfxShipLand, false);
+
                 if(landingActiveGO) landingActiveGO.SetActive(false);
                 break;
 
@@ -119,6 +132,9 @@ public class StructureHouse : Structure {
 
             case StructureState.Moving:
                 base.ApplyCurrentState();
+
+                if(!string.IsNullOrEmpty(sfxShipThruster))
+                    M8.SoundPlaylist.instance.Play(sfxShipThruster, false);
 
                 if(landingActiveGO) landingActiveGO.SetActive(true);
                 break;
@@ -313,6 +329,9 @@ public class StructureHouse : Structure {
 
         if(landingActiveGO) landingActiveGO.SetActive(true);
 
+        if(!string.IsNullOrEmpty(sfxShipThruster))
+            M8.SoundPlaylist.instance.Play(sfxShipThruster, false);
+
         var curTime = 0f;
         while(curTime < landingDelay) {
             yield return null;
@@ -325,6 +344,9 @@ public class StructureHouse : Structure {
         }
 
         if(landingActiveGO) landingActiveGO.SetActive(false);
+
+        if(!string.IsNullOrEmpty(sfxShipLand))
+            M8.SoundPlaylist.instance.Play(sfxShipLand, false);
 
         if(takeLanding != -1)
             yield return animator.PlayWait(takeLanding);
@@ -339,6 +361,8 @@ public class StructureHouse : Structure {
             population--;
 
             ColonyController.instance.population--;
+
+            if(!string.IsNullOrEmpty(sfxPopDecrease)) M8.SoundPlaylist.instance.Play(sfxPopDecrease, false);
 
             if(popDecreaseFX) popDecreaseFX.Play();
 
@@ -378,6 +402,8 @@ public class StructureHouse : Structure {
                 mWaterCount = 0;
 
                 ColonyController.instance.population++;
+
+                if(!string.IsNullOrEmpty(sfxPopIncrease)) M8.SoundPlaylist.instance.Play(sfxPopIncrease, false);
 
                 if(popIncreaseFX) popIncreaseFX.Play();
             }

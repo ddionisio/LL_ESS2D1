@@ -9959,11 +9959,17 @@ MonoBehaviour:
   takeDeath: 7
   takeDespawn: 8
   takeVictory: 9
+  sfxSpawn: allySpawn
+  sfxDespawn: allyDespawn
+  sfxHurt: hit
+  sfxDying: 
+  sfxDeath: allyDeath
   resourceCapacity: 3
   arableFieldCultivateDelay: 1
   carryRoot: {fileID: 8290593361629811009}
   takeGather: 11
   takeCultivate: 12
+  sfxPickup: tap
 --- !u!114 &6496328890462275602
 MonoBehaviour:
   m_ObjectHideFlags: 0

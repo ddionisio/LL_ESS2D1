@@ -14,6 +14,10 @@ public class UnitCitizen : Unit {
     public GameObject carryFlowerGO;
     public GameObject carryWaterGO;
 
+    [Header("Citizen SFX")]
+    [M8.SoundPlaylist]
+    public string sfxPickup;
+
     public override bool canSwim { get { return true; } }
 
     private ResourceGatherType mCarryType;
@@ -275,10 +279,14 @@ public class UnitCitizen : Unit {
 
             switch(carry) {
                 case ResourceGatherType.Food:
+                    if(!string.IsNullOrEmpty(sfxPickup)) M8.SoundPlaylist.instance.Play(sfxPickup, false);
+
                     if(carryFlowerGO) carryFlowerGO.SetActive(true);
                     if(carryWaterGO) carryWaterGO.SetActive(false);
                     break;
                 case ResourceGatherType.Water:
+                    if(!string.IsNullOrEmpty(sfxPickup)) M8.SoundPlaylist.instance.Play(sfxPickup, false);
+
                     if(carryFlowerGO) carryFlowerGO.SetActive(false);
                     if(carryWaterGO) carryWaterGO.SetActive(true);
                     break;

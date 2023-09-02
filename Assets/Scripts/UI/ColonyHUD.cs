@@ -39,6 +39,12 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
     [M8.Animator.TakeSelector]
     public int takePlacementExit = -1;
 
+    [Header("SFX")]
+    [M8.SoundPlaylist]
+    public string sfxPlacementEnter;
+    [M8.SoundPlaylist]
+    public string sfxPlacementExit;
+
     [Header("Signal Listen")]
     public M8.SignalBoolean signalListenPlacementActive;
     public M8.SignalBoolean signalListenPlacementClick;
@@ -214,6 +220,9 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
         mIsPlacementActive = active;
 
         if(active) {
+            if(!string.IsNullOrEmpty(sfxPlacementEnter))
+                M8.SoundPlaylist.instance.Play(sfxPlacementEnter, false);
+
             //main stuff
             if(structureActionsWidget) structureActionsWidget.active = false;
             mStructureClicked = null;
@@ -223,6 +232,9 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
             CancelNewHouseInfo();
         }
         else {
+            if(!string.IsNullOrEmpty(sfxPlacementExit))
+                M8.SoundPlaylist.instance.Play(sfxPlacementExit, false);
+
             //placement stuff
             if(placementConfirmRoot) placementConfirmRoot.gameObject.SetActive(false);
 

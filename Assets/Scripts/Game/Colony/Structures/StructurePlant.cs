@@ -93,6 +93,12 @@ public class StructurePlant : Structure {
     [M8.Animator.TakeSelector(animatorField = "growthAnimator")]
     public int growthDecayTake = -1;
 
+    [Header("Plant SFX")]
+    [M8.SoundPlaylist]
+    public string sfxPlantSpawn;
+    [M8.SoundPlaylist]
+    public string sfxPlantBloom;
+
     public GrowthState growthState { get; private set; }
 
     public int bloomCount { get { return blooms.Length; } }
@@ -289,6 +295,9 @@ public class StructurePlant : Structure {
 
         var colonyShip = ColonyController.instance.colonyShip;
 
+        if(!string.IsNullOrEmpty(sfxPlantSpawn))
+            M8.SoundPlaylist.instance.Play(sfxPlantSpawn, false);
+
         colonyShip.Bump();
 
         var launchPt = colonyShip.GetWaypointRandom(GameData.structureWaypointLaunch, false);
@@ -358,6 +367,10 @@ public class StructurePlant : Structure {
                     }
                     else {
                         growthState = GrowthState.Bloom;
+
+                        if(!string.IsNullOrEmpty(sfxPlantBloom))
+                            M8.SoundPlaylist.instance.Play(sfxPlantBloom, false);
+
                         ApplyCurrentGrowthState();
                     }
                     break;

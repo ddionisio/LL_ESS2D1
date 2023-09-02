@@ -586,6 +586,11 @@ MonoBehaviour:
   takeDeath: 4
   takeDespawn: -1
   takeVictory: -1
+  sfxSpawn: 
+  sfxDespawn: 
+  sfxHurt: hit
+  sfxDying: 
+  sfxDeath: hit
   moveActiveGO: {fileID: 5831830639982652619}
   blastActiveGO: {fileID: 2975884178518493728}
   blastAnimator: {fileID: 9018923931929374663}

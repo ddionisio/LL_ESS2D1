@@ -5278,7 +5278,7 @@ MonoBehaviour:
     max: 3
   cycleDespawnAfterMax: 1
   cycleSpawnSequence:
-  - delay: 16
+  - delay: 19
     count: 1
   _waypoints:
   - _point: {x: -3.3341658, y: -2.8359828}
@@ -9100,6 +9100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 807743400}
   - component: {fileID: 807743401}
+  - component: {fileID: 807743402}
   m_Layer: 0
   m_Name: fxs
   m_TagString: Untagged
@@ -9137,6 +9138,22 @@ MonoBehaviour:
   particleInfos:
   - weather: {fileID: 11400000, guid: 95f050511789a6547936395eb44ba5fd, type: 2}
     fx: {fileID: 18323004}
+--- !u!114 &807743402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 807743399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d81e47a34ec87de4395c4c2491e6c66d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxInfos:
+  - weather: {fileID: 11400000, guid: 95f050511789a6547936395eb44ba5fd, type: 2}
+    sfx: wind
+    isLoop: 1
 --- !u!1 &821528793
 GameObject:
   m_ObjectHideFlags: 0
@@ -12217,9 +12234,7 @@ MonoBehaviour:
   cycleSpawnSequence:
   - delay: 1
     count: 1
-  - delay: 5
-    count: 1
-  - delay: 10
+  - delay: 9
     count: 1
   _waypoints:
   - _point: {x: -17.033695, y: -3.0509186}

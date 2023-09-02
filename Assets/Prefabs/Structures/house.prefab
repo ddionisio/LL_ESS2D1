@@ -20347,6 +20347,11 @@ MonoBehaviour:
   takeDestroyed: 5
   takeDemolish: -1
   takeVictory: -1
+  sfxConstructComplete: 
+  sfxRepairComplete: structureRepairComplete
+  sfxHit: structureDamage
+  sfxDemolish: 
+  sfxDestroy: structureDestroy
   _waypointGroups:
   - name: spawn
     waypoints:
@@ -20371,6 +20376,10 @@ MonoBehaviour:
   popIncreaseFX: {fileID: 7132758919111530219}
   popDecreaseFX: {fileID: 4770738924225005620}
   takeLanding: 0
+  sfxShipThruster: shipThruster
+  sfxShipLand: shipLand
+  sfxPopIncrease: correct
+  sfxPopDecrease: wrong
 --- !u!114 &2184511054322578209
 MonoBehaviour:
   m_ObjectHideFlags: 0

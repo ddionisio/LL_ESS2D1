@@ -6749,6 +6749,8 @@ MonoBehaviour:
   landingEase: 3
   takeLanding: 0
   takeBump: 1
+  sfxShipThruster: shipThruster
+  sfxShipLand: shipLand
 --- !u!114 &2508020393077471782
 MonoBehaviour:
   m_ObjectHideFlags: 0

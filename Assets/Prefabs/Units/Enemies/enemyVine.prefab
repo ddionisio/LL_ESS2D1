@@ -64,6 +64,11 @@ MonoBehaviour:
   takeDeath: 3
   takeDespawn: 3
   takeVictory: -1
+  sfxSpawn: 
+  sfxDespawn: 
+  sfxHurt: hit
+  sfxDying: 
+  sfxDeath: hit
   segments:
   - rootGO: {fileID: 4779474260773561250}
     left: {fileID: 7114892753289981935}

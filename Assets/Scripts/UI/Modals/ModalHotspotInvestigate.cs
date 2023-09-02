@@ -45,7 +45,9 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
     [Header("Season Select")]
     public SeasonSelectWidget seasonSelect;
 
-    //[Header("Launch")]
+    [Header("Launch")]
+    public GameObject launchAvailableGO;
+    public Selectable launchSelectable;
 
     [Header("Signal Listen")]
     public SignalSeasonData signalListenSeasonChange;
@@ -273,6 +275,9 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
 
         //check if we can launch, show glow if so
         mIsLaunchValid = mCriteriaGroup.criticCountBad == 0 && mCriteriaGroup.criticCountGood >= GameData.instance.overworldLaunchCriticGoodCount;
+
+        if(launchAvailableGO) launchAvailableGO.SetActive(mIsLaunchValid);
+        if(launchSelectable) launchSelectable.interactable = mIsLaunchValid;
 
         //TODO: hint system
     }

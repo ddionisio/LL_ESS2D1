@@ -24,9 +24,16 @@ public class IntroController : GameModeController<ColonyController> {
     [Header("Enter Earth")]
     public AnimatorEnterExit earthAnim;
 
+    [Header("Audio")]
+    [M8.MusicPlaylist]
+    public string music;
+
 
     protected override IEnumerator Start() {
         yield return base.Start();
+
+        if(!string.IsNullOrEmpty(music) && M8.MusicPlaylist.instance.lastPlayName != music)
+            M8.MusicPlaylist.instance.Play(music, true, true);
 
         yield return new WaitForSeconds(1f);
 

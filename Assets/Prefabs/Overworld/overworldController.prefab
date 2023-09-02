@@ -18669,6 +18669,9 @@ MonoBehaviour:
   fadeDelay: 0.3
   animator: {fileID: 4209015125273259995}
   takePing: play
+  sfxPulse: pulse
+  sfxPing: ping
+  sfxReveal: reveal
 --- !u!61 &4209015124520626681
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -30416,6 +30419,8 @@ MonoBehaviour:
   landscapePreview: {fileID: 4209015124572879682}
   criteriaGroup: {fileID: 4209015124461408866}
   music: overworld
+  sfxInvestigateEnter: paletteOpen
+  sfxInvestigateExit: paletteClose
   sequence: {fileID: 0}
   signalListenSeasonToggle: {fileID: 11400000, guid: 09fa98a1a9e24834b80694d2de5eca07, type: 2}
   signalListenHotspotClick: {fileID: 11400000, guid: 359d0ebd3bc1173479329bc48da5aafb, type: 2}

@@ -17,6 +17,12 @@ public class StructureColonyShip : Structure {
     [M8.Animator.TakeSelector]
     public int takeBump = -1;
 
+    [Header("Colony Ship SFX")]
+    [M8.SoundPlaylist]
+    public string sfxShipThruster;
+    [M8.SoundPlaylist]
+    public string sfxShipLand;
+
     public StructureColonyShipData colonyShipData { get { return _data; } }
 
     public override StructureAction actionFlags {
@@ -194,6 +200,9 @@ public class StructureColonyShip : Structure {
 
         if(landingActiveGO) landingActiveGO.SetActive(true);
 
+        if(!string.IsNullOrEmpty(sfxShipThruster))
+            M8.SoundPlaylist.instance.Play(sfxShipThruster, false);
+
         var curTime = 0f;
         while(curTime < landingDelay) {
             yield return null;
@@ -206,6 +215,9 @@ public class StructureColonyShip : Structure {
         }
 
         if(landingActiveGO) landingActiveGO.SetActive(false);
+
+        if(!string.IsNullOrEmpty(sfxShipLand))
+            M8.SoundPlaylist.instance.Play(sfxShipLand, false);
 
         if(takeLanding != -1)
             yield return animator.PlayWait(takeLanding);
