@@ -66,7 +66,7 @@ public class LandscapePreviewTelemetryInspector : Editor {
                 var size = HandleUtility.GetHandleSize(wpos) * gameDat.landscapePreviewRegionHandleScale;
 
                 EditorGUI.BeginChangeCheck();
-                var newPos = Handles.FreeMoveHandle(wpos, Quaternion.identity, size, regionSnap, Handles.DotHandleCap);
+                var newPos = Handles.FreeMoveHandle(wpos, size, regionSnap, Handles.DotHandleCap);
                 if(EditorGUI.EndChangeCheck()) {
                     Undo.RecordObject(dat, "Change Region Position");
 

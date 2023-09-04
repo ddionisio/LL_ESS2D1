@@ -30,7 +30,7 @@ public class CycleUnitSpawnerWaypointInspector : CycleUnitSpawnerBaseInspector {
             var size = HandleUtility.GetHandleSize(wpos) * gameDat.structureWaypointHandleScale;
 
             EditorGUI.BeginChangeCheck();
-            var newPos = Handles.FreeMoveHandle(wpos, Quaternion.identity, size, waypointSnap, Handles.DotHandleCap);
+            var newPos = Handles.FreeMoveHandle(wpos, size, waypointSnap, Handles.DotHandleCap);
             if(EditorGUI.EndChangeCheck()) {
                 wayptPosProp.vector2Value = newPos - worldPos;
             }

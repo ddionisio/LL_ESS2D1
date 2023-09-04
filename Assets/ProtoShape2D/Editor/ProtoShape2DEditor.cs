@@ -787,7 +787,7 @@ public class PS2DEditor:Editor{
 			Handles.DrawSolidDisc(pivotStart,objectPlane.normal,HandleUtility.GetHandleSize(pivotStart)*0.03f);
 			Handles.color=Color.white;
 			EditorGUI.BeginChangeCheck();
-			pivotStart=Handles.FreeMoveHandle(pivotStart,Quaternion.identity,HandleUtility.GetHandleSize(pivotStart)*0.1f,Vector3.zero,Handles.CircleHandleCap);
+			pivotStart=Handles.FreeMoveHandle(pivotStart,HandleUtility.GetHandleSize(pivotStart)*0.1f,Vector3.zero,Handles.CircleHandleCap);
 			bool changed=EditorGUI.EndChangeCheck();
 			if(changed && draggingPivot==false){ 
 				draggingPivot=true;
@@ -828,7 +828,7 @@ public class PS2DEditor:Editor{
 		EditorGUI.BeginChangeCheck();
 		Vector3 point=Handles.FreeMoveHandle(
 			script.transform.TransformPoint(script.points[pointID].position),
-			script.transform.rotation,
+			//script.transform.rotation,
 			size,
 			Vector3.zero,
 			CircleHandleCapSaveID
@@ -1067,7 +1067,7 @@ public class PS2DEditor:Editor{
 		if(drawControls>0){
 			Handles.color=Color.white;
 			for(int j=0;j<drawControls;j++){
-				Handles.FreeMoveHandle(script.transform.TransformPoint(Vector3.zero),Quaternion.identity,0.0f,Vector3.zero,Handles.DotHandleCap);
+				Handles.FreeMoveHandle(script.transform.TransformPoint(Vector3.zero),0.0f,Vector3.zero,Handles.DotHandleCap);
 			}
 		}
 	}
@@ -1085,7 +1085,7 @@ public class PS2DEditor:Editor{
 		EditorGUI.BeginChangeCheck();
 		Vector3 handlePoint=Handles.FreeMoveHandle(
 			script.transform.TransformPoint(handlePosition),
-			script.transform.rotation,
+			//script.transform.rotation,
 			size*0.5f,
 			Vector3.zero,
 			CircleHandleCapSaveID
@@ -1233,7 +1233,7 @@ public class PS2DEditor:Editor{
 		EditorGUI.BeginChangeCheck();
 		Vector3 pointCenter=Handles.FreeMoveHandle(
 			script.transform.TransformPoint(gCenter),
-			script.transform.rotation,
+			//script.transform.rotation,
 			size*2f,
 			Vector3.zero,
 			Handles.CircleHandleCap
@@ -1265,7 +1265,7 @@ public class PS2DEditor:Editor{
 		EditorGUI.BeginChangeCheck();
 		Vector3 pointScale=Handles.FreeMoveHandle(
 			script.transform.TransformPoint(gCenter-gHeight),
-			script.transform.rotation,
+			//script.transform.rotation,
 			size*0.5f,
 			Vector3.zero,
 			Handles.CircleHandleCap
@@ -1294,7 +1294,7 @@ public class PS2DEditor:Editor{
 		EditorGUI.BeginChangeCheck();
 		Vector3 pointRotation=Handles.FreeMoveHandle(
 			script.transform.TransformPoint(gCenter+gHeight+gWidth),
-			script.transform.rotation,
+			//script.transform.rotation,
 			size*0.6f,
 			Vector3.zero,
 			Handles.CircleHandleCap
@@ -1345,7 +1345,7 @@ public class PS2DEditor:Editor{
 		EditorGUI.BeginChangeCheck();
 		Vector3 pointCenter=Handles.FreeMoveHandle(
 			tCenter,
-			script.transform.rotation,
+			//script.transform.rotation,
 			handleSize,
 			Vector3.zero,
 			Handles.CircleHandleCap
@@ -1381,7 +1381,7 @@ public class PS2DEditor:Editor{
 		EditorGUI.BeginChangeCheck();
 		Vector3 pointScale=Handles.FreeMoveHandle(
 			tCenter-tHeight+tWidth,
-			script.transform.rotation,
+			//script.transform.rotation,
 			size*0.5f,
 			Vector3.zero,
 			Handles.CircleHandleCap
@@ -1409,7 +1409,7 @@ public class PS2DEditor:Editor{
 		EditorGUI.BeginChangeCheck();
 		Vector3 pointRotation=Handles.FreeMoveHandle(
 			tCenter+tHeight+tWidth,
-			script.transform.rotation,
+			//script.transform.rotation,
 			size*0.6f,
 			Vector3.zero,
 			Handles.CircleHandleCap

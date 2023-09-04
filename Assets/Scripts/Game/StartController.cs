@@ -18,7 +18,7 @@ public class StartController : GameModeController<ColonyController> {
 
     private bool mIsProceed;
     
-    public void Continue() {
+    public void Continue() { 
         if(mIsProceed) return;
 
 

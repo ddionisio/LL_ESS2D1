@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.IO.Compression;
-using BrotliSharpLib;
 using SimpleJSON;
 using UnityEditor;
 using UnityEditor.Build;
