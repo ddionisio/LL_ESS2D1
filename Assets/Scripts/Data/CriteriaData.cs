@@ -56,6 +56,37 @@ public class CriteriaData : ScriptableObject {
     }
 
     /// <summary>
+    /// 0 = value interesects
+    /// -1 = value is out of bounds (below min)
+    /// 1 = value is out of bounds (above max)
+    /// </summary>
+    public bool AtmosphereValueCompare(AtmosphereAttributeBase atmosphere, float val, out int result) {
+		AttributeInfo attrInf = null;
+        for(int i = 0; i < attributes.Length; i++) {
+            var attrItm = attributes[i];
+            if(attrItm.atmosphere == atmosphere) {
+                attrInf = attrItm;
+                break;
+            }
+        }
+
+        if(attrInf != null) {
+            var rangeBounds = attrInf.rangeBounds;
+            if(val < rangeBounds.min)
+				result = - 1;
+            else if(val > rangeBounds.max)
+                result = 1;
+            else
+                result = 0;
+
+            return true;
+        }
+
+        result = -1;
+        return false;
+    }
+
+    /// <summary>
     /// 0 = neutral (intersects)
     /// -1 = bad (out of bounds)
     /// 1 = good (inside bounds)

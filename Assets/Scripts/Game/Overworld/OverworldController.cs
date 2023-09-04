@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using LoLExt;
+using UnityEngine.Events;
 
 public class OverworldController : GameModeController<OverworldController> {
     [Header("Setup")]
@@ -34,6 +35,7 @@ public class OverworldController : GameModeController<OverworldController> {
     public OverworldSequenceBase sequence;
 
     [Header("Signal Listen")]
+    public SignalAtmosphereAttribute signalListenAtmosphereToggle;
     public SignalSeasonData signalListenSeasonToggle;
     public SignalHotspot signalListenHotspotClick;
     public SignalHotspot signalListenHotspotInvestigate;
@@ -48,7 +50,8 @@ public class OverworldController : GameModeController<OverworldController> {
 
     public bool isBusy { get { return mRout != null; } }
 
-    private SeasonData mCurSeasonData;
+    public SeasonData currentSeason { get; private set; }
+    public AtmosphereAttributeBase currentAtmosphere {  get; private set; }
 
     private Coroutine mRout;
 
@@ -57,9 +60,12 @@ public class OverworldController : GameModeController<OverworldController> {
     private M8.GenericParams mModalHotspotInvestigateParms = new M8.GenericParams();
 
     protected override void OnInstanceDeinit() {
-        if(sequence) sequence.Deinit();
+        hotspotCurrent = null;
 
-        if(signalListenSeasonToggle) signalListenSeasonToggle.callback -= OnSeasonToggle;
+		if(sequence) sequence.Deinit();
+
+		if(signalListenAtmosphereToggle) signalListenAtmosphereToggle.callback -= OnAtmosphereToggle;
+		if(signalListenSeasonToggle) signalListenSeasonToggle.callback -= OnSeasonToggle;
         if(signalListenHotspotClick) signalListenHotspotClick.callback -= OnHotspotClick;
         if(signalListenHotspotInvestigate) signalListenHotspotInvestigate.callback -= OnHotspotInvestigate;
         if(signalListenHotspotInvestigateBack) signalListenHotspotInvestigateBack.callback -= OnHotspotInvestigateBack;
@@ -79,7 +85,7 @@ public class OverworldController : GameModeController<OverworldController> {
         if(GameData.instance.disableSequence)
             sequence = null;
 
-        mCurSeasonData = seasonDefault;
+        currentSeason = seasonDefault;
 
         if(hotspotGroup)
             hotspotGroup.active = false;
@@ -91,7 +97,8 @@ public class OverworldController : GameModeController<OverworldController> {
             criteriaGroup.active = false;
 
         //setup signals
-        if(signalListenSeasonToggle) signalListenSeasonToggle.callback += OnSeasonToggle;
+        if(signalListenAtmosphereToggle) signalListenAtmosphereToggle.callback += OnAtmosphereToggle;
+		if(signalListenSeasonToggle) signalListenSeasonToggle.callback += OnSeasonToggle;
         if(signalListenHotspotClick) signalListenHotspotClick.callback += OnHotspotClick;
         if(signalListenHotspotInvestigate) signalListenHotspotInvestigate.callback += OnHotspotInvestigate;
         if(signalListenHotspotInvestigateBack) signalListenHotspotInvestigateBack.callback += OnHotspotInvestigateBack;
@@ -132,7 +139,7 @@ public class OverworldController : GameModeController<OverworldController> {
         yield return null;
 
         //set season
-        if(signalInvokeSeasonDefault) signalInvokeSeasonDefault.Invoke(mCurSeasonData);
+        if(signalInvokeSeasonDefault) signalInvokeSeasonDefault.Invoke(currentSeason);
 
         //show overworld modal
         ModalShowOverworld();
@@ -171,7 +178,7 @@ public class OverworldController : GameModeController<OverworldController> {
 
         //show preview
         landscapePreview.SetCurrentPreview(hotspot.data);
-        landscapePreview.SetSeason(mCurSeasonData);
+        landscapePreview.SetSeason(currentSeason);
         landscapePreview.active = true;
         //anim
 
@@ -182,7 +189,7 @@ public class OverworldController : GameModeController<OverworldController> {
         criteriaGroup.Show();
 
         //push investigate modal
-        mModalHotspotInvestigateParms[ModalHotspotInvestigate.parmSeason] = mCurSeasonData;
+        mModalHotspotInvestigateParms[ModalHotspotInvestigate.parmSeason] = currentSeason;
         mModalHotspotInvestigateParms[ModalHotspotInvestigate.parmCriteriaGroup] = criteriaGroup;
         mModalHotspotInvestigateParms[ModalHotspotInvestigate.parmLandscape] = landscapePreview;
 
@@ -248,7 +255,7 @@ public class OverworldController : GameModeController<OverworldController> {
         //go to colony scene
         var hotspotData = hotspotCurrent.data;
 
-        int seasonIndex = GameData.instance.GetSeasonIndex(mCurSeasonData);
+        int seasonIndex = GameData.instance.GetSeasonIndex(currentSeason);
 
         if(hotspotData.colonyScene.isValid) {
             GameData.instance.ProgressNextToColony(hotspotData.colonyScene, regionIndex, seasonIndex);
@@ -258,8 +265,12 @@ public class OverworldController : GameModeController<OverworldController> {
         }
     }
 
+    void OnAtmosphereToggle(AtmosphereAttributeBase atmosphere) {
+        currentAtmosphere = atmosphere;
+	}
+
     void OnSeasonToggle(SeasonData season) {
-        mCurSeasonData = season;
+        currentSeason = season;
 
         if(sequence) sequence.SeasonToggle(season);
     }
@@ -268,9 +279,14 @@ public class OverworldController : GameModeController<OverworldController> {
         if(isBusy)
             return;
 
-        //show analysis
-        mModalHotspotAnalyzeParms[ModalHotspotAnalyze.parmHotspot] = hotspot;
-        mModalHotspotAnalyzeParms[ModalHotspotAnalyze.parmSeason] = mCurSeasonData;
+        if(hotspotCurrent) hotspotCurrent.isSelected = false;
+
+        hotspotCurrent = hotspot;
+        hotspotCurrent.isSelected = true;
+
+		//show analysis
+		mModalHotspotAnalyzeParms[ModalHotspotAnalyze.parmHotspot] = hotspot;
+        mModalHotspotAnalyzeParms[ModalHotspotAnalyze.parmSeason] = currentSeason;
         mModalHotspotAnalyzeParms[ModalHotspotAnalyze.parmCriteria] = hotspotGroup.criteria;
 
         M8.ModalManager.main.Open(GameData.instance.modalHotspotAnalyze, mModalHotspotAnalyzeParms);
@@ -282,7 +298,9 @@ public class OverworldController : GameModeController<OverworldController> {
         if(isBusy)
             return;
 
-        hotspotCurrent = hotspot;
+        //hotspotCurrent = hotspot;
+
+        
 
         mRout = StartCoroutine(DoInvestigateEnter(hotspot));
     }
@@ -291,7 +309,7 @@ public class OverworldController : GameModeController<OverworldController> {
         if(isBusy)
             return;
 
-        hotspotCurrent = null;
+        //hotspotCurrent = null;
 
         mRout = StartCoroutine(DoInvestigateExit());
     }
@@ -306,7 +324,7 @@ public class OverworldController : GameModeController<OverworldController> {
     private void ModalShowOverworld() {
         mModalOverworldParms[ModalOverworld.parmAtmosphereActives] = atmosphereActiveOverlays;
         mModalOverworldParms[ModalOverworld.parmAtmosphere] = atmosphereDefault;
-        mModalOverworldParms[ModalOverworld.parmSeason] = mCurSeasonData;
+        mModalOverworldParms[ModalOverworld.parmSeason] = currentSeason;
         mModalOverworldParms[ModalOverworld.parmCriteria] = hotspotGroup ? hotspotGroup.criteria : null;
 
         M8.ModalManager.main.Open(GameData.instance.modalOverworld, mModalOverworldParms);
