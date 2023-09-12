@@ -4795,7 +4795,7 @@ Transform:
   m_GameObject: {fileID: 4209015124207323343}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.75, y: 0.3, z: 0}
+  m_LocalPosition: {x: 0.75, y: 0.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -30614,6 +30614,7 @@ MonoBehaviour:
   signalListenHotspotInvestigateLaunch: {fileID: 11400000, guid: 6c640b0fb7548e6408fcb3b26fb53a37, type: 2}
   signalInvokeAtmosphereOverlayDefault: {fileID: 11400000, guid: 5e7d9b8e91e520242bea1b8128f1b7e7, type: 2}
   signalInvokeSeasonDefault: {fileID: 11400000, guid: 09fa98a1a9e24834b80694d2de5eca07, type: 2}
+  signalInvokeHotspotSelectChanged: {fileID: 11400000, guid: 99f313fde89765f48b3fd4e57f64935b, type: 2}
 --- !u!1 &4209015124874756344
 GameObject:
   m_ObjectHideFlags: 0

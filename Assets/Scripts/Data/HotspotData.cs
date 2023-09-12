@@ -109,9 +109,11 @@ public class HotspotData : ScriptableObject {
             var stats = new AtmosphereStat[seasonStats.Length];
             System.Array.Copy(seasonStats, stats, stats.Length);
 
-            var regionMods = GetRegionAtmosphereModifiers(regionIndex);
-            if(regionMods != null)
-                AtmosphereModifier.Apply(stats, regionMods);
+            if(regionIndex != -1) {
+                var regionMods = GetRegionAtmosphereModifiers(regionIndex);
+                if(regionMods != null)
+                    AtmosphereModifier.Apply(stats, regionMods);
+            }
 
             return stats;
         }
@@ -121,12 +123,13 @@ public class HotspotData : ScriptableObject {
 
     public void ApplyModifiedStats(AtmosphereStat[] stats, SeasonData season, int regionIndex) {
         var seasonStats = GetAtmosphereStats(season);
-
-        var regionMods = GetRegionAtmosphereModifiers(regionIndex);
-
+                
         //override stats with base
         System.Array.Copy(seasonStats, stats, stats.Length);
 
-        AtmosphereModifier.Apply(stats, regionMods);
+        if(regionIndex != -1) {
+            var regionMods = GetRegionAtmosphereModifiers(regionIndex);
+            AtmosphereModifier.Apply(stats, regionMods);
+        }
     }
 }

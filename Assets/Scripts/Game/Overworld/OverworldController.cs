@@ -45,6 +45,7 @@ public class OverworldController : GameModeController<OverworldController> {
     [Header("Signal Invoke")]
     public SignalAtmosphereAttribute signalInvokeAtmosphereOverlayDefault;
     public SignalSeasonData signalInvokeSeasonDefault;
+    public M8.Signal signalInvokeHotspotSelectChanged;
 
     public Hotspot hotspotCurrent { get; private set; }
 
@@ -58,6 +59,26 @@ public class OverworldController : GameModeController<OverworldController> {
     private M8.GenericParams mModalOverworldParms = new M8.GenericParams();
     private M8.GenericParams mModalHotspotAnalyzeParms = new M8.GenericParams();
     private M8.GenericParams mModalHotspotInvestigateParms = new M8.GenericParams();
+
+    public void ClearCurrentHotspot() {
+        if(hotspotCurrent) {
+            hotspotCurrent.isSelected = false;
+            hotspotCurrent = null;
+
+            signalInvokeHotspotSelectChanged?.Invoke();
+		}
+    }
+
+    public void SetCurrentHotspot(Hotspot hotspot) {
+		if(hotspotCurrent != hotspot) {
+			if(hotspotCurrent) hotspotCurrent.isSelected = false;
+
+			hotspotCurrent = hotspot;
+			hotspotCurrent.isSelected = true;
+
+			signalInvokeHotspotSelectChanged?.Invoke();
+		}
+	}
 
     protected override void OnInstanceDeinit() {
         hotspotCurrent = null;
@@ -279,17 +300,14 @@ public class OverworldController : GameModeController<OverworldController> {
         if(isBusy)
             return;
 
-        if(hotspotCurrent) hotspotCurrent.isSelected = false;
-
-        hotspotCurrent = hotspot;
-        hotspotCurrent.isSelected = true;
+        SetCurrentHotspot(hotspot);
 
 		//show analysis
-		mModalHotspotAnalyzeParms[ModalHotspotAnalyze.parmHotspot] = hotspot;
+		/*mModalHotspotAnalyzeParms[ModalHotspotAnalyze.parmHotspot] = hotspot;
         mModalHotspotAnalyzeParms[ModalHotspotAnalyze.parmSeason] = currentSeason;
         mModalHotspotAnalyzeParms[ModalHotspotAnalyze.parmCriteria] = hotspotGroup.criteria;
 
-        M8.ModalManager.main.Open(GameData.instance.modalHotspotAnalyze, mModalHotspotAnalyzeParms);
+        M8.ModalManager.main.Open(GameData.instance.modalHotspotAnalyze, mModalHotspotAnalyzeParms);*/
 
         if(sequence) sequence.HotspotClick(hotspot);
     }
@@ -299,8 +317,6 @@ public class OverworldController : GameModeController<OverworldController> {
             return;
 
         //hotspotCurrent = hotspot;
-
-        
 
         mRout = StartCoroutine(DoInvestigateEnter(hotspot));
     }

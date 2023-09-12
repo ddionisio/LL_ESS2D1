@@ -41,6 +41,8 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public string modalVictory = "victory";
 
     [Header("Atmosphere Data")]
+    public AtmosphereAttributeBase atmosphereNone;
+
     [Tooltip("Ensure the array is of the following: winter, spring, summer, autumn.")]
     public SeasonData[] seasons;
 

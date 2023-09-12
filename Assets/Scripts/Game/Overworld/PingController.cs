@@ -63,13 +63,32 @@ public class PingController : MonoBehaviour, IPointerClickHandler {
         if(pingRoot)
             pingRoot.gameObject.SetActive(false);
 
-        //do hotspot reveals
-        if(mHotspotReveals.Count > 0) {
-            if(!string.IsNullOrEmpty(sfxReveal))
+		//do hotspot reveals
+		Hotspot closestHotspotReveal = null;
+
+		if(mHotspotReveals.Count > 0) {            
+            float closestHotspotRevealDistSqr = 0f;
+
+			if(!string.IsNullOrEmpty(sfxReveal))
                 M8.SoundPlaylist.instance.Play(sfxReveal, false);
 
-            for(int i = 0; i < mHotspotReveals.Count; i++)
-                mHotspotReveals[i].Reveal();
+            for(int i = 0; i < mHotspotReveals.Count; i++) {
+                var hotspot = mHotspotReveals[i];
+
+                hotspot.Reveal();
+
+				var distSqr = (hotspot.position - pos).sqrMagnitude;
+				if(closestHotspotReveal) {                    
+                    if(closestHotspotRevealDistSqr > distSqr) {
+						closestHotspotReveal = hotspot;
+						closestHotspotRevealDistSqr = distSqr;                        
+                    }
+                }
+                else {
+                    closestHotspotReveal = hotspot;
+                    closestHotspotRevealDistSqr = distSqr;
+                }
+            }
 
             while(mHotspotReveals.Count > 0) {
                 yield return null;
@@ -133,6 +152,9 @@ public class PingController : MonoBehaviour, IPointerClickHandler {
             if(fadeRootGO) fadeRootGO.SetActive(false);
         }
 
+        if(closestHotspotReveal)
+            OverworldController.instance.SetCurrentHotspot(closestHotspotReveal);
+
         mRout = null;
     }
 
@@ -151,7 +173,9 @@ public class PingController : MonoBehaviour, IPointerClickHandler {
         if(!hotspotGrp)
             return;
 
-        mHotspotPings.Clear();
+        OverworldController.instance.ClearCurrentHotspot();
+
+		mHotspotPings.Clear();
         mHotspotReveals.Clear();
 
         for(int i = 0; i < hotspotGrp.hotspots.Length; i++) {

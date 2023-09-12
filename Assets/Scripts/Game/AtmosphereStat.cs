@@ -24,6 +24,14 @@ public struct AtmosphereStat {
         return CheckBounds(range, otherRange);
     }
 
+    public string GetValueString() {
+        return atmosphere.GetValueString(Mathf.RoundToInt(median));
+    }
+
+    public string GetValueRangeString() {
+        return atmosphere.GetValueRangeString(range);
+    }
+
     /// <summary>
     /// Check if given otherRange is within range
     /// 0 = neutral (intersects)

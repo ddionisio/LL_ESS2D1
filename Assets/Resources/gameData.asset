@@ -18,6 +18,7 @@ MonoBehaviour:
   modalHotspotAnalyze: hotspotAnalyze
   modalWeatherForecast: weatherForecast
   modalVictory: victory
+  atmosphereNone: {fileID: 11400000, guid: 35477a9ee6a521048a6b62ff073dc07e, type: 2}
   seasons:
   - {fileID: 11400000, guid: ed63ca993a99fc846aae09147cbb7b26, type: 2}
   - {fileID: 11400000, guid: ac5f6108cc5374647a455ba1ad6db09d, type: 2}
