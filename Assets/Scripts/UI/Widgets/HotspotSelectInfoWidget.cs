@@ -117,12 +117,15 @@ public class HotspotSelectInfoWidget : MonoBehaviour {
 	}
 
 	void OnHotspotAnalyzeComplete(Hotspot hotspot) {
-		if(hotspot == mHotspot) //sanity check
+		if(mHotspot != hotspot) //sanity check
+			OnHotspotChanged(hotspot);
+		else if(mHotspot)
 			RefreshAtmosphereStats();
 	}
 
 	void OnSeasonToggle(SeasonData season) {
-		RefreshAtmosphereStats();
+		if(mHotspot)
+			RefreshAtmosphereStats();
 	}
 
 	void OnAnimatorTakeComplete(M8.Animator.Animate _anim, M8.Animator.Take take) {

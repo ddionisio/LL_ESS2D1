@@ -33397,7 +33397,7 @@ MonoBehaviour:
   animator: {fileID: 2278646929425453004}
   takeEnter: 0
   takeExit: 1
-  signalListenHotspotChanged: {fileID: 11400000, guid: 99f313fde89765f48b3fd4e57f64935b, type: 2}
+  signalListenHotspotChanged: {fileID: 11400000, guid: 303ee09cf5fb840479fa605304b7b53e, type: 2}
   signalListenHotspotAnalyzeComplete: {fileID: 11400000, guid: 8e1bea5b8e222724eb281bb2adf2de31, type: 2}
   signalListenSeasonToggle: {fileID: 11400000, guid: 09fa98a1a9e24834b80694d2de5eca07, type: 2}
   signalInvokeInvestigate: {fileID: 11400000, guid: c075e0dde4264bf44b3889fb052b4762, type: 2}
