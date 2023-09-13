@@ -38,6 +38,8 @@ public class Hotspot : MonoBehaviour {
     public GameObject analysisRootGO;
 	public GameObject analysisCompleteGO;
 	public TMP_Text analysisLabel;
+    public Color analysisColorMatch = Color.white;
+	public Color analysisColorMismatch = Color.white;
 	public GameObject analysisIconMatchGO;
 	public GameObject analysisIconLessGO;
 	public GameObject analysisIconGreaterGO;
@@ -109,6 +111,20 @@ public class Hotspot : MonoBehaviour {
 
     private bool mIsSelected;
     private bool mIsHover;
+
+    public bool GetStat(SeasonData season, AtmosphereAttributeBase atmosphere, out M8.RangeFloat outputStat) {
+		var stats = data.GetAtmosphereStats(season);
+
+        for(int i = 0; i < stats.Length; i++) {
+            if(stats[i].atmosphere == atmosphere) {
+                outputStat = stats[i].range;
+                return true;
+            }
+        }
+
+        outputStat = new M8.RangeFloat();
+        return false;
+	}
 
     public AnalyzeResult GetSeasonAtmosphereAnalyze(SeasonData season, AtmosphereAttributeBase atmosphere) {
 		AnalyzeResult[] analyzeResults;
@@ -320,6 +336,7 @@ public class Hotspot : MonoBehaviour {
 	}
 
     IEnumerator DoAnalyzeProgress() {
+        //animation
 		if(analyzeGO) analyzeGO.SetActive(false);
 		if(analysisCompleteGO) analysisCompleteGO.SetActive(false);
 
@@ -331,6 +348,7 @@ public class Hotspot : MonoBehaviour {
 
         var criteria = OverworldController.instance.hotspotGroup.criteria;
 
+        //apply analysis
         var analyzeResult = SeasonAtmosphereAnalyze(criteria, GameData.instance.seasons[mSeasonIndex], mAtmosphere);
         if(analyzeResult != AnalyzeResult.None) {
             if(analyzeResult == AnalyzeResult.Equal) {
@@ -349,7 +367,10 @@ public class Hotspot : MonoBehaviour {
 			}
         }
 
+        //update display
         ApplyAnalysisDisplay();
+
+        signalInvokeAnalysisComplete?.Invoke(this);
 	}
 
 	private AnalyzeResult SeasonAtmosphereAnalyze(CriteriaData criteria, SeasonData season, AtmosphereAttributeBase atmosphere) {
@@ -428,8 +449,10 @@ public class Hotspot : MonoBehaviour {
 
 				//apply value label
 				if(statInd != -1) {
-                    if(analysisLabel)
+                    if(analysisLabel) {
                         analysisLabel.text = stats[statInd].GetValueString();
+                        analysisLabel.color = analyzeResult == AnalyzeResult.Equal ? analysisColorMatch : analysisColorMismatch;
+					}
                 }
 
 				//apply icon display

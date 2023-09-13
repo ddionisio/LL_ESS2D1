@@ -45,7 +45,7 @@ public class OverworldController : GameModeController<OverworldController> {
     [Header("Signal Invoke")]
     public SignalAtmosphereAttribute signalInvokeAtmosphereOverlayDefault;
     public SignalSeasonData signalInvokeSeasonDefault;
-    public M8.Signal signalInvokeHotspotSelectChanged;
+    public SignalHotspot signalInvokeHotspotSelectChanged;
 
     public Hotspot hotspotCurrent { get; private set; }
 
@@ -65,7 +65,7 @@ public class OverworldController : GameModeController<OverworldController> {
             hotspotCurrent.isSelected = false;
             hotspotCurrent = null;
 
-            signalInvokeHotspotSelectChanged?.Invoke();
+            signalInvokeHotspotSelectChanged?.Invoke(hotspotCurrent);
 		}
     }
 
@@ -76,7 +76,7 @@ public class OverworldController : GameModeController<OverworldController> {
 			hotspotCurrent = hotspot;
 			hotspotCurrent.isSelected = true;
 
-			signalInvokeHotspotSelectChanged?.Invoke();
+			signalInvokeHotspotSelectChanged?.Invoke(hotspotCurrent);
 		}
 	}
 

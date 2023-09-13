@@ -2794,6 +2794,8 @@ MonoBehaviour:
   analysisRootGO: {fileID: 1903712118090593381}
   analysisCompleteGO: {fileID: 2080455845387631864}
   analysisLabel: {fileID: 9101062200894773751}
+  analysisColorMatch: {r: 0.5803922, g: 0.7411765, b: 0.4666667, a: 1}
+  analysisColorMismatch: {r: 0.9921569, g: 0.38823533, b: 0.3803922, a: 1}
   analysisIconMatchGO: {fileID: 2144846098484201129}
   analysisIconLessGO: {fileID: 7215103953817851587}
   analysisIconGreaterGO: {fileID: 1277411401102371684}
