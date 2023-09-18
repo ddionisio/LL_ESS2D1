@@ -22,8 +22,9 @@ public class OverworldSequence01 : OverworldSequenceBase {
     public ModalDialogFlowIncremental sunDlg;
     public ModalDialogFlowIncremental humidDlg;
     public ModalDialogFlowIncremental hotspotDlg;
+	public ModalDialogFlowIncremental hotspotFoundDlg;
 
-    [Header("Analyze")]
+	[Header("Analyze")]
     public ModalDialogFlowIncremental analyzeDlg;
 
     [Header("Investigate")]
@@ -32,7 +33,7 @@ public class OverworldSequence01 : OverworldSequenceBase {
     [Header("Signal Invoke")]
     public SignalAtmosphereAttribute signalInvokeAtmosphereToggle;
 
-    private bool mIsAnalyzeShown;
+    //private bool mIsAnalyzeShown;
     private bool mIsInvestigateShown;
 
     public override IEnumerator StartBegin() {
@@ -84,9 +85,31 @@ public class OverworldSequence01 : OverworldSequenceBase {
         modalOverworld.atmosphereToggle.active = true;
 
         yield return hotspotDlg.Play();
-    }
 
-    public override void HotspotClick(Hotspot hotspot) {
+        //wait for a hotspot to be selected (hotspot found)
+        while(!OverworldController.instance.hotspotCurrent)
+            yield return null;
+
+        var hotspot = OverworldController.instance.hotspotCurrent;
+
+		if(signalInvokeAtmosphereToggle) signalInvokeAtmosphereToggle.Invoke(temperature);
+
+		yield return hotspotFoundDlg.Play();
+
+        //wait for hotspot to be fully analyzed
+        while(!hotspot.IsFullyAnalyzed(OverworldController.instance.hotspotGroup.criteria, OverworldController.instance.currentSeason))
+            yield return null;
+
+        yield return new WaitForSeconds(1f);
+
+		if(signalInvokeAtmosphereToggle) signalInvokeAtmosphereToggle.Invoke(temperature);
+
+		yield return analyzeDlg.Play();
+
+		modalOverworld.seasonToggle.active = true;
+	}
+
+    /*public override void HotspotClick(Hotspot hotspot) {
         if(!mIsAnalyzeShown) {
             mIsAnalyzeShown = true;
             StartCoroutine(DoAnalyzeSequence());
@@ -101,7 +124,7 @@ public class OverworldSequence01 : OverworldSequenceBase {
 
         var modalOverworld = M8.ModalManager.main.GetBehaviour<ModalOverworld>(GameData.instance.modalOverworld);
         modalOverworld.seasonToggle.active = true;
-    }
+    }*/
 
     public override IEnumerator InvestigationEnterEnd() {
         if(!mIsInvestigateShown) {

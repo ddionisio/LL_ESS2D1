@@ -137,6 +137,26 @@ public class Hotspot : MonoBehaviour {
         return AnalyzeResult.None;
     }
 
+    public bool IsFullyAnalyzed(CriteriaData criteria, SeasonData season) {
+        var seasonInd = GameData.instance.GetSeasonIndex(season);
+        if(seasonInd == -1)
+            return false;
+
+        var analyzedCount = 0;
+
+        for(int i = 0; i < criteria.attributes.Length; i++) {
+            var attr = criteria.attributes[i];
+
+            AnalyzeResult[] analyzes;
+            if(mSeasonAtmosphereAnalyzeResults.TryGetValue(attr.atmosphere, out analyzes)) {
+                if(analyzes[seasonInd] != AnalyzeResult.None)
+                    analyzedCount++;
+            }
+        }
+
+        return analyzedCount == criteria.attributes.Length;
+    }
+
     public bool IsSeasonAnalyzed(SeasonData season) {
         if(!data) //fail-safe
             return false;
