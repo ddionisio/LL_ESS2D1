@@ -235,6 +235,47 @@ public class Hotspot : MonoBehaviour {
         mAnalyzeRout = StartCoroutine(DoAnalyzeProgress());
 	}
 
+    public void AnalyzeAtmospherePrevClick() {
+        var curAtmosInd = GetCurAtmosphereIndex();
+        if(curAtmosInd == -1)
+            return;
+
+		var overworldCtrl = OverworldController.instance;
+
+		curAtmosInd--;
+        if(curAtmosInd <= 0) //don't allow "atmosphere none" (assume that's the first item...)
+            curAtmosInd = overworldCtrl.atmosphereActiveOverlays.Length - 1;
+
+        signalListenAtmosphereToggle?.Invoke(overworldCtrl.atmosphereActiveOverlays[curAtmosInd]);
+	}
+
+	public void AnalyzeAtmosphereNextClick() {
+		var curAtmosInd = GetCurAtmosphereIndex();
+		if(curAtmosInd == -1)
+			return;
+
+		var overworldCtrl = OverworldController.instance;
+
+		curAtmosInd++;
+		if(curAtmosInd == overworldCtrl.atmosphereActiveOverlays.Length)
+			curAtmosInd = 1; //don't allow "atmosphere none" (assume that's the first item...)
+
+		signalListenAtmosphereToggle?.Invoke(overworldCtrl.atmosphereActiveOverlays[curAtmosInd]);
+	}
+
+	private int GetCurAtmosphereIndex() {
+		var overworldCtrl = OverworldController.instance;
+		var curAtmos = overworldCtrl.currentAtmosphere;
+
+		for(int i = 0; i < overworldCtrl.atmosphereActiveOverlays.Length; i++) {
+			if(overworldCtrl.atmosphereActiveOverlays[i] == curAtmos) {
+                return i;
+			}
+		}
+
+        return -1;
+	}
+
     /// <summary>
     /// Call when clicked to enter investigation mode
     /// </summary>
