@@ -123,6 +123,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 8f23d5bc199e5ef47abf23d46236cf45, type: 3}
     clipVariants: []
     spatialBlend: 0
+  - name: analyze
+    clip: {fileID: 8300000, guid: de362ab3e2575b2408fd649b580d04cc, type: 3}
+    clipVariants: []
+    spatialBlend: 0
   max: 32
   audioMixer: {fileID: 0}
   muteOnFocusLost: 1
