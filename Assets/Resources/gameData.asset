@@ -60,7 +60,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 00c13b5caec751f4cac6d8ab4a682fc4, type: 2}
   structureWaterSources:
   - {fileID: 11400000, guid: e6518c7cb5a58f34d8950afde470f478, type: 2}
-  growthScalePerWork: 0.5
+  growthScalePerWork: 1
   structureUnitSpawnDelay: 0.3
   unitAllyTag: Ally
   unitEnemyTag: Enemy
@@ -71,9 +71,9 @@ MonoBehaviour:
   unitFallSpeed: 10
   unitUpdateAIDelay: 0.3
   unitHurtDelay: 0.5
-  unitDyingDelay: 8
+  unitDyingDelay: 10
   unitIdleWanderDelay: 3
-  unitGatherContainerDelay: 0.5
+  unitGatherContainerDelay: 0.3
   unitRetreatDistanceRange:
     min: 4
     max: 5

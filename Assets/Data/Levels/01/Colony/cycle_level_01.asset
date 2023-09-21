@@ -21,7 +21,6 @@ MonoBehaviour:
       wind: 0
       water: 0
       growth: 0
-    windDirAngle: 90
   - weather: {fileID: 11400000, guid: 192fbfa12f3149f47a212b16627ef381, type: 2}
     atmosphereMods:
     - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
@@ -45,7 +44,6 @@ MonoBehaviour:
       wind: 0
       water: 0
       growth: 0
-    windDirAngle: 90
   - weather: {fileID: 11400000, guid: 1d8d47ba9dcfcfb47948c60462be2fe2, type: 2}
     atmosphereMods:
     - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
@@ -69,7 +67,6 @@ MonoBehaviour:
       wind: 0
       water: 0
       growth: 0
-    windDirAngle: 90
   - weather: {fileID: 11400000, guid: 7c3ec5c1719f26947a06eafe6e8e92c6, type: 2}
     atmosphereMods:
     - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
@@ -93,7 +90,6 @@ MonoBehaviour:
       wind: 0
       water: 0.2
       growth: 0.02
-    windDirAngle: 90
   - weather: {fileID: 11400000, guid: 192fbfa12f3149f47a212b16627ef381, type: 2}
     atmosphereMods:
     - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
@@ -117,7 +113,6 @@ MonoBehaviour:
       wind: 0
       water: 0
       growth: 0
-    windDirAngle: 90
   - weather: {fileID: 11400000, guid: 17368d584a51685429cbcf06bf9b5557, type: 2}
     atmosphereMods:
     - atmosphere: {fileID: 11400000, guid: f8b1faa50636c984197f896284ccbed5, type: 2}
@@ -141,8 +136,7 @@ MonoBehaviour:
       wind: 0
       water: 0
       growth: 0
-    windDirAngle: 90
-  cycleTotalDuration: 150
+  cycleTotalDuration: 120
   resourceScale:
     sunDay: 1
     sunNight: 0.5
