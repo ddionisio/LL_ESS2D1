@@ -66,6 +66,7 @@ namespace LoLExt {
 
     [System.Serializable]
     public class ModalDialogFlowIncremental {
+        public string modal;
         public Sprite portrait;
 
         public string prefix;
@@ -74,24 +75,24 @@ namespace LoLExt {
 
         private System.Text.StringBuilder mSB;
         private bool mIsNext;
-
+                
         public IEnumerator Play() {
-            yield return Play(ModalDialog.modalNameGeneric, portrait, null, false);
+            yield return Play(GetModal(), portrait, null, false);
         }
 
         public IEnumerator PlayPaused() {
-            yield return Play(ModalDialog.modalNameGeneric, portrait, null, true);
+            yield return Play(GetModal(), portrait, null, true);
         }
 
         public IEnumerator Play(Sprite portrait) {
-            yield return Play(ModalDialog.modalNameGeneric, portrait, null, false);
+            yield return Play(GetModal(), portrait, null, false);
         }
 
         public IEnumerator PlayPaused(Sprite portrait) {
-            yield return Play(ModalDialog.modalNameGeneric, portrait, null, true);
+            yield return Play(GetModal(), portrait, null, true);
         }
 
-        public IEnumerator Play(string modal, Sprite portrait, string nameTextRef, bool isPause) {
+        public IEnumerator Play(string aModal, Sprite portrait, string nameTextRef, bool isPause) {
             if(mSB == null)
                 mSB = new System.Text.StringBuilder(prefix.Length + 2);
 
@@ -110,9 +111,9 @@ namespace LoLExt {
                     mIsNext = false;
 
                     if(portrait)
-                        ModalDialog.OpenApplyPortrait(modal, portrait, nameTextRef, textRef, OnDialogNext);
+                        ModalDialog.OpenApplyPortrait(aModal, portrait, nameTextRef, textRef, OnDialogNext);
                     else
-                        ModalDialog.Open(modal, nameTextRef, textRef, OnDialogNext);
+                        ModalDialog.Open(aModal, nameTextRef, textRef, OnDialogNext);
 
                     while(!mIsNext)
                         yield return null;
@@ -125,11 +126,11 @@ namespace LoLExt {
                     break;
             }
 
-            if(M8.ModalManager.main.IsInStack(modal))
-                M8.ModalManager.main.CloseUpTo(modal, true);
+            if(M8.ModalManager.main.IsInStack(aModal))
+                M8.ModalManager.main.CloseUpTo(aModal, true);
 
             //wait for dialog to close
-            while(M8.ModalManager.main.isBusy || M8.ModalManager.main.IsInStack(modal))
+            while(M8.ModalManager.main.isBusy || M8.ModalManager.main.IsInStack(aModal))
                 yield return null;
 
             if(isPause)
@@ -139,5 +140,7 @@ namespace LoLExt {
         void OnDialogNext() {
             mIsNext = true;
         }
-    }
+
+		private string GetModal() { return !string.IsNullOrEmpty(modal) ? modal : ModalDialog.modalNameGeneric; }
+	}
 }

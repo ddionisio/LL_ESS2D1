@@ -16,8 +16,10 @@ public class OverworldSequence01 : OverworldSequenceBase {
     public ModalDialogFlowIncremental criteriaDlg;
 
     [Header("Overworld")]
-    public ModalDialogFlowIncremental hudDlg;
-    public ModalDialogFlowIncremental tempDlg;
+    public ModalDialogFlowIncremental latitudeDlg;
+	public AnimatorEnterExit latitudeIllustrate;
+	public ModalDialogFlowIncremental tempIntroDlg;
+	public ModalDialogFlowIncremental tempDlg;
     public AnimatorEnterExit sunIllustrate;
     public ModalDialogFlowIncremental sunDlg;
     public ModalDialogFlowIncremental humidDlg;
@@ -57,9 +59,17 @@ public class OverworldSequence01 : OverworldSequenceBase {
     }
 
     public override IEnumerator StartFinish() {
-        yield return hudDlg.Play();
+        yield return latitudeDlg.Play();
 
-        if(signalInvokeAtmosphereToggle) signalInvokeAtmosphereToggle.Invoke(temperature);
+        if(latitudeIllustrate) latitudeIllustrate.Show();
+
+        yield return new WaitForSeconds(4f);
+
+		if(latitudeIllustrate) latitudeIllustrate.Hide();
+
+		yield return tempIntroDlg.Play();
+
+		if(signalInvokeAtmosphereToggle) signalInvokeAtmosphereToggle.Invoke(temperature);
 
         yield return tempDlg.Play();
 
@@ -83,11 +93,14 @@ public class OverworldSequence01 : OverworldSequenceBase {
 
         var modalOverworld = M8.ModalManager.main.GetBehaviour<ModalOverworld>(GameData.instance.modalOverworld);
         modalOverworld.atmosphereToggle.active = true;
+        modalOverworld.atmosphereToggleHighlightGO.SetActive(true);
 
-        yield return hotspotDlg.Play();
+		yield return hotspotDlg.Play();
 
-        //wait for a hotspot to be selected (hotspot found)
-        while(!OverworldController.instance.hotspotCurrent)
+		modalOverworld.atmosphereToggleHighlightGO.SetActive(false);
+
+		//wait for a hotspot to be selected (hotspot found)
+		while(!OverworldController.instance.hotspotCurrent)
             yield return null;
 
         var hotspot = OverworldController.instance.hotspotCurrent;
@@ -104,9 +117,12 @@ public class OverworldSequence01 : OverworldSequenceBase {
 
 		if(signalInvokeAtmosphereToggle) signalInvokeAtmosphereToggle.Invoke(temperature);
 
+		modalOverworld.seasonToggle.active = true;
+        modalOverworld.seasonToggleHighlightGO.SetActive(true);
+
 		yield return analyzeDlg.Play();
 
-		modalOverworld.seasonToggle.active = true;
+		modalOverworld.seasonToggleHighlightGO.SetActive(false);
 	}
 
     /*public override void HotspotClick(Hotspot hotspot) {

@@ -15,9 +15,11 @@ public class ModalOverworld : M8.ModalController, M8.IModalPush, M8.IModalPop {
 
     [Header("Display")]
     public CriteriaWidget criteriaDisplay;
-    public AtmosphereAttributeWidget atmosphereLegend; //used for measurement legend    
+    public AtmosphereAttributeWidget atmosphereLegend; //used for measurement legend
+    public GameObject atmosphereToggleHighlightGO;
+	public GameObject seasonToggleHighlightGO;
 
-    [Header("Signal Listen")]
+	[Header("Signal Listen")]
     public SignalAtmosphereAttribute signalListenAtmosphereToggle;
 
     void M8.IModalPop.Pop() {
