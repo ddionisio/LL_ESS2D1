@@ -33,6 +33,8 @@ public class Hotspot : MonoBehaviour {
     public Transform pingRoot;
     public float revealRadius;
     public float pingRadius;
+    public float pingStartRadius;
+    public float pingEndRadiusOfs;
 
     [Header("Analysis Info")]
     public GameObject analysisRootGO;
@@ -205,12 +207,26 @@ public class Hotspot : MonoBehaviour {
                 StopCoroutine(mRout);
 
             //orient ping towards pos, position next to it
-            var dir = (pos - position).normalized;
+            var dpos = pos - position;
+            var dist = dpos.magnitude;
 
-            pingRoot.position = pos;
+            if(dist <= 0f) return; //fail-safe
+
+            var dir = dpos / dist;
+
+            //stretch from ping start towards pos
+            var pingStartPos = position + dir * pingStartRadius;
+
+            var pingLen = dist - pingStartRadius + pingEndRadiusOfs;
+
+			var pingS = pingRoot.localScale;
+			pingS.y = pingLen > 0f ? pingLen : 1f;
+			pingRoot.localScale = pingS;
+
+			pingRoot.position = pingStartPos;
             pingRoot.up = dir;
-
-            mRout = StartCoroutine(DoPing());
+                        
+			mRout = StartCoroutine(DoPing());
         }
     }
 

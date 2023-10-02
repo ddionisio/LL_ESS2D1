@@ -264,6 +264,31 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: trapezoid_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 4
+        height: 4
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -2, y: 2}
+        - {x: -0.57777774, y: -2}
+        - {x: 0.6888888, y: -2}
+        - {x: 2, y: 2}
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9009c3befb31bb54c9664d2396526eef
+      internalID: 162095791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -279,6 +304,7 @@ TextureImporter:
       rhombus: 5659205836826695444
       rightTriangle: -8166966530815011495
       trapezoid: -488248382649040768
+      trapezoid_2: 162095791
       triangle: -7105913188517789750
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0

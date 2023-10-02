@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0693c41ad05cc94ea69fa69031d179e, type: 3}
   m_Name: gameData
   m_EditorClassIdentifier: 
-  disableSequence: 0
+  disableSequence: 1
   modalOverworld: overworld
   modalHotspotInvestigate: hotspotInvestigate
   modalHotspotAnalyze: hotspotAnalyze

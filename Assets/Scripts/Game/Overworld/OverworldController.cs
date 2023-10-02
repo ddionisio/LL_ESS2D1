@@ -9,6 +9,8 @@ public class OverworldController : GameModeController<OverworldController> {
     public AtmosphereAttributeBase atmosphereDefault;
     public SeasonData seasonDefault;
     public AtmosphereAttributeBase[] atmosphereActiveOverlays;
+    [M8.Localize]
+    public string hintTextRef;
 
     [Header("Overworld")]
     public OverworldView overworldView;
@@ -163,7 +165,7 @@ public class OverworldController : GameModeController<OverworldController> {
         if(signalInvokeSeasonDefault) signalInvokeSeasonDefault.Invoke(currentSeason);
 
         //show overworld modal
-        ModalShowOverworld();
+        ModalShowOverworld(true);
 
         while(M8.ModalManager.main.isBusy)
             yield return null;
@@ -250,7 +252,7 @@ public class OverworldController : GameModeController<OverworldController> {
 
         criteriaGroup.active = false;
 
-        ModalShowOverworld();
+        ModalShowOverworld(false);
 
         mRout = null;
     }
@@ -337,12 +339,17 @@ public class OverworldController : GameModeController<OverworldController> {
         mRout = StartCoroutine(DoLaunch(regionIndex));
     }
 
-    private void ModalShowOverworld() {
+    private void ModalShowOverworld(bool isStart) {
         mModalOverworldParms[ModalOverworld.parmAtmosphereActives] = atmosphereActiveOverlays;
         mModalOverworldParms[ModalOverworld.parmAtmosphere] = atmosphereDefault;
         mModalOverworldParms[ModalOverworld.parmSeason] = currentSeason;
         mModalOverworldParms[ModalOverworld.parmCriteria] = hotspotGroup ? hotspotGroup.criteria : null;
 
-        M8.ModalManager.main.Open(GameData.instance.modalOverworld, mModalOverworldParms);
+        if(isStart)
+            mModalOverworldParms[ModalOverworld.parmHintDialogTextRef] = hintTextRef;
+        else
+            mModalOverworldParms.Remove(ModalOverworld.parmHintDialogTextRef);
+
+		M8.ModalManager.main.Open(GameData.instance.modalOverworld, mModalOverworldParms);
     }
 }

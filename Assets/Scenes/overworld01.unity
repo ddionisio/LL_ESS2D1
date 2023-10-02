@@ -7556,6 +7556,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1613723611}
     - target: {fileID: 4209015124873795808, guid: 302b9f60d03155849a0c7ebf36183d1e, type: 3}
+      propertyPath: hintTextRef
+      value: overworld_1_hint
+      objectReference: {fileID: 0}
+    - target: {fileID: 4209015124873795808, guid: 302b9f60d03155849a0c7ebf36183d1e, type: 3}
       propertyPath: hotspotGroup
       value: 
       objectReference: {fileID: 257530576}
