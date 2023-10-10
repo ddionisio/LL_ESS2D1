@@ -28,6 +28,12 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
     [M8.Localize]
     public string newHouseInfoTextRef;
 
+    [Header("Hints")]
+    public GameObject fastforwardHintGO;
+
+    [Header("Highlights")]
+    public GameObject populationInfoHighlightGO;
+
     [Header("Animation")]
     public M8.Animator.Animate animator;
     [M8.Animator.TakeSelector]
@@ -129,6 +135,10 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
         set { if(paletteRootGO) paletteRootGO.SetActive(value); }
     }
 
+    public bool fastforwardHintActive { get { return fastforwardHintGO ? fastforwardHintGO.activeSelf : false; } set { if(fastforwardHintGO) fastforwardHintGO.SetActive(value); } }
+
+    public bool populationHighlightActive { get { return populationInfoHighlightGO ? populationInfoHighlightGO.activeSelf : false; } set { if(populationInfoHighlightGO) populationInfoHighlightGO.SetActive(value); } }
+
     public M8.Signal signalListenUnitPaletteRefresh;
 
     private bool mIsPlacementActive;
@@ -155,7 +165,10 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
     void Awake() {
         if(mainRootGO) mainRootGO.SetActive(false);
         if(newHouseInfoActiveGO) newHouseInfoActiveGO.SetActive(false);
-    }
+
+		populationHighlightActive = false;
+		fastforwardHintActive = false;
+	}
 
     void OnCycleBegin() {
         var colonyCtrl = ColonyController.instance;
@@ -173,7 +186,10 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
         paletteUnitWidget.Setup(colonyCtrl.unitPalette);
         paletteUnitWidget.RefreshInfo();
 
-        StartCoroutine(DoEnter());
+        populationHighlightActive = false;
+		fastforwardHintActive = false;
+
+		StartCoroutine(DoEnter());
     }
 
     IEnumerator DoEnter() {
@@ -417,7 +433,13 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
                     LoLExt.LoLManager.instance.SpeakText(newHouseInfoTextRef);
                 mNewHouseInfoSpeak = false;
             }
-        }
+
+            var textInf = ((LoLExt.LoLLocalize)M8.Localize.instance).GetExtraInfo(newHouseInfoTextRef);
+            if(textInf != null)
+                yield return new WaitForSeconds(textInf.voiceDuration);
+
+			if(newHouseInfoActiveGO) newHouseInfoActiveGO.SetActive(false);
+		}
 
         mNewHouseInfoRout = null;
     }

@@ -14331,22 +14331,27 @@ MonoBehaviour:
   mushroom: {fileID: 11400000, guid: 0baff66e6b7ad8a4891bf9c957b3b139, type: 2}
   fly: {fileID: 11400000, guid: 07ccd23c4cc58fb46bc96c9f7a225f3e, type: 2}
   hopper: {fileID: 11400000, guid: 942c89446770343438ae9c0289964041, type: 2}
+  house: {fileID: 11400000, guid: 918b5d6b53bd90f44ad2cc28f374bf18, type: 2}
   dlgIntro:
+    modal: 
     portrait: {fileID: 0}
     prefix: colony_2_intro_
     startIndex: 0
     count: 0
   dlgMushroom:
+    modal: dialogTop
     portrait: {fileID: 0}
     prefix: colony_2_mushroom_
     startIndex: 0
     count: 0
   dlgFly:
+    modal: 
     portrait: {fileID: 0}
     prefix: colony_2_fly_
     startIndex: 0
     count: 0
   dlgHazzard:
+    modal: 
     portrait: {fileID: 0}
     prefix: colony_2_hazzard_
     startIndex: 0

@@ -586,7 +586,7 @@ public class ColonyController : GameModeController<ColonyController> {
 
             //check if we need to pause cycle
             if(!mIsHazzard) {
-                var isCyclePause = structurePaletteController.isPauseCycle || (sequence && sequence.isPauseCycle);
+                var isCyclePause = (sequence && sequence.isPauseCycle);
                 if(mIsCyclePause != isCyclePause) {
                     mIsCyclePause = isCyclePause;
                     timeState = mIsCyclePause ? TimeState.CyclePause : TimeState.Normal;

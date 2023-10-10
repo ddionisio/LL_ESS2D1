@@ -135,7 +135,8 @@ public class StructurePaletteWidget : MonoBehaviour {
                 if(visibleCount > 0) {
                     groupWidget.active = true;
                     groupWidget.newHighlightActive = (groupInf.highlightOnAvailable && groupInf.count < groupInf.capacity) || newCount > 0;
-                }
+					groupWidget.pointerHighlightActive = groupInf.pointerOnAvailable && groupInf.count < groupInf.capacity;
+				}
                 else
                     groupWidget.active = false;
             }
@@ -152,7 +153,8 @@ public class StructurePaletteWidget : MonoBehaviour {
         }
 
         groupWidget.newHighlightActive = (groupInfo.highlightOnAvailable && groupInfo.count < groupInfo.capacity) || newCount > 0;
-    }
+		groupWidget.pointerHighlightActive = groupInfo.pointerOnAvailable && groupInfo.count < groupInfo.capacity;
+	}
 
     public void ClearGroupActive() {
         if(mGroupWidgetActive) {

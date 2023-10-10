@@ -46,6 +46,7 @@ public class StructurePaletteController : MonoBehaviour  {
         }
 
         public bool highlightOnAvailable { get; private set; }
+        public bool pointerOnAvailable { get; private set; }
 
         public bool containsHouseStructure {
             get {
@@ -70,7 +71,8 @@ public class StructurePaletteController : MonoBehaviour  {
             }
 
             highlightOnAvailable = dataGrpInf.highlightOnAvailable;
-        }
+			pointerOnAvailable = dataGrpInf.pointerOnAvailable;
+		}
     }
 
     public delegate bool CheckStructureValid<T>(T structure) where T : Structure;
@@ -93,22 +95,6 @@ public class StructurePaletteController : MonoBehaviour  {
     public M8.CacheList<Structure> structureActives { get { return mStructureActives; } }
 
     public StructureData placementCurrentStructureData { get { return mPlacementCurStuctureData; } }
-
-    public bool isPauseCycle {
-        get {
-            for(int i = 0; i < mGroupInfos.Length; i++) {
-                if(paletteData.groups[i].pauseCycleOnAvailable) {
-                    var grpInf = mGroupInfos[i];
-
-                    if(grpInf.capacity - grpInf.count > 0)
-                        return true;
-                }
-                
-            }
-
-            return false;
-        }
-    }
 
     public bool isPlacementActive { get { return placementInput ? placementInput.isActive : false; } }
 

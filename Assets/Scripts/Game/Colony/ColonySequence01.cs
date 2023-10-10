@@ -187,16 +187,20 @@ public class ColonySequence01 : ColonySequenceBase {
         cyclePauseAllowProgress = false;
 
         yield return dlgEngineerPlaced.Play();
-
+                
         isPauseCycle = false;
-    }
+
+        yield return new WaitForSeconds(0.5f);
+
+		ColonyHUD.instance.fastforwardHintActive = true;
+	}
 
     void OnStructureSpawned(Structure structure) {
         if(structure.data == house) {
             if(!mIsHouseSpawned) {
                 mIsHouseSpawned = true;
 
-                StartCoroutine(dlgHousePlaced.Play());
+                StartCoroutine(DoHouseSpawned());
             }
             else if(!mIsHouseSecondSpawned) {
                 mIsHouseSecondSpawned = true;
@@ -251,4 +255,12 @@ public class ColonySequence01 : ColonySequenceBase {
             }
         }
     }
+
+    IEnumerator DoHouseSpawned() {
+        ColonyHUD.instance.populationHighlightActive = true;
+
+        yield return dlgHousePlaced.Play();
+
+		ColonyHUD.instance.populationHighlightActive = false;
+	}
 }

@@ -17,7 +17,11 @@ MonoBehaviour:
   editorLanguageRef: Renegadeware\language.json
   editorLanguagePathExtra: D:\Lab\Legends of Learning\LL_ESS2D1\Assets\_Mockup\language.json
   languageExtraInfos:
+  - key: new_house
+    voiceDuration: 5
   - key: overworld_1_hint
+    voiceDuration: 5
+  - key: fastforward_hint
     voiceDuration: 5
   - key: overworld_2_hint
     voiceDuration: 5

@@ -10,23 +10,34 @@ public class ColonySequence02 : ColonySequenceBase {
     public UnitData fly;
     public UnitData hopper;
 
-    [Header("Dialogs")]
+	[Header("Building Data")]
+	public StructureData house;
+
+	[Header("Dialogs")]
     public ModalDialogFlowIncremental dlgIntro;
     public ModalDialogFlowIncremental dlgMushroom;
     public ModalDialogFlowIncremental dlgFly;
     public ModalDialogFlowIncremental dlgHazzard;
 
-    private bool mIsMushroomSpawned;
+	private bool mIsHouseSpawned = false;
+
+	private bool mIsMushroomSpawned;
     private bool mIsFlySpawned;
     private bool mIsHopperSpawned;
 
     private bool mIsHazzardHappened;
 
     public override void Init() {
-        GameData.instance.signalUnitSpawned.callback += OnUnitSpawned;
+		isPauseCycle = true;
+
+		ColonyController.instance.structurePaletteController.signalInvokeStructureSpawned.callback += OnStructureSpawned;
+
+		GameData.instance.signalUnitSpawned.callback += OnUnitSpawned;
     }
 
     public override void Deinit() {
+		ColonyController.instance.structurePaletteController.signalInvokeStructureSpawned.callback -= OnStructureSpawned;
+		
         GameData.instance.signalUnitSpawned.callback -= OnUnitSpawned;
     }
 
@@ -52,7 +63,17 @@ public class ColonySequence02 : ColonySequenceBase {
         isPauseCycle = false;
     }
 
-    void OnUnitSpawned(Unit unit) {
+    void OnStructureSpawned(Structure structure) {
+		if(structure.data == house) {
+			if(!mIsHouseSpawned) {
+				mIsHouseSpawned = true;
+
+				isPauseCycle = false;
+			}
+		}
+	}
+
+	void OnUnitSpawned(Unit unit) {
         if(unit.data == mushroom) {
             if(!mIsMushroomSpawned) {
                 mIsMushroomSpawned = true;

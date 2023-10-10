@@ -11677,21 +11677,25 @@ MonoBehaviour:
   - {fileID: 1979151950}
   - {fileID: 933061946}
   dlgIntro:
+    modal: 
     portrait: {fileID: 0}
     prefix: colony_3_intro_
     startIndex: 0
     count: 0
   dlgWater:
+    modal: dialogTop
     portrait: {fileID: 0}
     prefix: colony_3_water_
     startIndex: 0
     count: 0
   dlgLandscaping:
+    modal: dialogTop
     portrait: {fileID: 0}
     prefix: colony_3_landscaping_
     startIndex: 0
     count: 0
   dlgLandscapingComplete:
+    modal: dialogTop
     portrait: {fileID: 0}
     prefix: colony_3_landscaping_complete_
     startIndex: 0

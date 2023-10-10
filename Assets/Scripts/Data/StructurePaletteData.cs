@@ -35,7 +35,7 @@ public class StructurePaletteData : ScriptableObject {
         public int capacityStart; //starting capacity
         public int capacity;
         public bool highlightOnAvailable; //always highlight if available to build
-        public bool pauseCycleOnAvailable; //pause the cycle if there's capacity available
+        public bool pointerOnAvailable; //show pointer if available to build
 
         public CapacityUpgradeInfo[] capacityUpgrades;
 

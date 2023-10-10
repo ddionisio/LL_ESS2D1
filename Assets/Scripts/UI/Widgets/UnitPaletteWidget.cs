@@ -26,6 +26,12 @@ public class UnitPaletteWidget : MonoBehaviour {
     public M8.Animator.Animate animator;
     [M8.Animator.TakeSelector]
     public int takeShow = -1;
+	[M8.Animator.TakeSelector]
+	public int takeCapacityFull = -1;
+
+	[Header("SFX")]
+    [M8.SoundPlaylist]
+    public string sfxCapacityFull;
 
     private UnitItemWidget[] mUnitWidgets;
     private int mUnitWidgetCount;
@@ -249,8 +255,11 @@ public class UnitPaletteWidget : MonoBehaviour {
                     unitPaletteCtrl.SpawnQueue(unitData);
                 }
                 else {
-                    //TODO: error display
-                    //TODO: error sfx
+                    if(takeCapacityFull != -1)
+                        animator.Play(takeCapacityFull);
+
+                    if(!string.IsNullOrEmpty(sfxCapacityFull))
+                        M8.SoundPlaylist.instance.Play(sfxCapacityFull, false);
                 }
                 break;
 

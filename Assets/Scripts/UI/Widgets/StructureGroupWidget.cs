@@ -16,6 +16,7 @@ public class StructureGroupWidget : MonoBehaviour {
     public Selectable interactWidget; //set interactable to true/false based on counter
 
     public GameObject newHighlightGO;
+    public GameObject pointerHighlightGO;
 
     [Header("Items Info")]
     public GameObject itemsRootGO;
@@ -37,6 +38,11 @@ public class StructureGroupWidget : MonoBehaviour {
         get { return newHighlightGO ? newHighlightGO.activeSelf : false; }
         set { if(newHighlightGO) newHighlightGO.SetActive(value); }
     }
+
+    public bool pointerHighlightActive {
+        get { return pointerHighlightGO ? pointerHighlightGO.activeSelf : false; }
+		set { if(pointerHighlightGO) pointerHighlightGO.SetActive(value); }
+	}
 
     public bool itemsActive { 
         get { return itemsRootGO ? itemsRootGO.activeSelf : false; } 
@@ -77,8 +83,9 @@ public class StructureGroupWidget : MonoBehaviour {
         itemsActive = false;
 
         newHighlightActive = info.highlightOnAvailable && info.capacityStart > 0;
+        pointerHighlightActive = info.pointerOnAvailable && info.capacityStart > 0;
 
-        mCount = 0;
+		mCount = 0;
         RefreshCount();
     }
         

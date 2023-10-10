@@ -9343,16 +9343,19 @@ MonoBehaviour:
   house: {fileID: 11400000, guid: 918b5d6b53bd90f44ad2cc28f374bf18, type: 2}
   waterTank: {fileID: 11400000, guid: e6518c7cb5a58f34d8950afde470f478, type: 2}
   dlgIntro:
+    modal: 
     portrait: {fileID: 0}
     prefix: colony_4_intro_
     startIndex: 0
     count: 0
   dlgLandscape:
+    modal: dialogTop
     portrait: {fileID: 0}
     prefix: colony_4_landscape_
     startIndex: 0
     count: 0
   dlgCave:
+    modal: dialogTop
     portrait: {fileID: 0}
     prefix: colony_4_cave_
     startIndex: 0

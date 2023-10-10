@@ -21,7 +21,7 @@ MonoBehaviour:
     capacityStart: 1
     capacity: 3
     highlightOnAvailable: 1
-    pauseCycleOnAvailable: 1
+    pointerOnAvailable: 1
     capacityUpgrades:
     - populationQuota: 2
       capacityIncrease: 1
@@ -37,7 +37,7 @@ MonoBehaviour:
     capacityStart: 0
     capacity: 3
     highlightOnAvailable: 0
-    pauseCycleOnAvailable: 0
+    pointerOnAvailable: 0
     capacityUpgrades:
     - populationQuota: 1
       capacityIncrease: 1
@@ -57,7 +57,7 @@ MonoBehaviour:
     capacityStart: 0
     capacity: 5
     highlightOnAvailable: 0
-    pauseCycleOnAvailable: 0
+    pointerOnAvailable: 0
     capacityUpgrades:
     - populationQuota: 1
       capacityIncrease: 1

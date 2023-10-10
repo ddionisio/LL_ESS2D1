@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0693c41ad05cc94ea69fa69031d179e, type: 3}
   m_Name: gameData
   m_EditorClassIdentifier: 
-  disableSequence: 1
+  disableSequence: 0
   modalOverworld: overworld
   modalHotspotInvestigate: hotspotInvestigate
   modalHotspotAnalyze: hotspotAnalyze
@@ -35,6 +35,7 @@ MonoBehaviour:
   cycleDayNameCurrentRef: day_today
   cycleBeginDelay: 0.3
   overworldLaunchCriticGoodCount: 3
+  overworldHotspotHintCounter: 3
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 64

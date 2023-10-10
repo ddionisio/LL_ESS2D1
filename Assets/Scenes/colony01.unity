@@ -6500,46 +6500,55 @@ MonoBehaviour:
   waterTank: {fileID: 11400000, guid: e6518c7cb5a58f34d8950afde470f478, type: 2}
   solarPower: {fileID: 11400000, guid: 055a6f0de3afd324eac0f3cd1ac87593, type: 2}
   dlgIntro:
+    modal: 
     portrait: {fileID: 0}
     prefix: colony_1_intro_
     startIndex: 0
     count: 0
   dlgWeather:
+    modal: 
     portrait: {fileID: 0}
     prefix: colony_1_weather_forecast_
     startIndex: 0
     count: 0
   dlgPostIntro:
+    modal: 
     portrait: {fileID: 0}
     prefix: colony_1_post_intro_
     startIndex: 0
     count: 0
   dlgHousePlaced:
+    modal: 
     portrait: {fileID: 0}
     prefix: colony_1_house_placed_
     startIndex: 0
     count: 0
   dlgHouseSecondPlaced:
+    modal: dialogTop
     portrait: {fileID: 0}
     prefix: colony_1_house_second_
     startIndex: 0
     count: 0
   dlgWaterSolarPlaced:
+    modal: dialogTop
     portrait: {fileID: 0}
     prefix: colony_1_water_solar_placed_
     startIndex: 0
     count: 0
   dlgEngineerPlaced:
+    modal: dialogTop
     portrait: {fileID: 0}
     prefix: colony_1_engineer_placed_
     startIndex: 0
     count: 0
   dlgVineAppear:
+    modal: dialogTop
     portrait: {fileID: 0}
     prefix: colony_1_vine_
     startIndex: 0
     count: 0
   dlgMoleAppear:
+    modal: dialogTop
     portrait: {fileID: 0}
     prefix: colony_1_mole_
     startIndex: 0
