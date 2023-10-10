@@ -216,11 +216,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dlgIntro:
+    modal: 
     portrait: {fileID: 0}
     prefix: overworld_3_intro_
     startIndex: 0
     count: 0
   dlgInvestigate:
+    modal: 
     portrait: {fileID: 0}
     prefix: overworld_3_investigate_
     startIndex: 0
@@ -414,6 +416,10 @@ PrefabInstance:
       propertyPath: sequence
       value: 
       objectReference: {fileID: 776200817}
+    - target: {fileID: 4209015124873795808, guid: 302b9f60d03155849a0c7ebf36183d1e, type: 3}
+      propertyPath: hintTextRef
+      value: overworld_3_hint
+      objectReference: {fileID: 0}
     - target: {fileID: 4209015124873795808, guid: 302b9f60d03155849a0c7ebf36183d1e, type: 3}
       propertyPath: hotspotGroup
       value: 

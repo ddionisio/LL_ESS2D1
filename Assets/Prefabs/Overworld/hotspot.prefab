@@ -3519,7 +3519,7 @@ MonoBehaviour:
   pingRoot: {fileID: 8529460266701152513}
   revealRadius: 2
   pingRadius: 8
-  pingStartRadius: 0.3
+  pingStartRadius: 1
   pingEndRadiusOfs: 0
   analysisRootGO: {fileID: 1903712118090593381}
   analysisCompleteGO: {fileID: 2080455845387631864}

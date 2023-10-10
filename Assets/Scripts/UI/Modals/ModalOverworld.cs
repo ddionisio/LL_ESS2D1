@@ -159,6 +159,8 @@ public class ModalOverworld : M8.ModalController, M8.IModalPush, M8.IModalPop {
 			hintDialogText.gameObject.SetActive(true);
 		}
 
+        yield return null;
+
 		LoLExt.LoLManager.instance.SpeakText(mHintDialogTextRef);
 
         var lastTime = Time.time;

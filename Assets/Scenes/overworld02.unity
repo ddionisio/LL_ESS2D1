@@ -3318,31 +3318,37 @@ MonoBehaviour:
   windDirsIllustration: {fileID: 2062605829}
   gulfStreamIllustration: {fileID: 403081234}
   dlgIntro:
+    modal: 
     portrait: {fileID: 0}
     prefix: overworld_2_intro_
     startIndex: 0
     count: 0
   dlgCoriolis:
+    modal: 
     portrait: {fileID: 0}
     prefix: overworld_2_coriolis_
     startIndex: 0
     count: 0
   dlgWinds:
+    modal: 
     portrait: {fileID: 0}
     prefix: overworld_2_wind_
     startIndex: 0
     count: 0
   dlgOcean:
+    modal: 
     portrait: {fileID: 0}
     prefix: overworld_2_ocean_
     startIndex: 0
     count: 0
   dlgGulfStream:
+    modal: 
     portrait: {fileID: 0}
     prefix: overworld_2_gulf_stream_
     startIndex: 0
     count: 0
   dlgIntroPost:
+    modal: 
     portrait: {fileID: 0}
     prefix: overworld_2_post_intro_
     startIndex: 0
@@ -9229,6 +9235,10 @@ PrefabInstance:
       propertyPath: sequence
       value: 
       objectReference: {fileID: 856522107}
+    - target: {fileID: 4209015124873795808, guid: 302b9f60d03155849a0c7ebf36183d1e, type: 3}
+      propertyPath: hintTextRef
+      value: overworld_2_hint
+      objectReference: {fileID: 0}
     - target: {fileID: 4209015124873795808, guid: 302b9f60d03155849a0c7ebf36183d1e, type: 3}
       propertyPath: hotspotGroup
       value: 
