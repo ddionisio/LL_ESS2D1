@@ -30,6 +30,7 @@ public class HotspotData : ScriptableObject {
 
     [Header("Inspection")]
     public LandscapePreviewTelemetry landscapePrefab;
+    public LandscapeGrid landscapeGridPrefab;
         
     public M8.SceneAssetPath colonyScene; //if viable, this is the scene to load when launching
 
