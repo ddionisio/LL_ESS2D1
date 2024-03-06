@@ -73,9 +73,61 @@ public class ModalHotspotInvestigateGrid : M8.ModalController, M8.IModalPush, M8
 	}
 
 	void M8.IModalPop.Pop() {
+		if(signalListenSeasonChange) signalListenSeasonChange.callback -= OnSeasonToggle;
+
+		ClearAttributeWidgets();
+
+		mCurSeason = null;
+		mCriteriaGroup = null;
+		mLandscapeGridCtrl = null;
+
+		mCurStats = null;
 	}
 
 	void M8.IModalPush.Push(M8.GenericParams parms) {
+		if(!mIsInit) {
+			InitAttributeWidgets();
+
+			mIsInit = true;
+		}
+
+		if(parms != null) {
+			if(parms.ContainsKey(parmSeason))
+				mCurSeason = parms.GetValue<SeasonData>(parmSeason);
+
+			if(parms.ContainsKey(parmCriteriaGroup))
+				mCriteriaGroup = parms.GetValue<CriteriaGroup>(parmCriteriaGroup);
+
+			if(parms.ContainsKey(parmGridCtrl))
+				mLandscapeGridCtrl = parms.GetValue<LandscapeGridController>(parmGridCtrl);
+		}
+
+		if(signalListenSeasonChange) signalListenSeasonChange.callback += OnSeasonToggle;
+
+		//hook up with grid controller for atmosphere update
+
+		//setup hotspot info display
+		var hotspotData = mLandscapeGridCtrl.hotspotData;
+		if(hotspotData) {
+			if(hotspotIconImage) {
+				hotspotIconImage.sprite = hotspotData.climate.icon;
+				if(hotspotIconUseNativeSize)
+					hotspotIconImage.SetNativeSize();
+			}
+
+			if(hotspotRegionNameLabel) hotspotRegionNameLabel.text = M8.Localize.Get(hotspotData.nameRef);
+
+			if(hotspotClimateNameLabel) hotspotClimateNameLabel.text = M8.Localize.Get(hotspotData.climate.nameRef);
+		}
+
+		UpdateAtmosphereStats();
+	}
+
+	void OnSeasonToggle(SeasonData season) {
+		mCurSeason = season;
+
+		//update attributes
+		UpdateAtmosphereStats();
 	}
 
 	private void UpdateAtmosphereStats() {

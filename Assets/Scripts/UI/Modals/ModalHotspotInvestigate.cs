@@ -112,7 +112,8 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
         ClearAttributeWidgets();
 
         mCurSeason = null;
-        mLandscapePreview = null;
+        mCriteriaGroup = null;
+		mLandscapePreview = null;
 
         mCurStats = null;
     }
