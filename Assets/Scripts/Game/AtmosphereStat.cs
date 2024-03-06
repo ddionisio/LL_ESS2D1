@@ -47,12 +47,21 @@ public struct AtmosphereStat {
         return 0;
     }
 
-    /// <summary>
-    /// 0 = neutral (intersects)
-    /// -1 = range is less than otherRange (out of bounds)
-    /// 1 = range is greater than otherRange (out of bounds)
-    /// </summary>
-    public static int Compare(M8.RangeFloat range, M8.RangeFloat otherRange) {
+	/// <summary>
+	/// Check if given value is within range
+	/// -1 = bad (out of bounds)
+	/// 1 = good (inside bounds)
+	/// </summary>
+	public static int CheckBounds(M8.RangeFloat range, float val) {
+        return range.InRange(val) ? 1 : -1;
+	}
+
+	/// <summary>
+	/// 0 = neutral (intersects)
+	/// -1 = range is less than otherRange (out of bounds)
+	/// 1 = range is greater than otherRange (out of bounds)
+	/// </summary>
+	public static int Compare(M8.RangeFloat range, M8.RangeFloat otherRange) {
         if(range.max < otherRange.min)
             return -1;
 

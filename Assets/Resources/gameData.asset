@@ -111,7 +111,7 @@ MonoBehaviour:
   signalUnitSpawned: {fileID: 11400000, guid: 4565133f988d40c41b734fd559aa436f, type: 2}
   signalUnitDespawned: {fileID: 11400000, guid: fdb8538ca225a5a4da2426cfd2c69d25, type: 2}
   signalUnitDying: {fileID: 11400000, guid: ed8a26deaa688794c9536e7b7423913f, type: 2}
-  landscapePreviewSize: {x: 12, y: 6.75}
+  landscapePreviewSize: {x: 16, y: 15}
   landscapePreviewBoundsColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   landscapePreviewBoundsEditSnap: 0.5
   landscapePreviewRegionColor: {r: 0, g: 1, b: 0, a: 1}

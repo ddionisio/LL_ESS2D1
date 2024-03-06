@@ -271,7 +271,7 @@ public class ModalHotspotInvestigate : M8.ModalController, M8.IModalPush, M8.IMo
         if(landscapePreviewTelemetry.regions[mRegionIndex].criticsOverride)
             mCriteriaGroup.ApplyCompares(landscapePreviewTelemetry.regions[mRegionIndex].criticsCompares);
         else
-            mCriteriaGroup.Evaluate(mCurStats);
+            mCriteriaGroup.Evaluate(mCurStats, false);
 
         //check if we can launch, show glow if so
         mIsLaunchValid = mCriteriaGroup.criticCountBad == 0 && mCriteriaGroup.criticCountGood >= GameData.instance.overworldLaunchCriticGoodCount;

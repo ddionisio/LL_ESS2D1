@@ -120,8 +120,8 @@ public class CriteriaGroup : MonoBehaviour {
         }
     }
 
-    public void Evaluate(AtmosphereStat[] stats) {
-        data.Evaluate(mCriticResults, stats);
+    public void Evaluate(AtmosphereStat[] stats, bool statUseMedianValue) {
+        data.Evaluate(mCriticResults, stats, statUseMedianValue);
         ApplyCompares(mCriticResults);
     }
 

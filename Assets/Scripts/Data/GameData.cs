@@ -36,7 +36,8 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     [Header("Modals")]
     public string modalOverworld = "overworld";
     public string modalHotspotInvestigate = "hotspotInvestigate";
-    public string modalHotspotAnalyze = "hotspotAnalyze";
+	public string modalHotspotInvestigateGrid = "hotspotInvestigateGrid";
+	public string modalHotspotAnalyze = "hotspotAnalyze";
     public string modalWeatherForecast = "weatherForecast";
     public string modalVictory = "victory";
 

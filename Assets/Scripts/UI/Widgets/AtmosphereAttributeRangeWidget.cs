@@ -16,10 +16,15 @@ public class AtmosphereAttributeRangeWidget : MonoBehaviour {
     public TMP_Text rangeLabel;
     public bool rangeUseSingleValue;
 
-    [Header("Range Change")]
+	[Header("Range Bar")]
+    public Slider rangeSlider;
+	public RectTransform rangeValidBaseArea;
+	public RectTransform rangeValidArea;
+
+	[Header("Range Change")]
     public float rangeChangeDelay = 0.5f;
     public DG.Tweening.Ease rangeChangeEase = DG.Tweening.Ease.OutSine;
-
+        
     private AtmosphereAttributeBase mAtmosphereAttr;
 
     private M8.RangeFloat mCurRange;
@@ -60,7 +65,35 @@ public class AtmosphereAttributeRangeWidget : MonoBehaviour {
         if(nameLabel)
             nameLabel.text = string.Format(nameFormat, M8.Localize.Get(mAtmosphereAttr.nameRef));
 
-        ApplyCurRangeText();
+        ApplyCurRange();
+    }
+
+    /// <summary>
+    /// Call this after Setup if using range display
+    /// </summary>
+    public void SetupRangeValid(M8.RangeFloat rangeValid) {
+        if(!(mAtmosphereAttr && rangeValidBaseArea && rangeValidArea))
+            return;
+
+        var lenValid = rangeValid.length;
+        if(lenValid > 0f) {
+			rangeValidArea.gameObject.SetActive(true);
+
+            var minT = mAtmosphereAttr.rangeLimit.GetT(rangeValid.min);
+			var maxT = mAtmosphereAttr.rangeLimit.GetT(rangeValid.max);
+
+            var pos = rangeValidArea.anchoredPosition;
+            var size = rangeValidArea.sizeDelta;
+
+            pos.x = minT * rangeValidBaseArea.sizeDelta.x;
+            size.x = (maxT - minT) * rangeValidBaseArea.sizeDelta.x;
+
+            rangeValidArea.anchoredPosition = pos;
+            rangeValidArea.sizeDelta = size;
+		}
+        else {
+            rangeValidArea.gameObject.SetActive(false);
+        }
     }
 
     public void SetRange(M8.RangeFloat range) {
@@ -94,14 +127,19 @@ public class AtmosphereAttributeRangeWidget : MonoBehaviour {
             else
                 mCurRange = new M8.RangeFloat(Mathf.LerpUnclamped(mFromRange.min, mToRange.min, t), Mathf.LerpUnclamped(mFromRange.max, mToRange.max, t));
 
-            ApplyCurRangeText();
+            ApplyCurRange();
         }
 
         mRout = null;
     }
 
-    private void ApplyCurRangeText() {
+    private void ApplyCurRange() {
         if(rangeLabel)
             rangeLabel.text = mAtmosphereAttr.GetValueRangeString(mCurRange);
+
+        if(rangeSlider) {
+            var rangeAvg = Mathf.Lerp(mCurRange.min, mCurRange.max, 0.5f);
+            rangeSlider.normalizedValue = mAtmosphereAttr.rangeLimit.GetT(rangeAvg);
+        }
     }
 }

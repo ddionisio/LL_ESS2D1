@@ -21,7 +21,8 @@ public class OverworldControllerGrid : GameModeController<OverworldControllerGri
 	public float hotspotZoom;
 
 	[Header("Investigate")]
-	public LandscapeGridDisplay landscapeGridDisplay;
+	public LandscapeGridController landscapeGridController;
+	public CriteriaGroup criteriaGroup;
 
 	[Header("Audio")]
 	[M8.MusicPlaylist]
@@ -108,8 +109,11 @@ public class OverworldControllerGrid : GameModeController<OverworldControllerGri
 		if(hotspotGroup)
 			hotspotGroup.active = false;
 
-		if(landscapeGridDisplay)
-			landscapeGridDisplay.active = false;
+		if(landscapeGridController)
+			landscapeGridController.active = false;
+
+		if(criteriaGroup)
+			criteriaGroup.active = false;
 
 		//setup signals
 		if(signalListenAtmosphereToggle) signalListenAtmosphereToggle.callback += OnAtmosphereToggle;
@@ -143,7 +147,7 @@ public class OverworldControllerGrid : GameModeController<OverworldControllerGri
 			for(int i = 0; i < hotspotGroup.hotspots.Length; i++) {
 				var hotspot = hotspotGroup.hotspots[i];
 
-				landscapeGridDisplay.AddHotspotPreview(hotspot.hotspot.data);
+				landscapeGridController.AddHotspotPreview(hotspot.hotspot.data);
 			}
 
 			//show
@@ -191,18 +195,23 @@ public class OverworldControllerGrid : GameModeController<OverworldControllerGri
 			yield return null;
 
 		//show preview
-		landscapeGridDisplay.SetCurrentPreview(hotspot.data);
-		landscapeGridDisplay.SetSeason(currentSeason);
-		landscapeGridDisplay.active = true;
+		landscapeGridController.SetCurrentPreview(hotspot.data);
+		landscapeGridController.SetSeason(currentSeason);
+		landscapeGridController.active = true;
 		//anim
 
+		criteriaGroup.ApplyCriteria(hotspotGroup.criteria);
+
+		//show critic group
+		criteriaGroup.active = true;
+		criteriaGroup.Show();
 
 		//push investigate modal
-		mModalHotspotInvestigateParms[ModalHotspotInvestigate.parmSeason] = currentSeason;
-		//mModalHotspotInvestigateParms[ModalHotspotInvestigate.parmCriteriaGroup] = criteriaGroup;
-		//mModalHotspotInvestigateParms[ModalHotspotInvestigate.parmLandscape] = landscapePreview;
+		mModalHotspotInvestigateParms[ModalHotspotInvestigateGrid.parmSeason] = currentSeason;
+		mModalHotspotInvestigateParms[ModalHotspotInvestigateGrid.parmCriteriaGroup] = criteriaGroup;
+		mModalHotspotInvestigateParms[ModalHotspotInvestigateGrid.parmGridCtrl] = landscapeGridController;
 
-		M8.ModalManager.main.Open(GameData.instance.modalHotspotInvestigate, mModalHotspotInvestigateParms);
+		M8.ModalManager.main.Open(GameData.instance.modalHotspotInvestigateGrid, mModalHotspotInvestigateParms);
 
 		while(M8.ModalManager.main.isBusy)
 			yield return null;
@@ -215,23 +224,28 @@ public class OverworldControllerGrid : GameModeController<OverworldControllerGri
 
 	IEnumerator DoInvestigateExit() {
 		//pop investigate modal
-		M8.ModalManager.main.CloseUpTo(GameData.instance.modalHotspotInvestigate, true);
+		M8.ModalManager.main.CloseUpTo(GameData.instance.modalHotspotInvestigateGrid, true);
 
 		if(!string.IsNullOrEmpty(sfxInvestigateExit))
 			M8.SoundPlaylist.instance.Play(sfxInvestigateExit, false);
 
 		//hide investigate
 		//anim
-		landscapeGridDisplay.active = false;
+		landscapeGridController.active = false;
+
+		//hide critic group
+		criteriaGroup.Hide();
 
 		//zoom-out
 		overworldView.ZoomOut();
 
 		//wait for zoom-out
-		while(overworldView.isBusy || M8.ModalManager.main.isBusy || M8.ModalManager.main.IsInStack(GameData.instance.modalHotspotInvestigate))
+		while(overworldView.isBusy || M8.ModalManager.main.isBusy || M8.ModalManager.main.IsInStack(GameData.instance.modalHotspotInvestigateGrid))
 			yield return null;
 
 		hotspotGroup.active = true;
+
+		criteriaGroup.active = false;
 
 		ModalShowOverworld(false);
 
@@ -240,14 +254,18 @@ public class OverworldControllerGrid : GameModeController<OverworldControllerGri
 
 	IEnumerator DoLaunch(int regionIndex) {
 		//pop investigate modal
-		M8.ModalManager.main.CloseUpTo(GameData.instance.modalHotspotInvestigate, true);
+		M8.ModalManager.main.CloseUpTo(GameData.instance.modalHotspotInvestigateGrid, true);
 
 		//hide investigate
 		//anim
-		landscapeGridDisplay.active = false;
+		landscapeGridController.active = false;
+
+		//hide critic group
+		//anim
+		criteriaGroup.active = false;
 
 		//wait for modals
-		while(M8.ModalManager.main.isBusy || M8.ModalManager.main.IsInStack(GameData.instance.modalHotspotInvestigate))
+		while(M8.ModalManager.main.isBusy || M8.ModalManager.main.IsInStack(GameData.instance.modalHotspotInvestigateGrid))
 			yield return null;
 
 		mRout = null;

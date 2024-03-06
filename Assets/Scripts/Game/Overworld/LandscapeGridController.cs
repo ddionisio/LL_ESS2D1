@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LandscapeGridDisplay : MonoBehaviour {
+public class LandscapeGridController : MonoBehaviour {
 	[Header("View")]
 	public Transform root;
 

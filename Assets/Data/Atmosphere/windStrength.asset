@@ -17,8 +17,6 @@ MonoBehaviour:
   legendRange: {fileID: 21300000, guid: 195e473a4ea262b4ca46464702fc2eff, type: 3}
   legendRangeMinColor: {r: 0, g: 0.043137256, b: 0.9960785, a: 1}
   legendRangeMaxColor: {r: 0.98823535, g: 0.98823535, b: 0.98823535, a: 1}
-  isMinLimit: 1
-  isMaxLimit: 0
   rangeLimit:
     min: 0
-    max: 0
+    max: 70

@@ -44,7 +44,20 @@ public class CriteriaData : ScriptableObject {
         }
     }
 
-    public AtmosphereStat[] GenerateAtmosphereStats() {
+    public bool GetRange(AtmosphereAttributeBase atmosphere, out M8.RangeFloat rangeOut) {
+        for(int i = 0; i < attributes.Length; i++) {
+            var attr = attributes[i];
+            if(attr.atmosphere == atmosphere) {
+                rangeOut = attr.rangeBounds;
+				return true;
+            }
+		}
+
+        rangeOut = new M8.RangeFloat(0f, 0f);
+        return false;
+    }
+
+	public AtmosphereStat[] GenerateAtmosphereStats() {
         var stats = new AtmosphereStat[attributes.Length];
 
         for(int i = 0; i < stats.Length; i++) {
@@ -91,7 +104,7 @@ public class CriteriaData : ScriptableObject {
     /// -1 = bad (out of bounds)
     /// 1 = good (inside bounds)
     /// </summary>
-    public void Evaluate(int[] criticResults, AtmosphereStat[] stats) {
+    public void Evaluate(int[] criticResults, AtmosphereStat[] stats, bool statUseMedianValue) {
         for(int i = 0; i < attributes.Length; i++) {
             var attr = attributes[i];
 
@@ -110,7 +123,7 @@ public class CriteriaData : ScriptableObject {
                     int result;
 
                     if(j < attr.criticRange.Length)
-                        result = AtmosphereStat.CheckBounds(attr.criticRange[j], stat.range);
+                        result = statUseMedianValue ? AtmosphereStat.CheckBounds(attr.criticRange[j], stat.median) : AtmosphereStat.CheckBounds(attr.criticRange[j], stat.range);
                     else
                         result = 1;
 
