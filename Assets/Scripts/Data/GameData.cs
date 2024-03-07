@@ -58,7 +58,7 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public int overworldLaunchCriticGoodCount = 3; //determines how many must be satisfied to launch colony
     public int overworldHotspotHintCounter = 3; //determines how many hotspot analyze error before showing hint
 
-    [Header("Colony")]
+	[Header("Colony")]
     public LayerMask groundLayerMask;
     public LayerMask waterLayerMask;
     public LayerMask placementCheckLayerMask;

@@ -24,6 +24,11 @@ public class ModalHotspotInvestigateGrid : M8.ModalController, M8.IModalPush, M8
 	public TMP_Text hotspotRegionNameLabel;
 	public TMP_Text hotspotClimateNameLabel;
 
+	[Header("Altitude Display")]
+	public AtmosphereAttributeBase altitudeAttributeData; //for display
+	public TMP_Text altitudeValueLabel;
+	public float altitudeChangeDelay = 0.3f;
+
 	[Header("Atmosphere Attributes Display")]
 	public AtmosphereAttributeRangeWidget atmosphereStatTemplate; //not a prefab
 	public int atmosphereStatCapacity = 8;
@@ -46,7 +51,7 @@ public class ModalHotspotInvestigateGrid : M8.ModalController, M8.IModalPush, M8
 	private CriteriaGroup mCriteriaGroup;
 	private LandscapeGridController mLandscapeGridCtrl;
 
-	private int mRegionIndex = -1;
+	private const int mRegionIndex = -1;
 
 	private AtmosphereStat[] mCurStats;
 
@@ -56,6 +61,10 @@ public class ModalHotspotInvestigateGrid : M8.ModalController, M8.IModalPush, M8
 	private bool mIsInit;
 
 	private bool mIsLaunchValid;
+
+	private float mAltitudeValue;
+	private float mAltitudeValueEnd;
+	private Coroutine mAltitudeChangeRout;
 
 	public void Back() {
 		signalInvokeBack?.Invoke();
@@ -73,12 +82,21 @@ public class ModalHotspotInvestigateGrid : M8.ModalController, M8.IModalPush, M8
 	}
 
 	void M8.IModalPop.Pop() {
+		if(mAltitudeChangeRout != null) {
+			StopCoroutine(mAltitudeChangeRout);
+			mAltitudeChangeRout = null;
+		}
+
 		if(signalListenSeasonChange) signalListenSeasonChange.callback -= OnSeasonToggle;
 
 		ClearAttributeWidgets();
 
 		mCurSeason = null;
 		mCriteriaGroup = null;
+
+		if(mLandscapeGridCtrl)
+			mLandscapeGridCtrl.clickCallback -= OnLandscapeGridClickUpdate;
+
 		mLandscapeGridCtrl = null;
 
 		mCurStats = null;
@@ -98,8 +116,13 @@ public class ModalHotspotInvestigateGrid : M8.ModalController, M8.IModalPush, M8
 			if(parms.ContainsKey(parmCriteriaGroup))
 				mCriteriaGroup = parms.GetValue<CriteriaGroup>(parmCriteriaGroup);
 
-			if(parms.ContainsKey(parmGridCtrl))
+			if(parms.ContainsKey(parmGridCtrl)) {
 				mLandscapeGridCtrl = parms.GetValue<LandscapeGridController>(parmGridCtrl);
+
+				if(mLandscapeGridCtrl) {
+					mLandscapeGridCtrl.clickCallback += OnLandscapeGridClickUpdate;
+				}
+			}
 		}
 
 		if(signalListenSeasonChange) signalListenSeasonChange.callback += OnSeasonToggle;
@@ -130,6 +153,26 @@ public class ModalHotspotInvestigateGrid : M8.ModalController, M8.IModalPush, M8
 		UpdateAtmosphereStats();
 	}
 
+	void OnLandscapeGridClickUpdate(LandscapeGridController ctrl) {
+		UpdateAtmosphereStats();
+	}
+
+	IEnumerator DoAltitudeChange() {
+		float altitudeChangeVel = 0f;
+
+		while(Mathf.RoundToInt(mAltitudeValue) != Mathf.RoundToInt(mAltitudeValueEnd)) {
+			mAltitudeValue = Mathf.SmoothDamp(mAltitudeValue, mAltitudeValueEnd, ref altitudeChangeVel, altitudeChangeDelay);
+
+			var iVal = Mathf.RoundToInt(mAltitudeValue);
+
+			altitudeValueLabel.text = altitudeAttributeData.GetValueString(iVal);
+
+			yield return null;
+		}
+
+		mAltitudeChangeRout = null;
+	}
+
 	private void UpdateAtmosphereStats() {
 		var hotspotData = mLandscapeGridCtrl.hotspotData;
 
@@ -137,8 +180,11 @@ public class ModalHotspotInvestigateGrid : M8.ModalController, M8.IModalPush, M8
 			mCurStats = hotspotData.GenerateModifiedStats(mCurSeason, mRegionIndex);
 
 			//modify stats from grid
+			if(mLandscapeGridCtrl.shipActive) {
+				GridData.instance.ApplyMod(mCurStats, mLandscapeGridCtrl.atmosphereMod);
+			}
 
-			//setup active items
+			//setup active items (only show the ones needed for criteria)
 			for(int i = 0; i < mCurStats.Length; i++) {
 				var stat = mCurStats[i];
 
@@ -147,31 +193,47 @@ public class ModalHotspotInvestigateGrid : M8.ModalController, M8.IModalPush, M8
 					break;
 				}
 
+				M8.RangeFloat criteriaRange;
+				if(!mCriteriaGroup.data.GetRange(stat.atmosphere, out criteriaRange))
+					continue;
+
 				var newItm = mAtmosphereStatWidgetCache.RemoveLast();
 
 				newItm.widget.Setup(stat.atmosphere, stat.range);
 
-				M8.RangeFloat criteriaRange;
-				if(mCriteriaGroup.data.GetRange(stat.atmosphere, out criteriaRange)) {
-					newItm.widget.SetupRangeValid(criteriaRange);
-				}
-				
+				newItm.widget.SetupRangeValid(criteriaRange);
+
 				newItm.transform.SetAsLastSibling();
 				newItm.active = true;
 
 				mAtmosphereStatWidgetActives.Add(newItm);
 			}
+
+			//initial value for altitude
+			mAltitudeValue = mAltitudeValueEnd = mLandscapeGridCtrl.altitude;
+
+			altitudeValueLabel.text = altitudeAttributeData.GetValueString(Mathf.RoundToInt(mAltitudeValue));
 		}
 		else { //update values
 			hotspotData.ApplyModifiedStats(mCurStats, mCurSeason, mRegionIndex);
 
 			//modify stats from grid
+			if(mLandscapeGridCtrl.shipActive) {
+				GridData.instance.ApplyMod(mCurStats, mLandscapeGridCtrl.atmosphereMod);
+			}
 
 			for(int i = 0; i < mAtmosphereStatWidgetActives.Count; i++) {
 				var itm = mAtmosphereStatWidgetActives[i];
 
-				itm.widget.SetRange(mCurStats[i].range);
+				var statInd = GetStatIndex(itm.widget.atmosphere);
+				if(statInd != -1)
+					itm.widget.SetRange(mCurStats[statInd].range);
 			}
+
+			mAltitudeValueEnd = mLandscapeGridCtrl.altitude;
+
+			if(mAltitudeChangeRout == null)
+				mAltitudeChangeRout = StartCoroutine(DoAltitudeChange());
 		}
 
 		//update criteria
@@ -184,6 +246,18 @@ public class ModalHotspotInvestigateGrid : M8.ModalController, M8.IModalPush, M8
 		if(launchSelectable) launchSelectable.interactable = mIsLaunchValid;
 
 		//TODO: hint system
+	}
+
+	private int GetStatIndex(AtmosphereAttributeBase atmosphere) {
+		if(mCurStats != null) {
+			for(int i = 0; i < mCurStats.Length; i++) {
+				var stat = mCurStats[i];
+				if(stat.atmosphere == atmosphere)
+					return i;
+			}
+		}
+
+		return -1;
 	}
 
 	private void InitAttributeWidgets() {

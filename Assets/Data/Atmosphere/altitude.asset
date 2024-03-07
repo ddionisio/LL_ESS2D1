@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameRef: atmosphere_altitude
   icon: {fileID: 0}
-  isMinLimit: 1
-  isMaxLimit: 0
+  legendRange: {fileID: 0}
+  legendRangeMinColor: {r: 0, g: 0, b: 0, a: 1}
+  legendRangeMaxColor: {r: 0, g: 0, b: 0, a: 1}
   rangeLimit:
     min: 0
-    max: 0
+    max: 10000

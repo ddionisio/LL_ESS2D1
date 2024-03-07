@@ -15,6 +15,7 @@ MonoBehaviour:
   disableSequence: 0
   modalOverworld: overworld
   modalHotspotInvestigate: hotspotInvestigate
+  modalHotspotInvestigateGrid: hotspotInvestigateGrid
   modalHotspotAnalyze: hotspotAnalyze
   modalWeatherForecast: weatherForecast
   modalVictory: victory
@@ -36,6 +37,9 @@ MonoBehaviour:
   cycleBeginDelay: 0.3
   overworldLaunchCriticGoodCount: 3
   overworldHotspotHintCounter: 3
+  gridLayerMask:
+    serializedVersion: 2
+    m_Bits: 32768
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 64

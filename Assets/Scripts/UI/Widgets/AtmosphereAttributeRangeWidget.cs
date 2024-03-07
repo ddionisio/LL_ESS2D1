@@ -24,6 +24,8 @@ public class AtmosphereAttributeRangeWidget : MonoBehaviour {
 	[Header("Range Change")]
     public float rangeChangeDelay = 0.5f;
     public DG.Tweening.Ease rangeChangeEase = DG.Tweening.Ease.OutSine;
+
+    public AtmosphereAttributeBase atmosphere { get { return mAtmosphereAttr; } }
         
     private AtmosphereAttributeBase mAtmosphereAttr;
 
@@ -85,8 +87,10 @@ public class AtmosphereAttributeRangeWidget : MonoBehaviour {
             var pos = rangeValidArea.anchoredPosition;
             var size = rangeValidArea.sizeDelta;
 
-            pos.x = minT * rangeValidBaseArea.sizeDelta.x;
-            size.x = (maxT - minT) * rangeValidBaseArea.sizeDelta.x;
+            var validBaseRect = rangeValidBaseArea.rect;
+
+			pos.x = minT * validBaseRect.width;
+            size.x = (maxT - minT) * validBaseRect.width;
 
             rangeValidArea.anchoredPosition = pos;
             rangeValidArea.sizeDelta = size;
