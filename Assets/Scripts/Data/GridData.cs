@@ -4,6 +4,19 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "gridData", menuName = "Game/GridData")]
 public class GridData : M8.SingletonScriptableObject<GridData> {
+	public enum TopographyType {
+		None,
+
+		Mountain,
+		Hill,
+		Forest,
+		Jungle,
+		Vegetation,
+		River,
+		Lake,
+		Ocean
+	}
+
 	[System.Serializable]
 	public struct AtmosphereMod {
 		public float temperature;
@@ -19,6 +32,24 @@ public class GridData : M8.SingletonScriptableObject<GridData> {
 		}
 	}
 
+	[Header("Topography Info")]
+	[M8.Localize]
+	public string topographyMountainTextRef;
+	[M8.Localize]
+	public string topographyHillTextRef;
+	[M8.Localize]
+	public string topographyForestTextRef;
+	[M8.Localize]
+	public string topographyJungleTextRef;
+	[M8.Localize]
+	public string topographyVegetationTextRef;
+	[M8.Localize]
+	public string topographyRiverTextRef;
+	[M8.Localize]
+	public string topographyLakeTextRef;
+	[M8.Localize]
+	public string topographyOceanTextRef;
+
 	[Header("Layer Info")]
 	public LayerMask gridLayerMask;
 	public LayerMask gridInvalidLayerMask;
@@ -27,6 +58,30 @@ public class GridData : M8.SingletonScriptableObject<GridData> {
 	public AtmosphereAttributeBase temperatureAtmosphere;
 	public AtmosphereAttributeBase humidityAtmosphere;
 	public AtmosphereAttributeBase windAtmosphere;
+
+	public string GetTopographyText(TopographyType topographyType) {
+		switch(topographyType) {
+			case TopographyType.Mountain:
+				return M8.Localize.Get(topographyMountainTextRef);
+			case TopographyType.Hill:
+				return M8.Localize.Get(topographyHillTextRef);
+			case TopographyType.Forest:
+				return M8.Localize.Get(topographyForestTextRef);
+			case TopographyType.Jungle:
+				return M8.Localize.Get(topographyJungleTextRef);
+			case TopographyType.Vegetation:
+				return M8.Localize.Get(topographyVegetationTextRef);
+			case TopographyType.River:
+				return M8.Localize.Get(topographyRiverTextRef);
+			case TopographyType.Lake:
+				return M8.Localize.Get(topographyLakeTextRef);
+			case TopographyType.Ocean:
+				return M8.Localize.Get(topographyOceanTextRef);
+
+			default:
+				return "";
+		}
+	}
 
 	public void ApplyMod(AtmosphereStat[] stats, AtmosphereMod mod) {
 		for(int i = 0; i < stats.Length; i++) {

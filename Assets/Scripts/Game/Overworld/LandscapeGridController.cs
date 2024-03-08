@@ -12,6 +12,13 @@ public class LandscapeGridController : MonoBehaviour, IPointerEnterHandler, IPoi
 
 	[Header("Ship")]
 	public Transform shipRoot;
+	public float shipMoveDelay = 0.3f;
+
+	[Header("SFX")]
+	[M8.SoundPlaylist]
+	public string sfxClickValid;
+	[M8.SoundPlaylist]
+	public string sfxClickInvalid;
 
 	[Header("Signal Listen")]
 	public SignalSeasonData signalListenSeasonChange;
@@ -26,13 +33,22 @@ public class LandscapeGridController : MonoBehaviour, IPointerEnterHandler, IPoi
 	public LandscapeGrid grid { get; private set; }
 
 	public bool shipActive { 
-		get { return shipRoot ? shipRoot.gameObject : null; } 
+		get { return shipRoot ? shipRoot.gameObject.activeSelf : false; } 
 		set { if(shipRoot) shipRoot.gameObject.SetActive(value); } 
 	}
 
 	public Vector2 shipPosition {
-		get { return shipRoot ? shipRoot.position : Vector2.zero; }
-		set { if(shipRoot) shipRoot.position = value; }
+		get { return mShipPosition; }
+		set {
+			if(mShipPosition != value) {
+				mShipPosition = value;
+
+				if(shipRoot) {
+					if(mShipMoveRout == null)
+						mShipMoveRout = StartCoroutine(DoShipMove());
+				}
+			}
+		}
 	}
 
 	public GridData.AtmosphereMod atmosphereMod { get { return mAtmosphereMod; } }
@@ -45,10 +61,31 @@ public class LandscapeGridController : MonoBehaviour, IPointerEnterHandler, IPoi
 	private Collider2D[] mGridColls = new Collider2D[gridCollCapacity];
 
 	private Dictionary<HotspotData, LandscapeGrid> mHotspotGrids = new Dictionary<HotspotData, LandscapeGrid>();
+	private Dictionary<GridData.TopographyType, int> mShipTopographyCounts = new Dictionary<GridData.TopographyType, int>();
 
 	private PointerEventData mPointerEvent;
 	private GridData.AtmosphereMod mAtmosphereMod;
 	private float mAltitude;
+
+	private Coroutine mShipMoveRout;
+	private Vector2 mShipPosition;
+
+	/// <summary>
+	/// Call after ship has been placed to determine which topographies are nearby
+	/// </summary>
+	public int GetShipTopographies(GridData.TopographyType[] output) {
+		int curInd = 0;
+
+		foreach(var pair in mShipTopographyCounts) {
+			output[curInd] = pair.Key;
+
+			curInd++;
+			if(curInd == output.Length)
+				break;
+		}
+
+		return curInd;
+	}
 
 	public void DestroyHotspotGrids() {
 		foreach(var pair in mHotspotGrids) {
@@ -105,7 +142,7 @@ public class LandscapeGridController : MonoBehaviour, IPointerEnterHandler, IPoi
 
 			//reset land placement			
 			shipActive = false;
-
+						
 			//reset atmosphere mod and altitude
 			mAtmosphereMod = new GridData.AtmosphereMod();
 			mAltitude = grid.altitude;
@@ -116,10 +153,37 @@ public class LandscapeGridController : MonoBehaviour, IPointerEnterHandler, IPoi
 
 	}
 
+	void OnDisable() {
+		if(signalListenSeasonChange) signalListenSeasonChange.callback -= SetSeason;
+
+		if(mShipMoveRout != null) {
+			StopCoroutine(mShipMoveRout);
+			mShipMoveRout = null;
+		}
+	}
+
+	void OnEnable() {
+		if(signalListenSeasonChange) signalListenSeasonChange.callback += SetSeason;
+	}
+
 	void Update() {
 		if(mPointerEvent != null) {
 			UpdateCursor(mPointerEvent);
 		}
+	}
+
+	IEnumerator DoShipMove() {
+		Vector2 shipVel = Vector2.zero;
+		Vector2 shipPos = (Vector2)shipRoot.position;
+
+		while(shipPos != mShipPosition) {
+			shipPos = Vector2.SmoothDamp(shipPos, mShipPosition, ref shipVel, shipMoveDelay);
+			shipRoot.position = shipPos;
+
+			yield return null;
+		}
+
+		mShipMoveRout = null;
 	}
 
 	void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) {
@@ -142,38 +206,80 @@ public class LandscapeGridController : MonoBehaviour, IPointerEnterHandler, IPoi
 		UpdateCursor(eventData);
 
 		var hit = eventData.pointerCurrentRaycast;
-		if(cursor.isValid && hit.isValid) {
-			Vector2 pos = hit.worldPosition;
+		if(hit.isValid) {
+			if(cursor.isValid) {
+				Vector2 pos = hit.worldPosition;
 
-			//update ship position
-			shipActive = true;
-			shipPosition = pos;
+				//update ship position
+				if(shipActive)
+					shipPosition = pos;
+				else {
+					shipActive = true;
 
-			//update atmosphere mod and altitude
-			mAtmosphereMod = new GridData.AtmosphereMod();
-			mAltitude = grid.altitude;
+					//initial position
+					shipRoot.position = pos;
+					mShipPosition = pos;					
+				}				
 
-			//grab surrounding terrain
-			var count = Physics2D.OverlapCircleNonAlloc(pos, cursor.radiusCheck, mGridColls, GridData.instance.gridLayerMask);
-			for(int i = 0; i < count; i++) {
-				var terrain = grid.GetTerrain(mGridColls[i]);
-				if(terrain != null) {
-					mAtmosphereMod += terrain.mod;
+				//update atmosphere mod and altitude
+				mAtmosphereMod = new GridData.AtmosphereMod();
+				mAltitude = grid.altitude;
+
+				mShipTopographyCounts.Clear();
+
+				//grab surrounding terrain
+				var count = Physics2D.OverlapCircleNonAlloc(pos, cursor.radiusCheck, mGridColls, GridData.instance.gridLayerMask);
+				for(int i = 0; i < count; i++) {
+					var terrain = grid.GetTerrain(mGridColls[i]);
+					if(terrain != null) {
+						mAtmosphereMod += terrain.mod;
+
+						//count topography feature
+						var topography = terrain.topography;
+						if(topography != GridData.TopographyType.None) {
+							if(mShipTopographyCounts.ContainsKey(topography))
+								mShipTopographyCounts[topography]++;
+							else
+								mShipTopographyCounts.Add(topography, 1);
+						}
+					}
 				}
-			}
 
-			//get altitude, and also apply its modifier
-			count = Physics2D.OverlapPointNonAlloc(pos, mGridColls, GridData.instance.gridLayerMask);
-			for(int i = 0; i < count; i++) {
-				var terrain = grid.GetTerrain(mGridColls[i]);
-				if(terrain != null && terrain.isTerrain) {
-					mAtmosphereMod += terrain.altitudeMod;
-					mAltitude += terrain.altitude;
-					break;
+				//get altitude, and also apply its modifier
+				var zMin = 100000f;
+				var altitudeAtmosphereMod = new GridData.AtmosphereMod();
+				var altitudeMod = 0f;
+
+				count = Physics2D.OverlapPointNonAlloc(pos, mGridColls, GridData.instance.gridLayerMask);
+				for(int i = 0; i < count; i++) {
+					var terrain = grid.GetTerrain(mGridColls[i]);
+					if(terrain != null && terrain.isTerrain) {
+						var z = terrain.transform.position.z;
+						if(z < zMin) {
+							zMin = z;
+							altitudeAtmosphereMod = terrain.altitudeMod;
+							altitudeMod = terrain.altitude;
+						}
+					}
 				}
-			}
 
-			clickCallback?.Invoke(this);
+				mAtmosphereMod += altitudeAtmosphereMod;
+				mAltitude += altitudeMod;
+				//
+
+				cursor.PlayPlacement();
+
+				if(!string.IsNullOrEmpty(sfxClickValid))
+					M8.SoundPlaylist.instance.Play(sfxClickValid, false);
+
+				clickCallback?.Invoke(this);
+			}
+			else {
+				cursor.PlayInvalid();
+
+				if(!string.IsNullOrEmpty(sfxClickInvalid))
+					M8.SoundPlaylist.instance.Play(sfxClickInvalid, false);
+			}
 		}
 	}
 
@@ -194,13 +300,5 @@ public class LandscapeGridController : MonoBehaviour, IPointerEnterHandler, IPoi
 		else {
 			cursor.active = false;
 		}
-	}
-
-	void OnDisable() {
-		if(signalListenSeasonChange) signalListenSeasonChange.callback -= SetSeason;
-	}
-
-	void OnEnable() {
-		if(signalListenSeasonChange) signalListenSeasonChange.callback += SetSeason;
 	}
 }

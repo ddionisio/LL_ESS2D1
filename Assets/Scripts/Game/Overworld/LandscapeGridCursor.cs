@@ -15,6 +15,8 @@ public class LandscapeGridCursor : MonoBehaviour {
     [Header("Animation")]
     public M8.Animator.Animate animator;
 	[M8.Animator.TakeSelector]
+	public int takeIdle = -1;
+	[M8.Animator.TakeSelector]
 	public int takePlacement = -1;
 	[M8.Animator.TakeSelector]
     public int takeInvalid = -1;
@@ -45,8 +47,19 @@ public class LandscapeGridCursor : MonoBehaviour {
             animator.Play(takeInvalid);
     }
 
+	void OnTakeFinish(M8.Animator.Animate anim, M8.Animator.Take take) {
+        if(takeIdle != -1)
+            anim.Play(takeIdle);
+    }
+
+	void OnDisable() {
+        if(animator) animator.takeCompleteCallback -= OnTakeFinish;
+	}
+
 	void OnEnable() {
-        UpdateDisplay();
+		if(animator) animator.takeCompleteCallback += OnTakeFinish;
+
+		UpdateDisplay();
 	}
 
 	void OnDrawGizmos() {

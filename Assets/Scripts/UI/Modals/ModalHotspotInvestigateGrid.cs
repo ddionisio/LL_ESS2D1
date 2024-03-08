@@ -29,6 +29,11 @@ public class ModalHotspotInvestigateGrid : M8.ModalController, M8.IModalPush, M8
 	public TMP_Text altitudeValueLabel;
 	public float altitudeChangeDelay = 0.3f;
 
+	[Header("Topography Display")]	
+	public TMP_Text topographyItemTemplate; //not prefab
+	public int topographyItemCapacity = 6;
+	public Transform topographyItemRoot;
+
 	[Header("Atmosphere Attributes Display")]
 	public AtmosphereAttributeRangeWidget atmosphereStatTemplate; //not a prefab
 	public int atmosphereStatCapacity = 8;
@@ -54,6 +59,10 @@ public class ModalHotspotInvestigateGrid : M8.ModalController, M8.IModalPush, M8
 	private const int mRegionIndex = -1;
 
 	private AtmosphereStat[] mCurStats;
+
+	private M8.CacheList<TMP_Text> mTopographyItemActives;
+	private M8.CacheList<TMP_Text> mTopographyItemCache;
+	private GridData.TopographyType[] mTopographyTypeCache;
 
 	private M8.CacheList<AtmosphereStatWidgetItem> mAtmosphereStatWidgetActives;
 	private M8.CacheList<AtmosphereStatWidgetItem> mAtmosphereStatWidgetCache;
@@ -89,6 +98,7 @@ public class ModalHotspotInvestigateGrid : M8.ModalController, M8.IModalPush, M8
 
 		if(signalListenSeasonChange) signalListenSeasonChange.callback -= OnSeasonToggle;
 
+		ClearTopographyWidgets();
 		ClearAttributeWidgets();
 
 		mCurSeason = null;
@@ -104,7 +114,7 @@ public class ModalHotspotInvestigateGrid : M8.ModalController, M8.IModalPush, M8
 
 	void M8.IModalPush.Push(M8.GenericParams parms) {
 		if(!mIsInit) {
-			InitAttributeWidgets();
+			InitWidgets();
 
 			mIsInit = true;
 		}
@@ -154,6 +164,21 @@ public class ModalHotspotInvestigateGrid : M8.ModalController, M8.IModalPush, M8
 	}
 
 	void OnLandscapeGridClickUpdate(LandscapeGridController ctrl) {
+		//update topography
+		ClearTopographyWidgets();
+
+		var topographyCount = mLandscapeGridCtrl.GetShipTopographies(mTopographyTypeCache);
+		for(int i = 0; i < topographyCount; i++) {
+			var newItm = mTopographyItemCache.RemoveLast();
+			newItm.text = GridData.instance.GetTopographyText(mTopographyTypeCache[i]);
+
+			newItm.transform.SetAsLastSibling();
+			newItm.gameObject.SetActive(true);
+
+			mTopographyItemActives.Add(newItm);
+		}
+		//
+
 		UpdateAtmosphereStats();
 	}
 
@@ -260,7 +285,8 @@ public class ModalHotspotInvestigateGrid : M8.ModalController, M8.IModalPush, M8
 		return -1;
 	}
 
-	private void InitAttributeWidgets() {
+	private void InitWidgets() {
+		//initialize atmosphere items
 		mAtmosphereStatWidgetActives = new M8.CacheList<AtmosphereStatWidgetItem>(atmosphereStatCapacity);
 		mAtmosphereStatWidgetCache = new M8.CacheList<AtmosphereStatWidgetItem>(atmosphereStatCapacity);
 
@@ -274,6 +300,35 @@ public class ModalHotspotInvestigateGrid : M8.ModalController, M8.IModalPush, M8
 		}
 
 		atmosphereStatTemplate.gameObject.SetActive(false);
+
+		//initialize topography items
+		mTopographyItemActives = new M8.CacheList<TMP_Text>(topographyItemCapacity);
+		mTopographyItemCache = new M8.CacheList<TMP_Text>(topographyItemCapacity);
+
+		for(int i = 0; i < topographyItemCapacity; i++) {
+			var newItm = Instantiate(topographyItemTemplate);
+
+			newItm.transform.SetParent(topographyItemRoot, false);
+			newItm.gameObject.SetActive(false);
+
+			mTopographyItemCache.Add(newItm);
+		}
+
+		topographyItemTemplate.gameObject.SetActive(false);
+
+		mTopographyTypeCache = new GridData.TopographyType[topographyItemCapacity];
+	}
+
+	private void ClearTopographyWidgets() {
+		for(int i = 0; i < mTopographyItemActives.Count; i++) {
+			var itm = mTopographyItemActives[i];
+
+			itm.gameObject.SetActive(false);
+
+			mTopographyItemCache.Add(itm);
+		}
+
+		mTopographyItemActives.Clear();
 	}
 
 	private void ClearAttributeWidgets() {
