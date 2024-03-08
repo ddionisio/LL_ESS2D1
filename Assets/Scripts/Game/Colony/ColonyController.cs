@@ -167,6 +167,7 @@ public class ColonyController : GameModeController<ColonyController> {
     [Header("Landscape")]
     public Bounds bounds;
     public Transform regionRoot; //grab cycle controllers here
+    public CycleController regionCycleOverride; //if not null, directly use this for cycle controller
 
     [Header("Colony Ship")]
     public StructureColonyShip colonyShip;
@@ -437,25 +438,29 @@ public class ColonyController : GameModeController<ColonyController> {
         }
 
         //determine landscape
-        CycleController firstCycleController = null;
+        if(regionCycleOverride)
+            cycleController = regionCycleOverride;
+        else {
+            CycleController firstCycleController = null;
 
-        for(int i = 0; i < regionRoot.childCount; i++) {
-            var cycleCtrl = regionRoot.GetChild(i).GetComponent<CycleController>();
-            if(!cycleCtrl)
-                continue;
+            for(int i = 0; i < regionRoot.childCount; i++) {
+                var cycleCtrl = regionRoot.GetChild(i).GetComponent<CycleController>();
+                if(!cycleCtrl)
+                    continue;
 
-            if(!firstCycleController)
-                firstCycleController = cycleCtrl;
+                if(!firstCycleController)
+                    firstCycleController = cycleCtrl;
 
-            if(cycleCtrl.regionIndex == regionInd)
-                cycleController = cycleCtrl;
-            else
-                cycleCtrl.gameObject.SetActive(false);
+                if(cycleCtrl.regionIndex == regionInd)
+                    cycleController = cycleCtrl;
+                else
+                    cycleCtrl.gameObject.SetActive(false);
+            }
+
+            //setup cycle control
+            if(!cycleController && firstCycleController) //no region index match, use first ctrl (fail-safe)
+                cycleController = firstCycleController;
         }
-
-        //setup cycle control
-        if(!cycleController && firstCycleController) //no region index match, use first ctrl (fail-safe)
-            cycleController = firstCycleController;
 
         cycleController.gameObject.SetActive(true);
 

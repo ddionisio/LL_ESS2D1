@@ -68,6 +68,7 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
     public float fastForwardScale = 2.0f;
 
     [Header("Colony | Structure")]
+    public bool structureDisableInput;
     public LayerMask structureLayerMask;
     public float structureBuildScalePerWork = 1f; //scale build time by this amount per work
     public float structureRepairScalePerWork = 1f; //scale build time by this amount per work

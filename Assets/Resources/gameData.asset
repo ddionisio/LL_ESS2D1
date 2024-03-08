@@ -37,9 +37,6 @@ MonoBehaviour:
   cycleBeginDelay: 0.3
   overworldLaunchCriticGoodCount: 3
   overworldHotspotHintCounter: 3
-  gridLayerMask:
-    serializedVersion: 2
-    m_Bits: 32768
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -51,6 +48,7 @@ MonoBehaviour:
     m_Bits: 464
   cycleDaylightScaleDefault: 0.5
   fastForwardScale: 4
+  structureDisableInput: 1
   structureLayerMask:
     serializedVersion: 2
     m_Bits: 128

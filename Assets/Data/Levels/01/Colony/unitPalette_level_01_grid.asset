@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 094777c830c70bc4b980364e6e0d85f4, type: 3}
+  m_Name: unitPalette_level_01_grid
+  m_EditorClassIdentifier: 
+  units:
+  - data: {fileID: 11400000, guid: 72dee7ea53ab7104f881194bc990908f, type: 2}
+    populationQuotaUnlock: 1
+  - data: {fileID: 11400000, guid: 912d03d196362454ca1452c28cec3c4b, type: 2}
+    populationQuotaUnlock: 1
+  - data: {fileID: 11400000, guid: 8ceb0a537697a6340b410e8c809edb59, type: 2}
+    populationQuotaUnlock: 1
+  capacityStart: 4
+  capacity: 4
+  capacityUpgrades: []

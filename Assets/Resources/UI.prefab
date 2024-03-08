@@ -2032,7 +2032,7 @@ RectTransform:
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 16, y: 16}
   m_SizeDelta: {x: 400, y: 120}
-  m_Pivot: {x: 0.0000000037252903, y: 0.000000018626451}
+  m_Pivot: {x: 0.4999999, y: 0.000000022351742}
 --- !u!1 &187489147
 GameObject:
   m_ObjectHideFlags: 0
@@ -2300,7 +2300,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -354, y: -291}
+  m_AnchoredPosition: {x: -771, y: -249}
   m_SizeDelta: {x: 190, y: 66}
   m_Pivot: {x: 0.5, y: -0.2}
 --- !u!114 &199865553
@@ -4432,7 +4432,7 @@ MonoBehaviour:
   placementRootGO: {fileID: 813619181}
   placementConfirmRoot: {fileID: 1303133893}
   paletteRootGO: {fileID: 1820991870}
-  paletteStructureWidget: {fileID: 1665647475}
+  paletteStructureWidget: {fileID: 0}
   paletteUnitWidget: {fileID: 1318707814}
   structureActionsWidget: {fileID: 199865553}
   newHouseInfoActiveGO: {fileID: 1322353619}
@@ -25852,7 +25852,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1665647476
 RectTransform:
   m_ObjectHideFlags: 0

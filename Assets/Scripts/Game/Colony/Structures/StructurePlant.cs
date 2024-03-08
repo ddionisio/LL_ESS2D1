@@ -260,7 +260,7 @@ public class StructurePlant : Structure {
                 base.ApplyCurrentState();
 
                 //mBloomTime *= 0.5f;
-                if(growthState != GrowthState.Decay || growthState != GrowthState.Decay) {
+                if(growthState != GrowthState.Decay) {
                     growthState = GrowthState.Decay;
                     ApplyCurrentGrowthState();
                 }
@@ -270,12 +270,18 @@ public class StructurePlant : Structure {
             case StructureState.Destroyed:
             case StructureState.Demolish:
             case StructureState.None:
-                base.ApplyCurrentState();
+				growthState = GrowthState.None;
+				ApplyCurrentGrowthState();
 
-                growthState = GrowthState.None;
-                ApplyCurrentGrowthState();
-
-                if(seedlingRoot) seedlingRoot.gameObject.SetActive(false);
+				if(seedlingRoot) seedlingRoot.gameObject.SetActive(false);
+				
+                //re-seed upon destroyed
+				if(state == StructureState.Destroyed) {
+					if(damagedGO) damagedGO.SetActive(true);
+                    AnimateToState(takeDestroyed, StructureState.Spawning);
+				}
+                else
+                    base.ApplyCurrentState();
                 break;
 
             default:

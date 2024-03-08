@@ -180,8 +180,10 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
         //initialize resource info
 
         //initialize palettes
-        paletteStructureWidget.Setup(colonyCtrl.structurePalette);
-        paletteStructureWidget.RefreshGroups();
+        if(paletteStructureWidget) {
+            paletteStructureWidget.Setup(colonyCtrl.structurePalette);
+            paletteStructureWidget.RefreshGroups();
+        }
 
         paletteUnitWidget.Setup(colonyCtrl.unitPalette);
         paletteUnitWidget.RefreshInfo();
@@ -319,9 +321,11 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
     }
 
     void OnStructureGroupRefresh(int groupIndex) {
-        paletteStructureWidget.RefreshGroup(groupIndex);
+        if(paletteStructureWidget) {
+            paletteStructureWidget.RefreshGroup(groupIndex);
 
-        paletteStructureWidget.ClearGroupActive();
+            paletteStructureWidget.ClearGroupActive();
+        }
 
         if(mNewHouseInfoRout == null)
             mNewHouseInfoSpeak = true;
@@ -395,11 +399,13 @@ public class ColonyHUD : M8.SingletonBehaviour<ColonyHUD> {
     }
 
     void OnStructureSpawned(Structure structure) {
-        paletteStructureWidget.RefreshGroup(structure.data);
+        if(paletteStructureWidget)
+            paletteStructureWidget.RefreshGroup(structure.data);
     }
 
     void OnStructureDespawned(Structure structure) {
-        paletteStructureWidget.RefreshGroup(structure.data);
+        if(paletteStructureWidget)
+            paletteStructureWidget.RefreshGroup(structure.data);
     }
 
     void OnUnitPaletteRefresh() {

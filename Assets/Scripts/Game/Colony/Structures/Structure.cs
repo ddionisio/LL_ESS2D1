@@ -713,6 +713,9 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
     }
 
     void IPointerClickHandler.OnPointerClick(PointerEventData eventData) {
+        if(GameData.instance.structureDisableInput)
+            return;
+
         GameData.instance.signalClickCategory?.Invoke(GameData.clickCategoryStructure);
 
         /*Vector2 ret;
