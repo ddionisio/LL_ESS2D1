@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 094777c830c70bc4b980364e6e0d85f4, type: 3}
-  m_Name: unitPalette_level_01_grid
+  m_Name: unitPalette_level_02_grid
   m_EditorClassIdentifier: 
   units:
   - data: {fileID: 11400000, guid: 72dee7ea53ab7104f881194bc990908f, type: 2}
@@ -18,13 +18,11 @@ MonoBehaviour:
   - data: {fileID: 11400000, guid: 912d03d196362454ca1452c28cec3c4b, type: 2}
     populationQuotaUnlock: 2
   - data: {fileID: 11400000, guid: 8ceb0a537697a6340b410e8c809edb59, type: 2}
-    populationQuotaUnlock: 4
+    populationQuotaUnlock: 2
   capacityStart: 1
   capacity: 5
   capacityUpgrades:
   - populationQuota: 2
-    capacityIncrease: 1
-  - populationQuota: 4
-    capacityIncrease: 2
+    capacityIncrease: 3
   - populationQuota: 6
     capacityIncrease: 1

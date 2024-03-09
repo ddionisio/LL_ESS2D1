@@ -11,8 +11,10 @@ public abstract class CycleUnitSpawnerBase : CycleControlBase {
 
     [Header("Spawn Info")]
     public UnitData unitData;
-        
+
     [Header("Cycle Info")]
+	[Tooltip("Required number of population for this spawner to be allowed to spawn.")]
+	public int populationQuota;
     [Tooltip("Cycle range for when this spawner is active, will despawn everything after max range (set to -1 to despawn at CycleEnd)")]
     public M8.RangeInt cycleIndexRange;
     public bool cycleDespawnAfterMax;
@@ -119,6 +121,9 @@ public abstract class CycleUnitSpawnerBase : CycleControlBase {
         var lastElapsedTime = cycleCtrl.cycleCurElapsed;
 
         SpawnStart();
+
+        while(colonyCtrl.population < populationQuota)
+            yield return null;
 
         while(cycleIndex <= cycleIndexRange.max) {
             yield return null;
