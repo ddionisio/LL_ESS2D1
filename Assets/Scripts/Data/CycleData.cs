@@ -9,6 +9,8 @@ public class CycleData : ScriptableObject {
         [Header("Atmosphere Info")]
         public WeatherTypeData weather;
         public AtmosphereModifier[] atmosphereMods;
+        public bool isDurationOverride;
+        public float durationOverride;
 
         public CycleResourceScale resourceScaleMod;
     }

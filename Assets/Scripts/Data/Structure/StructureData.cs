@@ -20,6 +20,7 @@ public class StructureData : ScriptableObject {
 
     public int workCapacity = 2; //how many can work on this structure
 
+    public bool isAutoBuild;
     public bool isReparable;
     public bool isDemolishable;
     public bool isWaterImmune;

@@ -26,12 +26,10 @@ MonoBehaviour:
   - nameRef: 
     icon: {fileID: 21300000, guid: 4e5f99955be3b514ea3b3003cbf917a1, type: 3}
     structures:
-    - data: {fileID: 11400000, guid: 00c13b5caec751f4cac6d8ab4a682fc4, type: 2}
-      populationQuotaUnlock: 0
     - data: {fileID: 11400000, guid: 8208dd7fc10f033418395759cf155bf5, type: 2}
       populationQuotaUnlock: 0
-    capacityStart: 3
-    capacity: 3
+    capacityStart: 2
+    capacity: 2
     highlightOnAvailable: 0
     pointerOnAvailable: 0
     capacityUpgrades: []
@@ -40,7 +38,7 @@ MonoBehaviour:
     structures:
     - data: {fileID: 11400000, guid: e6518c7cb5a58f34d8950afde470f478, type: 2}
       populationQuotaUnlock: 0
-    - data: {fileID: 11400000, guid: 2ecd68efbe929a241888a40e78c941a1, type: 2}
+    - data: {fileID: 11400000, guid: 3f11bb7ee7e9c7c43bee2cc7308a5881, type: 2}
       populationQuotaUnlock: 0
     capacityStart: 5
     capacity: 5

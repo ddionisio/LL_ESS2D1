@@ -15,6 +15,8 @@ MonoBehaviour:
   cycles:
   - weather: {fileID: 11400000, guid: cee0af97631f19843bb9f23c1b8a9e8d, type: 2}
     atmosphereMods: []
+    isDurationOverride: 0
+    durationOverride: 0
     resourceScaleMod:
       sunDay: 0
       sunNight: 0
@@ -38,6 +40,8 @@ MonoBehaviour:
       range:
         min: -2
         max: -2
+    isDurationOverride: 0
+    durationOverride: 0
     resourceScaleMod:
       sunDay: 0
       sunNight: 0
@@ -61,6 +65,8 @@ MonoBehaviour:
       range:
         min: 83
         max: 83
+    isDurationOverride: 1
+    durationOverride: 20
     resourceScaleMod:
       sunDay: 0
       sunNight: 0
@@ -84,6 +90,8 @@ MonoBehaviour:
       range:
         min: 10
         max: 10
+    isDurationOverride: 0
+    durationOverride: 0
     resourceScaleMod:
       sunDay: 0
       sunNight: 0
@@ -107,6 +115,8 @@ MonoBehaviour:
       range:
         min: -3
         max: -3
+    isDurationOverride: 0
+    durationOverride: 0
     resourceScaleMod:
       sunDay: 0
       sunNight: 0
@@ -130,6 +140,8 @@ MonoBehaviour:
       range:
         min: -4
         max: -4
+    isDurationOverride: 0
+    durationOverride: 0
     resourceScaleMod:
       sunDay: 0.8
       sunNight: 0.4

@@ -107,7 +107,6 @@ public class CycleController : MonoBehaviour {
 
         //setup some fixed cycle info
         daylightScale = hotspotData.GetDaylightScale(season);
-        cycleDuration = cycleData.cycleDuration;
 
         cycleResourceScale = cycleData.resourceScale;
     }
@@ -175,7 +174,7 @@ public class CycleController : MonoBehaviour {
             var checkHazzard = curWeather.isHazzard;
 
             //time pass
-            while(cycleCurElapsed <= cycleDuration) {
+            while (cycleCurElapsed <= cycleDuration) {
                 yield return null;
 
                 cycleCurElapsed += Time.deltaTime * cycleTimeScale;
@@ -221,5 +220,10 @@ public class CycleController : MonoBehaviour {
             AtmosphereModifier.Apply(atmosphereStats, curCycle.atmosphereMods);
 
         cycleResourceScale = cycleData.resourceScale + curCycle.resourceScaleMod;
-    }
+
+        if(curCycle.isDurationOverride)
+		    cycleDuration = curCycle.durationOverride;
+        else
+			cycleDuration = cycleData.cycleDuration;
+	}
 }

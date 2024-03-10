@@ -747,13 +747,15 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
         if(workTimeLeft > 0f) {
             var timeScalePerWork = GameData.instance.structureBuildScalePerWork;
 
-            while(workTimeLeft > 0f) {
-                //no worker?
-                if(workCount == 0) {
+            while(workTimeLeft > 0f) {                
+                var _workCount = data.isAutoBuild ? workCount + 1 : workCount;
+
+				//no worker?
+				if(_workCount == 0) {
                     SetStatusState(StructureStatus.Construct, StructureStatusState.Require);
 
                     while(workCount == 0)
-                        yield return null;
+						yield return null;
 
                     SetStatusState(StructureStatus.Construct, StructureStatusState.Progress);
                 }
@@ -761,7 +763,9 @@ public class Structure : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpa
                 //progress
                 yield return null;
 
-                var buildTimeScale = timeScalePerWork * workCount;
+				_workCount = data.isAutoBuild ? workCount + 1 : workCount;
+
+				var buildTimeScale = timeScalePerWork * _workCount;
 
                 workTimeLeft -= Time.deltaTime * buildTimeScale;
                 if(workTimeLeft < 0f)
