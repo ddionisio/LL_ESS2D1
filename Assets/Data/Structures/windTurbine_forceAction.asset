@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a693eee692904343a9732d6d3af849a, type: 3}
-  m_Name: windTurbine_autoBuild
+  m_Name: windTurbine_forceAction
   m_EditorClassIdentifier: 
   nameRef: 
   descRef: 
@@ -23,7 +23,7 @@ MonoBehaviour:
   isDemolishable: 1
   isWaterImmune: 0
   ghostPrefab: {fileID: 8194963849733281067, guid: 2185edf2539cfc44aa3d279d0958cb1a, type: 3}
-  spawnPrefab: {fileID: 6819044348375123022, guid: a3442bffbca7f3643b871c5d88c2849f, type: 3}
+  spawnPrefab: {fileID: 6819044348375123022, guid: 06468c3ece26a7a488cdf20f8ad5336c, type: 3}
   placementValidLayerMask:
     serializedVersion: 2
     m_Bits: 64
