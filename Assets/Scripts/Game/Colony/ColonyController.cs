@@ -159,6 +159,8 @@ public class ColonyController : GameModeController<ColonyController> {
     public UnitPaletteData unitPalette;
 
     [Header("Controllers")]
+    public CameraShakeControl cameraShake;
+
     public StructurePaletteController structurePaletteController;
 
     public UnitController unitController;

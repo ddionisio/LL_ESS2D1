@@ -430,6 +430,7 @@ SpriteAtlas:
     - 43e59bbef6bc7f6408c10b46f3509103: 21300000
     - 0796c2ceb89f4fa4ea583955c5426635: 21300000
     - cdeb83ceca9ce564e9ad03b1ade3fdf1: 21300000
+    - 0b44bace603ff01439a24924999d679e: 21300000
     - b24ffdce31b85fd4f8663925b12c03be: 21300000
     - e19de2de95eed6048871d5c4816ad289: 21300000
     - 1d0e13de40c44f8479f0a9401255b593: 21300000
@@ -844,6 +845,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 43e59bbef6bc7f6408c10b46f3509103, type: 3}
   - {fileID: 21300000, guid: 0796c2ceb89f4fa4ea583955c5426635, type: 3}
   - {fileID: 21300000, guid: cdeb83ceca9ce564e9ad03b1ade3fdf1, type: 3}
+  - {fileID: 21300000, guid: 0b44bace603ff01439a24924999d679e, type: 3}
   - {fileID: 21300000, guid: b24ffdce31b85fd4f8663925b12c03be, type: 3}
   - {fileID: 21300000, guid: e19de2de95eed6048871d5c4816ad289, type: 3}
   - {fileID: 21300000, guid: 1d0e13de40c44f8479f0a9401255b593, type: 3}
@@ -1257,6 +1259,7 @@ SpriteAtlas:
   - frogGardener_idle_1
   - frogHunter_idle_0
   - frogHunter_hurt_2
+  - meteor
   - frogEngineer_victory_0
   - fancyRect_sm
   - frogCivilian_victory_2

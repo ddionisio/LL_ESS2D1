@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "unit", menuName = "Game/Unit")]
+[CreateAssetMenu(fileName = "unit", menuName = "Game/Unit/Generic")]
 public class UnitData : ScriptableObject {
     [Header("Info")]
     [M8.Localize]

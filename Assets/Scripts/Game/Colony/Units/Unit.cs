@@ -105,7 +105,7 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
 
     public bool isSwimming { get; private set; }
 
-    public Vector2 position {
+    public virtual Vector2 position {
         get { return transform.position; }
         set { transform.position = value; }
     }
@@ -488,7 +488,7 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
         }
     }
 
-    protected void ApplyTelemetryState(bool canMove, bool physicsActive) {
+    protected virtual void ApplyTelemetryState(bool canMove, bool physicsActive) {
         if(moveCtrl)
             moveCtrl.isLocked = !canMove;
 

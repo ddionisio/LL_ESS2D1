@@ -12,11 +12,30 @@ public abstract class StructureSpecialAction : MonoBehaviour {
 
 	private bool mActivateOnStateActive = false;
 
-    protected abstract void Activate(bool active);
+	public void Activate(bool active) {
+		if(isActive != active) {
+			isActive = active;
+
+			//make sure building is in proper state
+			if(isActive) {
+				if(structure.state == StructureState.Active || (structure.state == StructureState.Damage && structure.hitpointsCurrent > 0)) {
+					mActivateOnStateActive = false;
+					ApplyActivate(true);
+				}
+				else
+					mActivateOnStateActive = true;
+			}
+			else {
+				ApplyActivate(false);
+			}
+		}
+	}
+
+	protected abstract void ApplyActivate(bool active);
 
 	protected virtual void OnDisable() {
 		if(signalListenActivate)
-			signalListenActivate.callback -= OnSignalActivate;
+			signalListenActivate.callback -= Activate;
 
 		isActive = false;
 		mActivateOnStateActive = false;
@@ -24,7 +43,7 @@ public abstract class StructureSpecialAction : MonoBehaviour {
 
 	protected virtual void OnEnable() {
 		if(signalListenActivate)
-			signalListenActivate.callback += OnSignalActivate;
+			signalListenActivate.callback += Activate;
 	}
 
 	protected virtual void OnDestroy() {
@@ -43,7 +62,7 @@ public abstract class StructureSpecialAction : MonoBehaviour {
 			case StructureState.Active:
 				if(isActive && mActivateOnStateActive) {
 					mActivateOnStateActive = false;
-					Activate(true);
+					ApplyActivate(true);
 				}
 				break;
 
@@ -52,36 +71,17 @@ public abstract class StructureSpecialAction : MonoBehaviour {
 				//activate later when structure is fixed/move finish
 				if(isActive) {
 					mActivateOnStateActive = true;
-					Activate(false);
+					ApplyActivate(false);
 				}
 				break;
 			
 			case StructureState.Victory:
 			case StructureState.Demolish:
 				if(isActive) {
-					Activate(false);
+					ApplyActivate(false);
 					isActive = false;
 				}
 				break;
 		}
     }
-
-	void OnSignalActivate(bool active) {
-		if(isActive != active) {
-			isActive = active;
-
-			//make sure building is in proper state
-			if(isActive) {
-				if(structure.state == StructureState.Active || (structure.state == StructureState.Damage && structure.hitpointsCurrent > 0)) {
-					mActivateOnStateActive = false;
-					Activate(true);
-				}
-				else
-					mActivateOnStateActive = true;
-			}
-			else {
-				Activate(false);
-			}
-		}
-	}
 }

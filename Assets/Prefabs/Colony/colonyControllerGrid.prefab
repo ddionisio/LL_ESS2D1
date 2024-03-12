@@ -201,6 +201,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3848920086650142008}
   - component: {fileID: 581562595339359327}
+  - component: {fileID: 4569563277152701412}
   m_Layer: 0
   m_Name: colonyControllerGrid
   m_TagString: Untagged
@@ -244,6 +245,7 @@ MonoBehaviour:
   hotspotData: {fileID: 0}
   structurePalette: {fileID: 0}
   unitPalette: {fileID: 0}
+  cameraShake: {fileID: 4569563277152701412}
   structurePaletteController: {fileID: 1376827128508139715}
   unitController: {fileID: 7285189933057066921}
   unitPaletteController: {fileID: 1332305727901548399}
@@ -260,6 +262,26 @@ MonoBehaviour:
   debugEnabled: 0
   debugSeason: {fileID: 0}
   debugRegionIndex: 0
+--- !u!114 &4569563277152701412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1731268564375599509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8dad77c895b81344aeff07a56d7de8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _camera: {fileID: 0}
+  _cameraTag: 
+  _cameraUseMain: 1
+  duration: 0.5
+  strength: 0.4
+  vibrate: 10
+  randomness: 90
+  fadeOut: 1
 --- !u!1 &2299567727732952049
 GameObject:
   m_ObjectHideFlags: 0

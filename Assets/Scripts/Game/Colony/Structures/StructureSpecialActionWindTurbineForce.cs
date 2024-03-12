@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 public class StructureSpecialActionWindTurbineForce : StructureSpecialAction, IPointerClickHandler {
 	[Header("Data")]
 	public float actionDuration;
+	public float cooldownDuration;
 
 	[Header("Display")]
 	public GameObject popupActiveGO;
@@ -22,7 +23,7 @@ public class StructureSpecialActionWindTurbineForce : StructureSpecialAction, IP
 
 	private Coroutine mActionRout;
 
-	protected override void Activate(bool active) {
+	protected override void ApplyActivate(bool active) {
 		if(hoverGOSetActive)
 			hoverGOSetActive.enabled = active;
 
@@ -107,12 +108,14 @@ public class StructureSpecialActionWindTurbineForce : StructureSpecialAction, IP
 		if(animator && takeDeactivate != -1)
 			yield return animator.PlayWait(takeDeactivate);
 
-		if(popupActiveGO)
-			popupActiveGO.SetActive(isActive);
-
 		if(actionGO)
 			actionGO.SetActive(false);
 
+		yield return new WaitForSeconds(cooldownDuration);
+
+		if(popupActiveGO)
+			popupActiveGO.SetActive(isActive);
+				
 		mActionRout = null;
 	}
 }

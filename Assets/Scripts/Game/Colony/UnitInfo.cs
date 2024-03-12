@@ -50,4 +50,7 @@ public struct UnitSpawnParams {
     public const string structureTarget = "structTgt"; //target structure for specific units
 
     public const string moveDirType = "dirtype"; //DirType, for specific entities with one-off move
+
+    public const string force = "force"; //float, for Rigidbody types
+    public const string angleVelocity = "avel"; //float, if needed
 }
