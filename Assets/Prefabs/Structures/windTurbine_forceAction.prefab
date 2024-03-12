@@ -17881,7 +17881,7 @@ Transform:
   m_GameObject: {fileID: 3995157354785944386}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.27, z: 0}
+  m_LocalPosition: {x: 0, y: 4.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -17930,7 +17930,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4, y: 9.5}
+  m_Size: {x: 5, y: 10}
   m_EdgeRadius: 0
 --- !u!114 &724852664595538726
 MonoBehaviour:
@@ -17949,7 +17949,7 @@ MonoBehaviour:
   _forceOfs: {x: 0, y: 0}
   _maxSpeed: 30
   inverse: 0
-  force: 50
+  force: 140
   impulse: 0
   setDrag: 0
   drag: 0
@@ -17969,7 +17969,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bound:
     m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 2, y: 4.75, z: 0}
+    m_Extent: {x: 2.5, y: 5, z: 0}
   color: {r: 0.4580194, g: 0.9150943, b: 0.22014059, a: 1}
   useCollider: 1
 --- !u!1 &4022129212771407587
@@ -26834,14 +26834,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   signalListenActivate: {fileID: 11400000, guid: 0e02857d416f670469bf0dff4e78bbf6, type: 2}
-  actionDuration: 4
-  cooldownDuration: 2
+  actionDuration: 5
+  cooldownDuration: 0
   popupActiveGO: {fileID: 7036083800396208667}
   hoverGOSetActive: {fileID: 1673873155889725876}
   actionGO: {fileID: 6096877891374195949}
   animator: {fileID: 6356492873334812887}
   takeActivate: 4
   takeDeactivate: 5
+  sfxActive: shipThruster
 --- !u!114 &6356492873334812887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27037,15 +27038,7 @@ MonoBehaviour:
       startActive: 1
     _goSetActiveKeys:
     - interp: 0
-      frame: 1
-      easeType: 1
-      amplitude: 0
-      period: 0
-      customEase: []
-      setActive: 1
-      endFrame: 15
-    - interp: 0
-      frame: 15
+      frame: 2
       easeType: 1
       amplitude: 0
       period: 0
@@ -27053,7 +27046,7 @@ MonoBehaviour:
       setActive: 0
       endFrame: -1
     - interp: 0
-      frame: 15
+      frame: 2
       easeType: 1
       amplitude: 0
       period: 0
@@ -27980,10 +27973,10 @@ MonoBehaviour:
       keyIndices: 0700000008000000090000000a0000000b0000000c000000
     - type: 4
       index: 0
-      keyIndices: 0000000001000000
+      keyIndices: 00000000
     - type: 4
       index: 1
-      keyIndices: 02000000
+      keyIndices: 01000000
     - type: 9
       index: 0
       keyIndices: 0000000001000000
@@ -28001,10 +27994,10 @@ MonoBehaviour:
       keyIndices: 0f00000010000000
     - type: 4
       index: 2
-      keyIndices: 0300000004000000
+      keyIndices: 0200000003000000
     - type: 4
       index: 3
-      keyIndices: 05000000
+      keyIndices: 04000000
     - type: 9
       index: 3
       keyIndices: 0600000007000000
@@ -28053,7 +28046,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 3.2730806}
+  m_Offset: {x: 0, y: 3.4919555}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -28064,7 +28057,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.2, y: 6.5263495}
+  m_Size: {x: 3.49, y: 7.637749}
   m_EdgeRadius: 0
 --- !u!114 &1673873155889725876
 MonoBehaviour:
@@ -35805,7 +35798,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 3.74, y: 0.62, z: 1}
+    m_Scale: {x: 4.64, y: 0.86, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0

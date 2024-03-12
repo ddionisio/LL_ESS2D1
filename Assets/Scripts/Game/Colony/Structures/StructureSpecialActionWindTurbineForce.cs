@@ -21,6 +21,10 @@ public class StructureSpecialActionWindTurbineForce : StructureSpecialAction, IP
 	[M8.Animator.TakeSelector]
 	public int takeDeactivate = -1;
 
+	[Header("SFX")]
+	[M8.SoundPlaylist]
+	public string sfxActive;
+
 	private Coroutine mActionRout;
 
 	protected override void ApplyActivate(bool active) {
@@ -40,8 +44,12 @@ public class StructureSpecialActionWindTurbineForce : StructureSpecialAction, IP
 			if(actionGO)
 				actionGO.SetActive(false);
 
-			if(animator && animator.currentPlayingTakeIndex == takeActivate)
-				animator.ResetTake(takeActivate);
+			if(animator) {
+				animator.Stop();
+
+				if(takeActivate != -1)
+					animator.ResetTake(takeActivate);
+			}
 		}
 	}
 
@@ -94,12 +102,18 @@ public class StructureSpecialActionWindTurbineForce : StructureSpecialAction, IP
 	}
 
 	IEnumerator OnAction() {
+		if(hoverGOSetActive)
+			hoverGOSetActive.enabled = false;
+
 		if(popupActiveGO)
 			popupActiveGO.SetActive(false);
 
 		if(actionGO)
 			actionGO.SetActive(true);
 
+		if(!string.IsNullOrEmpty(sfxActive))
+			M8.SoundPlaylist.instance.Play(sfxActive, false);
+				
 		if(animator && takeActivate != -1)
 			yield return animator.PlayWait(takeActivate);
 
@@ -112,6 +126,9 @@ public class StructureSpecialActionWindTurbineForce : StructureSpecialAction, IP
 			actionGO.SetActive(false);
 
 		yield return new WaitForSeconds(cooldownDuration);
+
+		if(hoverGOSetActive)
+			hoverGOSetActive.enabled = isActive;
 
 		if(popupActiveGO)
 			popupActiveGO.SetActive(isActive);

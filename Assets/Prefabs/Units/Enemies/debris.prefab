@@ -5119,7 +5119,7 @@ MonoBehaviour:
   takeHurt: 0
   takeDying: -1
   takeDeath: 1
-  takeDespawn: -1
+  takeDespawn: 1
   takeVictory: -1
   sfxSpawn: 
   sfxDespawn: 

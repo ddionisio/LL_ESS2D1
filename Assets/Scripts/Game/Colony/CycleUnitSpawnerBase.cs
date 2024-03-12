@@ -65,10 +65,6 @@ public abstract class CycleUnitSpawnerBase : CycleControlBase {
 
         var gameDat = GameData.instance;
 
-        if(gameDat.signalCycleBegin) gameDat.signalCycleBegin.callback += OnCycleBegin;
-        if(gameDat.signalCycleNext) gameDat.signalCycleNext.callback += OnCycleNext;
-        if(gameDat.signalCycleEnd) gameDat.signalCycleEnd.callback += OnCycleEnd;
-
         if(gameDat.signalUnitDespawned) gameDat.signalUnitDespawned.callback += OnUnitDespawn;
 
         var colonyCtrl = ColonyController.instance;
@@ -91,10 +87,6 @@ public abstract class CycleUnitSpawnerBase : CycleControlBase {
         if(GameData.isInstantiated) {
             var gameDat = GameData.instance;
 
-            if(gameDat.signalCycleBegin) gameDat.signalCycleBegin.callback -= OnCycleBegin;
-            if(gameDat.signalCycleNext) gameDat.signalCycleNext.callback -= OnCycleNext;
-            if(gameDat.signalCycleEnd) gameDat.signalCycleEnd.callback -= OnCycleEnd;
-
             if(gameDat.signalUnitDespawned) gameDat.signalUnitDespawned.callback -= OnUnitDespawn;
         }
 
@@ -103,7 +95,7 @@ public abstract class CycleUnitSpawnerBase : CycleControlBase {
 
     protected virtual void SpawnStart() { }
 
-    protected virtual void OnCycleEnd() {
+    protected override void End() {
         if(isSpawning)
             EndSpawn();
     }
@@ -159,14 +151,14 @@ public abstract class CycleUnitSpawnerBase : CycleControlBase {
             EndSpawn();
     }
 
-    void OnCycleBegin() {
+    protected override void Begin() {
         cycleIndex = 0;
 
         if(cycleIndexRange.min == 0)
             StartSpawn();
     }
 
-    void OnCycleNext() {
+    protected override void Next() {
         cycleIndex = ColonyController.instance.cycleController.cycleCurIndex;
 
         if(!isSpawning) {

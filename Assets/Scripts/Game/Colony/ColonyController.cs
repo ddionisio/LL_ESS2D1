@@ -565,6 +565,8 @@ public class ColonyController : GameModeController<ColonyController> {
     IEnumerator DoCycle() {
         mIsHazzard = false;
 
+        timeState = TimeState.Normal;
+
         cycleController.Begin();
 
         if(sequence)
