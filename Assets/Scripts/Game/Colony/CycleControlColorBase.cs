@@ -25,9 +25,6 @@ public abstract class CycleControlColorBase : CycleControlBase {
     private Color[] mColorTransition;
     private int mColorTransitionLength;
 
-    private float mColorDayTransitionDelay;
-    private float mColorNightTransitionDelay;
-
     private Coroutine mRout;
 
     protected abstract void ApplyColor(Color color);
@@ -47,9 +44,6 @@ public abstract class CycleControlColorBase : CycleControlBase {
         mColorTransition = new Color[maxColorLength + 1];
                 
         var cycleCtrl = ColonyController.instance.cycleController;
-
-        mColorDayTransitionDelay = cycleCtrl.cycleDayDuration * delayTransitionScale;
-        mColorNightTransitionDelay = cycleCtrl.cycleNightDuration * delayTransitionScale;
     }
 
     protected override void Begin() {
@@ -125,10 +119,12 @@ public abstract class CycleControlColorBase : CycleControlBase {
         //transition to day
         ApplyColors(dayColors, colorMod);
 
-        yield return DoColorTransition(mColorDayTransitionDelay);
+        var dayTransDelay = cycleCtrl.cycleDayDuration * delayTransitionScale;
+
+		yield return DoColorTransition(dayTransDelay);
 
         //wait for day to be over
-        var waitDelay = cycleCtrl.cycleDayDuration - mColorDayTransitionDelay;
+        var waitDelay = cycleCtrl.cycleDayDuration - dayTransDelay;
         while(cycleCtrl.cycleCurElapsed < waitDelay)
             yield return null;
 
@@ -139,7 +135,9 @@ public abstract class CycleControlColorBase : CycleControlBase {
         //day to night
         ApplyColors(nightColors, colorMod);
 
-        yield return DoColorTransition(mColorNightTransitionDelay);
+        var nightTransDelay = cycleCtrl.cycleNightDuration * delayTransitionScale;
+
+		yield return DoColorTransition(nightTransDelay);
 
         mRout = null;
     }

@@ -19,9 +19,11 @@ MonoBehaviour:
     populationQuotaUnlock: 2
   - data: {fileID: 11400000, guid: 8ceb0a537697a6340b410e8c809edb59, type: 2}
     populationQuotaUnlock: 4
-  capacityStart: 1
+  capacityStart: 0
   capacity: 5
   capacityUpgrades:
+  - populationQuota: 1
+    capacityIncrease: 1
   - populationQuota: 2
     capacityIncrease: 1
   - populationQuota: 4

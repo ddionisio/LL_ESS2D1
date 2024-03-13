@@ -218,10 +218,10 @@ public class StructureHouse : Structure {
             else
                 mCitizensActive = new M8.CacheList<Unit>(houseData.citizenCapacity);
 
-            population = houseData.citizenStartCount;
+            //population = houseData.citizenStartCount;
 
-            colonyCtrl.populationCapacity += populationMax;
-            colonyCtrl.population += population;
+            //colonyCtrl.populationCapacity += populationMax;
+            //colonyCtrl.population += population;
         }
         else { //fail-safe
             if(mCitizensActive == null) mCitizensActive = new M8.CacheList<Unit>(0);
@@ -353,7 +353,16 @@ public class StructureHouse : Structure {
 
         mRout = null;
 
-        state = StructureState.Active;
+		//add initial population
+		var colonyCtrl = ColonyController.instance;
+
+		population = houseData.citizenStartCount;
+
+		colonyCtrl.populationCapacity += populationMax;
+		colonyCtrl.population += population;		
+		//
+
+		state = StructureState.Active;
     }
 
     private void DecreasePopulation() {

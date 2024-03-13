@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67695fc814a4bca4ca33444be6a5c294, type: 3}
+  m_Name: structurePalette_level_03_grid
+  m_EditorClassIdentifier: 
+  groups:
+  - nameRef: 
+    icon: {fileID: 21300000, guid: a0d90d4fa5edd724faf85452ff11eba3, type: 3}
+    structures:
+    - data: {fileID: 11400000, guid: 918b5d6b53bd90f44ad2cc28f374bf18, type: 2}
+      populationQuotaUnlock: 0
+    capacityStart: 3
+    capacity: 3
+    highlightOnAvailable: 0
+    pointerOnAvailable: 0
+    capacityUpgrades: []
+  - nameRef: 
+    icon: {fileID: 21300000, guid: 4e5f99955be3b514ea3b3003cbf917a1, type: 3}
+    structures:
+    - data: {fileID: 11400000, guid: 00c13b5caec751f4cac6d8ab4a682fc4, type: 2}
+      populationQuotaUnlock: 0
+    capacityStart: 2
+    capacity: 2
+    highlightOnAvailable: 0
+    pointerOnAvailable: 0
+    capacityUpgrades: []
+  - nameRef: 
+    icon: {fileID: 21300000, guid: c1d90da3a06a5984bbb5bc10c4315700, type: 3}
+    structures:
+    - data: {fileID: 11400000, guid: ed5b3aa4ecf2fb043a646bd396fdca2b, type: 2}
+      populationQuotaUnlock: 0
+    - data: {fileID: 11400000, guid: 055a6f0de3afd324eac0f3cd1ac87593, type: 2}
+      populationQuotaUnlock: 0
+    - data: {fileID: 11400000, guid: 2ecd68efbe929a241888a40e78c941a1, type: 2}
+      populationQuotaUnlock: 0
+    capacityStart: 5
+    capacity: 5
+    highlightOnAvailable: 0
+    pointerOnAvailable: 0
+    capacityUpgrades: []

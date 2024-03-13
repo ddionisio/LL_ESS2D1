@@ -63,6 +63,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 00c13b5caec751f4cac6d8ab4a682fc4, type: 2}
   structureWaterSources:
   - {fileID: 11400000, guid: e6518c7cb5a58f34d8950afde470f478, type: 2}
+  - {fileID: 11400000, guid: ed5b3aa4ecf2fb043a646bd396fdca2b, type: 2}
   growthScalePerWork: 1
   structureUnitSpawnDelay: 0.3
   unitAllyTag: Ally

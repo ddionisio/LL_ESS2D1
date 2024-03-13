@@ -13303,6 +13303,7 @@ MonoBehaviour:
   waypoint: idle
   structureTypes:
   - {fileID: 11400000, guid: 918b5d6b53bd90f44ad2cc28f374bf18, type: 2}
+  - {fileID: 11400000, guid: e6518c7cb5a58f34d8950afde470f478, type: 2}
 --- !u!114 &862198714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13327,6 +13328,7 @@ MonoBehaviour:
   waypoint: idle
   structureTypes:
   - {fileID: 11400000, guid: 918b5d6b53bd90f44ad2cc28f374bf18, type: 2}
+  - {fileID: 11400000, guid: e6518c7cb5a58f34d8950afde470f478, type: 2}
 --- !u!114 &862198715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13353,6 +13355,7 @@ MonoBehaviour:
   waypoint: idle
   structureTypes:
   - {fileID: 11400000, guid: 918b5d6b53bd90f44ad2cc28f374bf18, type: 2}
+  - {fileID: 11400000, guid: e6518c7cb5a58f34d8950afde470f478, type: 2}
 --- !u!114 &862198716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13379,6 +13382,7 @@ MonoBehaviour:
   waypoint: idle
   structureTypes:
   - {fileID: 11400000, guid: 918b5d6b53bd90f44ad2cc28f374bf18, type: 2}
+  - {fileID: 11400000, guid: e6518c7cb5a58f34d8950afde470f478, type: 2}
 --- !u!1001 &877635555
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23079,7 +23083,7 @@ MonoBehaviour:
   cycleDespawnAfterMax: 1
   cycleSpawnSequence:
   - delay: 8
-    count: 1
+    count: 2
   - delay: 5
     count: 1
 --- !u!1 &1916638969

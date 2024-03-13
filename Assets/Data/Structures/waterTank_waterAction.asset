@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a693eee692904343a9732d6d3af849a, type: 3}
+  m_Name: waterTank_waterAction
+  m_EditorClassIdentifier: 
+  nameRef: 
+  descRef: 
+  icon: {fileID: 21300000, guid: 0b4bfccb6b6176c408261ee04e00771d, type: 3}
+  hitpoints: 3
+  buildTime: 1
+  workCapacity: 1
+  isAutoBuild: 0
+  isReparable: 1
+  isDemolishable: 1
+  isWaterImmune: 1
+  ghostPrefab: {fileID: 8913103262921130422, guid: aece5595cb3ee4847ba187eb30e10e17, type: 3}
+  spawnPrefab: {fileID: 5952087537744532748, guid: 55e75832d88356e43b42147263442970, type: 3}
+  placementValidLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  resourceInputType: 3
+  resourceType: 2
+  resourceFixedValue: 0
+  resourceGenerateRate: 0.25
+  resourceCapacity: 5
