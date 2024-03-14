@@ -9,9 +9,7 @@ public class StructureSpecialActionWindTurbineForce : StructureSpecialAction, IP
 	public float cooldownDuration;
 
 	[Header("Display")]
-	public GameObject popupActiveGO;
-	public M8.UI.Events.HoverGOSetActive hoverGOSetActive;
-
+	public GameObject popupActiveGO;	
 	public GameObject actionGO;
 
 	[Header("Animation")]
@@ -25,11 +23,13 @@ public class StructureSpecialActionWindTurbineForce : StructureSpecialAction, IP
 	[M8.SoundPlaylist]
 	public string sfxActive;
 
+	private M8.UI.Events.HoverGOSetActive mHoverGOSetActive;
+
 	private Coroutine mActionRout;
 
 	protected override void ApplyActivate(bool active) {
-		if(hoverGOSetActive)
-			hoverGOSetActive.enabled = active;
+		if(mHoverGOSetActive)
+			mHoverGOSetActive.enabled = active;
 
 		if(popupActiveGO)
 			popupActiveGO.SetActive(active);
@@ -45,7 +45,8 @@ public class StructureSpecialActionWindTurbineForce : StructureSpecialAction, IP
 				actionGO.SetActive(false);
 
 			if(animator) {
-				animator.Stop();
+				if(animator.currentPlayingTakeIndex == takeActivate || animator.currentPlayingTakeIndex == takeDeactivate)
+					animator.Stop();
 
 				if(takeActivate != -1)
 					animator.ResetTake(takeActivate);
@@ -62,8 +63,8 @@ public class StructureSpecialActionWindTurbineForce : StructureSpecialAction, IP
 		if(actionGO)
 			actionGO.SetActive(false);
 
-		if(hoverGOSetActive)
-			hoverGOSetActive.enabled = false;
+		if(mHoverGOSetActive)
+			mHoverGOSetActive.enabled = false;
 				
 		if(animator && takeActivate != -1)
 			animator.ResetTake(takeActivate);
@@ -74,23 +75,10 @@ public class StructureSpecialActionWindTurbineForce : StructureSpecialAction, IP
 		}
 	}
 
-	protected override void OnEnable() {
-		base.OnEnable();
-
-		if(popupActiveGO)
-			popupActiveGO.SetActive(false);
-
-		if(actionGO)
-			actionGO.SetActive(false);
-
-		if(animator && takeActivate != -1)
-			animator.ResetTake(takeActivate);
-	}
-
 	protected override void Awake() {
 		base.Awake();
 
-		hoverGOSetActive = GetComponent<M8.UI.Events.HoverGOSetActive>();
+		mHoverGOSetActive = GetComponent<M8.UI.Events.HoverGOSetActive>();
 	}
 
 	void IPointerClickHandler.OnPointerClick(PointerEventData eventData) {
@@ -102,8 +90,8 @@ public class StructureSpecialActionWindTurbineForce : StructureSpecialAction, IP
 	}
 
 	IEnumerator OnAction() {
-		if(hoverGOSetActive)
-			hoverGOSetActive.enabled = false;
+		if(mHoverGOSetActive)
+			mHoverGOSetActive.enabled = false;
 
 		if(popupActiveGO)
 			popupActiveGO.SetActive(false);
@@ -127,8 +115,8 @@ public class StructureSpecialActionWindTurbineForce : StructureSpecialAction, IP
 
 		yield return new WaitForSeconds(cooldownDuration);
 
-		if(hoverGOSetActive)
-			hoverGOSetActive.enabled = isActive;
+		if(mHoverGOSetActive)
+			mHoverGOSetActive.enabled = isActive;
 
 		if(popupActiveGO)
 			popupActiveGO.SetActive(isActive);

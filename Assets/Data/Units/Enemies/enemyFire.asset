@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11147f1756c5db340ad26b9184539525, type: 3}
+  m_Name: enemyFire
+  m_EditorClassIdentifier: 
+  nameRef: 
+  descRef: 
+  icon: {fileID: 0}
+  hitpointStartApply: 1
+  hitpointStart: 1
+  hitpoints: 2
+  _moveSpeed: 0
+  _moveSpeedDeviation: 0
+  _runSpeed: 0
+  canRevive: 0
+  damageImmunity: -1
+  courageLevel: 0
+  spawnPrefab: {fileID: 1254854927672366138, guid: 66b7435969f9a55449a2217ba77e2f3d, type: 3}
+  structureTargetFlags: 12
+  structureResourceType: 1
+  growthDelay: 6
+  attackDelay: 3

@@ -54,6 +54,9 @@ public class UnitController : MonoBehaviour {
     /// Spawned units by UnitData, treat this as a read-only.
     /// </summary>
     public M8.CacheList<Unit> GetUnitActivesByData(UnitData unitData) {
+        if(mUnitTypeActives == null)
+            return null;
+
         M8.CacheList<Unit> ret;
         mUnitTypeActives.TryGetValue(unitData, out ret);
         return ret;

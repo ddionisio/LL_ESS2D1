@@ -15,8 +15,10 @@ public class UnitTargetStructureData : UnitData {
     [Header("Target Structure Info")]
     [M8.EnumMask]
     public StructureTargetFlags structureTargetFlags;
+    [Tooltip("Set to 'None' for any resource structure, specific otherwise")]
+    public StructureResourceData.ResourceType structureResourceType = StructureResourceData.ResourceType.None;
 
-    public bool IsTargetable(Structure structure) {
+	public bool IsTargetable(Structure structure) {
         var dat = structure.data;
         
         if(structure.state == StructureState.None || structure.state == StructureState.Spawning || structure.state == StructureState.Construction || structure.state == StructureState.Demolish || structure.state == StructureState.Moving)
@@ -31,8 +33,14 @@ public class UnitTargetStructureData : UnitData {
         if((structureTargetFlags & StructureTargetFlags.House) != StructureTargetFlags.None && dat is StructureHouseData)
             return true;
 
-        if((structureTargetFlags & StructureTargetFlags.Resource) != StructureTargetFlags.None && dat is StructureResourceData)
+        if((structureTargetFlags & StructureTargetFlags.Resource) != StructureTargetFlags.None && dat is StructureResourceData) {
+            if(structureResourceType != StructureResourceData.ResourceType.None) {
+                var resDat = (StructureResourceData)dat;
+                return structureResourceType == resDat.resourceType;
+            }
+
             return true;
+        }
 
         return false;
     }

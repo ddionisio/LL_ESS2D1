@@ -131,6 +131,14 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: de362ab3e2575b2408fd649b580d04cc, type: 3}
     clipVariants: []
     spatialBlend: 0
+  - name: flame
+    clip: {fileID: 8300000, guid: 75e459129b66a0446a7f356ada65169c, type: 3}
+    clipVariants: []
+    spatialBlend: 0
+  - name: flameSizzle
+    clip: {fileID: 8300000, guid: 6130e40fda5a4ca438af2cde93c7aec0, type: 3}
+    clipVariants: []
+    spatialBlend: 0
   max: 32
   audioMixer: {fileID: 0}
   muteOnFocusLost: 1

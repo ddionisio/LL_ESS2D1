@@ -203,6 +203,18 @@ public class Unit : MonoBehaviour, M8.IPoolInit, M8.IPoolSpawn, M8.IPoolSpawnCom
             mMark--;
     }
 
+	public bool IsTouching(Rect r) {
+        var b = new Bounds(r.center, new Vector3(r.width, r.height, 10000f));
+
+        return IsTouching(b);
+	}
+
+	public bool IsTouching(Bounds b) {
+        if(!boxCollider) return false;
+
+        return boxCollider.bounds.Intersects(b);
+    }
+
     public bool IsTouching(Unit otherUnit) {
         if(!(boxCollider && otherUnit.boxCollider)) return false;
 
