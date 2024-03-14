@@ -20,14 +20,14 @@ MonoBehaviour:
       min: 86
       max: 86
     springRange:
-      min: 81
-      max: 81
+      min: 79
+      max: 79
     summerRange:
       min: 74
       max: 74
     autumnRange:
-      min: 85
-      max: 85
+      min: 81
+      max: 81
   - atmosphere: {fileID: 11400000, guid: a1acb9bb17afa9e47bd265ddc249f905, type: 2}
     winterRange:
       min: 68
@@ -39,8 +39,8 @@ MonoBehaviour:
       min: 49
       max: 49
     autumnRange:
-      min: 42
-      max: 42
+      min: 47
+      max: 47
   - atmosphere: {fileID: 11400000, guid: 0b22bc30a82cba34f94f72bfe5190123, type: 2}
     winterRange:
       min: 3
@@ -59,6 +59,7 @@ MonoBehaviour:
   summerDaylightScale: 0.5
   autumnDaylightScale: 0.5
   landscapePrefab: {fileID: 0}
+  landscapeGridPrefab: {fileID: 1055133182988371777, guid: 0a689dc80cb93ca45a6e7c5695dadd19, type: 3}
   colonyScene:
-    name: 
-    path: 
+    name: colony02
+    path: Assets/Scenes/colony02.unity

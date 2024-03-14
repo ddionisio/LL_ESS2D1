@@ -20,6 +20,7 @@ MonoBehaviour:
   topographyRiverTextRef: topography_river
   topographyLakeTextRef: topography_lake
   topographyOceanTextRef: topography_ocean
+  topographySwampTextRef: topography_swamp
   gridLayerMask:
     serializedVersion: 2
     m_Bits: 32768

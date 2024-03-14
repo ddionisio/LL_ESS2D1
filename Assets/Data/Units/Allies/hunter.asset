@@ -18,9 +18,9 @@ MonoBehaviour:
   hitpointStartApply: 0
   hitpointStart: 0
   hitpoints: 3
-  _moveSpeed: 3
+  _moveSpeed: 5
   _moveSpeedDeviation: 0.1
-  _runSpeed: 5
+  _runSpeed: 6
   canRevive: 1
   damageImmunity: 0
   courageLevel: 7

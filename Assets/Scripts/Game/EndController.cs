@@ -161,6 +161,8 @@ public class EndController : ColonyController {
 
         var count = Mathf.Min(unitPalette.units.Length, spawnPointRoot.childCount);
         for(int i = 0; i < count; i++) {
+			yield return new WaitForSeconds(0.5f);
+			
             var spawnTrans = spawnPointRoot.GetChild(i);
 
             Vector2 spawnPt;

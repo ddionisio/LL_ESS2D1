@@ -14,7 +14,8 @@ public class GridData : M8.SingletonScriptableObject<GridData> {
 		Vegetation,
 		River,
 		Lake,
-		Ocean
+		Ocean,
+		Swamp
 	}
 
 	[System.Serializable]
@@ -49,6 +50,8 @@ public class GridData : M8.SingletonScriptableObject<GridData> {
 	public string topographyLakeTextRef;
 	[M8.Localize]
 	public string topographyOceanTextRef;
+	[M8.Localize]
+	public string topographySwampTextRef;
 
 	[Header("Layer Info")]
 	public LayerMask gridLayerMask;
@@ -77,6 +80,8 @@ public class GridData : M8.SingletonScriptableObject<GridData> {
 				return M8.Localize.Get(topographyLakeTextRef);
 			case TopographyType.Ocean:
 				return M8.Localize.Get(topographyOceanTextRef);
+			case TopographyType.Swamp:
+				return M8.Localize.Get(topographySwampTextRef);
 
 			default:
 				return "";

@@ -58,7 +58,7 @@ MonoBehaviour:
   springDaylightScale: 0.5
   summerDaylightScale: 0.5
   autumnDaylightScale: 0.5
-  landscapePrefab: {fileID: 4280725560280830154, guid: 53b59080287f4e4409bebcdd25823e71, type: 3}
+  landscapePrefab: {fileID: 0}
   landscapeGridPrefab: {fileID: 2699332481387202583, guid: e89d20a6e7b6e1d47bd6cc610cfdc832, type: 3}
   colonyScene:
     name: colony01
