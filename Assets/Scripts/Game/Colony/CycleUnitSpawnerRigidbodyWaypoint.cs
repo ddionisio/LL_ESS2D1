@@ -50,19 +50,21 @@ public class CycleUnitSpawnerRigidbodyWaypoint : CycleUnitSpawnerBase {
 	void OnDrawGizmos() {
 		Vector2 pt = transform.position;
 
-		for(int i = 0; i < _waypoints.Length; i++) {
-			var wp = _waypoints[i];
+		if(_waypoints != null) {
+			for(int i = 0; i < _waypoints.Length; i++) {
+				var wp = _waypoints[i];
 
-			var wpt = pt + wp.point;
+				var wpt = pt + wp.point;
 
-			Gizmos.color = Color.green;
-			Gizmos.DrawSphere(wpt, 0.1f);
+				Gizmos.color = Color.green;
+				Gizmos.DrawSphere(wpt, 0.1f);
 
-			Gizmos.color = Color.yellow;
-			M8.Gizmo.ArrowLine2D(wpt, wpt + M8.MathUtil.RotateAngle(Vector2.up, wp.dirAngleRange.min));
+				Gizmos.color = Color.yellow;
+				M8.Gizmo.ArrowLine2D(wpt, wpt + M8.MathUtil.RotateAngle(Vector2.up, wp.dirAngleRange.min));
 
-			Gizmos.color = Color.yellow * 0.5f;
-			M8.Gizmo.ArrowLine2D(wpt, wpt + M8.MathUtil.RotateAngle(Vector2.up, wp.dirAngleRange.max));
+				Gizmos.color = Color.yellow * 0.5f;
+				M8.Gizmo.ArrowLine2D(wpt, wpt + M8.MathUtil.RotateAngle(Vector2.up, wp.dirAngleRange.max));
+			}
 		}
 	}
 }

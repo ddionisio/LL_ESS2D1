@@ -9,22 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee4d3a15ec3fb7042a8f2bb466936915, type: 3}
-  m_Name: enemySpawnerMoleWinter
+  m_Script: {fileID: 11500000, guid: b9ae3f55968eda74db0b2c119104b24d, type: 3}
+  m_Name: debrisIce
   m_EditorClassIdentifier: 
   nameRef: 
   descRef: 
   icon: {fileID: 0}
   hitpointStartApply: 0
   hitpointStart: 0
-  hitpoints: 2
+  hitpoints: 1
   _moveSpeed: 0
   _moveSpeedDeviation: 0
   _runSpeed: 0
   canRevive: 0
-  damageImmunity: -1
+  damageImmunity: 0
   courageLevel: 0
-  spawnPrefab: {fileID: 2705940196408309231, guid: 32c3d01c9c4760c4087d68d2e947b503, type: 3}
-  spawnUnitData: {fileID: 11400000, guid: fa26b8259c31ad249ba4bb1e0df95935, type: 2}
-  spawnUnitCount: 1
-  spawnDelay: 5
+  spawnPrefab: {fileID: 2745142605389282732, guid: 1a3ec364180b8d447a731c453f67844e, type: 3}
