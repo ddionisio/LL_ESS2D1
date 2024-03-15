@@ -59,6 +59,7 @@ MonoBehaviour:
   summerDaylightScale: 0.35
   autumnDaylightScale: 0.35
   landscapePrefab: {fileID: 4607337123162837861, guid: 25377105cd7c65843ba054386145970e, type: 3}
+  landscapeGridPrefab: {fileID: 0}
   colonyScene:
     name: colony04
     path: Assets/Scenes/colony04.unity

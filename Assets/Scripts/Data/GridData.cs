@@ -15,7 +15,8 @@ public class GridData : M8.SingletonScriptableObject<GridData> {
 		River,
 		Lake,
 		Ocean,
-		Swamp
+		Swamp,
+		Oasis
 	}
 
 	[System.Serializable]
@@ -28,7 +29,7 @@ public class GridData : M8.SingletonScriptableObject<GridData> {
 			return new AtmosphereMod {
 				temperature = a.temperature + b.temperature,
 				humidity = a.humidity + b.humidity,
-				wind = a.wind + b.humidity,
+				wind = a.wind + b.wind,
 			};
 		}
 	}
@@ -52,6 +53,8 @@ public class GridData : M8.SingletonScriptableObject<GridData> {
 	public string topographyOceanTextRef;
 	[M8.Localize]
 	public string topographySwampTextRef;
+	[M8.Localize]
+	public string topographyOasisTextRef;
 
 	[Header("Layer Info")]
 	public LayerMask gridLayerMask;
@@ -82,6 +85,8 @@ public class GridData : M8.SingletonScriptableObject<GridData> {
 				return M8.Localize.Get(topographyOceanTextRef);
 			case TopographyType.Swamp:
 				return M8.Localize.Get(topographySwampTextRef);
+			case TopographyType.Oasis:
+				return M8.Localize.Get(topographyOasisTextRef);
 
 			default:
 				return "";

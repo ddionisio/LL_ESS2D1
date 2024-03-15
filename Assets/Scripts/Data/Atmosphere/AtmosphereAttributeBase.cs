@@ -35,9 +35,13 @@ public abstract class AtmosphereAttributeBase : ScriptableObject {
     public M8.RangeFloat ClampRange(float min, float max) {
         if(min < rangeLimit.min)
             min = rangeLimit.min;
+        else if(min > rangeLimit.max)
+            min = rangeLimit.max;
 
         if(max > rangeLimit.max)
             max = rangeLimit.max;
+        else if(max < rangeLimit.min)
+            max = rangeLimit.min;
 
         if(min > max)
             min = max;
