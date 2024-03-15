@@ -15,7 +15,9 @@ public abstract class OverworldSequenceBase : MonoBehaviour {
 
     public virtual void HotspotClick(Hotspot hotspot) { }
 
-    public virtual IEnumerator InvestigationEnterBegin() { yield return null; }
+	public virtual void HotspotGridClick(HotspotGrid hotspot) { }
+
+	public virtual IEnumerator InvestigationEnterBegin() { yield return null; }
 
     public virtual IEnumerator InvestigationEnterEnd() { yield return null; }
 }

@@ -32,8 +32,8 @@ public class OverworldControllerGrid : GameModeController<OverworldControllerGri
 	[M8.SoundPlaylist]
 	public string sfxInvestigateExit;
 
-	//[Header("Sequence")]
-	//public OverworldSequenceBase sequence;
+	[Header("Sequence")]
+	public OverworldSequenceBase sequence;
 
 	[Header("Signal Listen")]
 	public SignalAtmosphereAttribute signalListenAtmosphereToggle;
@@ -82,7 +82,7 @@ public class OverworldControllerGrid : GameModeController<OverworldControllerGri
 
 	protected override void OnInstanceDeinit() {
 		hotspotCurrent = null;
-		//if(sequence) sequence.Deinit();
+		if(sequence) sequence.Deinit();
 
 		if(signalListenAtmosphereToggle) signalListenAtmosphereToggle.callback -= OnAtmosphereToggle;
 		if(signalListenSeasonToggle) signalListenSeasonToggle.callback -= OnSeasonToggle;
@@ -101,8 +101,8 @@ public class OverworldControllerGrid : GameModeController<OverworldControllerGri
 	protected override void OnInstanceInit() {
 		base.OnInstanceInit();
 
-		//if(GameData.instance.disableSequence)
-			//sequence = null;
+		if(GameData.instance.disableSequence)
+			sequence = null;
 
 		currentSeason = seasonDefault;
 
@@ -122,7 +122,7 @@ public class OverworldControllerGrid : GameModeController<OverworldControllerGri
 		if(signalListenHotspotInvestigateBack) signalListenHotspotInvestigateBack.callback += OnHotspotInvestigateBack;
 		if(signalListenHotspotInvestigateLaunch) signalListenHotspotInvestigateLaunch.callback += OnHotspotInvestigateLaunch;
 
-		//if(sequence) sequence.Init();
+		if(sequence) sequence.Init();
 	}
 
 	protected override IEnumerator Start() {
@@ -134,8 +134,8 @@ public class OverworldControllerGrid : GameModeController<OverworldControllerGri
 		//show overworld
 
 		//some intros
-		//if(sequence)
-			//yield return sequence.StartBegin();
+		if(sequence)
+			yield return sequence.StartBegin();
 
 		//wind FX
 		if(overworldWindFX && overworldWindFXPlayOnStart)
@@ -165,13 +165,13 @@ public class OverworldControllerGrid : GameModeController<OverworldControllerGri
 		while(M8.ModalManager.main.isBusy)
 			yield return null;
 
-		//if(sequence)
-			//yield return sequence.StartFinish();
+		if(sequence)
+			yield return sequence.StartFinish();
 	}
 
 	IEnumerator DoInvestigateEnter(HotspotGrid hotspot) {
-		//if(sequence)
-			//yield return sequence.InvestigationEnterBegin();
+		if(sequence)
+			yield return sequence.InvestigationEnterBegin();
 
 		//turn off overlays
 		if(signalInvokeAtmosphereOverlayDefault) signalInvokeAtmosphereOverlayDefault.Invoke(atmosphereDefault);
@@ -216,8 +216,8 @@ public class OverworldControllerGrid : GameModeController<OverworldControllerGri
 		while(M8.ModalManager.main.isBusy)
 			yield return null;
 
-		//if(sequence)
-			//yield return sequence.InvestigationEnterEnd();
+		if(sequence)
+			yield return sequence.InvestigationEnterEnd();
 
 		mRout = null;
 	}
@@ -290,7 +290,7 @@ public class OverworldControllerGrid : GameModeController<OverworldControllerGri
 	void OnSeasonToggle(SeasonData season) {
 		currentSeason = season;
 
-		//if(sequence) sequence.SeasonToggle(season);
+		if(sequence) sequence.SeasonToggle(season);
 	}
 
 	void OnHotspotClick(HotspotGrid hotspot) {
@@ -301,7 +301,7 @@ public class OverworldControllerGrid : GameModeController<OverworldControllerGri
 
 		mRout = StartCoroutine(DoInvestigateEnter(hotspot));
 
-		//if(sequence) sequence.HotspotClick(hotspot);
+		if(sequence) sequence.HotspotGridClick(hotspot);
 	}
 
 	void OnHotspotInvestigateBack() {

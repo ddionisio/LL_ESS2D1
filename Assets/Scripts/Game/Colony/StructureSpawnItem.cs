@@ -27,6 +27,9 @@ public class StructureSpawnItem : MonoBehaviour {
 	}
 
 	IEnumerator DoSpawn() {
+		while(ColonyController.instance.timeState == ColonyController.TimeState.CyclePause)
+			yield return null;
+
 		yield return new WaitForSeconds(spawnDelay);
 
 		GroundPoint grdPt;

@@ -39,11 +39,18 @@ public class ModalHotspotInvestigateGrid : M8.ModalController, M8.IModalPush, M8
 	public int atmosphereStatCapacity = 8;
 	public Transform atmosphereStatRoot;
 
+	[Header("Map Display")]
+	public GameObject mapHighlightGO;
+
 	//TODO: altitude display
 
 	[Header("Launch")]
 	public GameObject launchAvailableGO;
 	public Selectable launchSelectable;
+
+	[Header("SFX")]
+	[M8.SoundPlaylist]
+	public string sfxLaunchValid;
 
 	[Header("Signal Listen")]
 	public SignalSeasonData signalListenSeasonChange;
@@ -154,6 +161,8 @@ public class ModalHotspotInvestigateGrid : M8.ModalController, M8.IModalPush, M8
 		}
 
 		UpdateAtmosphereStats();
+
+		if(mapHighlightGO) mapHighlightGO.SetActive(false);
 	}
 
 	void OnSeasonToggle(SeasonData season) {
@@ -265,7 +274,14 @@ public class ModalHotspotInvestigateGrid : M8.ModalController, M8.IModalPush, M8
 		mCriteriaGroup.Evaluate(mCurStats, true);
 
 		//check if we can launch, show glow if so
+		var prevValid = mIsLaunchValid;
+
 		mIsLaunchValid = mCriteriaGroup.criticCountBad == 0 && mCriteriaGroup.criticCountGood >= 1;
+
+		if(mIsLaunchValid && !prevValid) { //changed to valid?
+			if(!string.IsNullOrEmpty(sfxLaunchValid))
+				M8.SoundPlaylist.instance.Play(sfxLaunchValid, false);
+		}
 
 		if(launchAvailableGO) launchAvailableGO.SetActive(mIsLaunchValid);
 		if(launchSelectable) launchSelectable.interactable = mIsLaunchValid;
