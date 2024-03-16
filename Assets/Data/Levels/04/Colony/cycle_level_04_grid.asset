@@ -140,8 +140,8 @@ MonoBehaviour:
       range:
         min: -2
         max: -2
-    isDurationOverride: 1
-    durationOverride: 20
+    isDurationOverride: 0
+    durationOverride: 0
     resourceScaleMod:
       sunDay: 0.25
       sunNight: 0.25

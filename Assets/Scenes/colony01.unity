@@ -7366,7 +7366,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 222938253}
-  - component: {fileID: 222938254}
   m_Layer: 5
   m_Name: pip
   m_TagString: Untagged
@@ -7396,25 +7395,6 @@ RectTransform:
   m_AnchoredPosition: {x: 20.9675, y: -9}
   m_SizeDelta: {x: 41.935, y: 18}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &222938254
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 222938252}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f0bdc14cc8ba094abf1847e52db3722, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lineGO: {fileID: 0}
-  baseGO: {fileID: 800220119}
-  baseGraphic: {fileID: 800220121}
-  baseActionNoneColor: {r: 0.30980393, g: 0.43137255, b: 0.7019608, a: 1}
-  baseActionNoneQueueColor: {r: 1, g: 0.72156864, b: 0.4509804, a: 1}
-  baseActionIncreaseColor: {r: 0.5803922, g: 0.7411765, b: 0.46666667, a: 1}
-  baseActionDecreaseColor: {r: 0.9921569, g: 0.38823533, b: 0.3803922, a: 1}
 --- !u!1 &231615239
 GameObject:
   m_ObjectHideFlags: 0
@@ -15774,7 +15754,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1015274311}
-  - component: {fileID: 1015274312}
   m_Layer: 5
   m_Name: pip (1)
   m_TagString: Untagged
@@ -15804,25 +15783,6 @@ RectTransform:
   m_AnchoredPosition: {x: 62.902504, y: -9}
   m_SizeDelta: {x: 41.935, y: 18}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1015274312
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1015274310}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f0bdc14cc8ba094abf1847e52db3722, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lineGO: {fileID: 0}
-  baseGO: {fileID: 156366230}
-  baseGraphic: {fileID: 156366232}
-  baseActionNoneColor: {r: 0.30980393, g: 0.43137255, b: 0.7019608, a: 1}
-  baseActionNoneQueueColor: {r: 1, g: 0.72156864, b: 0.4509804, a: 1}
-  baseActionIncreaseColor: {r: 0.5803922, g: 0.7411765, b: 0.46666667, a: 1}
-  baseActionDecreaseColor: {r: 0.9921569, g: 0.38823533, b: 0.3803922, a: 1}
 --- !u!1 &1015695153
 GameObject:
   m_ObjectHideFlags: 0
@@ -26651,7 +26611,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 142.7}
+  m_AnchoredPosition: {x: 0, y: -170}
   m_SizeDelta: {x: 550, y: 240}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1979417198
