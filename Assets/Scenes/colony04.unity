@@ -5240,16 +5240,16 @@ MonoBehaviour:
   - delay: 4
     count: 1
   _forceRange:
-    min: 5
-    max: 5
+    min: 9
+    max: 9
   _angleVelocityRange:
     min: 20
     max: 40
   _waypoints:
-  - point: {x: -11.11, y: 10.92}
+  - point: {x: -16.98, y: 0.03}
     dirAngleRange:
-      min: 80.09
-      max: 107.78
+      min: 21.22
+      max: 40.1
 --- !u!1 &179718914
 GameObject:
   m_ObjectHideFlags: 0
@@ -13340,6 +13340,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1280744734}
+  - component: {fileID: 1280744735}
   m_Layer: 0
   m_Name: colonySequence
   m_TagString: Untagged
@@ -13362,6 +13363,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1280744735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1280744732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 343b18d1f779ffd4e98cdf480a835f91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  burrow: {fileID: 11400000, guid: 2b045fc2457fc2b44a4378866046e0f5, type: 2}
+  debris: {fileID: 11400000, guid: 7994650f79638fe43a52b6bfc5bc521f, type: 2}
+  dlgIntro:
+    modal: 
+    portrait: {fileID: 0}
+    prefix: colony_4_intro_
+    startIndex: 0
+    count: 0
+  dlgCave:
+    modal: 
+    portrait: {fileID: 0}
+    prefix: colony_4_cave_
+    startIndex: 0
+    count: 0
+  dlgDebris:
+    modal: 
+    portrait: {fileID: 0}
+    prefix: colony_4_storm_
+    startIndex: 0
+    count: 0
 --- !u!1001 &1304395452
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13370,6 +13403,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 581562595339359327, guid: 34387c4a3df2204459b4eb703b221aab, type: 3}
+      propertyPath: sequence
+      value: 
+      objectReference: {fileID: 1280744735}
     - target: {fileID: 581562595339359327, guid: 34387c4a3df2204459b4eb703b221aab, type: 3}
       propertyPath: colonyShip
       value: 

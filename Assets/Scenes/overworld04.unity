@@ -356,6 +356,10 @@ PrefabInstance:
       value: overworldControllerGrid
       objectReference: {fileID: 0}
     - target: {fileID: 6094682842322201600, guid: 31466568137a94d458ab72929ab22280, type: 3}
+      propertyPath: sequence
+      value: 
+      objectReference: {fileID: 1826137118}
+    - target: {fileID: 6094682842322201600, guid: 31466568137a94d458ab72929ab22280, type: 3}
       propertyPath: hotspotGroup
       value: 
       objectReference: {fileID: 257530576}
@@ -455,6 +459,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1826137117}
+  - component: {fileID: 1826137118}
   m_Layer: 0
   m_Name: sequence
   m_TagString: Untagged
@@ -477,6 +482,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1826137118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826137116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 271e29fda06a1884892988fc5a5f1144, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dlgIntro:
+    modal: 
+    portrait: {fileID: 0}
+    prefix: overworld_4_intro_
+    startIndex: 0
+    count: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
