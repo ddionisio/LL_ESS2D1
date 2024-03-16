@@ -98,7 +98,7 @@ public class WeatherForecastItemWidget : MonoBehaviour, IPointerClickHandler {
         }
 
         if(weatherNameLabel)
-            weatherNameLabel.text = M8.Localize.Get(weather.nameRef);
+            weatherNameLabel.text = weather.GetNameType();
 
         for(int i = 0; i < atmosphereWidgets.Length; i++)
             atmosphereWidgets[i].Apply(stats);

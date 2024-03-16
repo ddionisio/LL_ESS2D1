@@ -3784,26 +3784,26 @@ MonoBehaviour:
     startIndex: 0
     count: 0
   latitudeDlg:
-    modal: 
+    modal: dialogTop
     portrait: {fileID: 0}
     prefix: overworld_1_latitude_
     startIndex: 0
     count: 0
   latitudeIllustrate: {fileID: 1727989088}
   tempIntroDlg:
-    modal: 
+    modal: dialogTop
     portrait: {fileID: 0}
     prefix: overworld_1_temp_intro_
     startIndex: 0
     count: 0
   tempDlg:
-    modal: 
+    modal: dialogTop
     portrait: {fileID: 0}
     prefix: overworld_1_temp_
     startIndex: 0
     count: 0
   hotspotDlg:
-    modal: 
+    modal: dialogTop
     portrait: {fileID: 0}
     prefix: overworld_1_hotspot_
     startIndex: 0

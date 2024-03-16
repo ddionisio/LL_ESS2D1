@@ -124,6 +124,7 @@ SpriteAtlas:
     - 50b27e52a4cbefc4592d6ea31210117a: 21300000
     - 7d8a4e72cf8fdf6458d16079b67e37e9: 21300000
     - 22fa3f72ebaa73c42a112aee9245966f: 21300000
+    - f1dfc28200190d643af7c8edfa1db616: 21300000
     - fcb2c782d9111e642861b6858eb0858b: 21300000
     - c1f2f7826c35caa4abcc3282d4dc230e: 21300000
     - a3baf492ba7c9d5439c1240d208b7376: 21300000
@@ -139,6 +140,7 @@ SpriteAtlas:
     - 13e7a5134edbf4d488a8e3ec15a11f4b: 21300000
     - c05e5e136fe7a084084e48c38b81b054: 21300000
     - 425bb223fc171864cbce99edbb973804: 21300000
+    - 5e9ebe23868a07144aaf2ca06bd48f3f: 21300000
     - 0d7865338b255d74c91a3363a206e54f: 21300000
     - 623a304307bd37f428d507823f1dd91a: 21300000
     - df4b3443a66668842a035a006fef682c: 21300000
@@ -547,6 +549,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 50b27e52a4cbefc4592d6ea31210117a, type: 3}
   - {fileID: 21300000, guid: 7d8a4e72cf8fdf6458d16079b67e37e9, type: 3}
   - {fileID: 21300000, guid: 22fa3f72ebaa73c42a112aee9245966f, type: 3}
+  - {fileID: 21300000, guid: f1dfc28200190d643af7c8edfa1db616, type: 3}
   - {fileID: 21300000, guid: fcb2c782d9111e642861b6858eb0858b, type: 3}
   - {fileID: 21300000, guid: c1f2f7826c35caa4abcc3282d4dc230e, type: 3}
   - {fileID: 21300000, guid: a3baf492ba7c9d5439c1240d208b7376, type: 3}
@@ -562,6 +565,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 13e7a5134edbf4d488a8e3ec15a11f4b, type: 3}
   - {fileID: 21300000, guid: c05e5e136fe7a084084e48c38b81b054, type: 3}
   - {fileID: 21300000, guid: 425bb223fc171864cbce99edbb973804, type: 3}
+  - {fileID: 21300000, guid: 5e9ebe23868a07144aaf2ca06bd48f3f, type: 3}
   - {fileID: 21300000, guid: 0d7865338b255d74c91a3363a206e54f, type: 3}
   - {fileID: 21300000, guid: 623a304307bd37f428d507823f1dd91a, type: 3}
   - {fileID: 21300000, guid: df4b3443a66668842a035a006fef682c, type: 3}
@@ -969,6 +973,7 @@ SpriteAtlas:
   - circle_64
   - calcifer_fire_flame1
   - antlion_body
+  - illustrate_windTurbineOpen
   - desert_plant_04
   - mole_beenie
   - frog_icons_engineer
@@ -984,6 +989,7 @@ SpriteAtlas:
   - frogGardener_act_1
   - roundRectGlow
   - rank_S
+  - illustrate_windTurbineClosed
   - frogHunter_attack_0
   - frogHunter_idle_1
   - circleFuzzyGlow

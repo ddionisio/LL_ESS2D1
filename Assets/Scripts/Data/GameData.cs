@@ -7,7 +7,8 @@ using LoLExt;
 [CreateAssetMenu(fileName = "gameData", menuName = "Game/GameData")]
 public class GameData : M8.SingletonScriptableObject<GameData> {
     public const string saveKeyScene = "s";
-    public const string saveKeyRegionIndex = "ri";
+	public const string saveKeyHotspotIndex = "hi";
+	public const string saveKeyRegionIndex = "ri";
     public const string saveKeySeasonIndex = "si";
     public const string saveKeyTotalPopIndex = "pop";
     public const string saveKeyTotalPopCapIndex = "popCap";
@@ -178,6 +179,12 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
         }
     }
 
+    public int savedHotspotIndex {
+        get {
+            return LoLManager.instance.userData.GetInt(saveKeyHotspotIndex);
+        }
+    }
+
     public int savedSeasonIndex {
         get {
             return LoLManager.instance.userData.GetInt(saveKeySeasonIndex);
@@ -247,7 +254,7 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
         }
     }
 
-    public void ProgressNextToColony(M8.SceneAssetPath colonyScene, int regionIndex, int seasonIndex) {
+    public void ProgressNextToColony(M8.SceneAssetPath colonyScene, int regionIndex, int hotspotIndex, int seasonIndex) {
         int curProgress;
 
         if(!isProceed) {
@@ -264,6 +271,7 @@ public class GameData : M8.SingletonScriptableObject<GameData> {
 
         //save level info
         userDat.SetInt(saveKeyRegionIndex, regionIndex);
+        userDat.SetInt(saveKeyHotspotIndex, hotspotIndex);
         userDat.SetInt(saveKeySeasonIndex, seasonIndex);
 
         LoLManager.instance.ApplyProgress(curProgress + 1); //assume curProgress is odd

@@ -278,10 +278,11 @@ public class OverworldController : GameModeController<OverworldController> {
         //go to colony scene
         var hotspotData = hotspotCurrent.data;
 
+        int hotspotIndex = hotspotGroup.GetHotspotIndex(hotspotCurrent);
         int seasonIndex = GameData.instance.GetSeasonIndex(currentSeason);
 
         if(hotspotData.colonyScene.isValid) {
-            GameData.instance.ProgressNextToColony(hotspotData.colonyScene, regionIndex, seasonIndex);
+            GameData.instance.ProgressNextToColony(hotspotData.colonyScene, regionIndex, hotspotIndex, seasonIndex);
         }
         else {
             Debug.LogWarning("Invalid colony scene for: " + hotspotData.name);

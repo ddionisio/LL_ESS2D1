@@ -54,6 +54,8 @@ public class OverworldSequence01Grid : OverworldSequenceBase {
 	}
 
 	public override IEnumerator StartFinish() {
+		OverworldControllerGrid.instance.hotspotGroup.active = false;
+
 		yield return latitudeDlg.Play();
 
 		if(latitudeIllustrate) latitudeIllustrate.Show();
@@ -69,6 +71,8 @@ public class OverworldSequence01Grid : OverworldSequenceBase {
 		yield return tempDlg.Play();
 
 		if(signalInvokeAtmosphereToggle) signalInvokeAtmosphereToggle.Invoke(none);
+
+		OverworldControllerGrid.instance.hotspotGroup.active = true;
 
 		var modalOverworld = M8.ModalManager.main.GetBehaviour<ModalOverworld>(GameData.instance.modalOverworld);
 		modalOverworld.atmosphereToggle.active = true;

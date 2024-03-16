@@ -21,3 +21,6 @@ MonoBehaviour:
   isHazzardRetreat: 1
   hazzardStartDelay: 3
   hazzardDuration: 25
+  nameRefOverrides:
+  - hotspotIndex: 2
+    nameRef: weather_cyclone

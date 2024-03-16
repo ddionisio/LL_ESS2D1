@@ -127,7 +127,7 @@ public class WeatherForecastOverlayWidget : MonoBehaviour, IPointerClickHandler 
             }
 
             if(weatherNameLabel)
-                weatherNameLabel.text = M8.Localize.Get(mWeather.nameRef);
+                weatherNameLabel.text = mWeather.GetNameType();
         }
 
         if(mWeatherStats != null) {

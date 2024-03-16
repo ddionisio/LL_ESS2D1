@@ -33,6 +33,16 @@ public class HotspotGridGroup : MonoBehaviour {
 	private HotspotItemInfo[] mHotspots;
 	private bool mIsInit;
 
+	public int GetHotspotIndex(HotspotGrid hotspot) {
+		for(int i = 0; i < mHotspots.Length; i++) {
+			var inf = mHotspots[i];
+			if(inf.hotspot == hotspot)
+				return i;
+		}
+
+		return -1;
+	}
+
 	void Awake() {
 		if(!mIsInit) Init();
 	}

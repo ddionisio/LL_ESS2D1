@@ -59,7 +59,12 @@ public class CycleControlHazzardMove : CycleControlBase {
     }
 
     IEnumerator DoHazzard() {
+		yield return null;
+		
         var cycleCtrl = ColonyController.instance.cycleController;
+
+        while(cycleCtrl.cycleTimeScale <= 0f)
+            yield return null;
 
         //wait for hazzard to actually happen
         if(warningActiveGO) warningActiveGO.SetActive(true);
